@@ -4,6 +4,15 @@
 #include "ModulesApp.h"
 #include "MooseSyntax.h"
 
+/// Adding in base modules
+#include "DGAdvection.h"
+#include "DGFluxBC.h"
+#include "GAdvection.h"
+#include "DGAnisotropicDiffusion.h"
+#include "GAnisotropicDiffusion.h"
+#include "DGFluxLimitedBC.h"
+#include "CoupledCoeffTimeDerivative.h"
+
 template <>
 InputParameters
 validParams<fennecApp>()
@@ -39,6 +48,14 @@ void
 fennecApp::registerObjects(Factory & factory)
 {
     Registry::registerObjectsTo(factory, {"fennecApp"});
+	
+	registerDGKernel(DGAdvection);
+	registerBoundaryCondition(DGFluxBC);
+	registerKernel(GAdvection);
+	registerDGKernel(DGAnisotropicDiffusion);
+	registerKernel(GAnisotropicDiffusion);
+	registerBoundaryCondition(DGFluxLimitedBC);
+	registerKernel(CoupledCoeffTimeDerivative);
 }
 
 void
