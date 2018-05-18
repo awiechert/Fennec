@@ -14,6 +14,7 @@
 #include "CoupledCoeffTimeDerivative.h"
 
 #include "ConstantEllipsoidIC.h"
+#include "AccumulatedMaterial.h"
 
 template <>
 InputParameters
@@ -60,6 +61,7 @@ fennecApp::registerObjects(Factory & factory)
 	registerKernel(CoupledCoeffTimeDerivative);
 	
 	registerInitialCondition(ConstantEllipsoidIC);
+	registerAux(AccumulatedMaterial);
 }
 
 void

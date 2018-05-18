@@ -1,12 +1,13 @@
 [GlobalParams]
 
-    vx = 2.0
-	vy = 0.5
+#NOTE: for this type of simulations, these represent particle velocities (not wind velocities)
+    vx = 1.0
+	vy = 0.0
     vz = -1.0
 
-    Dxx = 0.1
-    Dyy = 0.1
-	Dzz = 0.1
+    Dxx = 0.05
+    Dyy = 0.01
+	Dzz = 0.01
 
 [] #END GlobalParams
 
@@ -38,14 +39,17 @@ nz = 10
     [./u]
         order = FIRST
         family = MONOMIAL
-#       initial_condition = 0	#NOTE: cannot define ics here if using ic kernels
     [../]
 
 
 [] #END Variables
 
 [AuxVariables]
-
+ 
+	[./u_total]
+		order = FIRST
+		family = MONOMIAL
+	[../]
 
 [] #END AuxVariables
 
@@ -103,6 +107,11 @@ nz = 10
 
 [AuxKernels]
 
+	[./u_accumulated]
+		type = AccumulatedMaterial
+		variable = u_total
+		coupled_vars = 'u'
+	[../]
 
 [] #END AuxKernels
 
@@ -113,7 +122,7 @@ nz = 10
         variable = u
         boundary = 'left'
 		u_input = 0.0
-		vx = 2.0
+		vx = 1.0
     [../]
  
 	[./u_Flux_out_R]
@@ -121,7 +130,7 @@ nz = 10
 		variable = u
 		boundary = 'right'
 		u_input = 0.0
-		vx = 2.0
+		vx = 1.0
 	[../]
  
 	[./u_Flux_in_T]
@@ -145,7 +154,7 @@ nz = 10
 		variable = u
 		boundary = 'front'
 		u_input = 0.0
-		vy = 0.5
+		vy = 0.0
 	[../]
  
 	[./u_Flux_out_Ba]
@@ -153,7 +162,7 @@ nz = 10
 		variable = u
 		boundary = 'back'
 		u_input = 0.0
-		vy = 0.5
+		vy = 0.0
 	[../]
 
 
@@ -166,6 +175,7 @@ nz = 10
 
 [Postprocessors]
 
+#May consider custom versions of these postprocessors to correct for negative mass ocsillations...
     [./u_exit]
         type = SideAverageValue
         boundary = 'right'
@@ -189,7 +199,7 @@ nz = 10
 	[./u_floor]
 		type = SideAverageValue
 		boundary = 'bottom'
-		variable = u
+		variable = u_total
 		execute_on = 'initial timestep_end'
 	[../]
 
