@@ -1,0 +1,93 @@
+#include "fennecApp.h"
+#include "Moose.h"
+#include "AppFactory.h"
+#include "ModulesApp.h"
+#include "MooseSyntax.h"
+
+template <>
+InputParameters
+validParams<fennecApp>()
+{
+  InputParameters params = validParams<MooseApp>();
+  return params;
+}
+
+fennecApp::fennecApp(InputParameters parameters) : MooseApp(parameters)
+{
+  Moose::registerObjects(_factory);
+  ModulesApp::registerObjects(_factory);
+  fennecApp::registerObjects(_factory);
+
+  Moose::associateSyntax(_syntax, _action_factory);
+  ModulesApp::associateSyntax(_syntax, _action_factory);
+  fennecApp::associateSyntax(_syntax, _action_factory);
+
+  Moose::registerExecFlags(_factory);
+  ModulesApp::registerExecFlags(_factory);
+  fennecApp::registerExecFlags(_factory);
+}
+
+fennecApp::~fennecApp() {}
+
+void
+fennecApp::registerApps()
+{
+  registerApp(fennecApp);
+}
+
+void
+fennecApp::registerObjects(Factory & factory)
+{
+    Registry::registerObjectsTo(factory, {"fennecApp"});
+}
+
+void
+fennecApp::associateSyntax(Syntax & /*syntax*/, ActionFactory & action_factory)
+{
+  Registry::registerActionsTo(action_factory, {"fennecApp"});
+
+  /* Uncomment Syntax parameter and register your new production objects here! */
+}
+
+void
+fennecApp::registerObjectDepends(Factory & /*factory*/)
+{
+}
+
+void
+fennecApp::associateSyntaxDepends(Syntax & /*syntax*/, ActionFactory & /*action_factory*/)
+{
+}
+
+void
+fennecApp::registerExecFlags(Factory & /*factory*/)
+{
+  /* Uncomment Factory parameter and register your new execution flags here! */
+}
+
+/***************************************************************************************************
+ *********************** Dynamic Library Entry Points - DO NOT MODIFY ******************************
+ **************************************************************************************************/
+extern "C" void
+fennecApp__registerApps()
+{
+  fennecApp::registerApps();
+}
+
+extern "C" void
+fennecApp__registerObjects(Factory & factory)
+{
+  fennecApp::registerObjects(factory);
+}
+
+extern "C" void
+fennecApp__associateSyntax(Syntax & syntax, ActionFactory & action_factory)
+{
+  fennecApp::associateSyntax(syntax, action_factory);
+}
+
+extern "C" void
+fennecApp__registerExecFlags(Factory & factory)
+{
+  fennecApp::registerExecFlags(factory);
+}
