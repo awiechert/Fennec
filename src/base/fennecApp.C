@@ -13,6 +13,8 @@
 #include "DGFluxLimitedBC.h"
 #include "CoupledCoeffTimeDerivative.h"
 
+#include "ConstantEllipsoidIC.h"
+
 template <>
 InputParameters
 validParams<fennecApp>()
@@ -56,6 +58,8 @@ fennecApp::registerObjects(Factory & factory)
 	registerKernel(GAnisotropicDiffusion);
 	registerBoundaryCondition(DGFluxLimitedBC);
 	registerKernel(CoupledCoeffTimeDerivative);
+	
+	registerInitialCondition(ConstantEllipsoidIC);
 }
 
 void

@@ -38,7 +38,7 @@ nz = 10
     [./u]
         order = FIRST
         family = MONOMIAL
-        initial_condition = 0
+#       initial_condition = 0	#NOTE: cannot define ics here if using ic kernels
     [../]
 
 
@@ -50,6 +50,19 @@ nz = 10
 [] #END AuxVariables
 
 [ICs]
+ 
+	[./u_ellipse]
+		type = ConstantEllipsoidIC
+		variable = u
+		value_inside = 1.0
+		value_outside = 0.0
+		x_length = 2
+		y_length = 1.5
+		z_length = 1
+		x_center = 2.5
+		y_center = 2.5
+		z_center = 3
+	[../]
 
 [] #END ICs
 
@@ -99,7 +112,7 @@ nz = 10
         type = DGFluxBC
         variable = u
         boundary = 'left'
-		u_input = 1.0
+		u_input = 0.0
 		vx = 2.0
     [../]
  

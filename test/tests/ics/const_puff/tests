@@ -1,0 +1,7 @@
+[Tests]
+  [./const_ellipsoid_puff]
+    type = Exodiff
+    input = ConstantSettling2DPuff.i
+    exodiff = ConstantSettling2DPuff_out.e
+  [../]
+[]

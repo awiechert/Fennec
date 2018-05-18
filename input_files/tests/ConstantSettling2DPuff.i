@@ -1,12 +1,10 @@
 [GlobalParams]
 
     vx = 2.0
-	vy = 0.5
-    vz = -1.0
+    vy = -1.0
 
     Dxx = 0.1
-    Dyy = 0.1
-	Dzz = 0.1
+    Dyy = 0.01
 
 [] #END GlobalParams
 
@@ -17,19 +15,15 @@
 [Mesh]
 
     type = GeneratedMesh
-    dim = 3
+    dim = 2
 nx = 50
-ny = 10
-nz = 10
+ny = 20
 #	nx = 10
-#	ny = 3
-#	nz = 3
+#	ny = 5
     xmin = 0.0
     xmax = 10.0
     ymin = 0.0
     ymax = 5.0
-	zmin = 0.0
-	zmax = 5.0
 
 [] # END Mesh
 
@@ -38,7 +32,6 @@ nz = 10
     [./u]
         order = FIRST
         family = MONOMIAL
-        initial_condition = 0
     [../]
 
 
@@ -51,6 +44,18 @@ nz = 10
 
 [ICs]
 
+	[./u_ellipse]
+		type = ConstantEllipsoidIC
+		variable = u
+		value_inside = 1.0
+		value_outside = 0.0
+		x_length = 2
+		y_length = 1
+		x_center = 2.5
+		y_center = 2.5
+		smoother_distance = 0.25
+	[../]
+ 
 [] #END ICs
 
 [Kernels]
@@ -99,7 +104,7 @@ nz = 10
         type = DGFluxBC
         variable = u
         boundary = 'left'
-		u_input = 1.0
+		u_input = 0.0
 		vx = 2.0
     [../]
  
@@ -107,7 +112,6 @@ nz = 10
 		type = DGFluxBC
 		variable = u
 		boundary = 'right'
-		u_input = 0.0
 		vx = 2.0
 	[../]
  
@@ -116,31 +120,14 @@ nz = 10
 		variable = u
 		boundary = 'top'
 		u_input = 0.0
-		vz = -1.0
+		vy = -1.0
 	[../]
  
 	[./u_Flux_out_B]
 		type = DGFluxBC
 		variable = u
 		boundary = 'bottom'
-		u_input = 0.0
-		vz = -1.0
-	[../]
- 
-	[./u_Flux_in_Fr]
-		type = DGFluxBC
-		variable = u
-		boundary = 'front'
-		u_input = 0.0
-		vy = 0.5
-	[../]
- 
-	[./u_Flux_out_Ba]
-		type = DGFluxBC
-		variable = u
-		boundary = 'back'
-		u_input = 0.0
-		vy = 0.5
+		vy = -1.0
 	[../]
 
 
@@ -219,8 +206,8 @@ type = SolutionTimeAdaptiveDT
 		type = SMP
 		full = true
 		petsc_options = '-snes_converged_reason'
-		petsc_options_iname ='-pc_type -sub_pc_type -pc_hypre_type -pc_hypre_boomeramg_strong_threshold -ksp_gmres_restart -snes_max_funcs'
-		petsc_options_value = 'lu ilu boomeramg 0.7 2000 20000'
+		petsc_options_iname = '-pc_type -sub_pc_type -pc_hypre_type -ksp_gmres_restart  -snes_max_funcs'
+		petsc_options_value = 'lu ilu boomeramg 2000 20000'
 	[../]
 
 [] #END Preconditioning
