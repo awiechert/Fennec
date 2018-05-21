@@ -1,6 +1,6 @@
-fennec
+FENNEC
 =====
-Fallout Estimation made Numerically from a Nuclear Event Code <Version 0.1a>
+Fallout Estimated Numerically from Nuclear Events in Cities <Version 0.1a>
 
 This is a MOOSE application being currently constructed with the express purpose of simulating radioactive particle fallout following some nuclear event or explosion. 
 
