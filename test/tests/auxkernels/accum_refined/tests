@@ -1,0 +1,7 @@
+[Tests]
+  [./accum_mesh_refine]
+    type = Exodiff
+    input = 3DPuffAccumulation.i
+    exodiff = '3DPuffAccumulation_out.e 3DPuffAccumulation_out.e-s002 3DPuffAccumulation_out.e-s003'
+  [../]
+[]

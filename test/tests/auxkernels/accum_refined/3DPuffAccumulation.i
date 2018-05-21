@@ -19,12 +19,12 @@
 
     type = GeneratedMesh
     dim = 3
-nx = 20
-ny = 20
-nz = 10
-#	nx = 10
-#	ny = 3
-#	nz = 3
+#nx = 20
+#ny = 20
+#nz = 10
+	nx = 5
+	ny = 5
+	nz = 3
     xmin = 0.0
     xmax = 10.0
     ymin = 0.0
@@ -180,16 +180,16 @@ nz = 10
     solve_type = pjfnk
     line_search = bt    # Options: default shell none basic l2 bt cp
     start_time = 0.0
-end_time = 10.0
-#	end_time = 0.5
+#end_time = 10.0
+	end_time = 0.6
     dtmax = 1.0
     petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
     petsc_options_value = 'hypre boomeramg 100'
 
     [./TimeStepper]
-type = SolutionTimeAdaptiveDT
-#		type = ConstantDT
-        dt = 0.05
+#type = SolutionTimeAdaptiveDT
+		type = ConstantDT
+        dt = 0.2
     [../]
 
 [] #END Executioner
