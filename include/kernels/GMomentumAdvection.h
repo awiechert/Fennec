@@ -1,18 +1,18 @@
 /*!
- *  \file GAdvection.h
- *	\brief Kernel for use with the corresponding DGAdvection object
- *	\details This file creates a standard MOOSE kernel that is to be used in conjunction with the DGAdvection kernel
- *			for the discontinous Galerkin formulation of advection physics in MOOSE. In order to complete the DG
+ *  \file GMomentumAdvection.h
+ *	\brief Kernel for use with the corresponding DGMomentumAdvection object
+ *	\details This file creates a standard MOOSE kernel that is to be used in conjunction with DGMomentumAdvection
+ *			for the discontinous Galerkin formulation of momentum advection in MOOSE. In order to complete the DG
  *			formulation of the advective physics, this kernel must be utilized with every variable that also uses
- *			the DGAdvection kernel.
+ *			the DGMomentumAdvection kernel.
  *
  *  \author Austin Ladshaw
- *	\date 11/20/2015
+ *	\date 07/09/2018
  *	\copyright This kernel was designed and built at the Georgia Institute
  *             of Technology by Austin Ladshaw for PhD research in the area
- *             of adsorption and surface science and was developed for use
- *			   by Idaho National Laboratory and Oak Ridge National Laboratory
- *			   engineers and scientists. Portions Copyright (c) 2015, all
+ *             of radioactive particle transport and settling following a
+ *			   nuclear event. It was developed for the US DOD under DTRA
+ *			   project No. 14-24-FRCWMD-BAA. Portions Copyright (c) 2018, all
  *             rights reserved.
  *
  *			   Austin Ladshaw does not claim any ownership or copyright to the
@@ -35,16 +35,16 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef GADVECTION_H
-#define GADVECTION_H
+#ifndef GMOMENTUMADVECTION_H
+#define GMOMENTUMADVECTION_H
 
-#include "Kernel.h"
+#include "GAdvection.h"
 
-/// GAdvection class object forward declarations
-class GAdvection;
+/// GMomentumAdvection class object forward declarations
+class GMomentumAdvection;
 
 template<>
-InputParameters validParams<GAdvection>();
+InputParameters validParams<GMomentumAdvection>();
 
 /// GAdvection class object inherits from Kernel object
 /** This class object inherits from the Kernel object in the MOOSE framework.
@@ -55,30 +55,44 @@ InputParameters validParams<GAdvection>();
 	\note To create a specific GAdvection kernel, inherit from this class and override
 	the components of the velocity vector, then call the residual and Jacobian functions
 	for this object. */
-class GAdvection : public Kernel
+class GMomentumAdvection : public GAdvection
 {
 public:
 	/// Required constructor for objects in MOOSE
-	GAdvection(const InputParameters & parameters);
+	GMomentumAdvection(const InputParameters & parameters);
 	
 protected:
 	/// Required residual function for standard kernels in MOOSE
 	/** This function returns a residual contribution for this object.*/
 	virtual Real computeQpResidual();
+	
 	/// Required Jacobian function for standard kernels in MOOSE
 	/** This function returns a Jacobian contribution for this object. The Jacobian being
 		computed is the associated diagonal element in the overall Jacobian matrix for the
 		system and is used in preconditioning of the linear sub-problem. */
 	virtual Real computeQpJacobian();
+
+	/// Not Required, but aids in the preconditioning step
+	/** This function returns the off diagonal Jacobian contribution for this object. By
+		returning a non-zero value we will hopefully improve the convergence rate for the
+		cross coupling of the variables. */
+	virtual Real computeQpOffDiagJacobian(unsigned int jvar);
 	
-	RealVectorValue _velocity;	///< Vector of velocity
+	const VariableValue & _ux;			///< Velocity in the x-direction
+	const VariableValue & _uy;			///< Velocity in the y-direction
+	const VariableValue & _uz;			///< Velocity in the z-direction
 	
-	Real _vx;					///< x-component of velocity (optional - set in input file)
-	Real _vy;					///< y-component of velocity (optional - set in input file)
-	Real _vz;					///< z-component of velocity (optional - set in input file)
+	const VariableValue & _density;				///< Density of the fluid
+	
+	unsigned int _dir;							///< Direction variable for direction this kernel acts on (0=x, 1=y, 2=z)
+	
+	const unsigned int _ux_var;					///< Variable identification for ux
+	const unsigned int _uy_var;					///< Variable identification for uy
+	const unsigned int _uz_var;					///< Variable identification for uz
+	const unsigned int _den_var;				///< Variable identification for density
 	
 private:
 
 };
 
-#endif // GADVECTION_H
+#endif // GMOMENTUMADVECTION_H

@@ -19,6 +19,8 @@
 #include "StressTensor.h"
 #include "DGMomentumDiffusion.h"
 #include "GMomentumDiffusion.h"
+#include "DGMomentumAdvection.h"
+#include "GMomentumAdvection.h"
 
 template <>
 InputParameters
@@ -70,6 +72,8 @@ fennecApp::registerObjects(Factory & factory)
 	registerKernel(StressTensor);
 	registerDGKernel(DGMomentumDiffusion);
 	registerKernel(GMomentumDiffusion);
+	registerDGKernel(DGMomentumAdvection);
+	registerKernel(GMomentumAdvection);
 }
 
 void
