@@ -16,6 +16,10 @@
 #include "ConstantEllipsoidIC.h"
 #include "AccumulatedMaterial.h"
 
+#include "StressTensor.h"
+#include "DGMomentumDiffusion.h"
+#include "GMomentumDiffusion.h"
+
 template <>
 InputParameters
 validParams<fennecApp>()
@@ -62,6 +66,10 @@ fennecApp::registerObjects(Factory & factory)
 	
 	registerInitialCondition(ConstantEllipsoidIC);
 	registerAux(AccumulatedMaterial);
+	
+	registerKernel(StressTensor);
+	registerDGKernel(DGMomentumDiffusion);
+	registerKernel(GMomentumDiffusion);
 }
 
 void
