@@ -1,0 +1,7 @@
+[Tests]
+  [./1D_NavierStokes]
+    type = 'Exodiff'
+    input = 'NavierStokes_1D.i'
+    exodiff = 'NavierStokes_1D_out.e'
+  [../]
+[]

@@ -21,6 +21,7 @@
 #include "GMomentumDiffusion.h"
 #include "DGMomentumAdvection.h"
 #include "GMomentumAdvection.h"
+#include "MomentumAccumulation.h"
 
 template <>
 InputParameters
@@ -74,6 +75,8 @@ fennecApp::registerObjects(Factory & factory)
 	registerKernel(GMomentumDiffusion);
 	registerDGKernel(DGMomentumAdvection);
 	registerKernel(GMomentumAdvection);
+	
+	registerKernel(MomentumAccumulation);
 }
 
 void
