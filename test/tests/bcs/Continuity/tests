@@ -1,0 +1,7 @@
+[Tests]
+  [./continuum_bc]
+    type = Exodiff
+    input = NavierStokes_1D_Continuity.i
+    exodiff = NavierStokes_1D_Continuity_out.e
+  [../]
+[]

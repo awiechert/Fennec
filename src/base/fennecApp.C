@@ -24,6 +24,7 @@
 #include "MomentumAccumulation.h"
 
 #include "DGMomentumFluxBC.h"
+#include "DGContinuumBC.h"
 
 template <>
 InputParameters
@@ -81,6 +82,7 @@ fennecApp::registerObjects(Factory & factory)
 	registerKernel(MomentumAccumulation);
 	
 	registerBoundaryCondition(DGMomentumFluxBC);
+	registerBoundaryCondition(DGContinuumBC);
 }
 
 void
