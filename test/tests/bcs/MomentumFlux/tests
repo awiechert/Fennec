@@ -1,0 +1,7 @@
+[Tests]
+  [./momentum_flux_bc]
+    type = Exodiff
+    input = NavierStokes_1D_CorrectedBC.i
+    exodiff = NavierStokes_1D_CorrectedBC_out.e
+  [../]
+[]

@@ -23,6 +23,8 @@
 #include "GMomentumAdvection.h"
 #include "MomentumAccumulation.h"
 
+#include "DGMomentumFluxBC.h"
+
 template <>
 InputParameters
 validParams<fennecApp>()
@@ -77,6 +79,8 @@ fennecApp::registerObjects(Factory & factory)
 	registerKernel(GMomentumAdvection);
 	
 	registerKernel(MomentumAccumulation);
+	
+	registerBoundaryCondition(DGMomentumFluxBC);
 }
 
 void
