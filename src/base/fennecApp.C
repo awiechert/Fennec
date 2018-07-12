@@ -26,6 +26,9 @@
 #include "DGMomentumFluxBC.h"
 #include "DGContinuumBC.h"
 
+#include "MomentumAcceleration.h"
+#include "MomentumPressureGrad.h"
+
 template <>
 InputParameters
 validParams<fennecApp>()
@@ -83,6 +86,9 @@ fennecApp::registerObjects(Factory & factory)
 	
 	registerBoundaryCondition(DGMomentumFluxBC);
 	registerBoundaryCondition(DGContinuumBC);
+	
+	registerKernel(MomentumAcceleration);
+	registerKernel(MomentumPressureGrad);
 }
 
 void
