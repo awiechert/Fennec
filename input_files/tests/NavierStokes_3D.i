@@ -41,15 +41,15 @@
 		order = FIRST
 		family = MONOMIAL
 	[../]
-
-[] #END Variables
-
-[AuxVariables]
  
 	[./dens]
 		order = FIRST
 		family = MONOMIAL
 	[../]
+
+[] #END Variables
+
+[AuxVariables]
  
 	[./vis]
 		order = FIRST
@@ -229,6 +229,20 @@
 		density = dens
 		acceleration = grav
 	[../]
+ 
+	[./dens_dot]
+		type = CoefTimeDerivative
+		variable = dens
+		Coefficient = 1.0
+	[../]
+ 
+	[./dens_gadv]
+		type = GConcentrationAdvection
+		variable = dens
+		ux = ux
+		uy = uy
+		uz = uz
+	[../]
 
 [] #END Kernels
 
@@ -281,6 +295,14 @@
 		variable = uz
 		viscosity = vis
 	[../]
+ 
+	[./dens_dgadv]
+		type = DGConcentrationAdvection
+		variable = dens
+		ux = ux
+		uy = uy
+		uz = uz
+	[../]
 
 [] #END DGKernels
 
@@ -322,6 +344,15 @@
 		uy = uy
 		uz = uz
 		density = dens
+	[../]
+ 
+	[./dens_Flux]
+		type = DGMassContinuityBC
+		variable = dens
+		boundary = 'left right top bottom front back'
+		ux = ux
+		uy = uy
+		uz = uz
 	[../]
  
 [] #END BCs
