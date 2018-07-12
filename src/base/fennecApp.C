@@ -28,6 +28,9 @@
 
 #include "MomentumAcceleration.h"
 #include "MomentumPressureGrad.h"
+#include "DGConcentrationAdvection.h"
+#include "GConcentrationAdvection.h"
+#include "DGConcentrationFluxBC.h"
 
 template <>
 InputParameters
@@ -89,6 +92,9 @@ fennecApp::registerObjects(Factory & factory)
 	
 	registerKernel(MomentumAcceleration);
 	registerKernel(MomentumPressureGrad);
+	registerDGKernel(DGConcentrationAdvection);
+	registerKernel(GConcentrationAdvection);
+	registerBoundaryCondition(DGConcentrationFluxBC);
 }
 
 void
