@@ -31,7 +31,6 @@
 #include "DGConcentrationAdvection.h"
 #include "GConcentrationAdvection.h"
 #include "DGConcentrationFluxBC.h"
-#include "DGMassContinuityBC.h"
 
 template <>
 InputParameters
@@ -96,7 +95,6 @@ fennecApp::registerObjects(Factory & factory)
 	registerDGKernel(DGConcentrationAdvection);
 	registerKernel(GConcentrationAdvection);
 	registerBoundaryCondition(DGConcentrationFluxBC);
-	registerBoundaryCondition(DGMassContinuityBC);
 }
 
 void
