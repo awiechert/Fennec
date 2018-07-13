@@ -28,17 +28,17 @@
 [Variables]
 #velocity units: m/s
     [./ux]
-        order = FIRST
+        order = CONSTANT
         family = MONOMIAL
     [../]
  
 	[./uy]
-		order = FIRST
+		order = CONSTANT
 		family = MONOMIAL
 	[../]
  
 	[./uz]
-		order = FIRST
+		order = CONSTANT
 		family = MONOMIAL
 	[../]
  
@@ -72,9 +72,9 @@
 		variable = ux
 		value_inside = 0.0
 		value_outside = 0.0
-		x_length = 2
-		y_length = 2
-		z_length = 2
+		x_length = 1
+		y_length = 1
+		z_length = 1
 		x_center = 2.5
 		y_center = 2.5
 		z_center = 10
@@ -86,9 +86,9 @@
 		variable = uy
 		value_inside = 0.0
 		value_outside = 0.0
-		x_length = 2
-		y_length = 2
-		z_length = 2
+		x_length = 1
+		y_length = 1
+		z_length = 1
 		x_center = 2.5
 		y_center = 2.5
 		z_center = 10
@@ -100,9 +100,9 @@
 		variable = uz
 		value_inside = 0.0
 		value_outside = 0.0
-		x_length = 2
-		y_length = 2
-		z_length = 2
+		x_length = 1
+		y_length = 1
+		z_length = 1
 		x_center = 2.5
 		y_center = 2.5
 		z_center = 10
@@ -112,14 +112,14 @@
 	[./dens_ellipse]
 		type = ConstantEllipsoidIC
 		variable = dens
-		value_inside = 2000.0
+		value_inside = 1500.0
 		value_outside = 1000.0
-		x_length = 2
-		y_length = 2
-		z_length = 2
+		x_length = 1
+		y_length = 1
+		z_length = 1
 		x_center = 2.5
 		y_center = 2.5
-		z_center = 10
+		z_center = 5
 		smoother_distance = 0.5
 	[../]
 
@@ -347,12 +347,13 @@
 	[../]
  
 	[./dens_Flux]
-		type = DGMassContinuityBC
+		type = DGConcentrationFluxBC
 		variable = dens
 		boundary = 'left right top bottom front back'
 		ux = ux
 		uy = uy
 		uz = uz
+		u_input = 1000.0
 	[../]
  
 [] #END BCs
@@ -408,8 +409,8 @@
     nl_abs_tol = 1e-6
     nl_rel_step_tol = 1e-10
     nl_abs_step_tol = 1e-10
-    l_tol = 1e-6
-    l_max_its = 100
+    l_tol = 1e-4
+    l_max_its = 200
     nl_max_its = 10
 
     solve_type = pjfnk
@@ -443,20 +444,20 @@
  
 [Adaptivity]
 #NOTE: ONLY seems to work is using a single marker...
-	marker = errorfrac
+#	marker = errorfrac
  
 	[./Indicators]
 		[./error]
 			type = GradientJumpIndicator
-			variable = uz
+			variable = dens
 		[../]
 	[../]
  
 	[./Markers]
 		[./errorfrac]
 			type = ErrorFractionMarker
-			refine = 0.2
-			coarsen = 0.2
+			refine = 0.5
+			coarsen = 0.5
 			indicator = error
 		[../]
 	[../]
