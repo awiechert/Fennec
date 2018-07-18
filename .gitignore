@@ -155,8 +155,9 @@ modules/*/doc/doxygen/html/*
 tutorials/*/*/doc/doxygen/html/*
 ICE/
 framework/contrib/asio/
-doc/doxygen/html/*.js
-doc/doxygen/latex/*.tex
+
+doc/doxygen/html/
+doc/doxygen/latex/
 
 # Restartable Data
 *.rd
