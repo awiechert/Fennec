@@ -73,7 +73,7 @@ public:
 	virtual void finalize();
 	
 	/// Cardinal Object from utils folder
-	/** This is made public so all kernels using this object will have access to Crane functions. */
+	/** This is made public so all kernels using this object will have access to Cardinal functions. */
 	Cardinal cardinal;
 	
 protected:
