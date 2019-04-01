@@ -16,6 +16,173 @@
  *	-------------------------------------------------------------------------------------
  */
 
+//solver opt
+bool solver_choice(std::string &choice)
+{
+	bool Linear = false;
+	
+	std::string copy = choice;
+	for (int i=0; i<copy.size(); i++)
+		copy[i] = tolower(copy[i]);
+	
+	if (copy == "linear")
+		Linear = true;
+	else
+		Linear = false;
+	
+	return Linear;
+}
+
+///Function to validate linesearch choice
+linesearch_type linesearch_choice(std::string &choice)
+{
+	linesearch_type type = NO_LS;
+	
+	std::string copy = choice;
+	for (int i=0; i<copy.size(); i++)
+		copy[i] = tolower(copy[i]);
+	
+	if (copy == "none")
+		type = NO_LS;
+	else if (copy == "bt" || copy == "backtracking")
+		type = BT;
+	else if (copy == "abt" || copy == "adaptive-backtracking" || copy == "adaptive")
+		type = ABT;
+	else
+		type = NO_LS;
+	
+	return type;
+}
+
+///Function to validate linear solver choice
+krylov_method linearsolver_choice(std::string &choice)
+{
+	krylov_method type = QR;
+	
+	std::string copy = choice;
+	for (int i=0; i<copy.size(); i++)
+		copy[i] = tolower(copy[i]);
+	
+	if (copy == "gmreslp")
+		type = GMRESLP;
+	else if (copy == "pcg")
+		type = PCG;
+	else if (copy == "bicgstab")
+		type = BiCGSTAB;
+	else if (copy == "cgs")
+		type = CGS;
+	else if (copy == "fom")
+		type = FOM;
+	else if (copy == "gmresrp")
+		type = GMRESRP;
+	else if (copy == "gcr")
+		type = GCR;
+	else if (copy == "gmresr")
+		type = GMRESR;
+	else if (copy == "kms")
+		type = KMS;
+	else if (copy == "gmres")
+		type = GMRESRP;
+	else if (copy == "qr")
+		type = QR;
+	else
+		type = GMRESRP;
+	
+	return type;
+}
+
+///Function to determine whether or not to precondition
+bool use_preconditioning(std::string &choice)
+{
+	bool Precon = false;
+	
+	std::string copy = choice;
+	for (int i=0; i<copy.size(); i++)
+		copy[i] = tolower(copy[i]);
+	
+	if (copy == "none")
+		Precon = false;
+	else
+		Precon = true;
+	
+	return Precon;
+}
+
+///Function to validate preconditioning choice
+precond_type preconditioner_choice(std::string &choice)
+{
+	precond_type type = JACOBI;
+	
+	std::string copy = choice;
+	for (int i=0; i<copy.size(); i++)
+		copy[i] = tolower(copy[i]);
+	
+	if (copy == "jacobi")
+		type = JACOBI;
+	else if (copy == "tridiagonal" || copy == "tridiag")
+		type = TRIDIAG;
+	else if (copy == "ugs" || copy == "upper-gs")
+		type = UGS;
+	else if (copy == "lgs" || copy == "lower-gs")
+		type = LGS;
+	else if (copy == "sgs" || copy == "symmetric-gs")
+		type = SGS;
+	else
+		type = JACOBI;
+	
+	return type;
+}
+
+///Function to validate timestepper choice
+timestep_type timestepper_choice(std::string &choice)
+{
+	timestep_type type = CONSTANT;
+	
+	std::string copy = choice;
+	for (int i=0; i<copy.size(); i++)
+		copy[i] = tolower(copy[i]);
+	
+	if (copy == "constant")
+		type = CONSTANT;
+	else if (copy == "adaptive")
+		type = ADAPTIVE;
+	else if (copy == "fehlberg")
+		type = FEHLBERG;
+	else if (copy == "ratebased")
+		type = RATEBASED;
+	else
+		type = CONSTANT;
+	
+	return type;
+}
+
+///Function to validate integration method choice
+integrate_subtype integration_choice(std::string &choice)
+{
+	integrate_subtype type = BE;
+	
+	std::string copy = choice;
+	for (int i=0; i<copy.size(); i++)
+		copy[i] = tolower(copy[i]);
+	
+	if (copy == "be" || copy == "backwards-euler")
+		type = BE;
+	else if (copy == "fe" || copy == "forwards-euler")
+		type = FE;
+	else if (copy == "bdf2" || copy == "backwards-differentiation-formula-2")
+		type = BDF2;
+	else if (copy == "cn" || copy == "crank-nicholson")
+		type = CN;
+	else if (copy == "rk4" || copy == "runge-kutta")
+		type = RK4;
+	else if (copy == "rkf" || copy == "runge-kutta-fehlberg")
+		type = RKF;
+	else
+		type = BE;
+	
+	return type;
+}
+
 //Default constructor
 Dove::Dove()
 {
@@ -459,7 +626,7 @@ void Dove::set_LinearStatus(bool choice)
 }
 
 //Register user function
-void Dove::registerRateFunction(int i, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) )
+void Dove::regFunction(int i, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) )
 {
 	if ((*func) == NULL)
 	{
@@ -471,9 +638,9 @@ void Dove::registerRateFunction(int i, double (*func) (int i, const Matrix<doubl
 }
 
 //Register name function
-void Dove::registerRateFunction(std::string name, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) )
+void Dove::regFunction(std::string name, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) )
 {
-	this->registerRateFunction(this->getVariableIndex(name), func);
+	this->regFunction(this->getVariableIndex(name), func);
 }
 
 //Register time coeff functions
@@ -518,7 +685,7 @@ void Dove::registerJacobi(std::string func_name, std::string var_name, double (*
 }
 
 //Print out header info to output file
-void Dove::print_header()
+void Dove::print_header(bool addNewLine)
 {
 	if (this->Output == nullptr)
 		this->Output = fopen("output/DOVE_Result.txt", "w+");
@@ -535,11 +702,11 @@ void Dove::print_header()
 			case IMPLICIT:
 				fprintf(this->Output,"IMPLICIT\n");
 				break;
-			
+				
 			case EXPLICIT:
 				fprintf(this->Output,"EXPLICIT\n");
 				break;
-			
+				
 			default:
 				fprintf(this->Output,"IMPLICIT\n");
 				break;
@@ -550,27 +717,27 @@ void Dove::print_header()
 			case BE:
 				fprintf(this->Output,"Backward-Euler\n");
 				break;
-			
+				
 			case FE:
 				fprintf(this->Output,"Forward-Euler\n");
 				break;
-			
+				
 			case CN:
 				fprintf(this->Output,"Crank-Nicholson\n");
 				break;
-			
+				
 			case BDF2:
 				fprintf(this->Output,"Backward-Differentiation-Formula-2\n");
 				break;
-			
+				
 			case RK4:
 				fprintf(this->Output,"Runge-Kutta-4\n");
 				break;
-			
+				
 			case RKF:
 				fprintf(this->Output,"Runge-Kutta-Fehlberg\n");
 				break;
-			
+				
 			default:
 				break;
 		}
@@ -580,19 +747,19 @@ void Dove::print_header()
 			case CONSTANT:
 				fprintf(this->Output,"CONSTANT\n");
 				break;
-			
+				
 			case ADAPTIVE:
 				fprintf(this->Output,"ADAPTIVE\n");
 				break;
-			
+				
 			case FEHLBERG:
 				fprintf(this->Output,"FEHLBERG\n");
 				break;
-			
+				
 			case RATEBASED:
 				fprintf(this->Output,"RATEBASED\n");
 				break;
-			
+				
 			default:
 				break;
 		}
@@ -601,11 +768,12 @@ void Dove::print_header()
 	fprintf(this->Output,"Time");
 	for (int i=0; i<this->num_func; i++)
 		fprintf(this->Output,"\t%s",this->var_names(i,0).c_str());
-	fprintf(this->Output,"\n");
+	if (addNewLine == true)
+		fprintf(this->Output,"\n");
 }
 
 //Print new result
-void Dove::print_newresult()
+void Dove::print_newresult(bool addNewLine)
 {
 	this->t_count = this->t_count + this->dt;
 	if (this->t_count >= (this->t_out+sqrt(DBL_EPSILON))
@@ -615,36 +783,38 @@ void Dove::print_newresult()
 		fprintf(this->Output,"%.6g",this->time);
 		for (int i=0; i<this->num_func; i++)
 			fprintf(this->Output,"\t%.6g",this->unp1(i,0));
-		fprintf(this->Output,"\n");
+		if (addNewLine == true)
+			fprintf(this->Output,"\n");
 		this->t_count = 0.0;
 	}
 }
 
 //Print result
-void Dove::print_result()
+void Dove::print_result(bool addNewLine)
 {
 	fprintf(this->Output,"%.6g",this->time);
 	for (int i=0; i<this->num_func; i++)
 		fprintf(this->Output,"\t%.6g",this->un(i,0));
-	fprintf(this->Output,"\n");
+	if (addNewLine == true)
+		fprintf(this->Output,"\n");
 }
 
 //Set numerical jacobian
 void Dove::createJacobian()
 {
-    int success = NumericalJacobian(this->residual, this->unp1, this->Jacobian, this->num_func, this->num_func, &this->jac_dat, this);
-    
-    if (success != 0)
-    {
-        //error!
-        std::cout << "error\n";
-    }
+	int success = NumericalJacobian(this->residual, this->unp1, this->Jacobian, this->num_func, this->num_func, &this->jac_dat, this);
+	
+	if (success != 0)
+	{
+		//error!
+		std::cout << "error\n";
+	}
 }
 
 //Return reference to Jacobian
 Matrix<double>& Dove::getNumJacobian()
 {
-    return this->Jacobian;
+	return this->Jacobian;
 }
 
 //Return reference to un
@@ -748,8 +918,8 @@ double Dove::coupledTimeDerivative(int i, const Matrix<double> &u) const
 	double rn = 0.0;
 	if (this->getOldTime() > this->getStartTime())
 		rn = this->getTimeStep()/this->getTimeStepOld();
-	
-	double an, bn, cn;
+		
+		double an, bn, cn;
 	an = (1.0 + (2.0*rn)) / (1.0 + rn);
 	bn = (1.0 + rn);
 	cn = (rn*rn)/(1.0+rn);
@@ -844,6 +1014,18 @@ double Dove::getStartTime() const
 double Dove::getMinTimeStep()
 {
 	return this->dtmin;
+}
+
+//Return t_out
+double Dove::getOutputTime()
+{
+	return this->t_out;
+}
+
+//Return output file
+FILE *Dove::getFile()
+{
+	return this->Output;
 }
 
 //Return dtmax
@@ -1293,206 +1475,206 @@ void Dove::validate_precond()
 		{
 			case JACOBI:
 				switch (this->int_sub)
-				{
-					case BE:
-						this->precon = precond_Jac_BE;
-						break;
-						
-					case FE:
-						this->precon = NULL;
-						break;
-						
-					case CN:
-						this->precon = precond_Jac_CN;
-						break;
-						
-					case BDF2:
-						this->precon = precond_Jac_BDF2;
-						break;
-						
-					case RK4:
-						this->precon = NULL;
-						break;
-						
-					case RKF:
-						this->precon = NULL;
-						break;
-						
-					default:
-						this->precon = precond_Jac_BE;
-						break;
-
-				}
+			{
+				case BE:
+					this->precon = precond_Jac_BE;
+					break;
+					
+				case FE:
+					this->precon = NULL;
+					break;
+					
+				case CN:
+					this->precon = precond_Jac_CN;
+					break;
+					
+				case BDF2:
+					this->precon = precond_Jac_BDF2;
+					break;
+					
+				case RK4:
+					this->precon = NULL;
+					break;
+					
+				case RKF:
+					this->precon = NULL;
+					break;
+					
+				default:
+					this->precon = precond_Jac_BE;
+					break;
+					
+			}
 				break;
 				
 			case TRIDIAG:
 				switch (this->int_sub)
-				{
-					case BE:
-						this->precon = precond_Tridiag_BE;
-						break;
+			{
+				case BE:
+					this->precon = precond_Tridiag_BE;
+					break;
 					
-					case FE:
-						this->precon = NULL;
-						break;
+				case FE:
+					this->precon = NULL;
+					break;
 					
-					case CN:
-						this->precon = precond_Tridiag_CN;
-						break;
+				case CN:
+					this->precon = precond_Tridiag_CN;
+					break;
 					
-					case BDF2:
-						this->precon = precond_Tridiag_BDF2;
-						break;
+				case BDF2:
+					this->precon = precond_Tridiag_BDF2;
+					break;
 					
-					case RK4:
-						this->precon = NULL;
-						break;
+				case RK4:
+					this->precon = NULL;
+					break;
 					
-					case RKF:
-						this->precon = NULL;
-						break;
+				case RKF:
+					this->precon = NULL;
+					break;
 					
-					default:
-						this->precon = NULL;
-						break;
+				default:
+					this->precon = NULL;
+					break;
 					
-				}
+			}
 				break;
 				
 			case UGS:
 				switch (this->int_sub)
-				{
-					case BE:
-						this->precon = precond_UpperGS_BE;
-						break;
+			{
+				case BE:
+					this->precon = precond_UpperGS_BE;
+					break;
 					
-					case FE:
-						this->precon = NULL;
-						break;
+				case FE:
+					this->precon = NULL;
+					break;
 					
-					case CN:
-						this->precon = precond_UpperGS_CN;
-						break;
+				case CN:
+					this->precon = precond_UpperGS_CN;
+					break;
 					
-					case BDF2:
-						this->precon = precond_UpperGS_BDF2;
-						break;
+				case BDF2:
+					this->precon = precond_UpperGS_BDF2;
+					break;
 					
-					case RK4:
-						this->precon = NULL;
-						break;
+				case RK4:
+					this->precon = NULL;
+					break;
 					
-					case RKF:
-						this->precon = NULL;
-						break;
+				case RKF:
+					this->precon = NULL;
+					break;
 					
-					default:
-						this->precon = NULL;
-						break;
+				default:
+					this->precon = NULL;
+					break;
 					
-				}
+			}
 				break;
 				
 			case LGS:
 				switch (this->int_sub)
-				{
-					case BE:
-						this->precon = precond_LowerGS_BE;
-						break;
+			{
+				case BE:
+					this->precon = precond_LowerGS_BE;
+					break;
 					
-					case FE:
-						this->precon = NULL;
-						break;
+				case FE:
+					this->precon = NULL;
+					break;
 					
-					case CN:
-						this->precon = precond_LowerGS_CN;
-						break;
+				case CN:
+					this->precon = precond_LowerGS_CN;
+					break;
 					
-					case BDF2:
-						this->precon = precond_LowerGS_BDF2;
-						break;
+				case BDF2:
+					this->precon = precond_LowerGS_BDF2;
+					break;
 					
-					case RK4:
-						this->precon = NULL;
-						break;
+				case RK4:
+					this->precon = NULL;
+					break;
 					
-					case RKF:
-						this->precon = NULL;
-						break;
+				case RKF:
+					this->precon = NULL;
+					break;
 					
-					default:
-						this->precon = NULL;
-						break;
+				default:
+					this->precon = NULL;
+					break;
 					
-				}
+			}
 				break;
 				
 			case SGS:
 				switch (this->int_sub)
-				{
-					case BE:
-						this->precon = precond_SymmetricGS_BE;
-						break;
+			{
+				case BE:
+					this->precon = precond_SymmetricGS_BE;
+					break;
 					
-					case FE:
-						this->precon = NULL;
-						break;
+				case FE:
+					this->precon = NULL;
+					break;
 					
-					case CN:
-						this->precon = precond_SymmetricGS_CN;
-						break;
+				case CN:
+					this->precon = precond_SymmetricGS_CN;
+					break;
 					
-					case BDF2:
-						this->precon = precond_SymmetricGS_BDF2;
-						break;
+				case BDF2:
+					this->precon = precond_SymmetricGS_BDF2;
+					break;
 					
-					case RK4:
-						this->precon = NULL;
-						break;
+				case RK4:
+					this->precon = NULL;
+					break;
 					
-					case RKF:
-						this->precon = NULL;
-						break;
-						
-					default:
-						this->precon = NULL;
-						break;
+				case RKF:
+					this->precon = NULL;
+					break;
 					
-				}
+				default:
+					this->precon = NULL;
+					break;
+					
+			}
 				break;
 				
 			default:
 				switch (this->int_sub)
-				{
-					case BE:
-						this->precon = precond_Jac_BE;
-						break;
+			{
+				case BE:
+					this->precon = precond_Jac_BE;
+					break;
 					
-					case FE:
-						this->precon = NULL;
-						break;
+				case FE:
+					this->precon = NULL;
+					break;
 					
-					case CN:
-						this->precon = precond_Jac_CN;
-						break;
+				case CN:
+					this->precon = precond_Jac_CN;
+					break;
 					
-					case BDF2:
-						this->precon = precond_Jac_BDF2;
-						break;
+				case BDF2:
+					this->precon = precond_Jac_BDF2;
+					break;
 					
-					case RK4:
-						this->precon = NULL;
-						break;
+				case RK4:
+					this->precon = NULL;
+					break;
 					
-					case RKF:
-						this->precon = NULL;
-						break;
+				case RKF:
+					this->precon = NULL;
+					break;
 					
-					default:
-						this->precon = precond_Jac_BE;
-						break;
+				default:
+					this->precon = precond_Jac_BE;
+					break;
 					
-				}
+			}
 				break;
 		}
 	}
@@ -1577,7 +1759,7 @@ void Dove::validate_method()
 					this->set_integrationtype(BE);
 					break;
 			}
-
+			
 			return;
 		}
 	}
@@ -1621,8 +1803,8 @@ int Dove::solve_all()
 	this->reset_all();
 	if (this->DoveFileOutput == true)
 	{
-		this->print_header();
-		this->print_result();
+		this->print_header(true);
+		this->print_result(true);
 	}
 	if (this->DoveOutput == true)
 	{
@@ -1676,7 +1858,7 @@ int Dove::solve_all()
 			return -1;
 		}
 		if (this->DoveFileOutput == true)
-			this->print_newresult();
+			this->print_newresult(true);
 		this->update_states();
 	} while (this->time_end > (this->time+this->dtmin));
 	if (this->DoveOutput == true)
@@ -1885,7 +2067,7 @@ int precond_Tridiag_BE(const Matrix<double> &v, Matrix<double> &p, const void *d
 		else
 			p.edit(i, 0, dp[i] - (ap[i] * p(i-1,0)));
 	}
-
+	
 	return success;
 }
 
@@ -2661,7 +2843,7 @@ double Lap2D_NonlinearJac(int i, int j, const Matrix<double> &u, double t, const
 		}
 		else
 			jac = 0.0;
-
+		
 	}
 	else if (i == (dat->N-2))
 	{
@@ -2768,7 +2950,7 @@ int DOVE_TESTS()
 	fprintf(file,"Test01: Single variable 1st Order Decay\n---------------------------------\ndu/dt = -u\n");
 	
 	test01.set_numfunc(1);
-	test01.registerRateFunction(0, first_order_decay);
+	test01.regFunction(0, first_order_decay);
 	test01.set_endtime(1.0);
 	test01.set_timestepper(CONSTANT);
 	test01.set_NonlinearOutput(false);
@@ -2817,8 +2999,8 @@ int DOVE_TESTS()
 	fprintf(file,"Test02: Two variable Nonlinear Decay\n---------------------------------\ndu1/dt = -u1\ndu2/dt = u1*u2\n");
 	
 	test02.set_numfunc(2);
-	test02.registerRateFunction(0, first_order_decay);
-	test02.registerRateFunction(1, nonlinear_first_order_decay);
+	test02.regFunction(0, first_order_decay);
+	test02.regFunction(1, nonlinear_first_order_decay);
 	test02.set_endtime(4.0);
 	test02.set_timestepper(ADAPTIVE);
 	test02.set_timestepmax(0.2);
@@ -2861,7 +3043,7 @@ int DOVE_TESTS()
 	test02.set_timestep(0.1);
 	test02.set_integrationtype(RKF);
 	test02.solve_all();
-
+	
 	fprintf(file,"\n --------------- End of Test02 ---------------- \n\n");
 	
 	/**  ------------------------------    END Test02   ---------------------------------- */
@@ -2881,11 +3063,11 @@ int DOVE_TESTS()
 	test03.set_userdata((void*)&data03);
 	
 	test03.set_numfunc(data03.N);
-	test03.registerRateFunction(0, Lap1D_BC0);
-	test03.registerRateFunction(1, Lap1D_BC1);
+	test03.regFunction(0, Lap1D_BC0);
+	test03.regFunction(1, Lap1D_BC1);
 	for (int i=2; i<data03.N-1; i++)
-		test03.registerRateFunction(i, Lap1D_Interior);
-	test03.registerRateFunction(data03.N-1, Lap1D_BCN);
+		test03.regFunction(i, Lap1D_Interior);
+	test03.regFunction(data03.N-1, Lap1D_BCN);
 	test03.set_endtime(1.0);
 	test03.set_timestepper(CONSTANT);
 	test03.set_timestepmax(0.2);
@@ -2923,7 +3105,7 @@ int DOVE_TESTS()
 	/**  ------------------------------    END Test03   ---------------------------------- */
 	
 	/**  ---------    Test 04: Preconditioning for Linear Coupled ODEs as a PDE -------------- */
-
+	
 	Dove test04;
 	test04.set_outputfile(file);
 	fprintf(file,"Test04: Single Variable Linear PDE with Preconditioning\n---------------------------------\ndu/dt = D*d^2u/dx^2\n");
@@ -2937,11 +3119,11 @@ int DOVE_TESTS()
 	test04.set_userdata((void*)&data04);
 	
 	test04.set_numfunc(data04.N);
-	test04.registerRateFunction(0, Lap1D_BC0);
-	test04.registerRateFunction(1, Lap1D_BC1);
+	test04.regFunction(0, Lap1D_BC0);
+	test04.regFunction(1, Lap1D_BC1);
 	for (int i=2; i<data04.N-1; i++)
-		test04.registerRateFunction(i, Lap1D_Interior);
-	test04.registerRateFunction(data04.N-1, Lap1D_BCN);
+		test04.regFunction(i, Lap1D_Interior);
+	test04.regFunction(data04.N-1, Lap1D_BCN);
 	test04.set_endtime(1.0);
 	test04.set_timestepper(ADAPTIVE);
 	test04.set_timestepmax(0.2);
@@ -2985,7 +3167,7 @@ int DOVE_TESTS()
 	Dove test05;
 	test05.set_outputfile(file);
 	fprintf(file,"Test05: Single Variable Non-Linear 2D PDE with Preconditioning\n---------------------------------\ndu/dt = u*Lap(u)\n");
-	 
+	
 	Test05_data data05;
 	data05.N = 2000;
 	data05.m = 80;	//NOTE: for this test, m should be between 2 and N-2
@@ -2993,7 +3175,7 @@ int DOVE_TESTS()
 	test05.set_output(true);
 	test05.set_numfunc(data05.N);
 	for (int i=0; i<data05.N; i++)
-		test05.registerRateFunction(i, Lap2D_Nonlinear);
+		test05.regFunction(i, Lap2D_Nonlinear);
 	test05.set_endtime(1.0);
 	test05.set_timestepper(CONSTANT);
 	test05.set_timestepmax(0.2);
@@ -3026,7 +3208,7 @@ int DOVE_TESTS()
 	test05.set_LinearMethod(GMRESRP);
 	test05.set_preconditioner(SGS);
 	test05.set_Preconditioning(true);
-	 
+	
 	for (int i=0; i<data05.N; i++)
 		test05.set_initialcondition(i, (double)(i+1)/(double)data05.N*10.0);
 	test05.set_timestep(0.05);
@@ -3059,8 +3241,8 @@ int DOVE_TESTS()
 	test06.set_variableName(1, "c");
 	test06.set_variableName(0, "q");
 	
-	test06.registerRateFunction("c", mb_cstr);
-	test06.registerRateFunction("q", ldf_kinetics);
+	test06.regFunction("c", mb_cstr);
+	test06.regFunction("q", ldf_kinetics);
 	test06.registerCoeff("c", mb_timecoef);
 	
 	test06.set_variableSteadyState("q");

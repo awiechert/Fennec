@@ -236,9 +236,13 @@ void error(int flag)
 			std::cout << "\nError!\n\nImpossible Particle Distribution!" << std::endl;
 			break;
 			
+		case invalid_isotope:
+			std::cout << "\nError!\n\nInvalid Isotope!" << std::endl;
+			break;
+			
 		default:
 			std::cout << "\nUndefined or Generic Error!!!" << std::endl;
 			break;
 	}
-		
+	
 }

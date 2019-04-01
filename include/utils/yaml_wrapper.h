@@ -7,7 +7,7 @@
  *			identify the file structure and store the read in information from that document into an
  *			object using C++ maps. Those maps are hold information in a series of Key-Value pairs as well
  *			as lists of Key-Value pairs. This allows the user to create well organized input files to
- *			change the behavior of simulations. 
+ *			change the behavior of simulations.
  *
  *			The yaml_wrapper is restricted to the same limitations in the C-YAML source code in terms of
  *			how the documents are allowed to be structured for TOKEN based parsing. C-YAML only recognizes
@@ -15,79 +15,79 @@
  *			wrapper has the same limitations. Below is an example of acceptable formatting for a C-YAML
  *			document.
  *
- 			\#Test input file for YAML and SHARK \n
+ \#Test input file for YAML and SHARK \n
  
-			TestDoc1: &hat \n
-			--- \n
-			- scenario: \n
-			  numvar: 25 \n
-			  act_fun: DAVIES \n
-			  steadystate: FALSE \n
-			  t_out: 1 \n
-			  pH: 0 \n
+ TestDoc1: &hat \n
+ --- \n
+ - scenario: \n
+ numvar: 25 \n
+ act_fun: DAVIES \n
+ steadystate: FALSE \n
+ t_out: 1 \n
+ pH: 0 \n
  
-			- testblock: \n
-			  another: block \n
-			  - subblock: \n
-			    sub: block \n
-			... \n
+ - testblock: \n
+ another: block \n
+ - subblock: \n
+ sub: block \n
+ ... \n
  
-			TestDoc2: *hat \n
-			--- \n
-			- masterspecies: \n
-			  "Cl - (aq)": 0 \n
-			  "Na + (aq)": 1 \n
-			  "H2O (l)": 2 \n
-			  3: NaCl (aq) \n
-			... \n
+ TestDoc2: *hat \n
+ --- \n
+ - masterspecies: \n
+ "Cl - (aq)": 0 \n
+ "Na + (aq)": 1 \n
+ "H2O (l)": 2 \n
+ 3: NaCl (aq) \n
+ ... \n
  
-			TestDoc3: \n
-			--- \n
-			apple: red \n
-			pear: green \n
+ TestDoc3: \n
+ --- \n
+ apple: red \n
+ pear: green \n
  
-			- array: \#Block \n
-			  banana: yellow \n
-			  \#List 1 in array \n
-			  - list1: \&a \#also a block \n
-			    a: 1 \#key : value \n
-			    b: 2 \n
-			    c: 3 \n
-			\#List 2 in array
-			  - list2: *a \n
-			    a: 4 \n
-			    b: 5 \n
-			    c: 6 \n
-			... \n
+ - array: \#Block \n
+ banana: yellow \n
+ \#List 1 in array \n
+ - list1: \&a \#also a block \n
+ a: 1 \#key : value \n
+ b: 2 \n
+ c: 3 \n
+ \#List 2 in array
+ - list2: *a \n
+ a: 4 \n
+ b: 5 \n
+ c: 6 \n
+ ... \n
  
-			TestDoc4: \n
-			--- \n
-			- anchor: \&anchor \n
-			  stuff: to do \n
-			- alias: *anchor \n
-			  add: to stuff \n
+ TestDoc4: \n
+ --- \n
+ - anchor: \&anchor \n
+ stuff: to do \n
+ - alias: *anchor \n
+ add: to stuff \n
  
-			- list: \n
-			  - anchored: \&list_anchor \n
-			    info: blah \n
-			    atta: boy \n
-			  - aliased: *list_anchor \n
-			    info: bruh \n
-			    atta: ber \n
-			... \n
+ - list: \n
+ - anchored: \&list_anchor \n
+ info: blah \n
+ atta: boy \n
+ - aliased: *list_anchor \n
+ info: bruh \n
+ atta: ber \n
+ ... \n
  
-			\#WARNING: MAKE SURE FILE DOES NOT CONTAIN TABS!!!
+ \#WARNING: MAKE SURE FILE DOES NOT CONTAIN TABS!!!
  
-			TestDoc5: \n
-			--- \n
+ TestDoc5: \n
+ --- \n
  
-			- grab: *anchor \n
-			  add2: more adds \n
-			  - listcopy: *a \n
+ - grab: *anchor \n
+ add2: more adds \n
+ - listcopy: *a \n
  
-			- block: {1: 2, 3: 4} \n
-			  still: in block \n
-			... \n
+ - block: {1: 2, 3: 4} \n
+ still: in block \n
+ ... \n
  
  *  \note You can view the actual yaml example file in the input_files/SHARK/test_input.yml sub-directory of the project folder.
  *  \author Austin Ladshaw
@@ -97,35 +97,35 @@
  *             of adsorption and surface science. Copyright (c) 2015, all
  *             rights reserved. This copyright only applies to yaml_wrapper.h
  *			   and yaml_wrapper.cpp. \n
- *				
- *				DISCLAIMER: 
-				----------
-				Niether Austin Ladshaw, nor the Georgia Institute of Technology, is the author or owner of any C-YAML
-				Library or source code. Only the files labeld "yaml_wrapper" were created by Austin Ladshaw. Therefore, any C-YAML
-				files distributed will be given a portions copyright under the MIT License (see below). For more information on YAML, 
-				go to pyyaml.org/wiki/LibYAML.\n
+ *
+ *				DISCLAIMER:
+ ----------
+ Niether Austin Ladshaw, nor the Georgia Institute of Technology, is the author or owner of any C-YAML
+ Library or source code. Only the files labeld "yaml_wrapper" were created by Austin Ladshaw. Therefore, any C-YAML
+ files distributed will be given a portions copyright under the MIT License (see below). For more information on YAML,
+ go to pyyaml.org/wiki/LibYAML.\n
  
- 				Portions copyright 2006 Kirill Simonov \n
+ Portions copyright 2006 Kirill Simonov \n
  
-				The MIT License (MIT) \n
+ The MIT License (MIT) \n
  
-				Permission is hereby granted, free of charge, to any person obtaining a copy
-				of this software and associated documentation files (the "Software"), to deal
-				in the Software without restriction, including without limitation the rights
-				to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-				copies of the Software, and to permit persons to whom the Software is
-				furnished to do so, subject to the following conditions: \n
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions: \n
  
-				The above copyright notice and this permission notice shall be included in
-				all copies or substantial portions of the Software. \n
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software. \n
  
-				THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-				IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-				FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-				AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-				LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-				OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-				THE SOFTWARE. \n
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE. \n
  */
 
 
@@ -149,7 +149,7 @@ typedef enum header_state { ANCHOR, ALIAS, NONE } header_state;	///< Enum for st
 /** C++ Object that creates a pair between a read in value as a string and an enum denoting
 	what the data type of that string is. This object is primarily used in the other yaml_wrapper
 	objects, but can also be used for any string that you want to parse to identify it's type.
-	The supported types are denoted in the data_type enum and can be determined automatically 
+	The supported types are denoted in the data_type enum and can be determined automatically
 	by the findType() function or can be specified by the assertType() function. */
 class ValueTypePair
 {
@@ -241,9 +241,9 @@ private:
 /** C++ Object for sub-headers in a yaml document. This object contains a KeyValueMap that holds a set of
 	key-value pairs for data listed under a sub-header in yaml files. It is the lowest allowable recursion
 	of headers in a yaml document and so is the base class for Header and Document, which themselves can
-	contain KeyValueMaps as well as maps for other header-like objects. 
+	contain KeyValueMaps as well as maps for other header-like objects.
  
-	SubHeaders are recognized by a unique name and/or alias while being put together in other higher 
+	SubHeaders are recognized by a unique name and/or alias while being put together in other higher
 	document structures. Additionally, each header or sub-header will have a state to denote whether
 	the object is a yaml alias, anchor, or niether. This is used in the yaml documents to ensure that
 	aliases for anchors have the correct data moved over into the new structures. */
@@ -356,9 +356,9 @@ private:
 /** C++ Object for the documents in a yaml input file as denoted by a Key: followed by --- (three dashes) and ending
 	with a ... (three dots). A single yaml file can have multiple document structures and each document structure can
 	have multiple headers (which have sub-headers and key-values) and key-value-pairs. This is the larges single
-	object in the yaml file itself. 
+	object in the yaml file itself.
  
-	Just like Header, this object also inherits from SubHeader and therefore has access to its protected members. 
+	Just like Header, this object also inherits from SubHeader and therefore has access to its protected members.
 	You can use access to those members to establish the KeyValuePairs in the Document, name the Document, and
 	give the Document an alias or anchor value. */
 class Document : SubHeader
@@ -420,18 +420,18 @@ private:
 /// Object for the entire yaml file holding all documents, header, sub-headers, keys, and values
 /** C++ Object for the yaml file. This object holds a map of all Documents in the yaml file. Each document
 	holds a map of Key-values and Headers. The Headers hold maps of Key-values and SubHeaders, and each
-	SubHeader can hold more Key-values. 
+	SubHeader can hold more Key-values.
  
 	This object is used to represent a digital and queryable structure for all information contained within
 	a yaml file. There are some limitations to what can be held here, and those limitations are based on the
 	limitations in the C-YAML Library token parser. The main limitation is that the deepest level of allowable
 	recursion in the file is SubHeader. Meaning that you are not allowed to have Sub-SubHeaders underneath a
 	SubHeader object. This imposes a hard limit to number of nested lists that can be in a single Document
-	object. 
+	object.
  
 	When using yaml_cpp_class, this object will generally be what you query into to get the information from
 	your yaml input files. From this object, functions and operators are provided to give you the capability
-	of querying down into any allowable level of the file by the keys that are were used in the file. Be sure 
+	of querying down into any allowable level of the file by the keys that are were used in the file. Be sure
 	that you are querying the correct objects by the correct keys, otherwise errors and exceptions will be
 	thrown. */
 class YamlWrapper
@@ -478,11 +478,11 @@ private:
 /** C++ Object that holds the YamlWrapper object and the C-YAML objects necessary for reading and parsing a yaml
 	formatted file. This is the primary object that users are expected to work with when using yaml_wrapper.h to
 	read input files. It contains functions necessary to setup a read instance, read and parse the input, place
-	the parsed input results into the digital YamlWrapper object, and allow the user to query that object. 
+	the parsed input results into the digital YamlWrapper object, and allow the user to query that object.
  
-	The two main functions that the typical user will need are: (i) executeYamlRead() and (ii) getYamlWrapper. 
+	The two main functions that the typical user will need are: (i) executeYamlRead() and (ii) getYamlWrapper.
 	Make sure that the read function was called prior to querying the YamlWrapper structure. Do not call the
-	cleanup() function if using executeYamlRead(). That function will be automattically called after the 
+	cleanup() function if using executeYamlRead(). That function will be automattically called after the
 	read is complete. */
 class yaml_cpp_class
 {
@@ -497,6 +497,7 @@ public:
 	YamlWrapper& getYamlWrapper();						///< Returns reference to the YamlWrapper Object
 	
 	void DisplayContents();								///< Print out the contents of the read to the console window
+	void DeleteContents();								///< Delete the data in the yaml_wrapper to free up space
 	
 protected:
 	

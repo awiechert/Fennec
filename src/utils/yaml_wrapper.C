@@ -10,40 +10,40 @@
  *			   and yaml_wrapper.cpp. \n
  *
  *				DISCLAIMER:
-				----------
-				Niether Austin Ladshaw, nor the Georgia Institute of Technology, is the author or owner of any C-YAML
-				Library or source code. Only the files labeld "yaml_wrapper" were created by Austin Ladshaw. Therefore, any C-YAML
-				files distributed will be given a portions copyright under the MIT License (see below). For more information on YAML,
-				go to pyyaml.org/wiki/LibYAML.\n
+ ----------
+ Niether Austin Ladshaw, nor the Georgia Institute of Technology, is the author or owner of any C-YAML
+ Library or source code. Only the files labeld "yaml_wrapper" were created by Austin Ladshaw. Therefore, any C-YAML
+ files distributed will be given a portions copyright under the MIT License (see below). For more information on YAML,
+ go to pyyaml.org/wiki/LibYAML.\n
  
-				Portions copyright 2006 Kirill Simonov \n
+ Portions copyright 2006 Kirill Simonov \n
  
-				The MIT License (MIT) \n
+ The MIT License (MIT) \n
  
-				Permission is hereby granted, free of charge, to any person obtaining a copy
-				of this software and associated documentation files (the "Software"), to deal
-				in the Software without restriction, including without limitation the rights
-				to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-				copies of the Software, and to permit persons to whom the Software is
-				furnished to do so, subject to the following conditions: \n
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions: \n
  
-				The above copyright notice and this permission notice shall be included in
-				all copies or substantial portions of the Software. \n
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software. \n
  
-				THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-				IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-				FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-				AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-				LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-				OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-				THE SOFTWARE. \n
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE. \n
  */
 
 
 #include "yaml_wrapper.h"
 
 /*
-  =========================================== ValueTypePair Class ==============================================
+ =========================================== ValueTypePair Class ==============================================
  */
 
 //Default constructor
@@ -2290,7 +2290,7 @@ int yaml_cpp_class::readInputFile()
 						mError(not_a_token);
 						return -1;
 					}
-	
+					
 				}
 				else
 				{
@@ -2460,6 +2460,12 @@ int yaml_cpp_class::executeYamlRead(const char *file)
 void yaml_cpp_class::DisplayContents()
 {
 	this->yaml_wrapper.DisplayContents();
+}
+
+//Delete data
+void yaml_cpp_class::DeleteContents()
+{
+	this->yaml_wrapper.clear();
 }
 
 //Return reference to the YamlWrapper object
@@ -2720,7 +2726,7 @@ int YAML_WRAPPER_TESTS()
 int YAML_CPP_TEST(const char *file)
 {
 	int success = 0;
-
+	
 	yaml_cpp_class yaml_object;
 	success = yaml_object.executeYamlRead(file);
 	if (success != 0)

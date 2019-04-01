@@ -1,9 +1,9 @@
 /*!
- *  \file CraneObject.h
- *	\brief General User Object to contain all information and algorithms associated with Crane
- *	\details This file creates a GeneralUserObject for Crane objects and functions in MOOSE. The
- *			Crane object is made public to allow any kernels using this General Object to call
- *			Crane member functions and have access to Crane data. The Crane object will be used
+ *  \file CARDINAL_Object.h
+ *	\brief General User Object to contain all information and algorithms associated with CARDINAL
+ *	\details This file creates a GeneralUserObject for CARDINAL objects and functions in MOOSE. The
+ *			CARDINAL object is made public to allow any kernels using this General Object to call
+ *			CARDINAL member functions and have access to CARDINAL data. The CARDINAL object will be used
  *			to establish initial conditions for FENNEC simulations by estimating the cloud rise
  *			following a nuclear explosion of a particular size.
  *
@@ -36,29 +36,29 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef CRANEOBJECT_H
-#define CRANEOBJECT_H
+#ifndef CARDINAL_OBJECT_H
+#define CARDINAL_OBJECT_H
 
 #include "GeneralUserObject.h"
-#include "crane.h"
+#include "cardinal.h"
 
-/// CraneObject class object forward declaration
-class CraneObject;
+/// CARDINAL_Object class object forward declaration
+class CARDINAL_Object;
 
 template <>
-InputParameters validParams<CraneObject>();
+InputParameters validParams<CARDINAL_Object>();
 
-/// CraneObject class object inherits from GeneralUserObject
+/// CARDINAL_Object class object inherits from GeneralUserObject
 /** This class object inherits from the GeneralUserObject.
 	All public and protected members of this class are required function overrides.
 	The initialization step will read input and simulate cloud rise to serve as initial
 	conditions for FENNEC transport simulations. Execution and finalize steps will not
 	be utilized here. */
-class CraneObject : public GeneralUserObject
+class CARDINAL_Object : public GeneralUserObject
 {
 public:
 	/// Required constructor for GeneralUserObjects in MOOSE
-	CraneObject(const InputParameters & parameters);
+	CARDINAL_Object(const InputParameters & parameters);
 	
 	/// Required initialization override for GeneralUserObjects in MOOSE
 	/** This is called before execute so you can reset any internal data. */
@@ -72,9 +72,9 @@ public:
 	/** Called _once_ after execute has been called all "objects". */
 	virtual void finalize();
 	
-	/// Crane Object from utils folder
+	/// Cardinal Object from utils folder
 	/** This is made public so all kernels using this object will have access to Crane functions. */
-	Crane crane;
+	Cardinal cardinal;
 	
 protected:
 	// ---------- Used to Establish Initial Conditions for Crane ------------
@@ -113,4 +113,4 @@ private:
 	
 };
 
-#endif // CRANEOBJECT_H
+#endif // CARDINAL_OBJECT_H

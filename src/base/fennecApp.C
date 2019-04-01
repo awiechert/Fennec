@@ -32,7 +32,7 @@
 #include "GConcentrationAdvection.h"
 #include "DGConcentrationFluxBC.h"
 
-#include "CraneObject.h"
+//#include "CraneObject.h"
 
 template <>
 InputParameters
@@ -98,7 +98,7 @@ fennecApp::registerObjects(Factory & factory)
 	registerKernel(GConcentrationAdvection);
 	registerBoundaryCondition(DGConcentrationFluxBC);
 	
-	registerUserObject(CraneObject);
+	//registerUserObject(CraneObject);
 }
 
 void

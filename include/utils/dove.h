@@ -18,7 +18,7 @@
  *			References for Various Methods
  *			------------------------------
  *			BE and BDF2 => S. Eckert, H. Baaser, D. Gross, O. Scherf, "A BDF2 integration method with step
- *							size control for elasto-plasticity," Comp. Mech., 34, 377-386, 2004. 
+ *							size control for elasto-plasticity," Comp. Mech., 34, 377-386, 2004.
  *
  *			CN and FE => J.W. Thomas, Introduction to Numerical Methods for Partial Differential Equations, Springer,
  *							ISBN 0-387-97999-9
@@ -38,6 +38,7 @@
 #include "macaw.h"
 #include "lark.h"
 #include "yaml_wrapper.h"
+#include "gsta_opt.h"
 #include <unordered_map>        //Line to allow use of unordered_map structure
 
 #ifndef DOVE_HPP_
@@ -56,7 +57,7 @@ typedef enum {IMPLICIT, EXPLICIT} integrate_type;
 	\param FE Forwards-Euler: Standard explicit method.
 	\param CN Crank-Nicholson: Time averaged, 2nd order implicit scheme.
 	\param BDF2 Backwards-Differentiation-Formula-2: 2nd order implicit method.
-	\param RK4 Runge-Kutta-4: 4th order explicit method. 
+	\param RK4 Runge-Kutta-4: 4th order explicit method.
 	\param RKF Runge-Kutta-Fehlberg: 4th order explicit method with 5th order error control. */
 typedef enum {BE, FE, CN, BDF2, RK4, RKF} integrate_subtype;
 
@@ -65,7 +66,7 @@ typedef enum {BE, FE, CN, BDF2, RK4, RKF} integrate_subtype;
  
 	\param CONSTANT time stepper will use a constant dt value for all time steps.
 	\param ADAPTIVE time stepper will adjust the time step according to simulation success.
-	\param FEHLBERG time stepper will adjust time step according to desired error tolerance. 
+	\param FEHLBERG time stepper will adjust time step according to desired error tolerance.
 	\param RATEBASED time stepper will adjust time step based on maximum rates of change. */
 typedef enum {CONSTANT, ADAPTIVE, FEHLBERG, RATEBASED} timestep_type;
 
@@ -87,13 +88,36 @@ typedef enum {BT, ABT, NO_LS} linesearch_type;
 	\param SGS uses a Symmetric-Gauss-Seidel iteration as preconditioning.*/
 typedef enum {JACOBI, TRIDIAG, UGS, LGS, SGS} precond_type;
 
+///Function to validate solver choice
+//** Returns true for Linear and false for Nonlinear */
+bool solver_choice(std::string &choice);
+
+///Function to validate linesearch choice
+linesearch_type linesearch_choice(std::string &choice);
+
+///Function to validate linear solver choice
+krylov_method linearsolver_choice(std::string &choice);
+
+///Function to determine whether or not to precondition
+bool use_preconditioning(std::string &choice);
+
+///Function to validate preconditioning choice
+precond_type preconditioner_choice(std::string &choice);
+
+///Function to validate timestepper choice
+timestep_type timestepper_choice(std::string &choice);
+
+///Function to validate integration method choice
+integrate_subtype integration_choice(std::string &choice);
+
+
 /// Dynamic ODE-solver with Various Established methods (DOVE) object
-/** This class structure creates a C++ object that can be used to solve coupled systems of 
+/** This class structure creates a C++ object that can be used to solve coupled systems of
 	Ordinary Differential Equations. A user will interface with this object by creating functions
 	that evaluate the right-hand side of an ODE based on the given variable set. Those functions
-	will collectively create the system to solve numerically using either explicit or implicit 
+	will collectively create the system to solve numerically using either explicit or implicit
 	methods. The choice of methods can be set by the user, or the object will default to the
-	Backwards-Euler implicit method for stability. 
+	Backwards-Euler implicit method for stability.
  
 	User functions for the right-hand side are written as...
  
@@ -104,7 +128,7 @@ typedef enum {JACOBI, TRIDIAG, UGS, LGS, SGS} precond_type;
  
 	user_time_coeff_i(const Matrix<double> &u, const void *data_struct) * du_i/dt = user_function_i(...)
  
-	For most implicit problems, the ODE system must be solved iteratively using a Newton-style method. In 
+	For most implicit problems, the ODE system must be solved iteratively using a Newton-style method. In
 	these cases, the user may also provide functions for Jacobian matrix elements...
 	
 	user_jacobi_element_i_j(const Matrix<double> &u, const void *data_struct)
@@ -169,20 +193,20 @@ public:
 	/// Register the ith user function
 	/** This function will register the ith user function into the object. That function must accept as arguments the function
 		identifier i, a constant Matrix for variables u, a double for time t, and a void data pointer. All of this information
-		is required to be in the function parameters, but is not required to be used by the function. The indentifier i can be 
+		is required to be in the function parameters, but is not required to be used by the function. The indentifier i can be
 		used to conveniently define coupling between nieghboring elements/variables in the system. In other words, the int i
 		denotes not only the function being registered, but also the primary coupled variable for the function.
 	 
-		i.e., du_i/dt = Func(u_i all other u)   
+		i.e., du_i/dt = Func(u_i all other u)
 	 
 		This will allow for this framework to also handle PDEs, whose coupling between ith and jth variables is usually done
 		via nieghboring variables (i.e., u_i in a 1-D PDE couples with u_i-1 and u_i+1). A similar relational scheme is workable
 		with multiple dimensions. Additional information about the coupling between the ith variable and other variables can be
-		passed to the function via the void data pointer. 
+		passed to the function via the void data pointer.
 	 
 		\note You are allowed to point to the same user function for all i, but you must make sure that the resulting system is
 		non-singular (i.e., use argument i passed to the function to denote interally which function you are at). */
-	void registerRateFunction(int i, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) );
+	void regFunction(int i, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) );
 	
 	/// Register the named user function
 	/** This function will register the named user function into the object. That function must accept as arguments the function
@@ -200,7 +224,7 @@ public:
 	 
 		\note You are allowed to point to the same user function for all i, but you must make sure that the resulting system is
 		non-singular (i.e., use argument i passed to the function to denote interally which function you are at). */
-	void registerRateFunction(std::string name, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) );
+	void regFunction(std::string name, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) );
 	
 	/// Register the ith time coeff function
 	/** This function will register the ith coeff function into the object. That function must accept as arguments the coefficient
@@ -248,12 +272,12 @@ public:
 		be choosen by the user. There are standard types of preconditioning available. */
 	void registerJacobi(std::string func_name, std::string var_name, double (*jac) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove) );
 	
-	void print_header();								///< Function to print out a header to output file
-	void print_newresult();								///< Function to print out the new result of n+1 time level
-	void print_result();								///< Function to print out the old result of n time level
+	void print_header(bool addNewLine);					///< Function to print out a header to output file
+	void print_newresult(bool addNewLine);				///< Function to print out the new result of n+1 time level
+	void print_result(bool addNewLine);					///< Function to print out the old result of n time level
 	
-    void createJacobian();                          ///< Function to create and store a numerical jacobian
-    Matrix<double>& getNumJacobian();               ///< Return reference to the numerical jacobian
+	void createJacobian();                          ///< Function to create and store a numerical jacobian
+	Matrix<double>& getNumJacobian();               ///< Return reference to the numerical jacobian
 	Matrix<double>& getCurrentU();					///< Return reference to the n level solution
 	Matrix<double>& getOldU();						///< Return reference to the n-1 level solution
 	Matrix<double>& getNewU();						///< Return reference to the n+1 level solution
@@ -283,6 +307,8 @@ public:
 	double getStartTime() const;					///< Return the value of the start time
 	double getMinTimeStep();						///< Return the value of the minimum time step
 	double getMaxTimeStep();						///< Return the value of the maximum time step
+	double getOutputTime();							///< Return the time that output is printed on
+	FILE *getFile();								///< Return the pointer to the output file
 	bool hasConverged();							///< Returns state of convergence
 	double getNonlinearResidual();					///< Returns the current value of the non-linear residual
 	double getNonlinearRelativeRes();				///< Returns the current value of the non-linear relative residual
@@ -323,7 +349,7 @@ public:
 	void reset_all();								///< Reset all the states
 	
 	/// Function to solve the system of equations and print results to file (returns 0 on success)
-	/** This function will iteratively go through and solve the system for all time steps until either failure occurs or 
+	/** This function will iteratively go through and solve the system for all time steps until either failure occurs or
 		the final time has been reached. Output will be placed into the user's output file or a default output file. This
 		function will assume that the initial conditions have already been set for each variable by the user. */
 	int solve_all();
@@ -392,8 +418,8 @@ protected:
 	/// A vector of Maps for user defined Jacobian elements (optional)
 	/** This structure creates a Sparse Matrix of functions whose sparcity pattern is unknown at creation.
 		Each "vector" index denotes a row in the full matrix. In each row, there is a map of the non-zero
-		elements. Doing the mapping in this way allows for the sparcity of the matrix to easily change 
-		while also allowing for relatively fast access to the non-zero elements. 
+		elements. Doing the mapping in this way allows for the sparcity of the matrix to easily change
+		while also allowing for relatively fast access to the non-zero elements.
 	 */
 	std::vector< std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)> > user_jacobi;
 	const void *user_data;														///< Pointer for user defined data structure
@@ -403,9 +429,9 @@ protected:
 	int (*residual) (const Matrix<double> &x, Matrix<double> &F, const void *res_data);
 	/// Function pointer for the preconditioning operation of DOVE
 	int (*precon) (const Matrix<double> &r, Matrix<double> &p, const void *precon_data);
-    
-    NUM_JAC_DATA jac_dat;                           ///< Data structure for making Numerical Jacobian Matrices
-    Matrix<double> Jacobian;                        ///< Matrix to hold numerical jacobian
+	
+	NUM_JAC_DATA jac_dat;                           ///< Data structure for making Numerical Jacobian Matrices
+	Matrix<double> Jacobian;                        ///< Matrix to hold numerical jacobian
 	
 private:
 	
@@ -439,9 +465,9 @@ int precond_Jac_BE(const Matrix<double> &v, Matrix<double> &p, const void *data)
  
 	Tridiagonal preconditioning:  Solve  (TD)p=v for p using input vector v and a Tridiagonal (TD) of the full jacobian.
  
-	Diagonals for BE are of the form: dR_i/du_i = Rnp1[i] - dt*jacobi[i][i](unp1)  
+	Diagonals for BE are of the form: dR_i/du_i = Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BE are of form: dR_i/du_j = Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
-								and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
+ and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_Tridiag_BE(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Preconditioning function for an Upper-Gauss-Seidel preconditioner on the implicit-BE method
@@ -451,11 +477,11 @@ int precond_Tridiag_BE(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Also, each type of preconditioning will have its own function.
  
 	UGS preconditioning:  Solve  (U*)p=v+Lp for p using input vector v with an Upper Triangular (U*) of the full jacobian
-												and a strict lower triangular (L) of the full jacobian.
+ and a strict lower triangular (L) of the full jacobian.
  
 	Diagonals for BE are of the form: dR_i/du_i = Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BE are of form: dR_i/du_j = Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
-								and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
+ and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_UpperGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Preconditioning function for a Lower-Gauss-Seidel preconditioner on the implicit-BE method
@@ -465,11 +491,11 @@ int precond_UpperGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Also, each type of preconditioning will have its own function.
  
 	LGS preconditioning:  Solve  (L*)p=v+Up for p using input vector v and a Lower Triangular (L*) of the full jacobian.
- 												and a strict upper triangular (U) of the full jacobian.
+ and a strict upper triangular (U) of the full jacobian.
  
 	Diagonals for BE are of the form: dR_i/du_i = Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BE are of form: dR_i/du_j = Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
-								and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
+ and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_LowerGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Preconditioning function for a Symmetric-Gauss-Seidel preconditioner on the implicit-BE method
@@ -479,11 +505,11 @@ int precond_LowerGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Also, each type of preconditioning will have its own function.
  
 	SGS preconditioning:  Solve  (J)p=v for p using input vector v with the Jacobian matrix (J) approximately by first
-										solving as an Upper-Gauss-Seidel, then as a Lower-Gauss-Seidel.
+ solving as an Upper-Gauss-Seidel, then as a Lower-Gauss-Seidel.
  
 	Diagonals for BE are of the form: dR_i/du_i = Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BE are of form: dR_i/du_j = Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
-								and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
+ and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_SymmetricGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Residual function for implicit-CN method
@@ -516,7 +542,7 @@ int precond_Jac_CN(const Matrix<double> &v, Matrix<double> &p, const void *data)
  
 	Diagonals for CN are of the form: dR_i/du_i = Rnp1[i] - 0.5*dt*jacobi[i][i](unp1)
 	Off-Diagonals for CN are of form: dR_i/du_j = Rnp1[i] - 0.5*dt*jacobi[i][j](unp1) for i==j
-								and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
+ and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_Tridiag_CN(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Preconditioning function for an Upper-Gauss-Seidel preconditioner on the implicit-CN method
@@ -526,11 +552,11 @@ int precond_Tridiag_CN(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Also, each type of preconditioning will have its own function.
  
 	UGS preconditioning:  Solve  (U*)p=v+Lp for p using input vector v with an Upper Triangular (U*) of the full jacobian
-											and a strict lower triangular (L) of the full jacobian.
+ and a strict lower triangular (L) of the full jacobian.
  
 	Diagonals for CN are of the form: dR_i/du_i = Rnp1[i] - 0.5*dt*jacobi[i][i](unp1)
 	Off-Diagonals for CN are of form: dR_i/du_j = Rnp1[i] - 0.5*dt*jacobi[i][j](unp1) for i==j
-								and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
+ and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_UpperGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Preconditioning function for a Lower-Gauss-Seidel preconditioner on the implicit-CN method
@@ -540,11 +566,11 @@ int precond_UpperGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Also, each type of preconditioning will have its own function.
  
 	LGS preconditioning:  Solve  (L*)p=v+Up for p using input vector v and a Lower Triangular (L*) of the full jacobian.
-											and a strict upper triangular (U) of the full jacobian.
+ and a strict upper triangular (U) of the full jacobian.
  
 	Diagonals for CN are of the form: dR_i/du_i = Rnp1[i] - 0.5*dt*jacobi[i][i](unp1)
 	Off-Diagonals for CN are of form: dR_i/du_j = Rnp1[i] - 0.5*dt*jacobi[i][j](unp1) for i==j
-								and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
+ and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_LowerGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Preconditioning function for a Symmetric-Gauss-Seidel preconditioner on the implicit-CN method
@@ -554,23 +580,23 @@ int precond_LowerGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Also, each type of preconditioning will have its own function.
  
 	SGS preconditioning:  Solve  (J)p=v for p using input vector v with the Jacobian matrix (J) approximately by first
-											solving as an Upper-Gauss-Seidel, then as a Lower-Gauss-Seidel.
+ solving as an Upper-Gauss-Seidel, then as a Lower-Gauss-Seidel.
  
 	Diagonals for CN are of the form: dR_i/du_i = Rnp1[i] - 0.5*dt*jacobi[i][i](unp1)
 	Off-Diagonals for CN are of form: dR_i/du_j = Rnp1[i] - 0.5*dt*jacobi[i][j](unp1) for i==j
-								and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
+ and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_SymmetricGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Residual function for implicit-BDF2 method
 /** This function will be passed to PJFNK as the residual function for the Dove object. In this function,
 	DOVE will call the user defined rate functions to create a vector of residuals at the current iterate. That
 	information will be passed into the pjfnk function (see lark.h) to iteratively solve the system of equations
-	at a single time step. Note that the first time step will be the same as the BE method, then each subsequent 
+	at a single time step. Note that the first time step will be the same as the BE method, then each subsequent
 	time step will be made as a function of un+1, un, and un-1 time levels.
  
-	Res[i] = an*Rnp1[i]*unp1[i] - bn*Rn[i]*un[i] + cn*Rnnm1[i]*unm1[i] - dt*func[i](unp1) 
+	Res[i] = an*Rnp1[i]*unp1[i] - bn*Rn[i]*un[i] + cn*Rnnm1[i]*unm1[i] - dt*func[i](unp1)
  
-	where an = (1+2*rn)/(1+rn) ; bn = (1+rn) ; cn = (rn*rn)/(1+rn) 
+	where an = (1+2*rn)/(1+rn) ; bn = (1+rn) ; cn = (rn*rn)/(1+rn)
 	and where rn = dt/dt_old
  
 	\note if rn = 0 (i.e. for first step) then this is same as BE method*/
@@ -597,7 +623,7 @@ int precond_Jac_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *dat
  
 	Diagonals for BDF2 are of the form: dR_i/du_i = an*Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BDF2 are of form: dR_i/du_j = an*Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
-									and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
+ and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_Tridiag_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Preconditioning function for an Upper-Gauss-Seidel preconditioner on the implicit-BDF2 method
@@ -607,11 +633,11 @@ int precond_Tridiag_BDF2(const Matrix<double> &v, Matrix<double> &p, const void 
 	Also, each type of preconditioning will have its own function.
  
 	UGS preconditioning:  Solve  (U*)p=v+Lp for p using input vector v with an Upper Triangular (U*) of the full jacobian
-											and a strict lower triangular (L) of the full jacobian.
+ and a strict lower triangular (L) of the full jacobian.
  
 	Diagonals for BDF2 are of the form: dR_i/du_i = an*Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BDF2 are of form: dR_i/du_j = an*Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
-									and	dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
+ and	dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_UpperGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Preconditioning function for a Lower-Gauss-Seidel preconditioner on the implicit-BDF2 method
@@ -621,11 +647,11 @@ int precond_UpperGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void 
 	Also, each type of preconditioning will have its own function.
  
 	LGS preconditioning:  Solve  (L*)p=v+Up for p using input vector v and a Lower Triangular (L*) of the full jacobian.
-											and a strict upper triangular (U) of the full jacobian.
+ and a strict upper triangular (U) of the full jacobian.
  
 	Diagonals for BDF2 are of the form: dR_i/du_i = an*Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BDF2 are of form: dR_i/du_j = an*Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
-									and	dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
+ and	dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_LowerGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Preconditioning function for a Symmetric-Gauss-Seidel preconditioner on the implicit-BDF2 method
@@ -635,11 +661,11 @@ int precond_LowerGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void 
 	Also, each type of preconditioning will have its own function.
  
 	SGS preconditioning:  Solve  (J)p=v for p using input vector v with the Jacobian matrix (J) approximately by first
-										solving as an Upper-Gauss-Seidel, then as a Lower-Gauss-Seidel.
+ solving as an Upper-Gauss-Seidel, then as a Lower-Gauss-Seidel.
  
 	Diagonals for BDF2 are of the form: dR_i/du_i = an*Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BDF2 are of form: dR_i/du_j = an*Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
-									and	dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
+ and	dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
 int precond_SymmetricGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data);
 
 /// Default function

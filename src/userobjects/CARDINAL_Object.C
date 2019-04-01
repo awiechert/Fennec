@@ -1,9 +1,9 @@
 /*!
- *  \file CraneObject.h
- *	\brief General User Object to contain all information and algorithms associated with Crane
- *	\details This file creates a GeneralUserObject for Crane objects and functions in MOOSE. The
- *			Crane object is made public to allow any kernels using this General Object to call
- *			Crane member functions and have access to Crane data. The Crane object will be used
+ *  \file CARDINAL_Object.h
+ *	\brief General User Object to contain all information and algorithms associated with CARDINAL
+ *	\details This file creates a GeneralUserObject for CARDINAL objects and functions in MOOSE. The
+ *			CARDINAL object is made public to allow any kernels using this General Object to call
+ *			CARDINAL member functions and have access to CARDINAL data. The CARDINAL object will be used
  *			to establish initial conditions for FENNEC simulations by estimating the cloud rise
  *			following a nuclear explosion of a particular size.
  *
@@ -36,33 +36,33 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#include "CraneObject.h"
+#include "CARDINAL_Object.h"
 
 template <>
 InputParameters
-validParams<CraneObject>()
+validParams<CARDINAL_Object>()
 {
 	InputParameters params = validParams<GeneralUserObject>();
-	params.addClassDescription("GeneralUserObject for Crane member data and functions. Crane is used to establish initial conditions for FENNEC simulations by estimating cloud rise, particle distributions, and establishing wind, temperature, pressure, and relative humidity profiles for the atmosphere.");
+	params.addClassDescription("GeneralUserObject for CARDINAL member data and functions. CARDINAL is used to establish initial conditions for FENNEC simulations by estimating cloud rise, particle distributions, and establishing wind, temperature, pressure, and relative humidity profiles for the atmosphere.");
 	return params;
 }
 
-CraneObject::CraneObject(const InputParameters & parameters) : GeneralUserObject(parameters)
+CARDINAL_Object::CARDINAL_Object(const InputParameters & parameters) : GeneralUserObject(parameters)
 {
 	
 }
 
-void CraneObject::initialize()
+void CARDINAL_Object::initialize()
 {
 	
 }
 
-void CraneObject::execute()
+void CARDINAL_Object::execute()
 {
 	
 }
 
-void CraneObject::finalize()
+void CARDINAL_Object::finalize()
 {
 	
 }
