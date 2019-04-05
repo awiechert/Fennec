@@ -34,6 +34,8 @@
 
 #include "CARDINAL_Object.h"
 
+#include "Trajectory1stOrder.h"
+
 template <>
 InputParameters
 validParams<fennecApp>()
@@ -99,6 +101,8 @@ fennecApp::registerObjects(Factory & factory)
 	registerBoundaryCondition(DGConcentrationFluxBC);
 	
 	registerUserObject(CARDINAL_Object);
+	
+	registerAux(Trajectory1stOrder);
 }
 
 void
