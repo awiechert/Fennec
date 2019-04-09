@@ -35,6 +35,7 @@
 #include "CARDINAL_Object.h"
 
 #include "Trajectory1stOrder.h"
+#include "AverageMaterial.h"
 
 template <>
 InputParameters
@@ -82,6 +83,7 @@ fennecApp::registerObjects(Factory & factory)
 	
 	registerInitialCondition(ConstantEllipsoidIC);
 	registerAux(AccumulatedMaterial);
+	registerAux(AverageMaterial);
 	
 	registerKernel(StressTensor);
 	registerDGKernel(DGMomentumDiffusion);

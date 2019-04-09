@@ -1,0 +1,7 @@
+[Tests]
+  [./part_trajectory_1stOrder]
+    type = Exodiff
+    input = 3DPuff-ParticleSettling.i
+    exodiff = '3DPuff-ParticleSettling_out.e'
+  [../]
+[]

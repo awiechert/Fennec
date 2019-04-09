@@ -94,6 +94,18 @@ Real Trajectory1stOrder::computeValue()
 	else
 		vel = (m*_u_old[_qp]+_dt*C*u*_w[_qp])/(m+_dt*C*u);
 	
+	if (_part_dia < 0.0001)
+	{
+		Real v_max;
+		if (_n == 2)
+			v_max = -sqrt(-a/C);
+		else
+			v_max = _w[_qp];
+	
+		if (fabs(v_max) < fabs(vel))
+			vel = v_max;
+	}
+	
 	return vel;
 }
 
