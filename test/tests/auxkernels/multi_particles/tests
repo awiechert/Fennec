@@ -1,0 +1,7 @@
+[Tests]
+  [./multiple_particles]
+    type = Exodiff
+    input = 3DPuff-MultiParticleSettling.i
+    exodiff = '3DPuff-MultiParticleSettling_out.e'
+  [../]
+[]
