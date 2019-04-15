@@ -43,7 +43,7 @@
 
 template<> InputParameters validParams<ParabolicWind>()
 {
-	InputParameters params = validParams<ParabolicWind>();
+	InputParameters params = validParams<AuxKernel>();
 	params.addParam<Real>("max_velocity",10,"Maximum horizontal wind velocity (m/s) : Vmin < Vmax < 25 : (Typical Value = 10)");
 	params.addParam<Real>("min_velocity",0,"Minimum horizontal wind velocity (m/s) : 0 < Vmin < Vmax : (Typical Value = 0)");
 	params.addParam<Real>("max_altitude",1,"Altitude at which wind velocity is a maximum (m) : 80 < Zmax < 100 : (Typical Value = 100)");

@@ -1,0 +1,7 @@
+[Tests]
+  [./parabolic_wind_profile]
+    type = Exodiff
+    input = 3DPuff-ParaWind-MultiParticle.i
+    exodiff = '3DPuff-ParaWind-MultiParticle_out.e'
+  [../]
+[]
