@@ -36,6 +36,8 @@
 
 #include "Trajectory1stOrder.h"
 #include "AverageMaterial.h"
+#include "ParabolicWindIC.h"
+#include "ParabolicWind.h"
 
 template <>
 InputParameters
@@ -105,6 +107,9 @@ fennecApp::registerObjects(Factory & factory)
 	registerUserObject(CARDINAL_Object);
 	
 	registerAux(Trajectory1stOrder);
+	
+	registerInitialCondition(ParabolicWindIC);
+	registerAux(ParabolicWind);
 }
 
 void
