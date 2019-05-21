@@ -37,8 +37,7 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef ConstantEllipsoidIC_H
-#define	ConstantEllipsoidIC_H
+#pragma once
 
 #include "InitialCondition.h"
 
@@ -63,7 +62,7 @@ public:
 	/** This function passes a point p as an argument. The return value will be the value of the non-linear
 		variable at that point. That information is used to establish the spatially varying initial condition
 		for the given non-linear variable. */
-	virtual Real value(const Point & p);
+	virtual Real value(const Point & p) override;
 	
 	/// Below are parameters to defind the ellipsoid in 3D space
 	Real _x_rad;			///< Radius of the ellipsoid in x
@@ -81,4 +80,3 @@ private:
 
 };
 
-#endif //ConstantEllipsoidIC_H

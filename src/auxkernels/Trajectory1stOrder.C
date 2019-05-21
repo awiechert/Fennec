@@ -39,6 +39,13 @@
 
 #include "Trajectory1stOrder.h"
 
+/**
+ * All MOOSE based object classes you create must be registered using this macro.  The first
+ * argument is the name of the App with an "App" suffix (i.e., "fennecApp"). The second
+ * argument is the name of the C++ class you created.
+ */
+registerMooseObject("fennecApp", Trajectory1stOrder);
+
 template<>
 InputParameters validParams<Trajectory1stOrder>()
 {

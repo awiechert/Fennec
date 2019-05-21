@@ -11,7 +11,6 @@
 #include "Moose.h"
 #include "AppFactory.h"
 #include "MooseSyntax.h"
-#include "ModulesApp.h"
 
 template <>
 InputParameters
@@ -21,8 +20,12 @@ validParams<fennecTestApp>()
   return params;
 }
 
+registerKnownLabel("fennecTestApp");
+
 fennecTestApp::fennecTestApp(InputParameters parameters) : MooseApp(parameters)
 {
+    fennecTestApp::registerAll(_factory, _action_factory, _syntax, getParam<bool>("allow_test_objects"));
+    /**
   Moose::registerObjects(_factory);
   ModulesApp::registerObjects(_factory);
   fennecApp::registerObjectDepends(_factory);
@@ -44,9 +47,21 @@ fennecTestApp::fennecTestApp(InputParameters parameters) : MooseApp(parameters)
     fennecTestApp::associateSyntax(_syntax, _action_factory);
     fennecTestApp::registerExecFlags(_factory);
   }
+     */
 }
 
 fennecTestApp::~fennecTestApp() {}
+
+void
+fennecTestApp::registerAll(Factory & f, ActionFactory & af, Syntax & s, bool use_test_objs)
+{
+    fennecApp::registerAll(f, af, s);
+    if (use_test_objs)
+    {
+        Registry::registerObjectsTo(f, {"fennecTestApp"});
+        Registry::registerActionsTo(af, {"fennecTestApp"});
+    }
+}
 
 void
 fennecTestApp::registerApps()
@@ -56,15 +71,15 @@ fennecTestApp::registerApps()
 }
 
 void
-fennecTestApp::registerObjects(Factory & /*factory*/)
+fennecTestApp::registerObjects(Factory & factory)
 {
-  /* Uncomment Factory parameter and register your new test objects here! */
+  Registry::registerObjectsTo(factory, {"fennecTestApp"});
 }
 
 void
-fennecTestApp::associateSyntax(Syntax & /*syntax*/, ActionFactory & /*action_factory*/)
+fennecTestApp::associateSyntax(Syntax & /*syntax*/, ActionFactory & action_factory)
 {
-  /* Uncomment Syntax and ActionFactory parameters and register your new test objects here! */
+  Registry::registerActionsTo(action_factory, {"fennecTestApp"});
 }
 
 void
@@ -76,6 +91,12 @@ fennecTestApp::registerExecFlags(Factory & /*factory*/)
 /***************************************************************************************************
  *********************** Dynamic Library Entry Points - DO NOT MODIFY ******************************
  **************************************************************************************************/
+extern "C" void
+fennecTestApp__registerAll(Factory & f, ActionFactory & af, Syntax & s)
+{
+    fennecTestApp::registerAll(f, af, s);
+}
+
 // External entry point for dynamic application loading
 extern "C" void
 fennecTestApp__registerApps()

@@ -41,8 +41,7 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef DGADVECTION_H
-#define DGADVECTION_H
+#pragma once
 
 #include "DGKernel.h"
 #include <cmath>
@@ -72,12 +71,12 @@ public:
 protected:
 	/// Required residual function for DG kernels in MOOSE
 	/** This function returns a residual contribution for this object.*/
-	virtual Real computeQpResidual(Moose::DGResidualType type);
+	virtual Real computeQpResidual(Moose::DGResidualType type) override;
 	/// Required Jacobian function for DG kernels in MOOSE
 	/** This function returns a Jacobian contribution for this object. The Jacobian being
 		computed is the associated diagonal element in the overall Jacobian matrix for the
 		system and is used in preconditioning of the linear sub-problem. */
-	virtual Real computeQpJacobian(Moose::DGJacobianType type);
+	virtual Real computeQpJacobian(Moose::DGJacobianType type) override;
 	
 	RealVectorValue _velocity;			///< Vector of velocity
 	Real _vx;							///< x-component of velocity (optional - set in input file)
@@ -88,4 +87,3 @@ private:
 	
 };
 
-#endif //DGADVECTION_H

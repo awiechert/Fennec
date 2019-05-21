@@ -37,8 +37,7 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef AccumulatedMaterial_H
-#define AccumulatedMaterial_H
+#pragma once
 
 #include "AuxKernel.h"
 
@@ -65,7 +64,7 @@ protected:
 	/** This is the function that is called by the MOOSE framework when a calculation of the total
 		system pressure is needed. You are required to override this function for any inherited
 		AuxKernel. */
-	virtual Real computeValue();
+	virtual Real computeValue() override;
 	
 	std::vector<const VariableValue *> _coupled_u;			///< Pointer list for the non-linear variables
 	
@@ -73,4 +72,3 @@ private:
 	
 };
 
-#endif //AccumulatedMaterial_H

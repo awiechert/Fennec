@@ -39,8 +39,7 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef ParabolicWindIC_H
-#define	ParabolicWindIC_H
+#pragma once
 
 #include "InitialCondition.h"
 
@@ -64,7 +63,7 @@ public:
 	/** This function passes a point p as an argument. The return value will be the value of the non-linear
 		variable at that point. That information is used to establish the spatially varying initial condition
 		for the given non-linear variable. */
-	virtual Real value(const Point & p);
+	virtual Real value(const Point & p) override;
 	
 	Real _v_max;			///< Maximum horizontal wind velocity (m/s)
 	Real _v_min;			///< Minimum horizontal wind velocity (m/s)
@@ -75,4 +74,3 @@ private:
 	
 };
 
-#endif //ParabolicWindIC_H

@@ -37,8 +37,7 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef Trajectory1stOrder_H
-#define Trajectory1stOrder_H
+#pragma once
 
 #include "AuxKernel.h"
 
@@ -63,7 +62,7 @@ protected:
 	/** This is the function that is called by the MOOSE framework when a calculation of the total
 		system pressure is needed. You are required to override this function for any inherited
 		AuxKernel. */
-	virtual Real computeValue();		///< Computes velocity in n-direction (m/s)
+	virtual Real computeValue() override;		///< Computes velocity in n-direction (m/s)
 	
 	void computeDrag();					///< Function to compute drag coefficient
 	
@@ -81,5 +80,3 @@ protected:
 private:
 	
 };
-
-#endif //Trajectory1stOrder_H

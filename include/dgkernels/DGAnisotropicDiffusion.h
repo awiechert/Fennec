@@ -41,8 +41,7 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef DGANISOTROPICDIFFUSION_H
-#define DGANISOTROPICDIFFUSION_H
+#pragma once
 
 #include "DGKernel.h"
 #include "MooseVariable.h"
@@ -73,12 +72,12 @@ public:
 protected:
 	/// Required residual function for DG kernels in MOOSE
 	/** This function returns a residual contribution for this object.*/
-	virtual Real computeQpResidual(Moose::DGResidualType type);
+	virtual Real computeQpResidual(Moose::DGResidualType type) override;
 	/// Required Jacobian function for DG kernels in MOOSE
 	/** This function returns a Jacobian contribution for this object. The Jacobian being
 		computed is the associated diagonal element in the overall Jacobian matrix for the
 		system and is used in preconditioning of the linear sub-problem. */
-	virtual Real computeQpJacobian(Moose::DGJacobianType type);
+	virtual Real computeQpJacobian(Moose::DGJacobianType type) override;
 	
 	Real _epsilon;						///< Penalty term for gradient jumps between the solution and test functions
 	Real _sigma;						///< Penalty term applied to element size
@@ -92,4 +91,3 @@ private:
 	
 };
 
-#endif //DGANISOTROPICDIFFUSION_H

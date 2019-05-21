@@ -36,8 +36,7 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef CARDINAL_OBJECT_H
-#define CARDINAL_OBJECT_H
+#pragma once
 
 #include "GeneralUserObject.h"
 #include "cardinal.h"
@@ -62,15 +61,15 @@ public:
 	
 	/// Required initialization override for GeneralUserObjects in MOOSE
 	/** This is called before execute so you can reset any internal data. */
-	virtual void initialize();
+	virtual void initialize() override;
 	
 	/// Required execution override for GeneralUserObjects in MOOSE
 	/** Called on every "object" (like every element or node). */
-	virtual void execute();
+	virtual void execute() override;
 	
 	/// Required finalize override for GeneralUserObjects in MOOSE
 	/** Called _once_ after execute has been called all "objects". */
-	virtual void finalize();
+	virtual void finalize() override;
 	
 	/// Cardinal Object from utils folder
 	/** This is made public so all kernels using this object will have access to Cardinal functions. */
@@ -113,4 +112,3 @@ private:
 	
 };
 
-#endif // CARDINAL_OBJECT_H

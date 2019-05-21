@@ -33,8 +33,7 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef STRESSTENSOR_H
-#define STRESSTENSOR_H
+#pragma once
 
 #include "Kernel.h"
 
@@ -57,19 +56,19 @@ public:
 protected:
 	/// Required residual function for standard kernels in MOOSE
 	/** This function returns a residual contribution for this object.*/
-	virtual Real computeQpResidual();
+	virtual Real computeQpResidual() override;
 	
 	/// Required Jacobian function for standard kernels in MOOSE
 	/** This function returns a Jacobian contribution for this object. The Jacobian being
 		computed is the associated diagonal element in the overall Jacobian matrix for the
 		system and is used in preconditioning of the linear sub-problem. */
-	virtual Real computeQpJacobian();
+	virtual Real computeQpJacobian() override;
 	
 	/// Not Required, but aids in the preconditioning step
 	/** This function returns the off diagonal Jacobian contribution for this object. By
 		returning a non-zero value we will hopefully improve the convergence rate for the
 		cross coupling of the variables. */
-	virtual Real computeQpOffDiagJacobian(unsigned int jvar);
+	virtual Real computeQpOffDiagJacobian(unsigned int jvar) override;
 	
 	const VariableGradient & _ux_grad;			///< Velocity gradient for d(ux)/dx
 	const VariableGradient & _uy_grad;			///< Velocity gradient for d(uy)/dy
@@ -88,4 +87,3 @@ private:
 	
 };
 
-#endif // STRESSTENSOR_H

@@ -43,8 +43,7 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef DGFLUXBC_H
-#define DGFLUXBC_H
+#pragma once
 
 #include "IntegratedBC.h"
 #include "libmesh/vector_value.h"
@@ -69,12 +68,12 @@ public:
 protected:
 	/// Required function override for BC objects in MOOSE
 	/** This function returns a residual contribution for this object.*/
-	virtual Real computeQpResidual();
+	virtual Real computeQpResidual() override;
 	/// Required function override for BC objects in MOOSE
 	/** This function returns a Jacobian contribution for this object. The Jacobian being
 		computed is the associated diagonal element in the overall Jacobian matrix for the
 		system and is used in preconditioning of the linear sub-problem. */
-	virtual Real computeQpJacobian();
+	virtual Real computeQpJacobian() override;
 	
 	/// Velocity vector in the system or at the boundary
 	RealVectorValue _velocity;
@@ -89,5 +88,3 @@ protected:
 private:
 	
 };
-
-#endif //DGFLUXBC_H

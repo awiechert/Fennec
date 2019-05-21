@@ -34,8 +34,7 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef DGCONTINUUMBC_H
-#define DGCONTINUUMBC_H
+#pragma once
 
 #include "DGMomentumFluxBC.h"
 
@@ -59,22 +58,21 @@ public:
 protected:
 	/// Required function override for BC objects in MOOSE
 	/** This function returns a residual contribution for this object.*/
-	virtual Real computeQpResidual();
+	virtual Real computeQpResidual() override;
 	
 	/// Required function override for BC objects in MOOSE
 	/** This function returns a Jacobian contribution for this object. The Jacobian being
 		computed is the associated diagonal element in the overall Jacobian matrix for the
 		system and is used in preconditioning of the linear sub-problem. */
-	virtual Real computeQpJacobian();
+	virtual Real computeQpJacobian() override;
 	
 	/// Not Required, but aids in the preconditioning step
 	/** This function returns the off diagonal Jacobian contribution for this object. By
 		returning a non-zero value we will hopefully improve the convergence rate for the
 		cross coupling of the variables. */
-	virtual Real computeQpOffDiagJacobian(unsigned int jvar);
+	virtual Real computeQpOffDiagJacobian(unsigned int jvar) override;
 	
 private:
 	
 };
 
-#endif //DGCONTINUUMBC_H

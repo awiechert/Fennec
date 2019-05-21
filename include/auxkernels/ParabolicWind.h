@@ -39,8 +39,7 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef ParabolicWind_H
-#define ParabolicWind_H
+#pragma once
 
 #include "AuxKernel.h"
 
@@ -65,7 +64,7 @@ protected:
 	/** This is the function that is called by the MOOSE framework when a calculation of the total
 		system pressure is needed. You are required to override this function for any inherited
 		AuxKernel. */
-	virtual Real computeValue();		///< Computes velocity in n-direction (m/s)
+	virtual Real computeValue() override;		///< Computes velocity in n-direction (m/s)
 	
 	Real _v_max;			///< Maximum horizontal wind velocity (m/s)
 	Real _v_min;			///< Minimum horizontal wind velocity (m/s)
@@ -75,5 +74,3 @@ protected:
 private:
 	
 };
-
-#endif //ParabolicWind_H
