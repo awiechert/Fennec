@@ -1,0 +1,7 @@
+[Tests]
+  [./unv_cup_mesh]
+    type = 'Exodiff'
+    input = 'cup_diffusion.i'
+    exodiff = 'cup_diffusion_out.e'
+  [../]
+[]
