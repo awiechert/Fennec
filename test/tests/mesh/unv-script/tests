@@ -1,0 +1,7 @@
+[Tests]
+  [./unv_converter]
+    type = 'Exodiff'
+    input = 'unv_conversion.i'
+    exodiff = 'unv_conversion_out.e'
+  [../]
+[]

@@ -115,6 +115,8 @@
                 all rights reserved.
 '''
 
+import sys
+
 class UNV_Conversion(object):
     def __init__(self):
         self.og_map = {}
@@ -152,6 +154,9 @@ class UNV_Conversion(object):
 
     def convertFile(self, file):
         self.og_name = file
+        if file.split(".")[1] != "unv":
+            print("Error!!!\nUnexpected file type...\n")
+            return
         self.co_name = file.split(".")[0] + "-Converted.unv"
         start_section = False
         in_nodes = False
@@ -219,9 +224,6 @@ class UNV_Conversion(object):
                             elem_max_lines = 2
                         #Change type if needed
                         if type == 21 or type == 22 or type == 23 or type == 24:
-                            type = 11
-                        
-                        if type == 121 or type == 1:
                             type = 11
                         
                         #Check for issues
@@ -300,8 +302,21 @@ class UNV_Conversion(object):
         file_out.write(info)
         file_out.close()
 
-### Testing ###
 
-test = UNV_Conversion()
-test.convertFile("Box-Valley.unv")
-#print(test)
+
+### Running the script ###
+'''
+    To run this script and convert a given file, pass the 
+    file name to convert as the second argument when calling
+    the script from command line.
+    
+    e.g., bash:  python3 unv-converter.py Box-Valley.unv
+    
+    The script will read in the given file and write out the
+    converted form of that file with the sub-name "-Converted.unv"
+'''
+
+
+if len(sys.argv) == 2:
+    convert = UNV_Conversion()
+    convert.convertFile(sys.argv[1])

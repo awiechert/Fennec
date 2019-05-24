@@ -1,0 +1,7 @@
+[Tests]
+  [./unv_valley_sim]
+    type = 'Exodiff'
+    input = '3DPuff-Valley.i'
+    exodiff = '3DPuff-Valley_out.e'
+  [../]
+[]
