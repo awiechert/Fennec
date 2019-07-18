@@ -24,7 +24,7 @@
 #ifndef GSTA_OPT_HPP_
 #define GSTA_OPT_HPP_
 
-#include "lmcurve.h"			  //Main include to use the lmfit solver library
+//#include "lmcurve.h"			  //Main include to use the lmfit solver library
 #include <stdio.h>				  //Line to allow for printf functions
 #include <math.h>                 //Line added to allow usage of the pow (e, x) function
 #include <iostream>				  //Line to allow for read/write to the console using cpp functions

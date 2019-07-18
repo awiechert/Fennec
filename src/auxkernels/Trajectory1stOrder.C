@@ -50,7 +50,12 @@ template<>
 InputParameters validParams<Trajectory1stOrder>()
 {
 	InputParameters params = validParams<AuxKernel>();
-	params.addRequiredCoupledVar("wind","Variable for wind velocity in n-direction");
+	params.addRequiredCoupledVar("windx","Variable for wind velocity in n-direction");
+    params.addRequiredCoupledVar("windy","Variable for wind velocity in n-direction");
+    params.addRequiredCoupledVar("windz","Variable for wind velocity in n-direction");
+    params.addRequiredCoupledVar("varx","Variable for wind velocity in n-direction");
+    params.addRequiredCoupledVar("vary","Variable for wind velocity in n-direction");
+    params.addRequiredCoupledVar("varz","Variable for wind velocity in n-direction");
 	params.addRequiredCoupledVar("air_density","Variable for air density (kg/m^3)");
 	params.addRequiredCoupledVar("air_viscosity","Variable for air viscosity (kg/m/s)");
 	params.addParam<Real>("particle_diameter",0.001,"Spherical particle diameter (m)");
@@ -62,7 +67,12 @@ InputParameters validParams<Trajectory1stOrder>()
 
 Trajectory1stOrder::Trajectory1stOrder(const InputParameters & parameters) :
 AuxKernel(parameters),
-_w(coupledValueOld("wind")),
+_wx(coupledValueOld("windx")),
+_wy(coupledValueOld("windy")),
+_wz(coupledValueOld("windz")),
+_vx(coupledValueOld("varx")),
+_vy(coupledValueOld("varz")),
+_vz(coupledValueOld("varz")),
 _air_dens(coupledValueOld("air_density")),
 _air_visc(coupledValueOld("air_viscosity")),
 _part_dia(getParam<Real>("particle_diameter")),
@@ -76,8 +86,13 @@ _n(getParam<int>("direction"))
 // Drag coefficient calculation is based on the Turton & Levenspiel (1986) approximation method
 void Trajectory1stOrder::computeDrag()
 {
-	Real u = fabs(_u_old[_qp] - _w[_qp]);
-	Real Re = _air_dens[_qp]*_part_dia*u/_air_visc[_qp];
+	Real ux = fabs(_vx[_qp] - _wx[_qp]);
+    Real uy = fabs(_vx[_qp] - _wx[_qp]);
+    Real uz = fabs(_vx[_qp] - _wx[_qp]);
+    //sqrt sum of squares... use to compute u_mag .. use to compute Re
+    //Check c/c++ subroutines for calculation of sqrt ... specific syntax 
+	Real u_mag = sqrt(pow(ux, 2) + pow(uy, 2) + pow(uz, 2));
+	Real Re = _air_dens[_qp]*_part_dia*   u_mag    /_air_visc[_qp];
 	if (Re < 0.1)
 		_drag = 500.0;
 	else
@@ -91,15 +106,26 @@ Real Trajectory1stOrder::computeValue()
 	this->computeDrag();
 	
 	Real pi = 3.14159;
+	Real ux = fabs(_vx[_qp] - _wx[_qp]);
+    Real uy = fabs(_vx[_qp] - _wx[_qp]);
+    Real uz = fabs(_vx[_qp] - _wx[_qp]);
 	Real C = _drag*pi*_part_dia*_part_dia*_air_dens[_qp]/8.0;
-	Real u = fabs(_u_old[_qp] - _w[_qp]);
+    //Repeat above scheme below changing u to u_mag
 	Real a = pi*_part_dia*_part_dia*_part_dia*_grav*(_air_dens[_qp]-_part_dens)/6.0;
 	Real m = _part_dens*pi*_part_dia*_part_dia*_part_dia/6.0;
+    //sqrt sum of squares... use to compute u_mag .. use to compute Re
+    //Don't change u_old below (it is based on variable and direction
+    Real u_mag = sqrt(pow(ux, 2) + pow(uy, 2) + pow(uz, 2));
+	//Real Re = _air_dens[_qp]*_part_dia*   u_mag    /_air_visc[_qp];
+	Real wind;
+	if (_n == 2) wind = _wz[_qp];
+	if (_n == 1) wind = _wy[_qp];
+	else wind = _wx[_qp];
 	
 	if (_n == 2)
-		vel = (m*_u_old[_qp]+_dt*a+_dt*C*u*_w[_qp])/(m+_dt*C*u);
+		vel = (m*_u_old[_qp]+_dt*a+_dt*C*u_mag*wind)/(m+_dt*C*  u_mag   );
 	else
-		vel = (m*_u_old[_qp]+_dt*C*u*_w[_qp])/(m+_dt*C*u);
+		vel = (m*_u_old[_qp]+_dt*C*u_mag*wind)/(m+_dt*C*  u_mag   );
 	
 	if (_part_dia < 0.0001)
 	{
@@ -107,7 +133,7 @@ Real Trajectory1stOrder::computeValue()
 		if (_n == 2)
 			v_max = -sqrt(-a/C);
 		else
-			v_max = _w[_qp];
+			v_max = wind;
 	
 		if (fabs(v_max) < fabs(vel))
 			vel = v_max;
