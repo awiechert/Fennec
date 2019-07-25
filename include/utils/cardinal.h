@@ -12,7 +12,7 @@
  *	\date 02/22/2019
  *	\copyright This software was designed and built at the Georgia Institute
  *             of Technology by Austin Ladshaw for research in the area
- *             of radioactive particle decay and transport. Copyright (c) 2018,
+ *             of radioactive particle decay and transport. Copyright (c) 2019,
  *			   all rights reserved.
  */
 
@@ -31,37 +31,44 @@
 class Cardinal
 {
 public:
-	Cardinal();											///< Default constructor
-	~Cardinal();										///< Default destructor
-	
-	void setConsoleOut(bool val);						///< Function to set the console output parameter
-	
-	bool isConsoleOut();								///< Returns the ConsoleOut parameter
-	
-	Crane &getCloudRise();								///< Return reference to the cloud rise simulation data
-	ActivityDistribution &getActivity();				///< Return reference to the activity distribution data
-	
-	int readInputFile(const char *input);				///< Read the yaml input file
-	int readAtomsphereFile(const char *input);			///< Read the atomspheric data file
-	int setupCloudRiseSimulation(FILE *outfile);		///< Setup the cloud rise simulations (post-read)
-	int readDatabaseFiles(const char *path);			///< Read the Nuclides and Fission Yields from the given path
-	int setupActivityDistribution();					///< Setup the activity distribution simulations (post-read)
-	
-	int runSimulations();								///< Run all the simulations
-	
+    Cardinal();											///< Default constructor
+    ~Cardinal();										///< Default destructor
+    
+    void setConsoleOut(bool val);						///< Function to set the console output parameter
+    
+    bool isConsoleOut();								///< Returns the ConsoleOut parameter
+    
+    Crane &getCloudRise();								///< Return reference to the cloud rise simulation data
+    ActivityDistribution &getActivity();				///< Return reference to the activity distribution data
+    
+    int readInputFile(const char *input);				///< Read the yaml input file
+    int readAtomsphereFile(const char *input);			///< Read the atomspheric data file
+    int setupCloudRiseSimulation(FILE *outfile);		///< Setup the cloud rise simulations (post-read)
+    int readDatabaseFiles(const char *path);			///< Read the Nuclides and Fission Yields from the given path
+    int setupActivityDistribution();					///< Setup the activity distribution simulations (post-read)
+    
+    int runSimulations(int unc, std::string nuc_file);	///< Run all the simulations (with uncertainty option) default = 0
+    
 protected:
-
+    
 private:
-	ActivityDistribution activity;						///< Object for the activity-size distributions
-	Crane cloudrise;									///< Object for the cloud rise simulations
-	FissionProducts yields;								///< Object for the fission product yields
-	Dove dove;											///< Object for the ODE solver
-	yaml_cpp_class nuc_data;							///< Object for the nuclide data
-	yaml_cpp_class yield_data;							///< Object for the yield data
-	yaml_cpp_class input_file;							///< Object for the input file
-	bool ConsoleOut;									///< Boolean used to determine whether or not to print info to the console
+    ActivityDistribution activity;						///< Object for the activity-size distributions
+    Crane cloudrise;									///< Object for the cloud rise simulations
+    FissionProducts yields;								///< Object for the fission product yields
+    Dove dove;											///< Object for the ODE solver
+    yaml_cpp_class nuc_data;							///< Object for the nuclide data
+    yaml_cpp_class yield_data;							///< Object for the yield data
+    yaml_cpp_class input_file;							///< Object for the input file
+    bool ConsoleOut;									///< Boolean used to determine whether or not to print info to the console
 };
 
 int CARDINAL_SCENARIO(const char *yaml_input, const char *atmosphere_data, const char *data_path);
+
+/// C-style interface for use by python 3.5 (or newer)
+extern "C"
+{
+    int cardinal_simulation(const char *yaml_input, const char *atm_data, const char *nuc_path, int unc_opt,
+                            const char *cloud_rise_out, const char *cloud_growth_out, const char *nuc_out);
+}
 
 #endif /* CARDINAL_HPP_ */
