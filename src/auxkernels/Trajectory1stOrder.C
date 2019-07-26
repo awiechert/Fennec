@@ -71,7 +71,7 @@ _wx(coupledValueOld("windx")),
 _wy(coupledValueOld("windy")),
 _wz(coupledValueOld("windz")),
 _vx(coupledValueOld("varx")),
-_vy(coupledValueOld("varz")),
+_vy(coupledValueOld("vary")),
 _vz(coupledValueOld("varz")),
 _air_dens(coupledValueOld("air_density")),
 _air_visc(coupledValueOld("air_viscosity")),
@@ -87,16 +87,15 @@ _n(getParam<int>("direction"))
 void Trajectory1stOrder::computeDrag()
 {
 	Real ux = fabs(_vx[_qp] - _wx[_qp]);
-    Real uy = fabs(_vx[_qp] - _wx[_qp]);
-    Real uz = fabs(_vx[_qp] - _wx[_qp]);
-    //sqrt sum of squares... use to compute u_mag .. use to compute Re
-    //Check c/c++ subroutines for calculation of sqrt ... specific syntax 
-	Real u_mag = sqrt(pow(ux, 2) + pow(uy, 2) + pow(uz, 2));
-	Real Re = _air_dens[_qp]*_part_dia*   u_mag    /_air_visc[_qp];
+    Real uy = fabs(_vy[_qp] - _wy[_qp]);
+    Real uz = fabs(_vz[_qp] - _wz[_qp]);
+	Real u_mag = sqrt(pow(ux, 2.0) + pow(uy, 2.0) + pow(uz, 2.0));
+	Real Re = _air_dens[_qp]*_part_dia*u_mag/_air_visc[_qp];
 	if (Re < 0.1)
 		_drag = 500.0;
 	else
 		_drag = (24.0/Re) + (4.152/pow(Re,0.343)) + (0.413/(1+16300.0*pow(Re,-1.09)));
+    
 }
 
 Real Trajectory1stOrder::computeValue()
@@ -107,25 +106,38 @@ Real Trajectory1stOrder::computeValue()
 	
 	Real pi = 3.14159;
 	Real ux = fabs(_vx[_qp] - _wx[_qp]);
-    Real uy = fabs(_vx[_qp] - _wx[_qp]);
-    Real uz = fabs(_vx[_qp] - _wx[_qp]);
+    Real uy = fabs(_vy[_qp] - _wy[_qp]);
+    Real uz = fabs(_vz[_qp] - _wz[_qp]);
 	Real C = _drag*pi*_part_dia*_part_dia*_air_dens[_qp]/8.0;
-    //Repeat above scheme below changing u to u_mag
 	Real a = pi*_part_dia*_part_dia*_part_dia*_grav*(_air_dens[_qp]-_part_dens)/6.0;
 	Real m = _part_dens*pi*_part_dia*_part_dia*_part_dia/6.0;
-    //sqrt sum of squares... use to compute u_mag .. use to compute Re
-    //Don't change u_old below (it is based on variable and direction
-    Real u_mag = sqrt(pow(ux, 2) + pow(uy, 2) + pow(uz, 2));
-	//Real Re = _air_dens[_qp]*_part_dia*   u_mag    /_air_visc[_qp];
+    Real u_mag;
 	Real wind;
-	if (_n == 2) wind = _wz[_qp];
-	if (_n == 1) wind = _wy[_qp];
-	else wind = _wx[_qp];
+	if (_n == 2)
+    {
+    	wind = _wz[_qp];
+        u_mag = uz;
+    }
+	else if (_n == 1)
+    {
+    	wind = _wy[_qp];
+        u_mag = uy;
+    }
+	else if (_n == 0)
+    {
+    	wind = _wx[_qp];
+        u_mag = ux;
+    }
+    else
+    {
+        wind = _wz[_qp];
+        u_mag = uz;
+    }
 	
 	if (_n == 2)
-		vel = (m*_u_old[_qp]+_dt*a+_dt*C*u_mag*wind)/(m+_dt*C*  u_mag   );
+		vel = (m*_u_old[_qp]+_dt*a+_dt*C*u_mag*wind)/(m+_dt*C*u_mag);
 	else
-		vel = (m*_u_old[_qp]+_dt*C*u_mag*wind)/(m+_dt*C*  u_mag   );
+		vel = (m*_u_old[_qp]+_dt*C*u_mag*wind)/(m+_dt*C*u_mag);
 	
 	if (_part_dia < 0.0001)
 	{
