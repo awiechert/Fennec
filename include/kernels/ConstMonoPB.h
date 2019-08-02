@@ -65,6 +65,12 @@ protected:
 	/// Function to compute outcome of Kronecker Delta Function
     Real KroneckerDelta(int i, int j);
     
+    /// Function to fill out all the alpha and beta parameters with constants
+    void AlphaBetaFill();
+    
+    /// Function to fill out all the volume size bins
+    void VolumeFill();
+    
     /// Function to fill out all the fraction values
     void FractionFill();
 
@@ -89,7 +95,6 @@ protected:
     unsigned int _M;										///< Number of particle size bins
     Real _const_alpha;										///< Constant value for the efficiency (-)
     Real _const_beta;										///< Constant value for the frequency (m^3/s)
-    Real _this_dia;											///< Particle diameter for this variable's size class (m)
     std::vector< std::vector< std::vector<Real> > > _frac;	///< Set of vector fractions based on the size classes of the variables
     std::vector< Real > _dia;								///< Set of size class diameters (m)
     std::vector< Real > _vol;								///< Set of volume based size bins (m^3) [assumes spheres]
