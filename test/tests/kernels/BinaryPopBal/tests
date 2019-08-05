@@ -1,0 +1,7 @@
+[Tests]
+  [./BinaryAggregation-Exact]
+    type = 'Exodiff'
+    input = 'BinaryAggregation.i'
+    exodiff = 'BinaryAggregation_out.e'
+  [../]
+[]

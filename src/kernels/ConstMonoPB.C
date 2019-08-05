@@ -56,6 +56,7 @@ InputParameters validParams<ConstMonoPB>()
     params.addParam<Real>("frequency",1.0,"Collision Frequency (m^3/s)");
     params.addRequiredParam< std::vector<Real> >("diameters","Set of particle diameters corresponding to each size bin (m) (Must have same order as the 'coupled_list')");
     params.addRequiredCoupledVar("coupled_list","List of names of the number concentration variables being coupled (including this variable)");
+    params.addRequiredCoupledVar("main_variable","Name of the number concentration variable this kernel acts on");
     return params;
 }
 
@@ -64,7 +65,7 @@ ConstMonoPB::ConstMonoPB(const InputParameters & parameters)
 _const_alpha(getParam<Real>("efficiency")),
 _const_beta(getParam<Real>("frequency")),
 _dia(getParam<std::vector<Real> >("diameters")),
-_u_var(coupled("variable"))
+_u_var(coupled("main_variable"))
 {
     _M = coupledComponents("coupled_list");
     if (_M != _dia.size())
@@ -76,6 +77,7 @@ _u_var(coupled("variable"))
     _alpha.resize(_M);
     _beta.resize(_M);
     _vol.resize(_M);
+    _gama.resize(_M);
     
     for (unsigned int i = 0; i<_coupled_u.size(); ++i)
     {
@@ -89,6 +91,7 @@ _u_var(coupled("variable"))
         _frac[i].resize(_M);
         _alpha[i].resize(_M);
         _beta[i].resize(_M);
+        _gama[i].resize(_M);
         for (int j=0; j<_M; j++)
         	_frac[i][j].resize(_M);
     }
@@ -96,7 +99,7 @@ _u_var(coupled("variable"))
     this->AlphaBetaFill();
     this->VolumeFill();
     this->FractionFill();
-    
+    this->GamaFill();
 }
 
 Real ConstMonoPB::KroneckerDelta(int i, int j)
@@ -137,15 +140,97 @@ void ConstMonoPB::FractionFill()
         {
             for (int m=0; m<_M; m++)
             {
-                
+                if (k==0)
+                {
+                    Real combined = _vol[l]+_vol[m];
+                    if (combined >= _vol[k] && combined <= _vol[k+1])
+                    {
+                        _frac[k][l][m] = (_vol[k+1] - combined) / (_vol[k+1] - _vol[k]);
+                    }
+                    else
+                    {
+                        _frac[k][l][m] = 0.0;
+                    }
+                }
+                else if (k==_M-1)
+                {
+                    Real combined = _vol[l]+_vol[m];
+                    if (combined >= _vol[k-1] && combined <= _vol[k])
+                    {
+                        _frac[k][l][m] = (combined - _vol[k-1]) / (_vol[k] - _vol[k-1]);
+                    }
+                    else
+                    {
+                        _frac[k][l][m] = 0.0;
+                    }
+                }
+                else
+                {
+                    Real combined = _vol[l]+_vol[m];
+                    if (combined >= _vol[k-1] && combined < _vol[k])
+                    {
+                        _frac[k][l][m] = (combined - _vol[k-1]) / (_vol[k] - _vol[k-1]);
+                    }
+                    else if (combined >= _vol[k] && combined <= _vol[k+1])
+                    {
+                        _frac[k][l][m] = (_vol[k+1] - combined) / (_vol[k+1] - _vol[k]);
+                    }
+                    else
+                    {
+                        _frac[k][l][m] = 0.0;
+                    }
+                }
+                //std::cout << "k = " << k << std::endl;
+                //std::cout << "l = " << l << std::endl;
+                //std::cout << "m = " << m << std::endl;
+                //std::cout << "eta = " << _frac[k][l][m] << std::endl;
             }
+        }
+    }
+}
+
+void ConstMonoPB::GamaFill()
+{
+    for (int k=0; k<_M; k++)
+    {
+        for (int l=0; l<_M; l++)
+        {
+        	if ( (_vol[k]+_vol[l]) > _vol[_M-1] )
+            	_gama[k][l] = 0.0;
+            else
+            	_gama[k][l] = 1.0;
+            
+            //std::cout << "k = " << k << std::endl;
+            //std::cout << "l = " << l << std::endl;
+            //std::cout << "gama = " << _gama[k][l] << std::endl;
         }
     }
 }
 
 Real ConstMonoPB::computeQpResidual()
 {
-    return 0.0;
+	Real rate = 0.0;
+    Real source = 0.0;
+    Real sink = 0.0;
+    int k = _u_var;
+    
+    //Loop over all variables l
+    for (int l=0; l<_M; l++)
+    {
+        sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
+        
+        Real m_sum = 0.0;
+        
+        //Loop over m variables
+        for (int m=0; m<=l; m++)
+        {
+            m_sum += (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*(*_coupled_u[m])[_qp];
+        }
+        source += m_sum*(*_coupled_u[l])[_qp];
+    }
+    rate = _test[_i][_qp]*source - _test[_i][_qp]*_u[_qp]*sink;
+    
+    return rate;
 }
 
 Real ConstMonoPB::computeQpJacobian()

@@ -73,6 +73,9 @@ protected:
     
     /// Function to fill out all the fraction values
     void FractionFill();
+    
+    /// Function to fill out all the gama values
+    void GamaFill();
 
     /// Required residual function for standard kernels in MOOSE
     /** This function returns a residual contribution for this object.*/
@@ -100,6 +103,7 @@ protected:
     std::vector< Real > _vol;								///< Set of volume based size bins (m^3) [assumes spheres]
     std::vector< std::vector< Real > > _alpha;				///< Set of collision efficiencies (-)
     std::vector< std::vector< Real > > _beta;				///< Set of collision frequencies (m^3/s)
+    std::vector< std::vector< Real > > _gama;				///< Set of volume check parameters computed at initialization
     
     std::vector<const VariableValue *> _coupled_u;		///< Pointer list to the coupled number concentrations (Gp/m^3)
     std::vector<unsigned int> _coupled_u_var;			///< Indices for the number concentrations in the system
