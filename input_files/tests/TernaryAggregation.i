@@ -33,6 +33,12 @@
  		family = MONOMIAL
         initial_condition = 0
  	[../]
+ 
+ 	[./N2]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 		initial_condition = 0
+ 	[../]
 
 
 [] #END Variables
@@ -62,8 +68,8 @@
         type = ConstMonoPB
         variable = N0
         main_variable = N0
-        diameters = '1 1.25992105'
-        coupled_list = 'N0 N1'
+        diameters = '1.24070133 1.56318572 1.78940096'
+        coupled_list = 'N0 N1 N2'
     [../]
  
  	[./N1_dot]
@@ -76,9 +82,23 @@
  		type = ConstMonoPB
  		variable = N1
         main_variable = N1
- 		diameters = '1 1.25992105'
- 		coupled_list = 'N0 N1'
+ 		diameters = '1.24070133 1.56318572 1.78940096'
+ 		coupled_list = 'N0 N1 N2'
  	[../]
+ 
+ 	[./N2_dot]
+ 		type = CoefTimeDerivative
+ 		variable = N2
+ 		Coefficient = 1.0
+ 	[../]
+ 
+ 	[./N2_MPB]
+ 		type = ConstMonoPB
+ 		variable = N2
+ 		main_variable = N2
+ 		diameters = '1.24070133 1.56318572 1.78940096'
+ 		coupled_list = 'N0 N1 N2'
+    [../]
 
 [] #END Kernels
 
@@ -91,8 +111,8 @@
 	[./N_accumulated]
 		type = VolumeBalanceCheck
 		variable = N_total
-		coupled_vars = 'N0 N1'
-        diameters = '1 1.25992105'
+		coupled_vars = 'N0 N1 N2'
+        diameters = '1.24070133 1.56318572 1.78940096'
         execute_on = 'initial timestep_end'
 	[../]
 
@@ -134,6 +154,12 @@
 		type = ElementAverageValue
 		variable = N1
 		execute_on = 'initial timestep_end'
+	[../]
+ 
+ 	[./N2]
+ 		type = ElementAverageValue
+ 		variable = N2
+		 execute_on = 'initial timestep_end'
 	[../]
  
 	[./N_total]
