@@ -180,10 +180,6 @@ void ConstMonoPB::FractionFill()
                         _frac[k][l][m] = 0.0;
                     }
                 }
-                //std::cout << "k = " << k << std::endl;
-                //std::cout << "l = " << l << std::endl;
-                //std::cout << "m = " << m << std::endl;
-                //std::cout << "eta = " << _frac[k][l][m] << std::endl;
             }
         }
     }
@@ -199,10 +195,6 @@ void ConstMonoPB::GamaFill()
             	_gama[k][l] = 0.0;
             else
             	_gama[k][l] = 1.0;
-            
-            //std::cout << "k = " << k << std::endl;
-            //std::cout << "l = " << l << std::endl;
-            //std::cout << "gama = " << _gama[k][l] << std::endl;
         }
     }
 }
@@ -228,19 +220,60 @@ Real ConstMonoPB::computeQpResidual()
         }
         source += m_sum*(*_coupled_u[l])[_qp];
     }
-    rate = _test[_i][_qp]*source - _test[_i][_qp]*_u[_qp]*sink;
+    rate = (_test[_i][_qp]*source - _test[_i][_qp]*_u[_qp]*sink);
     
-    return rate;
+    return -rate;
 }
 
 Real ConstMonoPB::computeQpJacobian()
 {
-    return 0.0;
+	// Partial Derivatives with respect to this variable
+    int k = _u_var;
+    Real m_sum = 0.0;
+    Real l_sum_source = 0.0;
+    Real l_sum_sink = 0.0;
+    
+    for (int m=0; m<=k; m++)
+    {
+        m_sum += (1.0+this->KroneckerDelta(k,m))*(1.0-0.5*this->KroneckerDelta(k,m))*_frac[k][k][m]*_alpha[k][m]*_beta[k][m]*(*_coupled_u[m])[_qp];
+    }
+    
+    for (int l=0; l<_M; l++)
+    {
+        if (l!=k)
+        {
+        	l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,k))*_frac[k][l][k]*_alpha[l][k]*_beta[l][k];
+            l_sum_sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
+        }
+    }
+    
+    return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*l_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[k][k]*_alpha[k][k]*_beta[k][k]*_u[_qp]);
+    //return 0.0;
 }
 
 Real ConstMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
-    return 0.0;
+    // Partial Derivatives with respect to other variables
+    int h = jvar;
+    int k = _u_var;
+    Real m_sum = 0.0;
+    Real l_sum_source = 0.0;
+    
+    for (int m=0; m<=h; m++)
+    {
+        m_sum += (1.0+this->KroneckerDelta(h,m))*(1.0-0.5*this->KroneckerDelta(h,m))*_frac[k][h][m]*_alpha[h][m]*_beta[h][m]*(*_coupled_u[m])[_qp];
+    }
+    
+    for (int l=0; l<_M; l++)
+    {
+        if (l!=h)
+        {
+            l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,h))*_frac[k][l][h]*_alpha[l][h]*_beta[l][h];
+        }
+    }
+    
+    return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[k][h]*_alpha[k][h]*_beta[k][h]*(*_coupled_u[k])[_qp]);
+    //return 0.0;
 }
 
 

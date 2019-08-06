@@ -55,7 +55,7 @@
     [./N0_dot]
         type = CoefTimeDerivative
         variable = N0
-        Coefficient = -1.0  #NOTE: This is a negative to account for the rearrangement of the kernel into a residual
+        Coefficient = 1.0
     [../]
 
     [./N0_MPB]
@@ -69,7 +69,7 @@
  	[./N1_dot]
  		type = CoefTimeDerivative
  		variable = N1
- 		Coefficient = -1.0	#NOTE: This is a negative to account for the rearrangement of the kernel into a residual
+ 		Coefficient = 1.0
  	[../]
  
  	[./N1_MPB]
