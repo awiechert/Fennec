@@ -180,6 +180,7 @@ void ConstMonoPB::FractionFill()
                         _frac[k][l][m] = 0.0;
                     }
                 }
+
             }
         }
     }
@@ -248,7 +249,6 @@ Real ConstMonoPB::computeQpJacobian()
     }
     
     return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*l_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[k][k]*_alpha[k][k]*_beta[k][k]*_u[_qp]);
-    //return 0.0;
 }
 
 Real ConstMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
@@ -273,7 +273,6 @@ Real ConstMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
     }
     
     return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[k][h]*_alpha[k][h]*_beta[k][h]*(*_coupled_u[k])[_qp]);
-    //return 0.0;
 }
 
 

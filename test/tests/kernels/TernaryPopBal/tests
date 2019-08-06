@@ -1,0 +1,7 @@
+[Tests]
+  [./TernaryAggregation-Approx]
+    type = 'Exodiff'
+    input = 'TernaryAggregation.i'
+    exodiff = 'TernaryAggregation_out.e'
+  [../]
+[]
