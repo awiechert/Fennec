@@ -1,0 +1,7 @@
+[Tests]
+  [./real_PopBal_10bins]
+    type = 'Exodiff'
+    input = '10bins-BalanceCheck.i'
+    exodiff = '10bins-BalanceCheck_out.e'
+  [../]
+[]
