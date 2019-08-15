@@ -10,6 +10,15 @@
 
  	file = 2D-Flow-Converted.unv
  	boundary_name = 'inlet outlet top bottom object'
+ 
+# type = GeneratedMesh
+# dim = 2
+#	nx = 20
+#	ny = 20
+# xmin = 0.0
+# xmax = 10.0
+# ymin = 0.0
+# ymax = 5.0
 
 [] # END Mesh
 
@@ -26,6 +35,12 @@
 		family = MONOMIAL
         initial_condition = 0
 	[../]
+ 
+#    [./con]
+# 		order = FIRST
+# 		family = MONOMIAL
+# 		initial_condition = 0
+#    [../]
 
 [] #END Variables
 
@@ -56,6 +71,14 @@
 [] #END ICs
 
 [Kernels]
+
+#	[./continuity]
+# 		type = FlowDivergence
+# 		variable = con
+# 		ux = ux
+# 		uy = uy
+# 		uz = uz
+#    [../]
 
     [./ux_dot]
         type = MomentumAccumulation
@@ -170,6 +193,7 @@
  		type = DGFluxBC
  		variable = ux
  		boundary = 'inlet'
+#		boundary = 'right'
  		u_input = 1.0
         vx = 1.0
  	[../]
@@ -178,6 +202,7 @@
         type = DGContinuumBC
         variable = ux
         boundary = 'outlet top bottom object'
+#		boundary = 'left top bottom'
 		direction = 0
 		ux = ux
 		uy = uy
@@ -189,6 +214,7 @@
  		type = DGFluxBC
  		variable = uy
  		boundary = 'inlet'
+#		boundary = 'right'
  		u_input = 0.0
  		vy = 0.0
  	[../]
@@ -197,6 +223,7 @@
 		type = DGContinuumBC
 		variable = uy
 		boundary = 'outlet top bottom object'
+#		boundary = 'left top bottom'
 		direction = 1
 		ux = ux
 		uy = uy
@@ -216,6 +243,7 @@
     [./ux_exit]
         type = SideAverageValue
         boundary = 'outlet'
+#		boundary = 'left'
         variable = ux
         execute_on = 'initial timestep_end'
     [../]
@@ -223,6 +251,7 @@
     [./ux_enter]
         type = SideAverageValue
         boundary = 'inlet'
+#		boundary = 'right'
         variable = ux
         execute_on = 'initial timestep_end'
     [../]
