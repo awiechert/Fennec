@@ -1,15 +1,15 @@
 /*!
- *  \file VolumeBalanceCheck.h
- *	\brief Auxillary kernel to keep track of the total volume of all particles
- *	\details This file creates an auxillary kernel that computes the total volume of
+ *  \file NuclideBalanceCheck.h
+ *	\brief Auxillary kernel to keep track of the total nuclides of all particles
+ *	\details This file creates an auxillary kernel that computes the total nuclides of
  *			all particles within the given domain/sub-domain. If the system is closed
  *			then this value should remain nearly unchanged at all time steps, thus
- *			preserving the total volume/mass of all particles in the system. This
+ *			preserving the total numbers of all nuclides in the system. This
  *			kernel is primarily used to check the validity of the population balance
  *			models being implemented.
  *
  *  \author Austin Ladshaw
- *	\date 08/06/2019
+ *	\date 08/19/2019
  *	\copyright This kernel was designed and built at the Georgia Institute
  *             of Technology by Austin Ladshaw for PhD research in the area
  *             of radioactive particle transport and settling following a
@@ -37,56 +37,38 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#include "VolumeBalanceCheck.h"
+#pragma once
 
-/**
- * All MOOSE based object classes you create must be registered using this macro.  The first
- * argument is the name of the App with an "App" suffix (i.e., "fennecApp"). The second
- * argument is the name of the C++ class you created.
- */
-registerMooseObject("fennecApp", VolumeBalanceCheck);
+#include "AuxKernel.h"
+
+
+/// NuclideBalanceCheck class object forward declaration
+class NuclideBalanceCheck;
 
 template<>
-InputParameters validParams<VolumeBalanceCheck>()
+InputParameters validParams<NuclideBalanceCheck>();
+
+/// NuclideBalanceCheck class inherits from AuxKernel
+/** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
+	calculate the total nuclides of all particles within the domain and is used to check that
+ 	we do not violate any conservation law.  */
+class NuclideBalanceCheck : public AuxKernel
 {
-    InputParameters params = validParams<AuxKernel>();
-    params.addCoupledVar("coupled_vars", "List of non-linear variables coupled to this object");
-    params.addRequiredParam< std::vector<Real> >("diameters","Set of particle diameters corresponding to each size bin (m) (Must have same order as the 'coupled_vars')");
-    return params;
-}
-
-VolumeBalanceCheck::VolumeBalanceCheck(const InputParameters & parameters) :
-AuxKernel(parameters),
-_dia(getParam<std::vector<Real> >("diameters"))
-{
-    unsigned int n = coupledComponents("coupled_vars");
-    if (n != _dia.size())
-        moose::internal::mooseErrorRaw("Number of coupled variables does not match number of particle size bins!");
-    _coupled_u.resize(n);
-    _vol.resize(n);
+public:
+    /// Standard MOOSE public constructor
+    NuclideBalanceCheck(const InputParameters & parameters);
     
-    Real pi = 3.14159;
-    Real c = pi/6.0;
+protected:
+    /// Required MOOSE function override
+    /** This is the function that is called by the MOOSE framework when a calculation of the total
+     system pressure is needed. You are required to override this function for any inherited
+     AuxKernel. */
+    virtual Real computeValue() override;
     
-    for (unsigned int i = 0; i<_coupled_u.size(); ++i)
-    {
-        _coupled_u[i] = &coupledValue("coupled_vars",i);
-        _vol[i] = c*_dia[i]*_dia[i]*_dia[i];
-    }
+    std::vector<const VariableValue *> _coupled_u;			///< Pointer list for the non-linear variables
+    std::vector< Real > _nuc;								///< List of the total nuclide numbers of all particles (mol)
     
-}
-
-Real VolumeBalanceCheck::computeValue()
-{
-    Real _total = 0.0;
+private:
     
-    for (unsigned int i = 0; i<_coupled_u.size(); ++i)
-    {
-        double add = (*_coupled_u[i])[_qp]*_vol[i];
-        _total = _total + add;
-    }
-    return _total;
-}
-
-
+};
 

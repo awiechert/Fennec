@@ -178,7 +178,7 @@ void ConstBiPB::FractionFill()
                     }
                     else if (p==_O-1)
                     {
-                        if ( (tot_vol >= _vol[k] && tot_vol <= _vol[k+1]) && (tot_nuc >= _nuc[p-1] && tot_nuc < _nuc[p]) )
+                        if ( (tot_vol >= _vol[k] && tot_vol <= _vol[k+1]) && (tot_nuc >= _nuc[p-1] && tot_nuc <= _nuc[p]) )
                         {
                             _frac[kp][lm][qr] = ((_vol[k+1]-tot_vol)/(_vol[k+1]-_vol[k]))*((tot_nuc-_nuc[p-1])/(_nuc[p]-_nuc[p-1]));
                         }
@@ -207,7 +207,7 @@ void ConstBiPB::FractionFill()
                 {
                     if (p==0)
                     {
-                        if ( (tot_vol >= _vol[k-1] && tot_vol < _vol[k]) && (tot_nuc >= _nuc[p] && tot_nuc <= _nuc[p+1]) )
+                        if ( (tot_vol >= _vol[k-1] && tot_vol <= _vol[k]) && (tot_nuc >= _nuc[p] && tot_nuc <= _nuc[p+1]) )
                         {
                             _frac[kp][lm][qr] = ((tot_vol-_vol[k-1])/(_vol[k]-_vol[k-1]))*((_nuc[p+1]-tot_nuc)/(_nuc[p+1]-_nuc[p]));
                         }
@@ -218,7 +218,7 @@ void ConstBiPB::FractionFill()
                     }
                     else if (p==_O-1)
                     {
-                        if ( (tot_vol >= _vol[k-1] && tot_vol < _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc < _nuc[p]) )
+                        if ( (tot_vol >= _vol[k-1] && tot_vol <= _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc <= _nuc[p]) )
                         {
                             _frac[kp][lm][qr] = ((tot_vol-_vol[k-1])/(_vol[k]-_vol[k-1]))*((tot_nuc-_nuc[p-1])/(_nuc[p]-_nuc[p-1]));
                         }
@@ -229,11 +229,11 @@ void ConstBiPB::FractionFill()
                     }
                     else
                     {
-                        if ( (tot_vol >= _vol[k-1] && tot_vol < _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc < _nuc[p]) )
+                        if ( (tot_vol >= _vol[k-1] && tot_vol <= _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc < _nuc[p]) )
                         {
                             _frac[kp][lm][qr] = ((tot_vol-_vol[k-1])/(_vol[k]-_vol[k-1]))*((tot_nuc-_nuc[p-1])/(_nuc[p]-_nuc[p-1]));
                         }
-                        else if ( (tot_vol >= _vol[k-1] && tot_vol < _vol[k]) && (tot_nuc >= _nuc[p] && tot_nuc <= _nuc[p+1]) )
+                        else if ( (tot_vol >= _vol[k-1] && tot_vol <= _vol[k]) && (tot_nuc >= _nuc[p] && tot_nuc <= _nuc[p+1]) )
                         {
                             _frac[kp][lm][qr] = ((tot_vol-_vol[k-1])/(_vol[k]-_vol[k-1]))*((_nuc[p+1]-tot_nuc)/(_nuc[p+1]-_nuc[p]));
                         }
@@ -262,11 +262,11 @@ void ConstBiPB::FractionFill()
                     }
                     else if (p==_O-1)
                     {
-                        if ( (tot_vol >= _vol[k-1] && tot_vol < _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc < _nuc[p]) )
+                        if ( (tot_vol >= _vol[k-1] && tot_vol < _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc <= _nuc[p]) )
                         {
                             _frac[kp][lm][qr] = ((tot_vol-_vol[k-1])/(_vol[k]-_vol[k-1]))*((tot_nuc-_nuc[p-1])/(_nuc[p]-_nuc[p-1]));
                         }
-                        else if ( (tot_vol >= _vol[k] && tot_vol <= _vol[k+1]) && (tot_nuc >= _nuc[p-1] && tot_nuc < _nuc[p]) )
+                        else if ( (tot_vol >= _vol[k] && tot_vol <= _vol[k+1]) && (tot_nuc >= _nuc[p-1] && tot_nuc <= _nuc[p]) )
                         {
                             _frac[kp][lm][qr] = ((_vol[k+1]-tot_vol)/(_vol[k+1]-_vol[k]))*((tot_nuc-_nuc[p-1])/(_nuc[p]-_nuc[p-1]));
                         }
@@ -299,6 +299,15 @@ void ConstBiPB::FractionFill()
                         }
                     }
                 }
+                /*
+                if (_frac[kp][lm][qr] > 0.0)
+                {
+                	std::cout << "\nk = " << k << "\tp = " << p << std::endl;
+                	std::cout << "l = " << l << "\tm = " << m << std::endl;
+                	std::cout << "q = " << q << "\tr = " << r << std::endl;
+                	std::cout << "eta = " << _frac[kp][lm][qr] << std::endl;
+                }
+                */
             }
         }
     }
@@ -321,6 +330,14 @@ void ConstBiPB::GamaFill()
             {
                 _gama[kp][lm] = 1.0;
             }
+            /*
+            if (_gama[kp][lm] > 0.0)
+            {
+            	std::cout << "\nk = " << k << "\tp = " << p << std::endl;
+            	std::cout << "l = " << l << "\tm = " << m << std::endl;
+            	std::cout << "gama = " << _gama[kp][lm] << std::endl;
+            }
+            */
         }
     }
 }
@@ -338,7 +355,35 @@ void ConstBiPB::RowCol(int i, int & k, int & p)
 
 Real ConstBiPB::computeQpResidual()
 {
-	return 0.0;
+	Real rate = 0.0;
+    Real source = 0.0;
+    Real sink = 0.0;
+    int kp = _u_var;
+    int k, p, l, m, q, r;
+    
+    this->RowCol(kp, k, p);
+    //Loop over all variables lm
+    for (int lm=0; lm<_MO; lm++)
+    {
+    	this->RowCol(lm, l, m);
+    	sink += _gama[kp][lm]*_alpha[kp][lm]*_beta[kp][lm]*(*_coupled_u[lm])[_qp];
+        
+    	Real qr_sum = 0.0;
+        //Loop over qr
+        for (int qr=0; qr<_MO; qr++)
+        {
+        	this->RowCol(qr, q, r);
+            if (q<l && r<m)
+            	break;
+            
+            qr_sum += (1.0-0.5*this->KroneckerDelta(l,q)*this->KroneckerDelta(m,r))*_frac[kp][lm][qr]*_alpha[lm][qr]*_beta[lm][qr]*(*_coupled_u[qr])[_qp];
+        }
+        source += qr_sum*(*_coupled_u[lm])[_qp];
+    }
+	rate = (_test[_i][_qp]*source - _test[_i][_qp]*_u[_qp]*sink);
+
+	return -rate;
+    
 	/*
     Real rate = 0.0;
     Real source = 0.0;
