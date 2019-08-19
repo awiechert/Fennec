@@ -383,84 +383,68 @@ Real ConstBiPB::computeQpResidual()
 	rate = (_test[_i][_qp]*source - _test[_i][_qp]*_u[_qp]*sink);
 
 	return -rate;
-    
-	/*
-    Real rate = 0.0;
-    Real source = 0.0;
-    Real sink = 0.0;
-    int k = _u_var;
-    
-    //Loop over all variables l
-    for (int l=0; l<_M; l++)
-    {
-        sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
-        
-        Real m_sum = 0.0;
-        
-        //Loop over m variables
-        for (int m=0; m<=l; m++)
-        {
-            m_sum += (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*(*_coupled_u[m])[_qp];
-        }
-        source += m_sum*(*_coupled_u[l])[_qp];
-    }
-    rate = (_test[_i][_qp]*source - _test[_i][_qp]*_u[_qp]*sink);
-    
-    return -rate;
-    */
 }
 
 Real ConstBiPB::computeQpJacobian()
 {
-	return 0.0;
-	/*
-    // Partial Derivatives with respect to this variable
-    int k = _u_var;
-    Real m_sum = 0.0;
-    Real l_sum_source = 0.0;
-    Real l_sum_sink = 0.0;
+	int kp = _u_var;
+    Real qr_sum = 0.0;
+    Real lm_sum_source = 0.0;
+    Real lm_sum_sink = 0.0;
+    int k, p, l, m, q, r;
     
-    for (int m=0; m<=k; m++)
+    this->RowCol(kp, k, p);
+    //Loop over qr
+    for (int qr=0; qr<_MO; qr++)
     {
-        m_sum += (1.0+this->KroneckerDelta(k,m))*(1.0-0.5*this->KroneckerDelta(k,m))*_frac[k][k][m]*_alpha[k][m]*_beta[k][m]*(*_coupled_u[m])[_qp];
+        this->RowCol(qr, q, r);
+        if (q<k && r<p)
+            break;
+        qr_sum += (1.0+this->KroneckerDelta(k,q)*this->KroneckerDelta(p,r))*(1.0-0.5*this->KroneckerDelta(k,q)*this->KroneckerDelta(p,r))*_frac[kp][kp][qr]*_alpha[kp][qr]*_beta[kp][qr]*(*_coupled_u[qr])[_qp];
     }
     
-    for (int l=0; l<_M; l++)
+    //Loop over lm
+    for (int lm=0; lm<_MO; lm++)
     {
-        if (l!=k)
+    	this->RowCol(lm, l, m);
+        if (lm!=kp)
         {
-            l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,k))*_frac[k][l][k]*_alpha[l][k]*_beta[l][k];
-            l_sum_sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
+            lm_sum_source += (*_coupled_u[lm])[_qp]*(1.0-0.5*this->KroneckerDelta(l,k)*this->KroneckerDelta(m,p))*_frac[kp][lm][kp]*_alpha[lm][kp]*_beta[lm][kp];
+            lm_sum_sink += _gama[kp][lm]*_alpha[kp][lm]*_beta[kp][lm]*(*_coupled_u[lm])[_qp];
         }
     }
     
-    return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*l_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[k][k]*_alpha[k][k]*_beta[k][k]*_u[_qp]);
-    */
+	return -(_test[_i][_qp]*_phi[_j][_qp]*qr_sum + _test[_i][_qp]*_phi[_j][_qp]*lm_sum_source - _test[_i][_qp]*_phi[_j][_qp]*lm_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[kp][kp]*_alpha[kp][kp]*_beta[kp][kp]*_u[_qp]);
 }
 
 Real ConstBiPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
-	return 0.0;
-	/*
-    // Partial Derivatives with respect to other variables
-    int h = jvar;
-    int k = _u_var;
-    Real m_sum = 0.0;
-    Real l_sum_source = 0.0;
+	int ho = jvar;
+    int kp = _u_var;
+    Real qr_sum = 0.0;
+    Real lm_sum_source = 0.0;
+    int k, p, l, m, q, r, h, o;
     
-    for (int m=0; m<=h; m++)
+    this->RowCol(kp, k, p);
+    this->RowCol(ho, h, o);
+    //Loop over qr
+    for (int qr=0; qr<_MO; qr++)
     {
-        m_sum += (1.0+this->KroneckerDelta(h,m))*(1.0-0.5*this->KroneckerDelta(h,m))*_frac[k][h][m]*_alpha[h][m]*_beta[h][m]*(*_coupled_u[m])[_qp];
+        this->RowCol(qr, q, r);
+        if (q<h && r<o)
+            break;
+        qr_sum += (1.0+this->KroneckerDelta(h,q)*this->KroneckerDelta(o,r))*(1.0-0.5*this->KroneckerDelta(h,q)*this->KroneckerDelta(o,r))*_frac[kp][ho][qr]*_alpha[ho][qr]*_beta[ho][qr]*(*_coupled_u[qr])[_qp];
     }
     
-    for (int l=0; l<_M; l++)
+    //Loop over lm
+    for (int lm=0; lm<_MO; lm++)
     {
-        if (l!=h)
+        this->RowCol(lm, l, m);
+        if (lm!=ho)
         {
-            l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,h))*_frac[k][l][h]*_alpha[l][h]*_beta[l][h];
+        	lm_sum_source += (*_coupled_u[lm])[_qp]*(1.0-0.5*this->KroneckerDelta(l,h)*this->KroneckerDelta(m,o))*_frac[kp][lm][ho]*_alpha[lm][ho]*_beta[lm][ho];
         }
     }
     
-    return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[k][h]*_alpha[k][h]*_beta[k][h]*(*_coupled_u[k])[_qp]);
-    */
+	return -(_test[_i][_qp]*_phi[_j][_qp]*qr_sum + _test[_i][_qp]*_phi[_j][_qp]*lm_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[kp][ho]*_alpha[kp][ho]*_beta[kp][ho]*(*_coupled_u[kp])[_qp]);
 }

@@ -1,0 +1,7 @@
+[Tests]
+  [./BivariateBinaryAggregation-Exact]
+    type = 'Exodiff'
+    input = 'DoubleBinaryAggregation.i'
+    exodiff = 'DoubleBinaryAggregation_out.e'
+  [../]
+[]
