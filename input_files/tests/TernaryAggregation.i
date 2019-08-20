@@ -3,6 +3,8 @@
  	vx = 0.0
 	vy = 0.0
  	vz = 0.0
+ 
+    diameters = '1 1.5 2'
 
 [] #END GlobalParams
 
@@ -68,7 +70,6 @@
         type = ConstMonoPB
         variable = N0
         main_variable = N0
-        diameters = '1.24070133 1.56318572 1.78940096'
         coupled_list = 'N0 N1 N2'
     [../]
  
@@ -82,7 +83,6 @@
  		type = ConstMonoPB
  		variable = N1
         main_variable = N1
- 		diameters = '1.24070133 1.56318572 1.78940096'
  		coupled_list = 'N0 N1 N2'
  	[../]
  
@@ -96,7 +96,6 @@
  		type = ConstMonoPB
  		variable = N2
  		main_variable = N2
- 		diameters = '1.24070133 1.56318572 1.78940096'
  		coupled_list = 'N0 N1 N2'
     [../]
 
@@ -112,7 +111,6 @@
 		type = VolumeBalanceCheck
 		variable = N_total
 		coupled_vars = 'N0 N1 N2'
-        diameters = '1.24070133 1.56318572 1.78940096'
         execute_on = 'initial timestep_end'
 	[../]
 

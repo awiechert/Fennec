@@ -61,7 +61,10 @@ _nuc(getParam<std::vector<Real> >("total_nuclides"))
 {
     unsigned int n = coupledComponents("coupled_vars");
     if (n != _nuc.size())
+    {
+    	std::cout << "num_vars = " << n << "\tnum_bins = " << _nuc.size() << std::endl;
         moose::internal::mooseErrorRaw("Number of coupled variables does not match number of particle size bins!");
+    }
     _coupled_u.resize(n);
     
     for (unsigned int i = 0; i<_coupled_u.size(); ++i)

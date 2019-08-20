@@ -3,6 +3,9 @@
  	vx = 0.0
 	vy = 0.0
  	vz = 0.0
+ 
+ 	diameters = '1 1.5 2'
+ 	total_nuclides = '1 2.5 4.5'
 
 [] #END GlobalParams
 
@@ -109,8 +112,6 @@
         type = ConstBiPB
         variable = N00
         main_variable = N00
-        diameters = '1.24070133 1.56318572 1.78940096'
-        total_nuclides = '1 2 4'
         coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
     [../]
  
@@ -124,8 +125,6 @@
  		type = ConstBiPB
  		variable = N01
         main_variable = N01
- 		diameters = '1.24070133 1.56318572 1.78940096'
- 		total_nuclides = '1 2 4'
  		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
  
@@ -139,8 +138,6 @@
  		type = ConstBiPB
  		variable = N02
  		main_variable = N02
- 		diameters = '1.24070133 1.56318572 1.78940096'
- 		total_nuclides = '1 2 4'
  		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
     [../]
  
@@ -154,8 +151,6 @@
  		type = ConstBiPB
  		variable = N10
  		main_variable = N10
- 		diameters = '1.24070133 1.56318572 1.78940096'
- 		total_nuclides = '1 2 4'
  		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
  
@@ -169,8 +164,6 @@
  		type = ConstBiPB
  		variable = N11
  		main_variable = N11
- 		diameters = '1.24070133 1.56318572 1.78940096'
- 		total_nuclides = '1 2 4'
  		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
  
@@ -184,8 +177,6 @@
  		type = ConstBiPB
  		variable = N12
  		main_variable = N12
- 		diameters = '1.24070133 1.56318572 1.78940096'
- 		total_nuclides = '1 2 4'
  		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
 	 [../]
  
@@ -199,8 +190,6 @@
  		type = ConstBiPB
  		variable = N20
  		main_variable = N20
- 		diameters = '1.24070133 1.56318572 1.78940096'
- 		total_nuclides = '1 2 4'
  		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
  
@@ -214,8 +203,6 @@
  		type = ConstBiPB
  		variable = N21
  		main_variable = N21
- 		diameters = '1.24070133 1.56318572 1.78940096'
- 		total_nuclides = '1 2 4'
  		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
  
@@ -229,8 +216,6 @@
  		type = ConstBiPB
  		variable = N22
  		main_variable = N22
- 		diameters = '1.24070133 1.56318572 1.78940096'
- 		total_nuclides = '1 2 4'
  		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
 
@@ -246,7 +231,7 @@
 		type = VolumeBalanceCheck
 		variable = N_total_vol
 		coupled_vars = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
-        diameters = '1.24070133 1.24070133 1.24070133 1.56318572 1.56318572 1.56318572 1.78940096 1.78940096 1.78940096'
+        diameters = '1 1 1 1.5 1.5 1.5 2 2 2'
         execute_on = 'initial timestep_end'
 	[../]
  
@@ -254,7 +239,7 @@
  		type = NuclideBalanceCheck
  		variable = N_total_nuc
  		coupled_vars = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
- 		total_nuclides = '1 2 4 1 2 4 1 2 4'
+ 		total_nuclides = '1 2.5 4.5 1 2.5 4.5 1 2.5 4.5'
  		execute_on = 'initial timestep_end'
 	[../]
 

@@ -61,7 +61,10 @@ _dia(getParam<std::vector<Real> >("diameters"))
 {
     unsigned int n = coupledComponents("coupled_vars");
     if (n != _dia.size())
+    {
+    	std::cout << "num_vars = " << n << "\tnum_bins = " << _dia.size() << std::endl;
         moose::internal::mooseErrorRaw("Number of coupled variables does not match number of particle size bins!");
+    }
     _coupled_u.resize(n);
     _vol.resize(n);
     

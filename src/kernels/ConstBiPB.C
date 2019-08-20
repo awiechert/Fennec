@@ -162,6 +162,15 @@ void ConstBiPB::FractionFill()
                 Real tot_vol = _vol[l] + _vol[q];
                 Real tot_nuc = _nuc[m] + _nuc[r];
                 
+                /*
+                //Domain check (Incorrect)
+                if ((this->KroneckerDelta(m,r)*l) > q)
+                {
+                    _frac[kp][lm][qr] = 0.0;
+                    break;
+                }
+                */
+                
                 //Check 9 possible edge cases
                 if (k==0)
                 {
@@ -189,7 +198,7 @@ void ConstBiPB::FractionFill()
                     }
                     else
                     {
-                        if ( (tot_vol >= _vol[k] && tot_vol <= _vol[k+1]) && (tot_nuc >= _nuc[p-1] && tot_nuc < _nuc[p]) )
+                        if ( (tot_vol >= _vol[k] && tot_vol <= _vol[k+1]) && (tot_nuc >= _nuc[p-1] && tot_nuc <= _nuc[p]) )
                         {
                             _frac[kp][lm][qr] = ((_vol[k+1]-tot_vol)/(_vol[k+1]-_vol[k]))*((tot_nuc-_nuc[p-1])/(_nuc[p]-_nuc[p-1]));
                         }
@@ -229,7 +238,7 @@ void ConstBiPB::FractionFill()
                     }
                     else
                     {
-                        if ( (tot_vol >= _vol[k-1] && tot_vol <= _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc < _nuc[p]) )
+                        if ( (tot_vol >= _vol[k-1] && tot_vol <= _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc <= _nuc[p]) )
                         {
                             _frac[kp][lm][qr] = ((tot_vol-_vol[k-1])/(_vol[k]-_vol[k-1]))*((tot_nuc-_nuc[p-1])/(_nuc[p]-_nuc[p-1]));
                         }
@@ -247,7 +256,7 @@ void ConstBiPB::FractionFill()
                 {
                     if (p==0)
                     {
-                        if ( (tot_vol >= _vol[k-1] && tot_vol < _vol[k]) && (tot_nuc >= _nuc[p] && tot_nuc <= _nuc[p+1]) )
+                        if ( (tot_vol >= _vol[k-1] && tot_vol <= _vol[k]) && (tot_nuc >= _nuc[p] && tot_nuc <= _nuc[p+1]) )
                         {
                             _frac[kp][lm][qr] = ((tot_vol-_vol[k-1])/(_vol[k]-_vol[k-1]))*((_nuc[p+1]-tot_nuc)/(_nuc[p+1]-_nuc[p]));
                         }
@@ -262,7 +271,7 @@ void ConstBiPB::FractionFill()
                     }
                     else if (p==_O-1)
                     {
-                        if ( (tot_vol >= _vol[k-1] && tot_vol < _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc <= _nuc[p]) )
+                        if ( (tot_vol >= _vol[k-1] && tot_vol <= _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc <= _nuc[p]) )
                         {
                             _frac[kp][lm][qr] = ((tot_vol-_vol[k-1])/(_vol[k]-_vol[k-1]))*((tot_nuc-_nuc[p-1])/(_nuc[p]-_nuc[p-1]));
                         }
@@ -277,15 +286,15 @@ void ConstBiPB::FractionFill()
                     }
                     else
                     {
-                        if ( (tot_vol >= _vol[k-1] && tot_vol < _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc < _nuc[p]) )
+                        if ( (tot_vol >= _vol[k-1] && tot_vol <= _vol[k]) && (tot_nuc >= _nuc[p-1] && tot_nuc <= _nuc[p]) )
                         {
                             _frac[kp][lm][qr] = ((tot_vol-_vol[k-1])/(_vol[k]-_vol[k-1]))*((tot_nuc-_nuc[p-1])/(_nuc[p]-_nuc[p-1]));
                         }
-                        else if ( (tot_vol >= _vol[k] && tot_vol <= _vol[k+1]) && (tot_nuc >= _nuc[p-1] && tot_nuc < _nuc[p]) )
+                        else if ( (tot_vol >= _vol[k] && tot_vol <= _vol[k+1]) && (tot_nuc >= _nuc[p-1] && tot_nuc <= _nuc[p]) )
                         {
                             _frac[kp][lm][qr] = ((_vol[k+1]-tot_vol)/(_vol[k+1]-_vol[k]))*((tot_nuc-_nuc[p-1])/(_nuc[p]-_nuc[p-1]));
                         }
-                        else if ( (tot_vol >= _vol[k-1] && tot_vol < _vol[k]) && (tot_nuc >= _nuc[p] && tot_nuc <= _nuc[p+1]) )
+                        else if ( (tot_vol >= _vol[k-1] && tot_vol <= _vol[k]) && (tot_nuc >= _nuc[p] && tot_nuc <= _nuc[p+1]) )
                         {
                             _frac[kp][lm][qr] = ((tot_vol-_vol[k-1])/(_vol[k]-_vol[k-1]))*((_nuc[p+1]-tot_nuc)/(_nuc[p+1]-_nuc[p]));
                         }
@@ -359,26 +368,31 @@ Real ConstBiPB::computeQpResidual()
     Real source = 0.0;
     Real sink = 0.0;
     int kp = _u_var;
-    int k, p, l, m, q, r;
+    int k, p;
     
     this->RowCol(kp, k, p);
-    //Loop over all variables lm
-    for (int lm=0; lm<_MO; lm++)
+    //Loop over l
+    for (int l=0; l<_M; l++)
     {
-    	this->RowCol(lm, l, m);
-    	sink += _gama[kp][lm]*_alpha[kp][lm]*_beta[kp][lm]*(*_coupled_u[lm])[_qp];
-        
-    	Real qr_sum = 0.0;
-        //Loop over qr
-        for (int qr=0; qr<_MO; qr++)
+    	for (int m=0; m<_O; m++)
         {
-        	this->RowCol(qr, q, r);
-            if (q<l && r<m)
-            	break;
-            
-            qr_sum += (1.0-0.5*this->KroneckerDelta(l,q)*this->KroneckerDelta(m,r))*_frac[kp][lm][qr]*_alpha[lm][qr]*_beta[lm][qr]*(*_coupled_u[qr])[_qp];
+    		int lm = this->ArrayIndex(l,m);
+    		sink += _gama[kp][lm]*_alpha[kp][lm]*_beta[kp][lm]*(*_coupled_u[lm])[_qp];
+        
+    		Real qr_sum = 0.0;
+        
+        	//Loop over q
+        	for (int q=0; q<=l; q++)
+        	{
+            	//Loop over r
+            	for (int r=0; r<=m; r++)
+            	{
+               	 	int qr = this->ArrayIndex(q,r);
+                	qr_sum += (1.0-0.5*this->KroneckerDelta(l,q)*this->KroneckerDelta(m,r))*_frac[kp][lm][qr]*_alpha[lm][qr]*_beta[lm][qr]*(*_coupled_u[qr])[_qp];
+            	}
+        	}
+        	source += qr_sum*(*_coupled_u[lm])[_qp];
         }
-        source += qr_sum*(*_coupled_u[lm])[_qp];
     }
 	rate = (_test[_i][_qp]*source - _test[_i][_qp]*_u[_qp]*sink);
 
@@ -391,16 +405,19 @@ Real ConstBiPB::computeQpJacobian()
     Real qr_sum = 0.0;
     Real lm_sum_source = 0.0;
     Real lm_sum_sink = 0.0;
-    int k, p, l, m, q, r;
+    int k, p, l, m;
     
     this->RowCol(kp, k, p);
-    //Loop over qr
-    for (int qr=0; qr<_MO; qr++)
+
+    //Loop over q
+    for (int q=0; q<=k; q++)
     {
-        this->RowCol(qr, q, r);
-        if (q<k && r<p)
-            break;
-        qr_sum += (1.0+this->KroneckerDelta(k,q)*this->KroneckerDelta(p,r))*(1.0-0.5*this->KroneckerDelta(k,q)*this->KroneckerDelta(p,r))*_frac[kp][kp][qr]*_alpha[kp][qr]*_beta[kp][qr]*(*_coupled_u[qr])[_qp];
+        //Loop over r
+        for (int r=0; r<=p; r++)
+        {
+            int qr = this->ArrayIndex(q,r);
+            qr_sum += (1.0+this->KroneckerDelta(k,q)*this->KroneckerDelta(p,r))*(1.0-0.5*this->KroneckerDelta(k,q)*this->KroneckerDelta(p,r))*_frac[kp][kp][qr]*_alpha[kp][qr]*_beta[kp][qr]*(*_coupled_u[qr])[_qp];
+        }
     }
     
     //Loop over lm
@@ -414,6 +431,7 @@ Real ConstBiPB::computeQpJacobian()
         }
     }
     
+    //return 0.0;
 	return -(_test[_i][_qp]*_phi[_j][_qp]*qr_sum + _test[_i][_qp]*_phi[_j][_qp]*lm_sum_source - _test[_i][_qp]*_phi[_j][_qp]*lm_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[kp][kp]*_alpha[kp][kp]*_beta[kp][kp]*_u[_qp]);
 }
 
@@ -423,17 +441,20 @@ Real ConstBiPB::computeQpOffDiagJacobian(unsigned int jvar)
     int kp = _u_var;
     Real qr_sum = 0.0;
     Real lm_sum_source = 0.0;
-    int k, p, l, m, q, r, h, o;
+    int k, p, l, m, h, o;
     
     this->RowCol(kp, k, p);
     this->RowCol(ho, h, o);
-    //Loop over qr
-    for (int qr=0; qr<_MO; qr++)
+ 
+    //Loop over q
+    for (int q=0; q<=h; q++)
     {
-        this->RowCol(qr, q, r);
-        if (q<h && r<o)
-            break;
-        qr_sum += (1.0+this->KroneckerDelta(h,q)*this->KroneckerDelta(o,r))*(1.0-0.5*this->KroneckerDelta(h,q)*this->KroneckerDelta(o,r))*_frac[kp][ho][qr]*_alpha[ho][qr]*_beta[ho][qr]*(*_coupled_u[qr])[_qp];
+        //Loop over r
+        for (int r=0; r<=o; r++)
+        {
+            int qr = this->ArrayIndex(q,r);
+            qr_sum += (1.0+this->KroneckerDelta(h,q)*this->KroneckerDelta(o,r))*(1.0-0.5*this->KroneckerDelta(h,q)*this->KroneckerDelta(o,r))*_frac[kp][ho][qr]*_alpha[ho][qr]*_beta[ho][qr]*(*_coupled_u[qr])[_qp];
+        }
     }
     
     //Loop over lm
@@ -446,5 +467,6 @@ Real ConstBiPB::computeQpOffDiagJacobian(unsigned int jvar)
         }
     }
     
+    //return 0.0;
 	return -(_test[_i][_qp]*_phi[_j][_qp]*qr_sum + _test[_i][_qp]*_phi[_j][_qp]*lm_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[kp][ho]*_alpha[kp][ho]*_beta[kp][ho]*(*_coupled_u[kp])[_qp]);
 }
