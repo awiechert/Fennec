@@ -3,9 +3,6 @@
  	vx = 0.0
 	vy = 0.0
  	vz = 0.0
- 
- 	# Diameters are in um here. Kernels usually want units in m.
-    diameters = '0.00178 0.00562 0.0178 0.0562 0.178 0.562 1.78 5.62 17.8 56.2'
 
 [] #END GlobalParams
 
@@ -17,73 +14,66 @@
 
     type = GeneratedMesh
     dim = 1
-	nx = 5
+	nx = 2
     xmin = 0.0
     xmax = 1.0
 
 [] # END Mesh
 
 [Variables]
-# Units: GGp/m^3 (Billion-Billion particles per cubic meter)
-# NOTE: Must be cautious of the units you use for the variables. Bad unit basis can make convergence difficult.
-    [./N0]
+
+    [./N00]
         order = FIRST
         family = MONOMIAL
-        initial_condition = 3.21004
+        initial_condition = 50
     [../]
  
- 	[./N1]
+ 	[./N01]
  		order = FIRST
  		family = MONOMIAL
-        initial_condition = 1.86336
+        initial_condition = 0
  	[../]
  
- 	[./N2]
+ 	[./N02]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 0.542688
+ 		initial_condition = 0
  	[../]
  
- 	[./N3]
+ 	[./N10]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 0.0792995
+ 		initial_condition = 0
  	[../]
  
- 	[./N4]
+ 	[./N11]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 0.00581376
-    [../]
- 
- 	[./N5]
- 		order = FIRST
- 		family = MONOMIAL
-        initial_condition = 213849e-9
+ 		initial_condition = 0
  	[../]
  
- 	[./N6]
+ 	[./N12]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 3946.3e-9
+ 		initial_condition = 0
  	[../]
  
- 	[./N7]
+ 	[./N20]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 36.512e-9
+ 		initial_condition = 0
  	[../]
  
- 	[./N8]
+ 	[./N21]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 0.168333e-9
+ 		initial_condition = 0
  	[../]
  
- 	[./N9]
+ 	[./N22]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 0.000365808e-9
+ 		initial_condition = 0
  	[../]
 
 
@@ -91,9 +81,14 @@
 
 [AuxVariables]
  
-	[./V_total]
+	[./N_total_vol]
 		order = FIRST
 		family = MONOMIAL
+	[../]
+ 
+ 	[./N_total_nuc]
+ 		order = FIRST
+ 		family = MONOMIAL
 	[../]
 
 [] #END AuxVariables
@@ -104,134 +99,139 @@
 
 [Kernels]
 
-    [./N0_dot]
+    [./N00_dot]
         type = CoefTimeDerivative
-        variable = N0
+        variable = N00
         Coefficient = 1.0
     [../]
 
-    [./N0_MPB]
-        type = ConstMonoPB
-        variable = N0
-        main_variable = N0
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+    [./N00_MPB]
+        type = ConstBiPB
+        variable = N00
+        main_variable = N00
+        diameters = '1.24070133 1.56318572 1.78940096'
+        total_nuclides = '1 2 4'
+        coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
     [../]
  
- 	[./N1_dot]
+ 	[./N01_dot]
  		type = CoefTimeDerivative
- 		variable = N1
+ 		variable = N01
  		Coefficient = 1.0
  	[../]
  
- 	[./N1_MPB]
- 		type = ConstMonoPB
- 		variable = N1
-        main_variable = N1
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[./N01_MPB]
+ 		type = ConstBiPB
+ 		variable = N01
+        main_variable = N01
+ 		diameters = '1.24070133 1.56318572 1.78940096'
+ 		total_nuclides = '1 2 4'
+ 		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
  
- 	[./N2_dot]
+ 	[./N02_dot]
  		type = CoefTimeDerivative
- 		variable = N2
+ 		variable = N02
  		Coefficient = 1.0
  	[../]
  
- 	[./N2_MPB]
- 		type = ConstMonoPB
- 		variable = N2
- 		main_variable = N2
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[./N02_MPB]
+ 		type = ConstBiPB
+ 		variable = N02
+ 		main_variable = N02
+ 		diameters = '1.24070133 1.56318572 1.78940096'
+ 		total_nuclides = '1 2 4'
+ 		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
     [../]
  
- 	[./N3_dot]
+ 	[./N10_dot]
  		type = CoefTimeDerivative
- 		variable = N3
+ 		variable = N10
  		Coefficient = 1.0
  	[../]
  
- 	[./N3_MPB]
- 		type = ConstMonoPB
- 		variable = N3
- 		main_variable = N3
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[./N10_MPB]
+ 		type = ConstBiPB
+ 		variable = N10
+ 		main_variable = N10
+ 		diameters = '1.24070133 1.56318572 1.78940096'
+ 		total_nuclides = '1 2 4'
+ 		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
  
- 	[./N4_dot]
+ 	[./N11_dot]
  		type = CoefTimeDerivative
- 		variable = N4
+ 		variable = N11
  		Coefficient = 1.0
  	[../]
  
-    [./N4_MPB]
- 		type = ConstMonoPB
- 		variable = N4
- 		main_variable = N4
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[./N11_MPB]
+ 		type = ConstBiPB
+ 		variable = N11
+ 		main_variable = N11
+ 		diameters = '1.24070133 1.56318572 1.78940096'
+ 		total_nuclides = '1 2 4'
+ 		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
  
- 	[./N5_dot]
+ 	[./N12_dot]
  		type = CoefTimeDerivative
- 		variable = N5
+ 		variable = N12
  		Coefficient = 1.0
+    [../]
+ 
+ 	[./N12_MPB]
+ 		type = ConstBiPB
+ 		variable = N12
+ 		main_variable = N12
+ 		diameters = '1.24070133 1.56318572 1.78940096'
+ 		total_nuclides = '1 2 4'
+ 		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
 	 [../]
  
- 	[./N5_MPB]
- 		type = ConstMonoPB
- 		variable = N5
- 		main_variable = N5
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 	[../]
- 
- 	[./N6_dot]
+ 	[./N20_dot]
  		type = CoefTimeDerivative
- 		variable = N6
+ 		variable = N20
  		Coefficient = 1.0
  	[../]
  
-    [./N6_MPB]
- 		type = ConstMonoPB
- 		variable = N6
- 		main_variable = N6
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[./N20_MPB]
+ 		type = ConstBiPB
+ 		variable = N20
+ 		main_variable = N20
+ 		diameters = '1.24070133 1.56318572 1.78940096'
+ 		total_nuclides = '1 2 4'
+ 		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
  
- 	[./N7_dot]
+ 	[./N21_dot]
  		type = CoefTimeDerivative
- 		variable = N7
+ 		variable = N21
  		Coefficient = 1.0
  	[../]
  
- 	[./N7_MPB]
- 		type = ConstMonoPB
- 		variable = N7
- 		main_variable = N7
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[./N21_MPB]
+ 		type = ConstBiPB
+ 		variable = N21
+ 		main_variable = N21
+ 		diameters = '1.24070133 1.56318572 1.78940096'
+ 		total_nuclides = '1 2 4'
+ 		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
  
- 	[./N8_dot]
+ 	[./N22_dot]
  		type = CoefTimeDerivative
- 		variable = N8
+ 		variable = N22
  		Coefficient = 1.0
  	[../]
  
- 	[./N8_MPB]
- 		type = ConstMonoPB
- 		variable = N8
- 		main_variable = N8
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 	[../]
- 
- 	[./N9_dot]
- 		type = CoefTimeDerivative
- 		variable = N9
- 		Coefficient = 1.0
- 	[../]
- 
- 	[./N9_MPB]
- 		type = ConstMonoPB
- 		variable = N9
- 		main_variable = N9
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[./N22_MPB]
+ 		type = ConstBiPB
+ 		variable = N22
+ 		main_variable = N22
+ 		diameters = '1.24070133 1.56318572 1.78940096'
+ 		total_nuclides = '1 2 4'
+ 		coupled_list = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
  	[../]
 
 [] #END Kernels
@@ -242,84 +242,85 @@
 
 [AuxKernels]
 
-	[./Total_Volume]
+	[./N_accumulated_vol]
 		type = VolumeBalanceCheck
-		variable = V_total
-		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        diameters = '0.00178 0.00562 0.0178 0.0562 0.178 0.562 1.78 5.62 17.8 56.2'
+		variable = N_total_vol
+		coupled_vars = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
+        diameters = '1.24070133 1.24070133 1.24070133 1.56318572 1.56318572 1.56318572 1.78940096 1.78940096 1.78940096'
         execute_on = 'initial timestep_end'
+	[../]
+ 
+ 	[./N_accumulated_nuc]
+ 		type = NuclideBalanceCheck
+ 		variable = N_total_nuc
+ 		coupled_vars = 'N00 N01 N02 N10 N11 N12 N20 N21 N22'
+ 		total_nuclides = '1 2 4 1 2 4 1 2 4'
+ 		execute_on = 'initial timestep_end'
 	[../]
 
 [] #END AuxKernels
 
 [BCs]
 
- 	[./N0_Flux]
+ 	[./N00_Flux]
  		type = DGFluxBC
- 		variable = N0
+ 		variable = N00
  		boundary = 'left right'
  		u_input = 0.0
  	[../]
  
- 	[./N1_Flux]
+ 	[./N01_Flux]
  		type = DGFluxBC
- 		variable = N1
+ 		variable = N01
  		boundary = 'left right'
  		u_input = 0.0
  	[../]
  
- 	[./N2_Flux]
- 	type = DGFluxBC
- 		variable = N2
+ 	[./N02_Flux]
+ 		type = DGFluxBC
+ 		variable = N02
  		boundary = 'left right'
  		u_input = 0.0
  	[../]
  
- 	[./N3_Flux]
+ 	[./N10_Flux]
  		type = DGFluxBC
- 		variable = N3
+ 		variable = N10
  		boundary = 'left right'
  		u_input = 0.0
  	[../]
  
- 	[./N4_Flux]
+ 	[./N11_Flux]
  		type = DGFluxBC
- 		variable = N4
+ 		variable = N11
  		boundary = 'left right'
  		u_input = 0.0
  	[../]
  
- 	[./N5_Flux]
+ 	[./N12_Flux]
  		type = DGFluxBC
- 		variable = N5
+ 		variable = N12
  		boundary = 'left right'
  		u_input = 0.0
  	[../]
  
- 	[./N6_Flux]
+ 	[./N20_Flux]
  		type = DGFluxBC
- 		variable = N6
+ 		variable = N20
  		boundary = 'left right'
  		u_input = 0.0
  	[../]
  
- 	[./N7_Flux]
+ 	[./N21_Flux]
  		type = DGFluxBC
- 		variable = N7
+ 		variable = N21
  		boundary = 'left right'
  		u_input = 0.0
  	[../]
  
- 	[./N8_Flux]
+ 	[./N22_Flux]
  		type = DGFluxBC
- 		variable = N8
- 		boundary = 'left right'
- 		u_input = 0.0
- 	[../]
- 
- 	[./N9_Flux]
- 		type = DGFluxBC
- 		variable = N9
+ 		variable = N22
  		boundary = 'left right'
  		u_input = 0.0
  	[../]
@@ -334,70 +335,70 @@
 [Postprocessors]
 
 #May consider custom versions of these postprocessors to correct for negative mass ocsillations...
-	[./N0]
+	[./N00]
 		type = ElementAverageValue
-		variable = N0
+		variable = N00
 		execute_on = 'initial timestep_end'
 	[../]
  
-	[./N1]
+	[./N01]
 		type = ElementAverageValue
-		variable = N1
+		variable = N01
 		execute_on = 'initial timestep_end'
 	[../]
  
- 	[./N2]
+ 	[./N02]
  		type = ElementAverageValue
- 		variable = N2
+ 		variable = N02
 		 execute_on = 'initial timestep_end'
 	[../]
  
- 	[./N3]
+ 	[./N10]
  		type = ElementAverageValue
- 		variable = N3
+ 		variable = N10
  		execute_on = 'initial timestep_end'
 	[../]
  
- 	[./N4]
+	[./N11]
  		type = ElementAverageValue
- 		variable = N4
+ 		variable = N11
  		execute_on = 'initial timestep_end'
 	[../]
  
- 	[./N5]
+ 	[./N12]
  		type = ElementAverageValue
- 		variable = N5
+ 		variable = N12
  		execute_on = 'initial timestep_end'
 	[../]
  
- 	[./N6]
+ 	[./N20]
  		type = ElementAverageValue
- 		variable = N6
+ 		variable = N20
  		execute_on = 'initial timestep_end'
 	[../]
  
- 	[./N7]
+	[./N21]
  		type = ElementAverageValue
- 		variable = N7
+ 		variable = N21
  		execute_on = 'initial timestep_end'
 	[../]
  
- 	[./N8]
+ 	[./N22]
  		type = ElementAverageValue
- 		variable = N8
- 		execute_on = 'initial timestep_end'
+ 		variable = N22
+        execute_on = 'initial timestep_end'
 	[../]
  
- 	[./N9]
- 		type = ElementAverageValue
- 		variable = N9
- 		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./V_total]
+	[./total_vol]
 		type = ElementAverageValue
-		variable = V_total
+		variable = N_total_vol
 		execute_on = 'initial timestep_end'
+	[../]
+ 
+ 	[./total_nuc]
+ 		type = ElementAverageValue
+ 		variable = N_total_nuc
+ 		execute_on = 'initial timestep_end'
 	[../]
 
 [] #END Postprocessors
@@ -408,25 +409,25 @@
 	scheme = bdf2
 
     # NOTE: The default tolerances are far to strict and cause the program to crawl
-    nl_rel_tol = 1e-10
+    nl_rel_tol = 1e-8
     nl_abs_tol = 1e-8
     nl_rel_step_tol = 1e-10
     nl_abs_step_tol = 1e-10
-    l_tol = 1e-10
-    l_max_its = 200
-    nl_max_its = 20
+    l_tol = 1e-8
+    l_max_its = 20
+    nl_max_its = 10
 
     solve_type = pjfnk
     line_search = bt    # Options: default shell none basic l2 bt cp
     start_time = 0.0
-	end_time = 2000.0
-    dtmax = 5.0
+	end_time = 2.0
+    dtmax = 0.2
     petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
     petsc_options_value = 'hypre boomeramg 100'
 
     [./TimeStepper]
-		type = SolutionTimeAdaptiveDT
-#		type = ConstantDT
+#		type = SolutionTimeAdaptiveDT
+		type = ConstantDT
         dt = 0.05
     [../]
 
@@ -452,6 +453,6 @@
 
     exodus = true
     csv = true
-    print_linear_residuals = false
+    print_linear_residuals = true
 
 [] #END Outputs

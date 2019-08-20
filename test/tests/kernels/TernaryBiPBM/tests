@@ -1,0 +1,7 @@
+[Tests]
+  [./TernaryBivariatePB]
+    type = 'Exodiff'
+    input = 'DoubleTernaryAggregation.i'
+    exodiff = 'DoubleTernaryAggregation_out.e'
+  [../]
+[]
