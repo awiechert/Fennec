@@ -1,0 +1,7 @@
+[Tests]
+  [./4x3-BiPBM]
+    type = 'Exodiff'
+    input = '4x3Aggregation.i'
+    exodiff = '4x3Aggregation_out.e'
+  [../]
+[]

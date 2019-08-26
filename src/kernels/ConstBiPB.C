@@ -308,8 +308,9 @@ void ConstBiPB::FractionFill()
                         }
                     }
                 }
+                
                 /*
-                if (_frac[kp][lm][qr] > 0.0)
+                if (_u_var == 0 && _frac[kp][lm][qr] > 0.0)
                 {
                 	std::cout << "\nk = " << k << "\tp = " << p << std::endl;
                 	std::cout << "l = " << l << "\tm = " << m << std::endl;
@@ -317,6 +318,7 @@ void ConstBiPB::FractionFill()
                 	std::cout << "eta = " << _frac[kp][lm][qr] << std::endl;
                 }
                 */
+                
             }
         }
     }
@@ -358,7 +360,7 @@ int ConstBiPB::ArrayIndex(int k, int p)
 
 void ConstBiPB::RowCol(int i, int & k, int & p)
 {
-    k = (int)i/_M;
+    k = (int)i/_O;
     p = i - (k*_O);
 }
 
@@ -368,31 +370,24 @@ Real ConstBiPB::computeQpResidual()
     Real source = 0.0;
     Real sink = 0.0;
     int kp = _u_var;
-    int k, p;
+    int k, p, l, m, q, r;
     
     this->RowCol(kp, k, p);
-    //Loop over l
-    for (int l=0; l<_M; l++)
+    //Loop over lm
+    for (int lm=0; lm<_MO; lm++)
     {
-    	for (int m=0; m<_O; m++)
+        this->RowCol(lm, l, m);
+        sink += _gama[kp][lm]*_alpha[kp][lm]*_beta[kp][lm]*(*_coupled_u[lm])[_qp];
+        
+        Real qr_sum = 0.0;
+
+		//Loop over qr
+        for (int qr=0; qr<=lm; qr++)
         {
-    		int lm = this->ArrayIndex(l,m);
-    		sink += _gama[kp][lm]*_alpha[kp][lm]*_beta[kp][lm]*(*_coupled_u[lm])[_qp];
-        
-    		Real qr_sum = 0.0;
-        
-        	//Loop over q
-        	for (int q=0; q<=l; q++)
-        	{
-            	//Loop over r
-            	for (int r=0; r<=m; r++)
-            	{
-               	 	int qr = this->ArrayIndex(q,r);
-                	qr_sum += (1.0-0.5*this->KroneckerDelta(l,q)*this->KroneckerDelta(m,r))*_frac[kp][lm][qr]*_alpha[lm][qr]*_beta[lm][qr]*(*_coupled_u[qr])[_qp];
-            	}
-        	}
-        	source += qr_sum*(*_coupled_u[lm])[_qp];
+            this->RowCol(qr, q, r);
+            qr_sum += (1.0-0.5*this->KroneckerDelta(l,q)*this->KroneckerDelta(m,r))*_frac[kp][lm][qr]*_alpha[lm][qr]*_beta[lm][qr]*(*_coupled_u[qr])[_qp];
         }
+        source += qr_sum*(*_coupled_u[lm])[_qp];
     }
 	rate = (_test[_i][_qp]*source - _test[_i][_qp]*_u[_qp]*sink);
 
@@ -405,19 +400,15 @@ Real ConstBiPB::computeQpJacobian()
     Real qr_sum = 0.0;
     Real lm_sum_source = 0.0;
     Real lm_sum_sink = 0.0;
-    int k, p, l, m;
+    int k, p, l, m, q, r;
     
     this->RowCol(kp, k, p);
 
-    //Loop over q
-    for (int q=0; q<=k; q++)
+    //Loop over qr
+    for (int qr=0; qr<=kp; qr++)
     {
-        //Loop over r
-        for (int r=0; r<=p; r++)
-        {
-            int qr = this->ArrayIndex(q,r);
-            qr_sum += (1.0+this->KroneckerDelta(k,q)*this->KroneckerDelta(p,r))*(1.0-0.5*this->KroneckerDelta(k,q)*this->KroneckerDelta(p,r))*_frac[kp][kp][qr]*_alpha[kp][qr]*_beta[kp][qr]*(*_coupled_u[qr])[_qp];
-        }
+        this->RowCol(qr, q, r);
+        qr_sum += (1.0+this->KroneckerDelta(k,q)*this->KroneckerDelta(p,r))*(1.0-0.5*this->KroneckerDelta(k,q)*this->KroneckerDelta(p,r))*_frac[kp][kp][qr]*_alpha[kp][qr]*_beta[kp][qr]*(*_coupled_u[qr])[_qp];
     }
     
     //Loop over lm
@@ -431,7 +422,6 @@ Real ConstBiPB::computeQpJacobian()
         }
     }
     
-    //return 0.0;
 	return -(_test[_i][_qp]*_phi[_j][_qp]*qr_sum + _test[_i][_qp]*_phi[_j][_qp]*lm_sum_source - _test[_i][_qp]*_phi[_j][_qp]*lm_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[kp][kp]*_alpha[kp][kp]*_beta[kp][kp]*_u[_qp]);
 }
 
@@ -441,20 +431,16 @@ Real ConstBiPB::computeQpOffDiagJacobian(unsigned int jvar)
     int kp = _u_var;
     Real qr_sum = 0.0;
     Real lm_sum_source = 0.0;
-    int k, p, l, m, h, o;
+    int k, p, l, m, h, o, q, r;
     
     this->RowCol(kp, k, p);
     this->RowCol(ho, h, o);
  
-    //Loop over q
-    for (int q=0; q<=h; q++)
+    //Loop over qr
+    for (int qr=0; qr<=ho; qr++)
     {
-        //Loop over r
-        for (int r=0; r<=o; r++)
-        {
-            int qr = this->ArrayIndex(q,r);
-            qr_sum += (1.0+this->KroneckerDelta(h,q)*this->KroneckerDelta(o,r))*(1.0-0.5*this->KroneckerDelta(h,q)*this->KroneckerDelta(o,r))*_frac[kp][ho][qr]*_alpha[ho][qr]*_beta[ho][qr]*(*_coupled_u[qr])[_qp];
-        }
+        this->RowCol(qr, q, r);
+        qr_sum += (1.0+this->KroneckerDelta(h,q)*this->KroneckerDelta(o,r))*(1.0-0.5*this->KroneckerDelta(h,q)*this->KroneckerDelta(o,r))*_frac[kp][ho][qr]*_alpha[ho][qr]*_beta[ho][qr]*(*_coupled_u[qr])[_qp];
     }
     
     //Loop over lm
@@ -467,6 +453,5 @@ Real ConstBiPB::computeQpOffDiagJacobian(unsigned int jvar)
         }
     }
     
-    //return 0.0;
 	return -(_test[_i][_qp]*_phi[_j][_qp]*qr_sum + _test[_i][_qp]*_phi[_j][_qp]*lm_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[kp][ho]*_alpha[kp][ho]*_beta[kp][ho]*(*_coupled_u[kp])[_qp]);
 }
