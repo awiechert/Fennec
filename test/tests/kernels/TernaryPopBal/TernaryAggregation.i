@@ -22,17 +22,17 @@
 
 [Variables]
 
+ 	[./N1]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 		initial_condition = 0
+ 	[../]
+
     [./N0]
         order = FIRST
         family = MONOMIAL
         initial_condition = 50
     [../]
- 
- 	[./N1]
- 		order = FIRST
- 		family = MONOMIAL
-        initial_condition = 0
- 	[../]
  
  	[./N2]
  		order = FIRST

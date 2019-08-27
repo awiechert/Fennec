@@ -25,19 +25,32 @@
 
 [Variables]
 
+ [./Naa]
+ order = FIRST
+ family = MONOMIAL
+ initial_condition = 0
+ [../]
+
+ [./N01]
+ order = FIRST
+ family = MONOMIAL
+ initial_condition = 0
+ [../]
+
     [./N00]
         order = FIRST
         family = MONOMIAL
         initial_condition = 20
     [../]
- 
- 	[./N01]
- 		order = FIRST
- 		family = MONOMIAL
-        initial_condition = 0
- 	[../]
+
  
  	[./N02]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 		initial_condition = 0
+ 	[../]
+ 
+ 	[./N03]
  		order = FIRST
  		family = MONOMIAL
  		initial_condition = 0
@@ -61,6 +74,12 @@
  		initial_condition = 0
  	[../]
  
+ 	[./N13]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 		initial_condition = 0
+ 	[../]
+ 
  	[./N20]
  		order = FIRST
  		family = MONOMIAL
@@ -74,18 +93,6 @@
  	[../]
  
  	[./N22]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0
- 	[../]
- 
- 	[./N03]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0
- 	[../]
- 
- 	[./N13]
  		order = FIRST
  		family = MONOMIAL
  		initial_condition = 0
@@ -119,6 +126,12 @@
 [] #END ICs
 
 [Kernels]
+
+ [./Naa_dot]
+ type = CoefTimeDerivative
+ variable = Naa
+ Coefficient = 0.0
+ [../]
 
     [./N00_dot]
         type = CoefTimeDerivative

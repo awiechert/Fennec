@@ -128,6 +128,8 @@ protected:
     std::vector<const VariableValue *> _coupled_u;		///< Pointer list to the coupled number concentrations (Gp/m^3)
     std::vector<unsigned int> _coupled_u_var;			///< Indices for the number concentrations in the system
     const unsigned int _u_var;							///< Variable identification for the primary coupled variable
+    unsigned int _this_var;										///< Relative Index for this non-linear variable
+    std::unordered_map<unsigned int, unsigned int> _those_var;	///< Relative indices for the list of non-linear variables
     
 private:
     

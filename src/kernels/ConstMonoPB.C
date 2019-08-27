@@ -83,6 +83,10 @@ _u_var(coupled("main_variable"))
     {
         _coupled_u_var[i] = coupled("coupled_list",i);
         _coupled_u[i] = &coupledValue("coupled_list",i);
+        _those_var[_coupled_u_var[i]] = i;
+        
+        if (_coupled_u_var[i] == _u_var)
+            _this_var = i;
         // How to refer to the value of the coupled variable list:   _u_coupled[_qp] == (*_coupled_u[i])[_qp]   for each i
     }
     
@@ -205,7 +209,7 @@ Real ConstMonoPB::computeQpResidual()
 	Real rate = 0.0;
     Real source = 0.0;
     Real sink = 0.0;
-    int k = _u_var;
+    int k = _this_var;
     
     //Loop over all variables l
     for (int l=0; l<_M; l++)
@@ -229,7 +233,7 @@ Real ConstMonoPB::computeQpResidual()
 Real ConstMonoPB::computeQpJacobian()
 {
 	// Partial Derivatives with respect to this variable
-    int k = _u_var;
+    int k = _this_var;
     Real m_sum = 0.0;
     Real l_sum_source = 0.0;
     Real l_sum_sink = 0.0;
@@ -254,8 +258,8 @@ Real ConstMonoPB::computeQpJacobian()
 Real ConstMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
     // Partial Derivatives with respect to other variables
-    int h = jvar;
-    int k = _u_var;
+    int h = _those_var[jvar];
+    int k = _this_var;
     Real m_sum = 0.0;
     Real l_sum_source = 0.0;
     

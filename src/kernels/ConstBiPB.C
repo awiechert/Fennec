@@ -98,6 +98,11 @@ _u_var(coupled("main_variable"))
     {
         _coupled_u_var[i] = coupled("coupled_list",i);
         _coupled_u[i] = &coupledValue("coupled_list",i);
+        _those_var[_coupled_u_var[i]] = i;
+        
+        if (_coupled_u_var[i] == _u_var)
+        	_this_var = i;
+        
         // How to refer to the value of the coupled variable list:   _u_coupled[_qp] == (*_coupled_u[i])[_qp]   for each i
     }
     
@@ -369,7 +374,7 @@ Real ConstBiPB::computeQpResidual()
 	Real rate = 0.0;
     Real source = 0.0;
     Real sink = 0.0;
-    int kp = _u_var;
+    int kp = _this_var;
     int k, p, l, m, q, r;
     
     this->RowCol(kp, k, p);
@@ -396,7 +401,8 @@ Real ConstBiPB::computeQpResidual()
 
 Real ConstBiPB::computeQpJacobian()
 {
-	int kp = _u_var;
+
+	int kp = _this_var;
     Real qr_sum = 0.0;
     Real lm_sum_source = 0.0;
     Real lm_sum_sink = 0.0;
@@ -427,8 +433,8 @@ Real ConstBiPB::computeQpJacobian()
 
 Real ConstBiPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
-	int ho = jvar;
-    int kp = _u_var;
+	int ho = _those_var[jvar];
+    int kp = _this_var;
     Real qr_sum = 0.0;
     Real lm_sum_source = 0.0;
     int k, p, l, m, h, o, q, r;
