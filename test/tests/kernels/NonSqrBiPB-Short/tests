@@ -1,0 +1,7 @@
+[Tests]
+  [./3x4-BiPBM-wLocalIndexing]
+    type = 'Exodiff'
+    input = '3x4Aggregation.i'
+    exodiff = '3x4Aggregation_out.e'
+  [../]
+[]
