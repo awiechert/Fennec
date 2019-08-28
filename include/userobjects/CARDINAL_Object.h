@@ -70,50 +70,49 @@ public:
 	/// Required finalize override for GeneralUserObjects in MOOSE
 	/** Called _once_ after execute has been called all "objects". */
 	virtual void finalize() override;
-	
-	/// Cardinal Object from utils folder
-	/** This is made public so all kernels using this object will have access to Cardinal functions. */
-	Cardinal cardinal;
-	
+    
+    // -------- const functions below are to grab specific info from CARDINAL --------
+    
+    /// Function to get the number of parcels
+    int return_num_parcels() const;
+    
+    /// Function to get the number of size bins
+    int return_size_bins() const;
+    
+    /// Function to get the top of the parcel
+    Real return_parcel_alt_top(int par, int bin) const;
+    
+    /// Function to get the bottom of the parcel
+    Real return_parcel_alt_bot(int par, int bin) const;
+    
+    /// Function to get the top radius of the parcel
+    Real return_parcel_rad_top(int par, int bin) const;
+    
+    /// Function to get the bottom radius of the parcel
+    Real return_parcel_rad_bot(int par, int bin) const;
+    
+    /// Function to get the parcel concentration
+    Real return_parcel_conc(int par, int bin) const;
+    
+    /// Function to get the parcel volume
+    Real return_parcel_vol(int par, int bin) const;
+    
 protected:
-	std::string _input_file;				///< Location and name of the input file for CARDINAL
+    Cardinal cardinal;					///< Cardinal Object from utils folder
+	std::string _input_file;			///< Location and name of the input file for CARDINAL
     std::string _atm_file;				///< Location and name of the atmospheric data file for CARDINAL
     std::string _data_path;				///< Path of the database files for CARDINAL
     
-/**     USE CARDINAL INPUT FILES INSTEAD
-	// ---------- Used to Establish Initial Conditions for Crane ------------
-	double _yield;					///< Nuclear bomb yield (kT)
-	double _det_hieght;				///< Hieght of detonation above ground (m)
-	double _ground_zero;			///< Altitude of ground level above mean sea level (m)
-	int _bins;						///< Number of bins for particle sizes
-	bool _includeShear = false;		///< Boolean to determine whether or not to include wind shear in cloud rise
-	bool _tightCoupling = false;	///< Boolean to determine whether or not to tightly couple cloud rise simulation
-	
-	// ---------- Used to Establish Dove Options for Crane ------------
-	bool _fileout = false;
-	bool _consoleout = false;
-	double _tol = 0.1;
-	double _dtmin = 1e-8;
-	double _dtmax = 1.0;
-	double _dtmin_conv = 0.0001;
-	double _t_out = 0.1;
-	double _endtime = 20.0;
-	
-	// ---------- Used to Establish PJFNK Options for Crane ------------
-	bool _isLinear = false;
-	bool _isPrecon = false;
-	bool _nl_out = false;
-	bool _l_out = false;
-	int _max_nlit = 50;
-	int _max_lit = 200;
-	int _restart = 20;
-	int _recursive = 2;
-	double _nl_abstol = 1e-4;
-	double _nl_reltol = 1e-6;
-	double _l_abstol = 1e-6;
-	double _l_reltol = 1e-4;
-*/
-	
+    /// Variables associated with parcel sub-divisions of the debris cloud
+    int _num_parcels;
+    int _num_size_bins;
+    std::vector< std::vector<Real> > _parcel_alt_top; 	//m
+    std::vector< std::vector<Real> > _parcel_alt_bot; 	//m
+    std::vector< std::vector<Real> > _parcel_rad_top; 	//m
+    std::vector< std::vector<Real> > _parcel_rad_bot; 	//m
+    std::vector< std::vector<Real> > _parcel_conc;		//Gp/m^3
+    std::vector< std::vector<Real> > _parcel_vol;		//m^3
+    
 private:
 	
 };

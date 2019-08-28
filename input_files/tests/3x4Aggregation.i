@@ -414,6 +414,9 @@
 	[./test]
  		type = CARDINAL_Object
         execute_on = 'initial'
+        input_file = 'input_files/cardinal/1979-Test-Case.txt'
+        atm_file = 'input_files/cardinal/DefaultAtmosphere.txt'
+        data_path = 'database/'
     [../]
 
 [] #END UserObjects

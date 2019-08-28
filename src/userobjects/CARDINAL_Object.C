@@ -51,9 +51,9 @@ validParams<CARDINAL_Object>()
 {
 	InputParameters params = validParams<GeneralUserObject>();
 	params.addClassDescription("GeneralUserObject for CARDINAL member data and functions. CARDINAL is used to establish initial conditions for FENNEC simulations by estimating cloud rise, particle distributions, and establishing wind, temperature, pressure, and relative humidity profiles for the atmosphere.");
-    params.addRequiredParam<std::string>("input_file", "Name and path to the input file for the CARDINAL simulation");
-    params.addRequiredParam<std::string>("atm_file","Name and path to the atmospheric data file for CARDINAL");
-    params.addRequiredParam<std::string>("data_path", "Path to the database files needed for CARDINAL");
+    params.addRequiredParam<std::string>("input_file", "Name and path (relative to the directory from which the fennec-opt executable is run) to the input file for the CARDINAL simulation");
+    params.addRequiredParam<std::string>("atm_file","Name and path (relative to the directory from which the fennec-opt executable is run) to the atmospheric data file for CARDINAL");
+    params.addRequiredParam<std::string>("data_path", "Path (relative to the directory from which the fennec-opt executable is run) to the database files needed for CARDINAL");
 	return params;
 }
 
@@ -62,20 +62,162 @@ _input_file(getParam<std::string>("input_file")),
 _atm_file(getParam<std::string>("atm_file")),
 _data_path(getParam<std::string>("data_path"))
 {
-	std::cout << "Constructed\n";
+    //Initializations
+    int success = 0;
+    double time;
+    time = clock();
+    
+    //Opening output files (optional)
+    FILE *file, *cloud;
+    file = fopen("output/CARDINAL_CloudRise.txt", "w+");
+    cloud = fopen("output/CARDINAL_CloudGrowth.txt", "w+");
+    if (file == nullptr)
+    {
+        system("mkdir output");
+        file = fopen("output/CARDINAL_CloudRise.txt", "w+");
+    }
+    if (cloud == nullptr)
+    {
+        system("mkdir output");
+        cloud = fopen("output/CARDINAL_CloudGrowth.txt", "w+");
+    }
+    cardinal.getCloudRise().set_CloudFile(cloud);
+    
+    //Read and setup CRANE associated files
+    success = cardinal.readInputFile(_input_file.c_str());
+    if (success != 0) {mError(read_error); success = -1;}
+    
+    success = cardinal.readAtomsphereFile(_atm_file.c_str());
+    if (success != 0) {mError(read_error); success = -1;}
+    
+    success = cardinal.setupCloudRiseSimulation(file);
+    if (success != 0) {mError(read_error); success = -1;}
+    
+    //Read and setup KEA associated files
+    success = cardinal.readDatabaseFiles(_data_path.c_str());
+    if (success != 0) {mError(read_error); success = -1;}
+    
+    success = cardinal.setupActivityDistribution();
+    if (success != 0) {mError(read_error); success = -1;}
+    
+    success = cardinal.runSimulations(0,"output/CARDINAL_Nuclides.txt");
+    if (success != 0) {mError(simulation_fail); success = -1;}
+    
+    //Determine total runtime
+    time = clock() - time;
+    std::cout << "\nCARDINAL Runtime: " << (time / CLOCKS_PER_SEC) << " seconds\n";
+    
+    //Close the open files
+    if (file!= nullptr)
+        fclose(file);
+    if (cloud!=nullptr)
+        fclose(cloud);
+    
+    if (success != 0)
+    	moose::internal::mooseErrorRaw("CARDINAL SIMULATION HAS FAILED!");
+    
+    _num_parcels = cardinal.getCloudRise().return_parcel_alt_top().rows();
+    _num_size_bins = cardinal.getCloudRise().return_parcel_alt_top().columns();
+    _parcel_alt_top.resize(_num_parcels);
+    _parcel_alt_bot.resize(_num_parcels);
+    _parcel_rad_top.resize(_num_parcels);
+    _parcel_rad_bot.resize(_num_parcels);
+    _parcel_conc.resize(_num_parcels);
+    _parcel_vol.resize(_num_parcels);
+    
+    for (int i=0; i<_num_parcels; i++)
+    {
+        _parcel_alt_top[i].resize(_num_size_bins);
+        _parcel_alt_bot[i].resize(_num_size_bins);
+        _parcel_rad_top[i].resize(_num_size_bins);
+        _parcel_rad_bot[i].resize(_num_size_bins);
+        _parcel_conc[i].resize(_num_size_bins);
+        _parcel_vol[i].resize(_num_size_bins);
+    }
 }
 
 void CARDINAL_Object::initialize()
 {
-	std::cout << "Initialized\n";
+	//std::cout << "\n... Initializing CARDINAL data...\n\n";
+    
+    for (int i=0; i<_num_parcels; i++)
+    {
+        for (int j=0; j<_num_size_bins; j++)
+        {
+            _parcel_alt_top[i][j] = cardinal.getCloudRise().return_parcel_alt_top()(i,j);
+            _parcel_alt_bot[i][j] = cardinal.getCloudRise().return_parcel_alt_bot()(i,j);
+            _parcel_rad_top[i][j] = cardinal.getCloudRise().return_parcel_rad_top()(i,j);
+            _parcel_rad_bot[i][j] = cardinal.getCloudRise().return_parcel_rad_bot()(i,j);
+            _parcel_conc[i][j] = cardinal.getCloudRise().return_parcel_conc()(i,j);
+            
+            double h = _parcel_alt_top[i][j] - _parcel_alt_bot[i][j];
+            if (h <= 0.0) h = 0.0;
+            double Rtop = _parcel_rad_top[i][j];
+            double Rbot = _parcel_rad_bot[i][j];
+            double Vol = (M_PI*h/3.0)*(Rtop*Rtop+Rbot*Rtop+Rbot*Rbot);
+            if (Vol <= 0.0)
+                Vol = 0.0;
+            _parcel_vol[i][j] = Vol;
+        }
+    }
 }
 
 void CARDINAL_Object::execute()
 {
-	std::cout << "Executed\n";
+	//std::cout << "Executed\n";
 }
 
 void CARDINAL_Object::finalize()
 {
-	std::cout << "Finalized\n";
+	//std::cout << "Finalized\n";
 }
+
+/// Function to get the number of parcels
+int CARDINAL_Object::return_num_parcels() const
+{
+    return _num_parcels;
+}
+
+/// Function to get the number of size bins
+int CARDINAL_Object::return_size_bins() const
+{
+    return _num_size_bins;
+}
+
+/// Function to get the top of the parcel
+Real CARDINAL_Object::return_parcel_alt_top(int i, int j) const
+{
+    return _parcel_alt_top[i][j];
+}
+
+/// Function to get the bottom of the parcel
+Real CARDINAL_Object::return_parcel_alt_bot(int i, int j) const
+{
+    return _parcel_alt_bot[i][j];
+}
+
+/// Function to get the top radius of the parcel
+Real CARDINAL_Object::return_parcel_rad_top(int i, int j) const
+{
+    return _parcel_rad_top[i][j];
+}
+
+/// Function to get the bottom radius of the parcel
+Real CARDINAL_Object::return_parcel_rad_bot(int i, int j) const
+{
+    return _parcel_rad_bot[i][j];
+}
+
+/// Function to get the parcel concentration
+Real CARDINAL_Object::return_parcel_conc(int i, int j) const
+{
+    return _parcel_conc[i][j];
+}
+
+/// Function to get the parcel volume
+Real CARDINAL_Object::return_parcel_vol(int i, int j) const
+{
+    return _parcel_vol[i][j];
+}
+
+
