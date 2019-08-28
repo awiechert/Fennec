@@ -408,6 +408,16 @@
 
 [] #END Materials
 
+
+[UserObjects]
+
+	[./test]
+ 		type = CARDINAL_Object
+        execute_on = 'initial'
+    [../]
+
+[] #END UserObjects
+
 [Postprocessors]
 
 #May consider custom versions of these postprocessors to correct for negative mass ocsillations...

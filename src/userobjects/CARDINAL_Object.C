@@ -51,25 +51,31 @@ validParams<CARDINAL_Object>()
 {
 	InputParameters params = validParams<GeneralUserObject>();
 	params.addClassDescription("GeneralUserObject for CARDINAL member data and functions. CARDINAL is used to establish initial conditions for FENNEC simulations by estimating cloud rise, particle distributions, and establishing wind, temperature, pressure, and relative humidity profiles for the atmosphere.");
+    params.addRequiredParam<std::string>("input_file", "Name and path to the input file for the CARDINAL simulation");
+    params.addRequiredParam<std::string>("atm_file","Name and path to the atmospheric data file for CARDINAL");
+    params.addRequiredParam<std::string>("data_path", "Path to the database files needed for CARDINAL");
 	return params;
 }
 
-CARDINAL_Object::CARDINAL_Object(const InputParameters & parameters) : GeneralUserObject(parameters)
+CARDINAL_Object::CARDINAL_Object(const InputParameters & parameters) : GeneralUserObject(parameters),
+_input_file(getParam<std::string>("input_file")),
+_atm_file(getParam<std::string>("atm_file")),
+_data_path(getParam<std::string>("data_path"))
 {
-	
+	std::cout << "Constructed\n";
 }
 
 void CARDINAL_Object::initialize()
 {
-	
+	std::cout << "Initialized\n";
 }
 
 void CARDINAL_Object::execute()
 {
-	
+	std::cout << "Executed\n";
 }
 
 void CARDINAL_Object::finalize()
 {
-	
+	std::cout << "Finalized\n";
 }

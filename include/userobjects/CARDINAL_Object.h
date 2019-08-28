@@ -76,6 +76,11 @@ public:
 	Cardinal cardinal;
 	
 protected:
+	std::string _input_file;				///< Location and name of the input file for CARDINAL
+    std::string _atm_file;				///< Location and name of the atmospheric data file for CARDINAL
+    std::string _data_path;				///< Path of the database files for CARDINAL
+    
+/**     USE CARDINAL INPUT FILES INSTEAD
 	// ---------- Used to Establish Initial Conditions for Crane ------------
 	double _yield;					///< Nuclear bomb yield (kT)
 	double _det_hieght;				///< Hieght of detonation above ground (m)
@@ -107,6 +112,7 @@ protected:
 	double _nl_reltol = 1e-6;
 	double _l_abstol = 1e-6;
 	double _l_reltol = 1e-4;
+*/
 	
 private:
 	
