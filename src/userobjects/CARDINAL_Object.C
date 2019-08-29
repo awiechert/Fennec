@@ -134,11 +134,6 @@ _data_path(getParam<std::string>("data_path"))
         _parcel_conc[i].resize(_num_size_bins);
         _parcel_vol[i].resize(_num_size_bins);
     }
-}
-
-void CARDINAL_Object::initialize()
-{
-	//std::cout << "\n... Initializing CARDINAL data...\n\n";
     
     for (int i=0; i<_num_parcels; i++)
     {
@@ -162,11 +157,19 @@ void CARDINAL_Object::initialize()
     }
 }
 
+// First: Setup before/after each time step
+void CARDINAL_Object::initialize()
+{
+	//std::cout << "\n... Initializing CARDINAL data...\n\n";
+}
+
+// Second: Execute before/after each time step
 void CARDINAL_Object::execute()
 {
 	//std::cout << "Executed\n";
 }
 
+// Third: Finish before/after each time step  (Repeat above)
 void CARDINAL_Object::finalize()
 {
 	//std::cout << "Finalized\n";

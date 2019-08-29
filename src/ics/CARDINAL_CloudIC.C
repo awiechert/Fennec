@@ -105,12 +105,12 @@ Real CARDINAL_CloudIC::value(const Point & p)
         
         if (r_dist_from_center > parcel_radius)
         {
-            val = 0.0;
+            val += 0.0;
         }
         else
         {
-            val = _user_object.return_parcel_conc(i,j)/1.0e9;
-            break;
+            val += _user_object.return_parcel_conc(i,j)/1.0e9;
+            //break;
         }
     }
     

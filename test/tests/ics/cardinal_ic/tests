@@ -1,0 +1,7 @@
+[Tests]
+  [./CARDINAL_CloudIC]
+    type = Exodiff
+    input = Cardinal_ICs.i
+    exodiff = Cardinal_ICs_out.e
+  [../]
+[]

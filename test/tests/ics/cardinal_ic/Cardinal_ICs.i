@@ -17,9 +17,9 @@
 
     type = GeneratedMesh
     dim = 3
- 	nx = 20
-	ny = 20
-	nz = 20
+ 	nx = 5
+	ny = 5
+	nz = 5
  	xmin = 0.0
  	xmax = 12000.0
  	ymin = 0.0
@@ -457,9 +457,12 @@
 	[./cardinal]
  		type = CARDINAL_Object
  		execute_on = 'initial timestep_end'
- 		input_file = 'input_files/cardinal/1979-Test-Case.txt'
- 		atm_file = 'input_files/cardinal/DefaultAtmosphere.txt'
- 		data_path = 'database/'
+# 		input_file = 'input_files/cardinal/1979-Test-Case.txt'
+# 		atm_file = 'input_files/cardinal/DefaultAtmosphere.txt'
+# 		data_path = 'database/'
+ 		input_file = '../../../../input_files/cardinal/1979-Test-Case.txt'
+ 		atm_file = '../../../../input_files/cardinal/DefaultAtmosphere.txt'
+ 		data_path = '../../../../database/'
  [../]
  
  [] #END UserObjects
@@ -558,8 +561,8 @@
     petsc_options_value = 'hypre boomeramg 100'
 
     [./TimeStepper]
-		type = SolutionTimeAdaptiveDT
-#		type = ConstantDT
+#		type = SolutionTimeAdaptiveDT
+		type = ConstantDT
         dt = 0.05
     [../]
 
