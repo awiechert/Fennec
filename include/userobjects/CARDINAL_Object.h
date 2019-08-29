@@ -113,6 +113,16 @@ protected:
     std::vector< std::vector<Real> > _parcel_conc;		//Gp/m^3
     std::vector< std::vector<Real> > _parcel_vol;		//m^3
     
+    Real _total_nuclides;								//moles - Total amount of all nuclides produced
+    Real _total_initial_debris;							//GGp - Total number of debris particles (billions of billions)
+    Real _avg_nuclide_density;							//moles/GGp - Total nuclides divided by total particles
+    Real _total_solids_volume;							//um^3 - Total solid volume of all debris particles
+    Real _avg_nuc_per_solid_vol;						//moles/um^3 - Average nuclides per solid volume of particles
+    std::vector<Real> _total_nuclides_per_bin;			//moles - Total amount of nuclides in each particle size bin
+    std::vector<Real> _total_debris_per_bin;			//GGp - Total number of debris particles in each size bin
+    std::vector<Real> _bivariate_nuclide_density;		//moles/GGp - Nuclides per GGp for each size bin (bivariate model)
+    std::vector<Real> _monovariate_nuclide_density;		//moles/GGp - Nuclides per GGp for each size bin (bivariate model)
+    
 private:
 	
 };

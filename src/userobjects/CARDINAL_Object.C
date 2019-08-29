@@ -124,6 +124,10 @@ _data_path(getParam<std::string>("data_path"))
     _parcel_rad_bot.resize(_num_parcels);
     _parcel_conc.resize(_num_parcels);
     _parcel_vol.resize(_num_parcels);
+    _total_nuclides_per_bin.resize(_num_size_bins);
+    _total_debris_per_bin.resize(_num_size_bins);
+    _bivariate_nuclide_density.resize(_num_size_bins);
+    _monovariate_nuclide_density.resize(_num_size_bins);
     
     for (int i=0; i<_num_parcels; i++)
     {
@@ -135,6 +139,11 @@ _data_path(getParam<std::string>("data_path"))
         _parcel_vol[i].resize(_num_size_bins);
     }
     
+    // Calculation of parcel concentrations, volumes, and locations
+    _total_initial_debris = 0.0;
+    _total_solids_volume = 0.0;
+    for (int j=0; j<_num_size_bins; j++)
+    	_total_debris_per_bin[j] = 0.0;
     for (int i=0; i<_num_parcels; i++)
     {
         for (int j=0; j<_num_size_bins; j++)
@@ -153,14 +162,95 @@ _data_path(getParam<std::string>("data_path"))
             if (Vol <= 0.0)
                 Vol = 0.0;
             _parcel_vol[i][j] = Vol;
+            
+            _total_initial_debris += _parcel_vol[i][j]*_parcel_conc[i][j]/1.0e9;
+            _total_debris_per_bin[j] += _parcel_vol[i][j]*_parcel_conc[i][j]/1.0e9;
         }
     }
+    
+    // Calculation of the total moles of nuclides on all debris particles
+    _total_nuclides = 0.0;
+    std::map<double, FissionProducts>::iterator kt;
+    int bin = 0;
+    for (kt=cardinal.getActivity().getNuclideDistributionMap().begin(); kt!=cardinal.getActivity().getNuclideDistributionMap().end(); ++kt)
+    {
+    	double part_vol = 3.14159/6.0*kt->first*kt->first*kt->first;
+        double total_vol = part_vol*_total_debris_per_bin[bin]*1e9*1e9;
+        _total_solids_volume += total_vol;
+    
+    	_total_nuclides_per_bin[bin] = 0.0;
+        for (int i=0; i<kt->second.getNumberNuclides(); i++)
+        {
+            _total_nuclides += kt->second.getIsotope(i).getConcentration();
+            _total_nuclides_per_bin[bin] += kt->second.getIsotope(i).getConcentration();
+        }
+        for (int i=0; i<kt->second.getNumberStableNuclides(); i++)
+        {
+            _total_nuclides += kt->second.getStableIsotope(i).getConcentration();
+            _total_nuclides_per_bin[bin] += kt->second.getStableIsotope(i).getConcentration();
+        }
+        bin++;
+    }
+    _avg_nuclide_density = _total_nuclides/_total_initial_debris;
+    _avg_nuc_per_solid_vol = _total_nuclides/_total_solids_volume;
+    for (int j=0; j<_num_size_bins; j++)
+    	_bivariate_nuclide_density[j] = _total_nuclides_per_bin[j]/_total_debris_per_bin[j];
+    
+    // Calculate nuclide distribution for mono-variable model
+    bin = 0;
+    for (kt=cardinal.getActivity().getNuclideDistributionMap().begin(); kt!=cardinal.getActivity().getNuclideDistributionMap().end(); ++kt)
+    {
+    	double part_vol = 3.14159/6.0*kt->first*kt->first*kt->first;
+        _monovariate_nuclide_density[bin] = _avg_nuc_per_solid_vol*part_vol*1e9*1e9;
+    	bin++;
+    }
+    
+    
+    
+    // Display info for debugging/checking
+    /*
+    double total_moles = 0.0;
+    std::cout << "Total Nuclides = " << _total_nuclides << std::endl;
+    std::cout << "Total Particles = " << _total_initial_debris << std::endl;
+    std::cout << "Avg Nuc Dens = " << _avg_nuclide_density << std::endl;
+    std::cout << "Nuclides per bin\n";
+    for (int j=0; j<_num_size_bins; j++)
+    {
+        std::cout << "bin(" << j << ") = " << _total_nuclides_per_bin[j] << std::endl;
+    }
+    std::cout << "Particles per bin\n";
+    for (int j=0; j<_num_size_bins; j++)
+    {
+        std::cout << "bin(" << j << ") = " << _total_debris_per_bin[j] << std::endl;
+    }
+    std::cout << "Bivariate Nuc Dens per bin\n";
+    for (int j=0; j<_num_size_bins; j++)
+    {
+        std::cout << "bin(" << j << ") = " << _bivariate_nuclide_density[j] << std::endl;
+    }
+    std::cout << "Total Solids Volume = " << _total_solids_volume << std::endl;
+    std::cout << "AVG Nuclides per solide volume = " << _avg_nuc_per_solid_vol << std::endl;
+    std::cout << "Monovariate Nuc Dens per bin\n";
+    for (int j=0; j<_num_size_bins; j++)
+    {
+        std::cout << "bin(" << j << ") = " << _monovariate_nuclide_density[j] << std::endl;
+        
+        total_moles += _monovariate_nuclide_density[j]*_total_debris_per_bin[j];
+    }
+    std::cout << "Total Nuclides = " << total_moles << std::endl;
+    */
 }
+
+
+
+// ---- Functions below dictate what to calculate between timesteps (in specified order) ----
 
 // First: Setup before/after each time step
 void CARDINAL_Object::initialize()
 {
 	//std::cout << "\n... Initializing CARDINAL data...\n\n";
+    //std::cout << _dt << std::endl; //Time step
+    //std::cout << _t << std::endl;  //Current time
 }
 
 // Second: Execute before/after each time step
@@ -174,6 +264,11 @@ void CARDINAL_Object::finalize()
 {
 	//std::cout << "Finalized\n";
 }
+
+
+
+
+// ---- Functions below provide data access to specific CARDINAL information to couple with other kernels -----
 
 /// Function to get the number of parcels
 int CARDINAL_Object::return_num_parcels() const
