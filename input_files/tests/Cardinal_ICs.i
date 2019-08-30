@@ -35,61 +35,51 @@
     [./N0]
         order = FIRST
         family = MONOMIAL
-        #initial_condition = 3.21004
     [../]
  
  	[./N1]
  		order = FIRST
  		family = MONOMIAL
-        #initial_condition = 1.86336
  	[../]
  
  	[./N2]
  		order = FIRST
  		family = MONOMIAL
- 		#initial_condition = 0.542688
  	[../]
  
  	[./N3]
  		order = FIRST
  		family = MONOMIAL
- 		#initial_condition = 0.0792995
  	[../]
  
  	[./N4]
  		order = FIRST
  		family = MONOMIAL
- 		#initial_condition = 0.00581376
     [../]
  
  	[./N5]
  		order = FIRST
  		family = MONOMIAL
-        #initial_condition = 213849e-9
  	[../]
  
  	[./N6]
  		order = FIRST
  		family = MONOMIAL
- 		#initial_condition = 3946.3e-9
  	[../]
  
  	[./N7]
  		order = FIRST
  		family = MONOMIAL
- 		#initial_condition = 36.512e-9
  	[../]
  
  	[./N8]
  		order = FIRST
  		family = MONOMIAL
- 		#initial_condition = 0.168333e-9
  	[../]
  
  	[./N9]
  		order = FIRST
  		family = MONOMIAL
-        #initial_condition = 0.000365808e-9
  	[../]
 
 
@@ -108,6 +98,17 @@
 	[../]
  
 	[./N_avg]
+ 		order = FIRST
+ 		family = MONOMIAL
+	[../]
+ 
+ 	[./air_dens]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 		initial_condition = 1.225 #kg/m^3
+	[../]
+ 
+ 	[./air_ions]
  		order = FIRST
  		family = MONOMIAL
 	[../]
@@ -369,6 +370,16 @@
 		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  		execute_on = 'initial timestep_begin timestep_end'
 	[../]
+ 
+    [./ionization]
+ 		type = TotalAirIonization
+        variable = air_ions
+        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+        air_density = air_dens
+        cardinal_object = cardinal
+        background_ionization = 0.0
+        execute_on = 'initial timestep_end'
+    [../]
 
 [] #END AuxKernels
 
@@ -532,6 +543,12 @@
 		type = ElementAverageValue
 		variable = V_total
 		execute_on = 'initial timestep_end'
+	[../]
+ 
+ 	[./total_ionization]
+ 		type = ElementAverageValue
+ 		variable = air_ions
+ 		execute_on = 'initial timestep_end'
 	[../]
 
 [] #END Postprocessors

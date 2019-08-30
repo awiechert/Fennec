@@ -66,6 +66,10 @@ protected:
     std::vector<const VariableValue *> _coupled_u;	///< Pointer list for the non-linear variables for number concentrations
     const VariableValue & _air_dens;				///< Variable for the density of air (kg/m^3)  == Typical Value: 1.225 kg/m^3
     const CARDINAL_Object & _user_object;			///< User object for CARDINAL simulation data/results
+    Real _background_ionization;					///< Constant value for background ionization (ion-pairs/m^3/s)
+    
+    int _size_bins;									///< Number of particle size bins to consider
+    int _nuc_bins;									///< Number of nuclide bins to consider (if any)
     
 private:
     

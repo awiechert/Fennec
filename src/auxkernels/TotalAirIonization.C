@@ -52,27 +52,76 @@ InputParameters validParams<TotalAirIonization>()
     params.addRequiredCoupledVar("coupled_list","List of names of the number concentration variables being coupled");
     params.addRequiredCoupledVar("air_density","Variable for air density (kg/m^3)");
     params.addRequiredParam<UserObjectName>("cardinal_object","Name of the CARDINAL_Object object");
+    params.addParam<Real>("background_ionization",0.0,"Constant value for background ionization (ion-pairs/m^3/s)");
     return params;
 }
 
 TotalAirIonization::TotalAirIonization(const InputParameters & parameters) :
 AuxKernel(parameters),
 _air_dens(coupledValueOld("air_density")),
-_user_object(getUserObject<CARDINAL_Object>("cardinal_object"))
+_user_object(getUserObject<CARDINAL_Object>("cardinal_object")),
+_background_ionization(getParam<Real>("background_ionization"))
 {
     unsigned int n = coupledComponents("coupled_list");
     _coupled_u.resize(n);
     
     for (unsigned int i = 0; i<_coupled_u.size(); ++i)
     {
-        _coupled_u[i] = &coupledValue("coupled_list",i);
+        _coupled_u[i] = &coupledValueOld("coupled_list",i);
     }
+    
+    if (_user_object.isMonoVariate() == true)
+    {
+        _size_bins = _user_object.return_size_bins();
+        _nuc_bins = 1;
+    }
+    else
+    {
+        _size_bins = _user_object.return_size_bins();
+        _nuc_bins = _user_object.return_nuc_bins();
+    }
+    
+    //Check for errors
+    if (_coupled_u.size() != _size_bins*_nuc_bins)
+        moose::internal::mooseErrorRaw("Number of coupled variables does not match total number of bins!");
+    if (_background_ionization < 0.0)
+        _background_ionization = 0.0;
     
 }
 
 Real TotalAirIonization::computeValue()
 {
+	//Place Holder Values below (May change in future updates)
+    std::vector<Atom> air;
+    air.resize(4);
+    air[0].Register("C");
+    air[1].Register("N");
+    air[2].Register("O");
+    air[3].Register("Ar");
+    double density = _air_dens[_qp]/1000.0; //g/ccm
+    double Wair = 34.0; //eV
+    std::vector<double> frac;
+    frac.resize(4);
+    frac[0] = 0.000124;
+    frac[1] = 0.755267;
+    frac[2] = 0.231781;
+    frac[3] = 0.012827;
+
+
+	//Calculation of ionization rate
     Real _total = 0.0;
+    for (int bin=0; bin<_size_bins; bin++)
+    {
+    	//FissionProducts test = _user_object.return_decay_chain(bin);
+    	//ERROR using below (dyld: lazy symbol binding failed: Symbol not found: __Z8orderMagd)
+    	//_user_object.return_decay_chain(bin).calculateIonizationRate(air, frac, density, Wair);
+    }
+    for (unsigned int i = 0; i<_coupled_u.size(); ++i)
+    {
+        //int k = (int)i/_nuc_bins;
+        //_total += (*_coupled_u[i])[_qp]*_user_object.return_decay_chain(k).getIonizationRate();
+    }
     
-    return _total;
+    return _total + _background_ionization;
 }
+
