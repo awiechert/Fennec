@@ -588,6 +588,12 @@ double FissionProducts::returnFractionation(std::string iso_name, double t)
     return this->DecayChain::returnFractionation(iso_name, t);
 }
 
+//Calculate Ionization Rate
+void FissionProducts::calculateIonizationRate(std::vector<Atom> &atoms, std::vector<double> &mass_fracs, double density, double potential)
+{
+    return this->DecayChain::calculateIonizationRate(atoms, mass_fracs, density, potential);
+}
+
 //Return num nuc
 int FissionProducts::getNumberNuclides()
 {
@@ -610,6 +616,12 @@ int FissionProducts::getIsotopeIndex(std::string iso_name)
 int FissionProducts::getStableIsotopeIndex(std::string iso_name)
 {
     return this->DecayChain::getStableIsotopeIndex(iso_name);
+}
+
+//Return ionization rate
+double FissionProducts::getIonizationRate()
+{
+    return this->DecayChain::getIonizationRate();
 }
 
 //Return parents

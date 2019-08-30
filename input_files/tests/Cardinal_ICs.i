@@ -460,7 +460,8 @@
  		input_file = 'input_files/cardinal/1979-Test-Case.txt'
  		atm_file = 'input_files/cardinal/DefaultAtmosphere.txt'
  		data_path = 'database/'
- [../]
+        mono_variate_population = true
+ 	[../]
  
  [] #END UserObjects
 
@@ -552,7 +553,7 @@
     solve_type = pjfnk
     line_search = bt    # Options: default shell none basic l2 bt cp
     start_time = 0.0
-	end_time = 0.05
+	end_time = 0.15
     dtmax = 0.5
     petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
     petsc_options_value = 'hypre boomeramg 100'

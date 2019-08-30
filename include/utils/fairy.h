@@ -112,10 +112,24 @@ public:
     void calculateFractionation(double t);
     double returnFractionation(std::string iso_name, double t);		///< Return the fractionation of the given nuclide
     
+    /// Calculate the ionization rate given a list of atoms and their mass fractions in a particular media
+    /** This function uses the Linear Energy Transfer function to calculate the average ionization potential
+    	of this nuclide decaying in a media made up of the given set of atoms and their respective mass
+     fractions. The result is stored in the ionization_coeff parameter and can be accessed via the
+     IonizationCoeff() return function. As the density and/or mass fraction of the media changes, this
+     function needs to be re-called to update that ionization rate.
+     
+     \param atoms reference to a list of atoms in the media
+     \param mass_fracs reference to a list of mass fractions for the list of atoms
+     \param density density of the media in g/cm^3
+     \param potential ionization potential of the media in eV*/
+    void calculateIonizationRate(std::vector<Atom> &atoms, std::vector<double> &mass_fracs, double density, double potential);
+    
     int getNumberNuclides();								///< Return the number of nuclides in the decay chain
     int getNumberStableNuclides();							///< Return the number of stable nuclides
     int getIsotopeIndex(std::string iso_name);				///< Return the unstable isotope index that corresponds to the given name
     int getStableIsotopeIndex(std::string iso_name);		///< Return the stable isotope index that corresponds to the given name
+    double getIonizationRate();								///< Return the stored ionization rate (in ion-pairs/second)
     std::vector<int>& getParentList(int i);					///< Return the vector list of parents for the ith isotope in the nuclide list
     std::vector<int>& getStableParentList(int i);			///< Return the vector list of parents for the ith stable isotope
     std::vector<int>& getBranchList(int i, int j);			///< Return the vector list of branch fractions for the jth parent of the ith nuclide

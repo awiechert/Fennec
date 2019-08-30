@@ -54,13 +54,15 @@ validParams<CARDINAL_Object>()
     params.addRequiredParam<std::string>("input_file", "Name and path (relative to the directory from which the fennec-opt executable is run) to the input file for the CARDINAL simulation");
     params.addRequiredParam<std::string>("atm_file","Name and path (relative to the directory from which the fennec-opt executable is run) to the atmospheric data file for CARDINAL");
     params.addRequiredParam<std::string>("data_path", "Path (relative to the directory from which the fennec-opt executable is run) to the database files needed for CARDINAL");
+    params.addParam<bool>("mono_variate_population",true,"True = Using the Mono-variate population balance model, False = Using the bi-variate population balance model. Set to True be default");
 	return params;
 }
 
 CARDINAL_Object::CARDINAL_Object(const InputParameters & parameters) : GeneralUserObject(parameters),
 _input_file(getParam<std::string>("input_file")),
 _atm_file(getParam<std::string>("atm_file")),
-_data_path(getParam<std::string>("data_path"))
+_data_path(getParam<std::string>("data_path")),
+_mono_variate_model(getParam<bool>("mono_variate_population"))
 {
     //Initializations
     int success = 0;
@@ -118,6 +120,7 @@ _data_path(getParam<std::string>("data_path"))
     
     _num_parcels = cardinal.getCloudRise().return_parcel_alt_top().rows();
     _num_size_bins = cardinal.getCloudRise().return_parcel_alt_top().columns();
+    _num_nuc_bins = _num_size_bins;
     _parcel_alt_top.resize(_num_parcels);
     _parcel_alt_bot.resize(_num_parcels);
     _parcel_rad_top.resize(_num_parcels);
@@ -128,6 +131,9 @@ _data_path(getParam<std::string>("data_path"))
     _total_debris_per_bin.resize(_num_size_bins);
     _bivariate_nuclide_density.resize(_num_size_bins);
     _monovariate_nuclide_density.resize(_num_size_bins);
+    _diameters.resize(_num_size_bins);
+    _activity.resize(_num_size_bins);
+    _decay_chain.resize(_num_size_bins);
     
     for (int i=0; i<_num_parcels; i++)
     {
@@ -174,6 +180,7 @@ _data_path(getParam<std::string>("data_path"))
     int bin = 0;
     for (kt=cardinal.getActivity().getNuclideDistributionMap().begin(); kt!=cardinal.getActivity().getNuclideDistributionMap().end(); ++kt)
     {
+    	_diameters[bin] = kt->first;
     	double part_vol = 3.14159/6.0*kt->first*kt->first*kt->first;
         double total_vol = part_vol*_total_debris_per_bin[bin]*1e9*1e9;
         _total_solids_volume += total_vol;
@@ -205,40 +212,37 @@ _data_path(getParam<std::string>("data_path"))
     	bin++;
     }
     
+    // Initialize/reset the isotope concentrations in KEA for each size bin
+    bin = 0;
+    for (kt=cardinal.getActivity().getNuclideDistributionMap().begin(); kt!=cardinal.getActivity().getNuclideDistributionMap().end(); ++kt)
+    {
+    	//Initialize Radioactivity
+        cardinal.getActivity().getRadioactivityDistributionMap()[kt->first] = 0.0;
+        //Looping through the stable and unstable nuclides
+        for (int i=0; i<kt->second.getNumberNuclides(); i++)
+        {
+        	if (_mono_variate_model == true)
+            	kt->second.getIsotope(i).setInitialCondition(kt->second.getIsotope(i).getConcentration()/_total_nuclides_per_bin[bin]*_monovariate_nuclide_density[bin]);
+            else
+            	kt->second.getIsotope(i).setInitialCondition(kt->second.getIsotope(i).getConcentration()/_total_nuclides_per_bin[bin]*_bivariate_nuclide_density[bin]);
+            kt->second.getIsotope(i).setConcentration(kt->second.getIsotope(i).getInitialCondition());
+            
+            cardinal.getActivity().getRadioactivityDistributionMap()[kt->first] += kt->second.getIsotope(i).getActivity();
+        }
+        for (int i=0; i<kt->second.getNumberStableNuclides(); i++)
+        {
+        	if (_mono_variate_model == true)
+            	kt->second.getStableIsotope(i).setInitialCondition(kt->second.getStableIsotope(i).getConcentration()/_total_nuclides_per_bin[bin]*_monovariate_nuclide_density[bin]);
+            else
+            	kt->second.getStableIsotope(i).setInitialCondition(kt->second.getStableIsotope(i).getConcentration()/_total_nuclides_per_bin[bin]*_bivariate_nuclide_density[bin]);
+            kt->second.getStableIsotope(i).setConcentration(kt->second.getStableIsotope(i).getInitialCondition());
+            
+            cardinal.getActivity().getRadioactivityDistributionMap()[kt->first] += kt->second.getStableIsotope(i).getActivity();
+        }
+        _activity[bin] = cardinal.getActivity().getRadioactivityDistributionMap()[kt->first];
+        bin++;
+    }
     
-    
-    // Display info for debugging/checking
-    /*
-    double total_moles = 0.0;
-    std::cout << "Total Nuclides = " << _total_nuclides << std::endl;
-    std::cout << "Total Particles = " << _total_initial_debris << std::endl;
-    std::cout << "Avg Nuc Dens = " << _avg_nuclide_density << std::endl;
-    std::cout << "Nuclides per bin\n";
-    for (int j=0; j<_num_size_bins; j++)
-    {
-        std::cout << "bin(" << j << ") = " << _total_nuclides_per_bin[j] << std::endl;
-    }
-    std::cout << "Particles per bin\n";
-    for (int j=0; j<_num_size_bins; j++)
-    {
-        std::cout << "bin(" << j << ") = " << _total_debris_per_bin[j] << std::endl;
-    }
-    std::cout << "Bivariate Nuc Dens per bin\n";
-    for (int j=0; j<_num_size_bins; j++)
-    {
-        std::cout << "bin(" << j << ") = " << _bivariate_nuclide_density[j] << std::endl;
-    }
-    std::cout << "Total Solids Volume = " << _total_solids_volume << std::endl;
-    std::cout << "AVG Nuclides per solide volume = " << _avg_nuc_per_solid_vol << std::endl;
-    std::cout << "Monovariate Nuc Dens per bin\n";
-    for (int j=0; j<_num_size_bins; j++)
-    {
-        std::cout << "bin(" << j << ") = " << _monovariate_nuclide_density[j] << std::endl;
-        
-        total_moles += _monovariate_nuclide_density[j]*_total_debris_per_bin[j];
-    }
-    std::cout << "Total Nuclides = " << total_moles << std::endl;
-    */
 }
 
 
@@ -248,21 +252,53 @@ _data_path(getParam<std::string>("data_path"))
 // First: Setup before/after each time step
 void CARDINAL_Object::initialize()
 {
-	//std::cout << "\n... Initializing CARDINAL data...\n\n";
-    //std::cout << _dt << std::endl; //Time step
-    //std::cout << _t << std::endl;  //Current time
+	//Perform any data initializations as needed
 }
 
 // Second: Execute before/after each time step
 void CARDINAL_Object::execute()
 {
-	//std::cout << "Executed\n";
+	//Simulate decay of nuclides for segment of time _dt (ASSUMES _dt IS IN SECONDS)
+    std::map<double, FissionProducts>::iterator kt;
+    int bin = 0;
+    for (kt=cardinal.getActivity().getNuclideDistributionMap().begin(); kt!=cardinal.getActivity().getNuclideDistributionMap().end(); ++kt)
+    {
+        kt->second.calculateFractionation(_dt);
+        cardinal.getActivity().getRadioactivityDistributionMap()[kt->first] = 0.0;
+        //Looping through the stable and unstable nuclides
+        for (int i=0; i<kt->second.getNumberNuclides(); i++)
+        {
+            cardinal.getActivity().getRadioactivityDistributionMap()[kt->first] += kt->second.getIsotope(i).getActivity();
+            //kt->second.getIsotope(i).setInitialCondition(kt->second.getIsotope(i).getConcentration());
+        }
+        for (int i=0; i<kt->second.getNumberStableNuclides(); i++)
+        {
+            cardinal.getActivity().getRadioactivityDistributionMap()[kt->first] += kt->second.getStableIsotope(i).getActivity();
+            //kt->second.getStableIsotope(i).setInitialCondition(kt->second.getStableIsotope(i).getConcentration());
+        }
+        _activity[bin] = cardinal.getActivity().getRadioactivityDistributionMap()[kt->first];
+        _decay_chain[bin] = kt->second;
+    	bin++;
+    }
 }
 
 // Third: Finish before/after each time step  (Repeat above)
 void CARDINAL_Object::finalize()
 {
-	//std::cout << "Finalized\n";
+	//When set is finished, perpare data for next step
+    std::map<double, FissionProducts>::iterator kt;
+    for (kt=cardinal.getActivity().getNuclideDistributionMap().begin(); kt!=cardinal.getActivity().getNuclideDistributionMap().end(); ++kt)
+    {
+        //Looping through the stable and unstable nuclides
+        for (int i=0; i<kt->second.getNumberNuclides(); i++)
+        {
+            kt->second.getIsotope(i).setInitialCondition(kt->second.getIsotope(i).getConcentration());
+        }
+        for (int i=0; i<kt->second.getNumberStableNuclides(); i++)
+        {
+            kt->second.getStableIsotope(i).setInitialCondition(kt->second.getStableIsotope(i).getConcentration());
+        }
+    }
 }
 
 
@@ -280,6 +316,18 @@ int CARDINAL_Object::return_num_parcels() const
 int CARDINAL_Object::return_size_bins() const
 {
     return _num_size_bins;
+}
+
+/// Function to get the number of size bins
+int CARDINAL_Object::return_nuc_bins() const
+{
+    return _num_nuc_bins;
+}
+
+/// Function to return the boolean argument for the mono/bi-variate options
+bool CARDINAL_Object::isMonoVariate() const
+{
+    return _mono_variate_model;
 }
 
 /// Function to get the top of the parcel
@@ -318,4 +366,33 @@ Real CARDINAL_Object::return_parcel_vol(int i, int j) const
     return _parcel_vol[i][j];
 }
 
+/// Function to get the diameter of the given particle bin
+Real CARDINAL_Object::return_diameter(int bin) const
+{
+    return _diameters[bin];
+}
+
+/// Function to get the nuclide density of bivariate bins
+Real CARDINAL_Object::return_bivar_nuclides(int bin) const
+{
+    return _bivariate_nuclide_density[bin];
+}
+
+/// Function to get the nuclide density of monovariate bins
+Real CARDINAL_Object::return_monovar_nuclides(int bin) const
+{
+    return _monovariate_nuclide_density[bin];
+}
+
+/// Function to get the activity of nuclides in the given bin
+Real CARDINAL_Object::return_activity(int bin) const
+{
+    return _activity[bin];
+}
+
+/// Function to get the decay chain of nuclides in the given bin (use this to compute ionization rates in other kernels)
+FissionProducts CARDINAL_Object::return_decay_chain(int bin) const
+{
+    return _decay_chain[bin];
+}
 

@@ -79,6 +79,12 @@ public:
     /// Function to get the number of size bins
     int return_size_bins() const;
     
+    /// Function to get the number of nuclide bins
+    int return_nuc_bins() const;
+    
+    /// Function to return the boolean argument for the mono/bi-variate options
+    bool isMonoVariate() const;
+    
     /// Function to get the top of the parcel
     Real return_parcel_alt_top(int par, int bin) const;
     
@@ -97,15 +103,32 @@ public:
     /// Function to get the parcel volume
     Real return_parcel_vol(int par, int bin) const;
     
+    /// Function to get the diameter of the given particle bin
+    Real return_diameter(int bin) const;
+    
+    /// Function to get the nuclide density of bivariate bins
+    Real return_bivar_nuclides(int bin) const;
+    
+    /// Function to get the nuclide density of monovariate bins
+    Real return_monovar_nuclides(int bin) const;
+    
+    /// Function to get the activity of nuclides in the given bin
+    Real return_activity(int bin) const;
+    
+    /// Function to get the decay chain of nuclides in the given bin (use this to compute ionization rates in other kernels)
+    FissionProducts return_decay_chain(int bin) const;
+    
 protected:
     Cardinal cardinal;					///< Cardinal Object from utils folder
 	std::string _input_file;			///< Location and name of the input file for CARDINAL
     std::string _atm_file;				///< Location and name of the atmospheric data file for CARDINAL
     std::string _data_path;				///< Path of the database files for CARDINAL
+    bool _mono_variate_model;			///< Boolean to determine whether or not we consider a mono- or bi-variate population
     
     /// Variables associated with parcel sub-divisions of the debris cloud
     int _num_parcels;
     int _num_size_bins;
+    int _num_nuc_bins;
     std::vector< std::vector<Real> > _parcel_alt_top; 	//m
     std::vector< std::vector<Real> > _parcel_alt_bot; 	//m
     std::vector< std::vector<Real> > _parcel_rad_top; 	//m
@@ -121,7 +144,11 @@ protected:
     std::vector<Real> _total_nuclides_per_bin;			//moles - Total amount of nuclides in each particle size bin
     std::vector<Real> _total_debris_per_bin;			//GGp - Total number of debris particles in each size bin
     std::vector<Real> _bivariate_nuclide_density;		//moles/GGp - Nuclides per GGp for each size bin (bivariate model)
-    std::vector<Real> _monovariate_nuclide_density;		//moles/GGp - Nuclides per GGp for each size bin (bivariate model)
+    std::vector<Real> _monovariate_nuclide_density;		//moles/GGp - Nuclides per GGp for each size bin (monovariate model)
+    std::vector<Real> _diameters;						//um - Diameters of debris particles in each size bin
+    std::vector<Real> _activity;						//Bq/GGp - Radioactivity of nuclides on particles for each size bin
+    
+    std::vector<FissionProducts> _decay_chain;			//List of decay chains on each particle size bin
     
 private:
 	
