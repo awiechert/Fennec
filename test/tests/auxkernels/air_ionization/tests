@@ -1,0 +1,7 @@
+[Tests]
+  [./air_ionization-Cardinal]
+    type = Exodiff
+    input = Cardinal_Ions.i
+    exodiff = 'Cardinal_Ions_out.e'
+  [../]
+[]

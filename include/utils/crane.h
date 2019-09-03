@@ -348,6 +348,7 @@ public:
 	void create_default_wind_profile();							///< Function to create a default wind profile from 216 m to 31,023 m
 	void delete_atmosphere();									///< Function to remove existing atmosphere profile from memory
 	void delete_wind_profile();									///< Function to remove existing wind profile from memory
+    std::map<double, double> & return_atm_press_map();			///< Function to return reference to the atmospheric pressure map
 	double return_amb_temp(double z);							///< Function to return the ambient temperature (K) given an altitude z (m)
 	double return_atm_press(double z);							///< Function to return the atmospheric pressure (Pa) given an altitude z (m)
 	double return_rel_humid(double z);							///< Function to return the relative humidity (%) given an altitude z (m)

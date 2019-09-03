@@ -91,35 +91,13 @@ _background_ionization(getParam<Real>("background_ionization"))
 
 Real TotalAirIonization::computeValue()
 {
-	//Place Holder Values below (May change in future updates)
-    std::vector<Atom> air;
-    air.resize(4);
-    air[0].Register("C");
-    air[1].Register("N");
-    air[2].Register("O");
-    air[3].Register("Ar");
     double density = _air_dens[_qp]/1000.0; //g/ccm
-    double Wair = 34.0; //eV
-    std::vector<double> frac;
-    frac.resize(4);
-    frac[0] = 0.000124;
-    frac[1] = 0.755267;
-    frac[2] = 0.231781;
-    frac[3] = 0.012827;
-
-
 	//Calculation of ionization rate
     Real _total = 0.0;
-    for (int bin=0; bin<_size_bins; bin++)
-    {
-    	//FissionProducts test = _user_object.return_decay_chain(bin);
-    	//ERROR using below (dyld: lazy symbol binding failed: Symbol not found: __Z8orderMagd)
-    	//_user_object.return_decay_chain(bin).calculateIonizationRate(air, frac, density, Wair);
-    }
     for (unsigned int i = 0; i<_coupled_u.size(); ++i)
     {
-        //int k = (int)i/_nuc_bins;
-        //_total += (*_coupled_u[i])[_qp]*_user_object.return_decay_chain(k).getIonizationRate();
+        int k = (int)i/_nuc_bins;
+        _total += (*_coupled_u[i])[_qp]*_user_object.return_ionization_coeff(k, density);
     }
     
     return _total + _background_ionization;

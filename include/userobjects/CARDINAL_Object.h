@@ -115,8 +115,8 @@ public:
     /// Function to get the activity of nuclides in the given bin
     Real return_activity(int bin) const;
     
-    /// Function to get the decay chain of nuclides in the given bin (use this to compute ionization rates in other kernels)
-    FissionProducts return_decay_chain(int bin) const;
+    /// Function to get the approximated air ionization given the particle bin and density
+    Real return_ionization_coeff(int bin, double density) const;
     
 protected:
     Cardinal cardinal;					///< Cardinal Object from utils folder
@@ -148,7 +148,11 @@ protected:
     std::vector<Real> _diameters;						//um - Diameters of debris particles in each size bin
     std::vector<Real> _activity;						//Bq/GGp - Radioactivity of nuclides on particles for each size bin
     
-    std::vector<FissionProducts> _decay_chain;			//List of decay chains on each particle size bin
+    //ion-pairs/GGp/s - Ionization of air stored at various air densities (g/cm^3) [i] and each nuclide density bin [j]
+    std::map<double, std::vector<double> > _ionization_func;
+    std::vector<Atom> _air_atoms;						// Vector of most common air atoms
+    std::vector<double> _air_frac;						// Vector of most common mass fractions of air atoms in atmosphere
+    double _Wair;										//eV - Ionization Potential of air
     
 private:
 	

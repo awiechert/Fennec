@@ -58,6 +58,10 @@
 #include "fairy.h"
 #include "mola.h"
 
+#ifndef	Na
+#define Na 6.0221413E+23		///< Avagadro's Number - Units: molecules/mol
+#endif
+
 /// Enumeration for the list of valid activity-size distribution methods
 /** List of valid models for activity-size distributions.*/
 typedef enum {freiling, freiling_tompkins, mod_freiling, mod_freiling_tompkins} asd_model;

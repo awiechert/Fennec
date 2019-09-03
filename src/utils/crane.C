@@ -2202,6 +2202,11 @@ void Crane::delete_wind_profile()
     this->wind_vel.clear();
 }
 
+std::map<double, double> & Crane::return_atm_press_map()
+{
+    return this->atm_press;
+}
+
 void Crane::add_solid_param(std::string name, int pow, double param)
 {
     this->solid_params[name][pow] = param;

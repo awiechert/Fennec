@@ -11,6 +11,31 @@
 
 #include "ibis.h"
 
+//Function to return the order of magnitude of a number
+int orderMag(double x)
+{
+    int m=0; double y=fabs(x);
+    if (x == 0.0)
+        return 1;
+    if (x>=10)
+    {
+        while(y>=10)
+        {
+            y = y / 10;
+            m++;
+        }
+    }
+    else
+    {
+        while(y<1)
+        {
+            y = y * 10;
+            m--;
+        }
+    }
+    return m;
+}
+
 /// Function to convert from a starting unit and value to and ending unit and value (returns converted value)
 double time_conversion(time_units end_unit, double start_value, time_units start_unit)
 {
@@ -1057,6 +1082,8 @@ int Isotope::calculateIonization(std::vector<Atom> &atoms, std::vector<double> &
                     break;
             }
             
+            if (isnan(stpow) || isinf(stpow))
+            	stpow = 0.0;
             Ii += mass_fracs[j]*stpow*density;
         }
         Ii = Ii*path/potential*1E6;

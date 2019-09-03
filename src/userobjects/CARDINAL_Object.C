@@ -133,7 +133,19 @@ _mono_variate_model(getParam<bool>("mono_variate_population"))
     _monovariate_nuclide_density.resize(_num_size_bins);
     _diameters.resize(_num_size_bins);
     _activity.resize(_num_size_bins);
-    _decay_chain.resize(_num_size_bins);
+    
+    //Initializations for air information (used with air ionization calculations) [MAY NEED TO CHANGE]
+    _air_atoms.resize(4);
+    _air_atoms[0].Register("C");
+    _air_atoms[1].Register("N");
+    _air_atoms[2].Register("O");
+    _air_atoms[3].Register("Ar");
+    _air_frac.resize(4);
+    _air_frac[0] = 0.000124;
+    _air_frac[1] = 0.755267;
+    _air_frac[2] = 0.231781;
+    _air_frac[3] = 0.012827;
+    _Wair = 34.0;
     
     for (int i=0; i<_num_parcels; i++)
     {
@@ -243,6 +255,21 @@ _mono_variate_model(getParam<bool>("mono_variate_population"))
         bin++;
     }
     
+    //Iterate through atmospheric data map and initialize the ionization parameter space
+    std::map<double, double>::iterator it;
+    for (it=cardinal.getCloudRise().return_atm_press_map().begin(); it!=cardinal.getCloudRise().return_atm_press_map().end(); ++it)
+    {
+    	double z = it->first;
+    	double Te = cardinal.getCloudRise().return_amb_temp(z);
+        double P = cardinal.getCloudRise().return_atm_press(z);
+        double HR = cardinal.getCloudRise().return_rel_humid(z);
+        cardinal.getCloudRise().compute_xe(Te, P, HR);
+        cardinal.getCloudRise().compute_air_density(P, cardinal.getCloudRise().get_xe(), Te);
+        std::vector<double> temp;
+        temp.resize(_num_size_bins);
+        _ionization_func[cardinal.getCloudRise().get_air_density()] = temp;
+    }
+    
 }
 
 
@@ -269,15 +296,21 @@ void CARDINAL_Object::execute()
         for (int i=0; i<kt->second.getNumberNuclides(); i++)
         {
             cardinal.getActivity().getRadioactivityDistributionMap()[kt->first] += kt->second.getIsotope(i).getActivity();
-            //kt->second.getIsotope(i).setInitialCondition(kt->second.getIsotope(i).getConcentration());
         }
         for (int i=0; i<kt->second.getNumberStableNuclides(); i++)
         {
             cardinal.getActivity().getRadioactivityDistributionMap()[kt->first] += kt->second.getStableIsotope(i).getActivity();
-            //kt->second.getStableIsotope(i).setInitialCondition(kt->second.getStableIsotope(i).getConcentration());
         }
         _activity[bin] = cardinal.getActivity().getRadioactivityDistributionMap()[kt->first];
-        _decay_chain[bin] = kt->second;
+        
+        //Loop over the ionization map at various air densities
+        std::map<double, std::vector<double> >::iterator it;
+        for (it=_ionization_func.begin(); it!=_ionization_func.end(); ++it)
+        {
+        	kt->second.calculateIonizationRate(_air_atoms, _air_frac, it->first, _Wair);
+            it->second[bin] = kt->second.getIonizationRate();
+        }
+        
     	bin++;
     }
 }
@@ -390,9 +423,42 @@ Real CARDINAL_Object::return_activity(int bin) const
     return _activity[bin];
 }
 
-/// Function to get the decay chain of nuclides in the given bin (use this to compute ionization rates in other kernels)
-FissionProducts CARDINAL_Object::return_decay_chain(int bin) const
+/// Function to get the approximated air ionization given the particle bin and density
+Real CARDINAL_Object::return_ionization_coeff(int bin, double density) const
 {
-    return _decay_chain[bin];
+    Real ion = 0.0;
+    
+    //Setup the iterators
+    std::map<double, std::vector<double> >::const_iterator it=_ionization_func.begin();
+    std::map<double, std::vector<double> >::const_reverse_iterator rit=_ionization_func.rbegin();
+    
+    //Special Case 1: z less than lowest value in map
+    if (density <= it->first)
+        return it->second[bin];
+    
+    //Special Case 2: z greater than highest value in map
+    if (density >= rit->first)
+        return rit->second[bin];
+    
+    //Iterate through map
+    double old_dens = it->first;
+    double old_ion = it->second[bin];
+    for (it=_ionization_func.begin(); it!=_ionization_func.end(); ++it)
+    {
+        if (it->first > density)
+        {
+            double slope = (it->second[bin] - old_ion) / (it->first - old_dens);
+            double inter = it->second[bin] - (slope*it->first);
+            ion = slope*density + inter;
+            break;
+        }
+        else
+        {
+            old_dens = it->first;
+            old_ion = it->second[bin];
+        }
+    }
+    
+    return ion;
 }
 

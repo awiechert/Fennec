@@ -57,9 +57,14 @@
 #include "eel.h"
 #include "yaml_wrapper.h"
 #include "dove.h"
-#include "gsta_opt.h"
 #include <unordered_map>
 
+/// Function returns the order of magnitude for the parameter x
+/** This function is used to help create initial guesses for the new GSTA parameters
+	that are being optimized for. In order to make sure that those parameters are
+	considered relavent in the optimization routine, we need to make the initial
+	guesses to be around the same order of magnitude of the other GSTA parameters. */
+int orderMag(double x);
 
 /// Enumeration for the list of valid decay modes
 /** List of valid types of radioactive decay. The type of decay dictates

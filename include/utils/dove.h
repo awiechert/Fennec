@@ -38,7 +38,7 @@
 #include "macaw.h"
 #include "lark.h"
 #include "yaml_wrapper.h"
-#include "gsta_opt.h"
+//#include "gsta_opt.h"
 #include <unordered_map>        //Line to allow use of unordered_map structure
 
 #ifndef DOVE_HPP_
