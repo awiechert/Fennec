@@ -118,6 +118,9 @@ public:
     /// Function to get the approximated air ionization given the particle bin and density
     Real return_ionization_coeff(int bin, double density) const;
     
+    /// Function to get the debris particle density (kg/m^3)
+    Real return_debris_density() const;
+    
 protected:
     Cardinal cardinal;					///< Cardinal Object from utils folder
 	std::string _input_file;			///< Location and name of the input file for CARDINAL
@@ -141,6 +144,7 @@ protected:
     Real _avg_nuclide_density;							//moles/GGp - Total nuclides divided by total particles
     Real _total_solids_volume;							//um^3 - Total solid volume of all debris particles
     Real _avg_nuc_per_solid_vol;						//moles/um^3 - Average nuclides per solid volume of particles
+    Real _debris_density;								//kg/m^3 - Average density of the debris particles
     std::vector<Real> _total_nuclides_per_bin;			//moles - Total amount of nuclides in each particle size bin
     std::vector<Real> _total_debris_per_bin;			//GGp - Total number of debris particles in each size bin
     std::vector<Real> _bivariate_nuclide_density;		//moles/GGp - Nuclides per GGp for each size bin (bivariate model)

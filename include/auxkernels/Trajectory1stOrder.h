@@ -66,12 +66,12 @@ protected:
 	
 	void computeDrag();					///< Function to compute drag coefficient
 	
-	const VariableValue & _wx;			///< Wind velocity in the n-direction (m/s)
-    const VariableValue & _wy;			///< Wind velocity in the n-direction (m/s)
-    const VariableValue & _wz;			///< Wind velocity in the n-direction (m/s)
-    const VariableValue & _vx;			///< Wind velocity in the n-direction (m/s)
-    const VariableValue & _vy;			///< Wind velocity in the n-direction (m/s)
-    const VariableValue & _vz;			///< Wind velocity in the n-direction (m/s)
+	const VariableValue & _wx;			///< Wind velocity in the x-direction (m/s)
+    const VariableValue & _wy;			///< Wind velocity in the y-direction (m/s)
+    const VariableValue & _wz;			///< Wind velocity in the z-direction (m/s)
+    const VariableValue & _vx;			///< Particle velocity in the x-direction (m/s)
+    const VariableValue & _vy;			///< Particle velocity in the y-direction (m/s)
+    const VariableValue & _vz;			///< Particle velocity in the z-direction (m/s)
 	const VariableValue & _air_dens;	///< Variable for the density of air (kg/m^3)  == Typical Value: 1.225 kg/m^3
 	const VariableValue & _air_visc;	///< Variable for the viscosity of air (kg/m/s)== Typical Value: 1.802e-5 kg/m/s
 	

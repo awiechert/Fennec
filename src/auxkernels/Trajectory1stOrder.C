@@ -50,12 +50,12 @@ template<>
 InputParameters validParams<Trajectory1stOrder>()
 {
 	InputParameters params = validParams<AuxKernel>();
-	params.addRequiredCoupledVar("windx","Variable for wind velocity in n-direction");
-    params.addRequiredCoupledVar("windy","Variable for wind velocity in n-direction");
-    params.addRequiredCoupledVar("windz","Variable for wind velocity in n-direction");
-    params.addRequiredCoupledVar("varx","Variable for wind velocity in n-direction");
-    params.addRequiredCoupledVar("vary","Variable for wind velocity in n-direction");
-    params.addRequiredCoupledVar("varz","Variable for wind velocity in n-direction");
+	params.addRequiredCoupledVar("windx","Variable for wind velocity in x-direction");
+    params.addRequiredCoupledVar("windy","Variable for wind velocity in y-direction");
+    params.addRequiredCoupledVar("windz","Variable for wind velocity in z-direction");
+    params.addRequiredCoupledVar("varx","Variable for Particle velocity in x-direction");
+    params.addRequiredCoupledVar("vary","Variable for Particle velocity in y-direction");
+    params.addRequiredCoupledVar("varz","Variable for Particle velocity in z-direction");
 	params.addRequiredCoupledVar("air_density","Variable for air density (kg/m^3)");
 	params.addRequiredCoupledVar("air_viscosity","Variable for air viscosity (kg/m/s)");
 	params.addParam<Real>("particle_diameter",0.001,"Spherical particle diameter (m)");

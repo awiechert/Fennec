@@ -121,6 +121,7 @@ _mono_variate_model(getParam<bool>("mono_variate_population"))
     _num_parcels = cardinal.getCloudRise().return_parcel_alt_top().rows();
     _num_size_bins = cardinal.getCloudRise().return_parcel_alt_top().columns();
     _num_nuc_bins = _num_size_bins;
+    _debris_density = cardinal.getCloudRise().get_part_density();
     _parcel_alt_top.resize(_num_parcels);
     _parcel_alt_bot.resize(_num_parcels);
     _parcel_rad_top.resize(_num_parcels);
@@ -460,5 +461,11 @@ Real CARDINAL_Object::return_ionization_coeff(int bin, double density) const
     }
     
     return ion;
+}
+
+/// Function to get the debris particle density (kg/m^3)
+Real CARDINAL_Object::return_debris_density() const
+{
+    return _debris_density;
 }
 
