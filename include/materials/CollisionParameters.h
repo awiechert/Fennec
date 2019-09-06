@@ -124,6 +124,18 @@ protected:
     /// Calculation of Gravitational frequency
     void calculate_beta_GC();
     
+    /// Calculation of Inertial frequency
+    void calculate_beta_TI();
+    
+    /// Calculation of Shear frequency
+    void calculate_beta_TS();
+    
+    /// f Helper function for van der Waals frequency
+    Real f_rad(Real r, int l, int q);
+    
+    /// g Helper function for van der Waals frequency
+    Real g_rad(Real r, int l, int q);
+    
 private:
 	const CARDINAL_Object & _user_object;			///< User object for CARDINAL simulation data/results
 	std::vector<const VariableValue *> _N;			///< Pointer list for the non-linear variables for number concentrations

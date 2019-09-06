@@ -216,7 +216,14 @@ void CollisionParameters::computeQpProperties()
     calculate_beta_Br();
     calculate_beta_CE();
     calculate_beta_GC();
+    calculate_beta_TI();
+    calculate_beta_TS();
 }
+
+
+
+// ------------------ Functions below are where the bulk of the calculations are performed ------------------
+
 
 /// Calculation of mean ion charge
 void CollisionParameters::calculate_n0()
@@ -383,4 +390,44 @@ void CollisionParameters::calculate_beta_GC()
     }
 }
 
+/// Calculation of Inertial frequency
+void CollisionParameters::calculate_beta_TI()
+{
+    for (unsigned int lm = 0; lm<_N.size(); ++lm)
+    {
+        int l = (int)lm/_nuc_bins;
+        for (unsigned int qr = 0; qr<_N.size(); ++qr)
+        {
+            int q = (int)qr/_nuc_bins;
+            Real vel = RelVel(lm,qr);
+            _beta_TI[_qp][lm][qr] = (pow(_air_dens[_qp],0.25)*pow(_ed,0.75)/9.8/pow(_air_visc[_qp],0.25))*3.14159*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*vel;
+        }
+    }
+}
+
+/// Calculation of Shear frequency
+void CollisionParameters::calculate_beta_TS()
+{
+    for (unsigned int lm = 0; lm<_N.size(); ++lm)
+    {
+        int l = (int)lm/_nuc_bins;
+        for (unsigned int qr = 0; qr<_N.size(); ++qr)
+        {
+            int q = (int)qr/_nuc_bins;
+            _beta_TS[_qp][lm][qr] = sqrt(8.0*3.14159*_air_dens[_qp]*_ed/15.0/_air_visc[_qp])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q]);
+        }
+    }
+}
+
+/// f Helper function for van der Waals frequency
+Real CollisionParameters::f_rad(Real r, int l, int q)
+{
+    return 0.0;
+}
+
+/// g Helper function for van der Waals frequency
+Real CollisionParameters::g_rad(Real r, int l, int q)
+{
+    return 0.0;
+}
 
