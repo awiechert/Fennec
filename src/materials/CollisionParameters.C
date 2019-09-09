@@ -95,15 +95,15 @@ _ed(getParam<Real>("dissipation")),
 _m_neg(getParam<Real>("neg_mobility")),
 _m_pos(getParam<Real>("pos_mobility")),
 _arc(getParam<Real>("ion_recomb")),
-_global_to_local(declareProperty<std::map<int,int> >("index_map")),
+_local_to_global(declareProperty<std::vector<int> >("index_list")),
 _diffusion(declareProperty<std::vector<Real> >("particle_diffusion")),
-_beta_Br(declareProperty<std::vector<std::vector<Real> > >("particle_diffusion")),
-_beta_CE(declareProperty<std::vector<std::vector<Real> > >("particle_diffusion")),
-_beta_GC(declareProperty<std::vector<std::vector<Real> > >("particle_diffusion")),
-_beta_TI(declareProperty<std::vector<std::vector<Real> > >("particle_diffusion")),
-_beta_TS(declareProperty<std::vector<std::vector<Real> > >("particle_diffusion")),
-_beta_VW(declareProperty<std::vector<std::vector<Real> > >("particle_diffusion")),
-_alpha_Br(declareProperty<std::vector<std::vector<Real> > >("particle_diffusion"))
+_beta_Br(declareProperty<std::vector<std::vector<Real> > >("beta_Br")),
+_beta_CE(declareProperty<std::vector<std::vector<Real> > >("beta_CE")),
+_beta_GC(declareProperty<std::vector<std::vector<Real> > >("beta_GC")),
+_beta_TI(declareProperty<std::vector<std::vector<Real> > >("beta_TI")),
+_beta_TS(declareProperty<std::vector<std::vector<Real> > >("beta_TS")),
+_beta_VW(declareProperty<std::vector<std::vector<Real> > >("beta_VW")),
+_alpha_Br(declareProperty<std::vector<std::vector<Real> > >("alpha_Br"))
 {
     unsigned int n = coupledComponents("coupled_conc");
     unsigned int xn = coupledComponents("coupled_vx");
@@ -118,6 +118,7 @@ _alpha_Br(declareProperty<std::vector<std::vector<Real> > >("particle_diffusion"
     _vx.resize(n);
     _vy.resize(n);
     _vz.resize(n);
+    _index.resize(n);
     
     for (unsigned int i = 0; i<_N.size(); ++i)
     {
@@ -154,6 +155,7 @@ void CollisionParameters::initQpStatefulProperties()
     _beta_TS[_qp].resize(_N.size());
     _beta_VW[_qp].resize(_N.size());
     _alpha_Br[_qp].resize(_N.size());
+    _local_to_global[_qp].resize(_N.size());
     
     //Initialize constants
     _kB = 1.38065E-23;
@@ -184,7 +186,7 @@ void CollisionParameters::initQpStatefulProperties()
     for (unsigned int lm = 0; lm<_N.size(); ++lm)
     {
     	//Give global index of variable and return local index in parameters/lists
-    	_global_to_local[_qp][_index[lm]] = lm;
+    	_local_to_global[_qp][lm] = _index[lm];
         _beta_Br[_qp][lm].resize(_N.size());
         _beta_CE[_qp][lm].resize(_N.size());
         _beta_GC[_qp][lm].resize(_N.size());
@@ -193,12 +195,16 @@ void CollisionParameters::initQpStatefulProperties()
         _beta_VW[_qp][lm].resize(_N.size());
         _alpha_Br[_qp][lm].resize(_N.size());
     }
-    
+    //std::cout << "\n------ Here ------- \n";
 }
 
 //Compute properties
 void CollisionParameters::computeQpProperties()
 {
+    //Initialize Space
+    if (_diffusion[_qp].size() < _N.size())
+        this->initQpStatefulProperties();
+	
 	//Simple inline calculations
     _va = sqrt( 8.0*_kB*_temp[_qp]/3.14159/_ma );
     _AH = 100.0*_kB*_temp[_qp]; //NOTE: May change to more precise calculation later
@@ -218,6 +224,7 @@ void CollisionParameters::computeQpProperties()
     calculate_beta_GC();
     calculate_beta_TI();
     calculate_beta_TS();
+    calculate_beta_VW();
 }
 
 
@@ -419,15 +426,137 @@ void CollisionParameters::calculate_beta_TS()
     }
 }
 
+// -------------- UNITS ON RADIUS ARE AN ISSUE HERE WHEN DOING NUMERICAL INTEGRATION!!! --------------
+
 /// f Helper function for van der Waals frequency
 Real CollisionParameters::f_rad(Real r, int l, int q)
 {
-    return 0.0;
+	Real t1, t2, t3;
+    t1 = (2.0*_rad[l]*_rad[q])/(r*r-(_rad[l]+_rad[q])*(_rad[l]+_rad[q]));
+    t2 = (2.0*_rad[l]*_rad[q])/(r*r-(_rad[l]-_rad[q])*(_rad[l]-_rad[q]));
+    t3 = log((r*r-(_rad[l]+_rad[q])*(_rad[l]+_rad[q]))/(r*r-(_rad[l]-_rad[q])*(_rad[l]-_rad[q])));
+    return -_AH/6.0*(t1+t2+t3);
 }
 
 /// g Helper function for van der Waals frequency
 Real CollisionParameters::g_rad(Real r, int l, int q)
 {
-    return 0.0;
+	Real t1, t2;
+    t1 = (2.6*_rad[l]*_rad[q])/((_rad[l]+_rad[q])*(_rad[l]+_rad[q]));
+    t2 = (_rad[l]*_rad[q])/((_rad[l]+_rad[q])*(r-_rad[l]-_rad[q]));
+    return 1.0+t1*sqrt(t2)+t2;
 }
+
+/// Integration helper function
+Real CollisionParameters::trap_rule(Real f_xp1, Real f_x, Real dx)
+{
+    return dx*(f_xp1+f_x)/2.0;
+}
+
+/// Wk Helpter function for van der Waals frequency
+Real CollisionParameters::Wk_integral(Real lb, Real eps, int l, int q)
+{
+    Real value = 0.0;
+    Real pre_int = -1.0/(2.0*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*_kB*_temp[_qp]);
+    
+    Real r = lb+eps;
+    Real dr = 2.0*eps;
+    Real new_add;
+    Real sum = 0.0;
+    int step = 0;
+    
+    std::cout << "\nStart\n";
+    do
+    {
+        Real f_r = f_rad(r, l, q);
+        Real f_rdr = f_rad(r+dr, l, q);
+        Real f_rmr = f_rad(r-dr, l, q);
+        Real der = (f_rdr-f_r)/dr;
+        Real der2 = (f_rdr-2.0*f_r+f_rmr)/dr/dr;
+        
+        Real F_x = (der + r*der2)*exp(-(0.5*r*der+f_r)/(_kB*_temp[_qp]))*r*r;
+        
+        r = r+dr;
+        f_r = f_rad(r, l, q);
+        f_rdr = f_rad(r+dr, l, q);
+        f_rmr = f_rad(r-dr, l, q);
+        der = (f_rdr-f_r)/dr;
+        der2 = (f_rdr-2.0*f_r+f_rmr)/dr/dr;
+        
+        Real F_xp1 = (der + r*der2)*exp(-(0.5*r*der+f_r)/(_kB*_temp[_qp]))*r*r;
+        
+        new_add = trap_rule(F_xp1, F_x, dr);
+        
+        sum = sum + new_add;
+        //std::cout << step << "\t" << new_add << std::endl;
+        step++;
+    } while (new_add > eps && step < 20);
+    
+    value = pre_int*sum;
+    
+    if (isnan(value) || isinf(value))
+    	value = 1.0;
+    
+    return value;
+}
+
+/// Wc Helpter function for van der Waals frequency
+Real CollisionParameters::Wc_integral(Real lb, Real eps, int l, int q)
+{
+    Real value = 0.0;
+    Real pre_int = (_rad[l]+_rad[q]);
+    
+    Real r = lb+eps;
+    Real dr = 2.0*eps;
+    Real new_add;
+    Real sum = 0.0;
+    int step = 0;
+    
+    do
+    {
+        Real f_r = f_rad(r, l, q);
+        Real g_r = g_rad(r, l, q);
+        
+        Real F_x = g_r*exp(f_r/(_kB*_temp[_qp]))/(r*r);
+        
+        r = r+dr;
+        f_r = f_rad(r, l, q);
+        g_r = g_rad(r, l, q);
+        
+        Real F_xp1 = g_r*exp(f_r/(_kB*_temp[_qp]))/(r*r);
+        
+        new_add = trap_rule(F_xp1, F_x, dr);
+        
+        sum = sum + new_add;
+        step++;
+    } while (new_add > eps && step < 20);
+    
+    value = 1.0/(pre_int*sum);
+    
+    if (isnan(value) || isinf(value))
+        value = 0.0;
+    
+    return value;
+}
+
+/// Calculation of van der Waals frequency
+void CollisionParameters::calculate_beta_VW()
+{
+    for (unsigned int lm = 0; lm<_N.size(); ++lm)
+    {
+        int l = (int)lm/_nuc_bins;
+        for (unsigned int qr = 0; qr<_N.size(); ++qr)
+        {
+            int q = (int)qr/_nuc_bins;
+            Real Wk = Wk_integral((_rad[l]+_rad[q]), 1.0E-6, l, q);
+            Real Wc = Wc_integral((_rad[l]+_rad[q]), 1.0E-6, l, q);
+            Real top = 1.0 + ( (4*(_diffusion[_qp][lm]+_diffusion[_qp][qr]))/((_rad[l]+_rad[q])*sqrt(_vp[l]*_vp[l]+_vp[q]*_vp[q])) );
+            top = top*Wc;
+            Real bot = 1.0+(Wc/Wk)*( (4*(_diffusion[_qp][lm]+_diffusion[_qp][qr]))/((_rad[l]+_rad[q])*sqrt(_vp[l]*_vp[l]+_vp[q]*_vp[q])) );
+            _beta_VW[_qp][lm][qr] = _beta_Br[_qp][lm][qr]*((top/bot)-1.0);
+        }
+    }
+}
+
+
 

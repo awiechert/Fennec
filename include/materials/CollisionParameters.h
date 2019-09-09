@@ -136,6 +136,18 @@ protected:
     /// g Helper function for van der Waals frequency
     Real g_rad(Real r, int l, int q);
     
+    /// Integration helper function
+    Real trap_rule(Real f_xp1, Real f_x, Real dx);
+    
+    /// Wk Helpter function for van der Waals frequency
+    Real Wk_integral(Real lb, Real eps, int l, int q);
+    
+    /// Wc Helpter function for van der Waals frequency
+    Real Wc_integral(Real lb, Real eps, int l, int q);
+    
+    /// Calculation of van der Waals frequency
+    void calculate_beta_VW();
+    
 private:
 	const CARDINAL_Object & _user_object;			///< User object for CARDINAL simulation data/results
 	std::vector<const VariableValue *> _N;			///< Pointer list for the non-linear variables for number concentrations
@@ -175,14 +187,14 @@ private:
     std::vector<int> _charge_ub;			///< Upper bound charge number for charge Gaussian ==> size = num_size_bins
     std::vector<unsigned int> _index;		///< Indices for the particle variables in the system
     
-    MaterialProperty<std::map<int,int> > & _global_to_local;///< MaterialProperty for the global indices for conc variables ==> size = num_var
+    MaterialProperty<std::vector<int> > & _local_to_global;///< MaterialProperty for the local -> global indices for conc variables ==> size = num_var
     MaterialProperty<std::vector<Real> > & _diffusion;	///< MaterialProperty for the particle diffusion (m^2/s) ==> size = num_var
     
-    MaterialProperty<std::vector<std::vector<Real> > > & _beta_Br;	///< MaterialProperty for the Brownian frequency (m^3/s) ==> size = num_var x num_var
-    MaterialProperty<std::vector<std::vector<Real> > > & _beta_CE;	///< MaterialProperty for the Convective frequency (m^3/s) ==> size = num_var x num_var
-    MaterialProperty<std::vector<std::vector<Real> > > & _beta_GC;	///< MaterialProperty for the Gravitational frequency (m^3/s) ==> size = num_var x num_var
-    MaterialProperty<std::vector<std::vector<Real> > > & _beta_TI;	///< MaterialProperty for the Inertial frequency (m^3/s) ==> size = num_var x num_var
-    MaterialProperty<std::vector<std::vector<Real> > > & _beta_TS;	///< MaterialProperty for the Shear frequency (m^3/s) ==> size = num_var x num_var
-    MaterialProperty<std::vector<std::vector<Real> > > & _beta_VW;	///< MaterialProperty for the van der Waals frequency (m^3/s) ==> size = num_var x num_var
+    MaterialProperty<std::vector<std::vector<Real> > > & _beta_Br;	///< MaterialProperty for the Brownian frequency (m^3/s/p) ==> size = num_var x num_var
+    MaterialProperty<std::vector<std::vector<Real> > > & _beta_CE;	///< MaterialProperty for the Convective frequency (m^3/s/p) ==> size = num_var x num_var
+    MaterialProperty<std::vector<std::vector<Real> > > & _beta_GC;	///< MaterialProperty for the Gravitational frequency (m^3/s/p) ==> size = num_var x num_var
+    MaterialProperty<std::vector<std::vector<Real> > > & _beta_TI;	///< MaterialProperty for the Inertial frequency (m^3/s/p) ==> size = num_var x num_var
+    MaterialProperty<std::vector<std::vector<Real> > > & _beta_TS;	///< MaterialProperty for the Shear frequency (m^3/s/p) ==> size = num_var x num_var
+    MaterialProperty<std::vector<std::vector<Real> > > & _beta_VW;	///< MaterialProperty for the van der Waals frequency (m^3/s/p) ==> size = num_var x num_var
     MaterialProperty<std::vector<std::vector<Real> > > & _alpha_Br;	///< MaterialProperty for the Brownian efficiency (-) ==> size = num_var x num_var
 };
