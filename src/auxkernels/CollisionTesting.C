@@ -59,13 +59,15 @@ _global_index(coupled("conc")),
 _global_index_other(coupled("conc_other")),
 _local_to_global(getMaterialProperty<std::vector<int> >("index_list")),
 _diffusion(getMaterialProperty<std::vector<Real> >("particle_diffusion")),
+_dispersion(getMaterialProperty<std::vector<Real> >("particle_dispersion")),
 _beta_Br(getMaterialProperty<std::vector<std::vector<Real> > >("beta_Br")),
 _beta_CE(getMaterialProperty<std::vector<std::vector<Real> > >("beta_CE")),
 _beta_GC(getMaterialProperty<std::vector<std::vector<Real> > >("beta_GC")),
 _beta_TI(getMaterialProperty<std::vector<std::vector<Real> > >("beta_TI")),
 _beta_TS(getMaterialProperty<std::vector<std::vector<Real> > >("beta_TS")),
 _beta_VW(getMaterialProperty<std::vector<std::vector<Real> > >("beta_VW")),
-_alpha_Br(getMaterialProperty<std::vector<std::vector<Real> > >("alpha_Br"))
+_alpha_Br(getMaterialProperty<std::vector<std::vector<Real> > >("alpha_Br")),
+_alpha_GC(getMaterialProperty<std::vector<std::vector<Real> > >("alpha_GC"))
 {
 	_found = false;
 }
@@ -75,8 +77,9 @@ Real CollisionTesting::computeValue()
 	if (_found == false)
     	this->findLocalIndex();
     
-    //return (_beta_Br[_qp][_local_index][_local_index_other]+_beta_CE[_qp][_local_index][_local_index_other]+_beta_GC[_qp][_local_index][_local_index_other]+_beta_TI[_qp][_local_index][_local_index_other]+_beta_TS[_qp][_local_index][_local_index_other])*100.0*100.0*100.0;
-    return (_beta_Br[_qp][_local_index][_local_index_other]+_beta_VW[_qp][_local_index][_local_index_other])*100.0*100.0*100.0;
+    Real _beta = (_beta_Br[_qp][_local_index][_local_index_other]+_beta_CE[_qp][_local_index][_local_index_other]+_beta_GC[_qp][_local_index][_local_index_other]+_beta_TI[_qp][_local_index][_local_index_other]+_beta_TS[_qp][_local_index][_local_index_other]+_beta_VW[_qp][_local_index][_local_index_other]);
+    
+    return _alpha_Br[_qp][_local_index][_local_index_other]*_beta*_N[_qp]*_N_other[_qp];
 }
 
 /// Function to setup the local index

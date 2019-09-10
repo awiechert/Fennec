@@ -164,7 +164,7 @@
 	[./vp0z]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 0.0
+ 		initial_condition = -0.00045
 	[../]
  
     [./vp1x]
@@ -182,7 +182,7 @@
 	[./vp1z]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 0.0
+ 		initial_condition = -0.0025
 	[../]
  
  	[./vp2x]
@@ -218,7 +218,7 @@
 	[./vp3z]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 0.0
+ 		initial_condition = -0.025
 	[../]
  
  	[./vp4x]
@@ -254,7 +254,7 @@
 	[./vp5z]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 0.0
+ 		initial_condition = -0.025
 	[../]
  
  	[./vp6x]
@@ -290,7 +290,7 @@
 	[./vp7z]
  		order = FIRST
  		family = MONOMIAL
- 		initial_condition = 0.0
+ 		initial_condition = -0.25
 	[../]
  
  	[./vp8x]
@@ -326,7 +326,7 @@
 	[./vp9z]
         order = FIRST
  		family = MONOMIAL
- 		initial_condition = 0.0
+ 		initial_condition = -2.5
 	[../]
 
 [] #END AuxVariables
@@ -568,8 +568,8 @@
 	[./testing]
  		type = CollisionTesting
         variable = CoTest
-        conc = N2
-        conc_other = N6
+        conc = N6
+        conc_other = N9
         execute_on = 'initial timestep_end'
     [../]
 
@@ -718,7 +718,7 @@
 
 [Postprocessors]
 
-	[./CoTest]
+	[./CollisionRate]
  		type = ElementAverageValue
  		variable = CoTest
         execute_on = 'initial timestep_end'

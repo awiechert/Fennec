@@ -97,13 +97,15 @@ _m_pos(getParam<Real>("pos_mobility")),
 _arc(getParam<Real>("ion_recomb")),
 _local_to_global(declareProperty<std::vector<int> >("index_list")),
 _diffusion(declareProperty<std::vector<Real> >("particle_diffusion")),
+_dispersion(declareProperty<std::vector<Real> >("particle_dispersion")),
 _beta_Br(declareProperty<std::vector<std::vector<Real> > >("beta_Br")),
 _beta_CE(declareProperty<std::vector<std::vector<Real> > >("beta_CE")),
 _beta_GC(declareProperty<std::vector<std::vector<Real> > >("beta_GC")),
 _beta_TI(declareProperty<std::vector<std::vector<Real> > >("beta_TI")),
 _beta_TS(declareProperty<std::vector<std::vector<Real> > >("beta_TS")),
 _beta_VW(declareProperty<std::vector<std::vector<Real> > >("beta_VW")),
-_alpha_Br(declareProperty<std::vector<std::vector<Real> > >("alpha_Br"))
+_alpha_Br(declareProperty<std::vector<std::vector<Real> > >("alpha_Br")),
+_alpha_GC(declareProperty<std::vector<std::vector<Real> > >("alpha_GC"))
 {
     unsigned int n = coupledComponents("coupled_conc");
     unsigned int xn = coupledComponents("coupled_vx");
@@ -148,6 +150,7 @@ void CollisionParameters::initQpStatefulProperties()
 {
 	//Initialize memory space
     _diffusion[_qp].resize(_N.size());
+    _dispersion[_qp].resize(_N.size());
     _beta_Br[_qp].resize(_N.size());
     _beta_CE[_qp].resize(_N.size());
     _beta_GC[_qp].resize(_N.size());
@@ -155,6 +158,7 @@ void CollisionParameters::initQpStatefulProperties()
     _beta_TS[_qp].resize(_N.size());
     _beta_VW[_qp].resize(_N.size());
     _alpha_Br[_qp].resize(_N.size());
+    _alpha_GC[_qp].resize(_N.size());
     _local_to_global[_qp].resize(_N.size());
     
     //Initialize constants
@@ -171,6 +175,7 @@ void CollisionParameters::initQpStatefulProperties()
     _y.resize(_user_object.return_size_bins());
     _omega.resize(_user_object.return_size_bins());
     _avg_charge.resize(_user_object.return_size_bins());
+    _std_charge.resize(_user_object.return_size_bins());
     _charge_lb.resize(_user_object.return_size_bins());
     _charge_ub.resize(_user_object.return_size_bins());
     
@@ -194,8 +199,9 @@ void CollisionParameters::initQpStatefulProperties()
         _beta_TS[_qp][lm].resize(_N.size());
         _beta_VW[_qp][lm].resize(_N.size());
         _alpha_Br[_qp][lm].resize(_N.size());
+        _alpha_GC[_qp][lm].resize(_N.size());
     }
-    //std::cout << "\n------ Here ------- \n";
+    
 }
 
 //Compute properties
@@ -215,7 +221,19 @@ void CollisionParameters::computeQpProperties()
     calculate_y();
     calculate_omega();
     calculate_avg_charge();
+    calculate_std_charge();
     calculate_charge_bounds();
+    
+    //Temp testing
+    /*
+    Real charge = _charge_lb[9];
+    Real dc = (_charge_ub[9] - _charge_lb[9])/10.0;
+    for (int i=0; i<11; i++)
+    {
+    	//std::cout << charge_dist(charge, 9) << std::endl;
+        charge += dc;
+    }
+    */
     
     //Calculation of the material properties
     calculate_diffusion();
@@ -225,6 +243,7 @@ void CollisionParameters::computeQpProperties()
     calculate_beta_TI();
     calculate_beta_TS();
     calculate_beta_VW();
+    calculate_alpha_Br();
 }
 
 
@@ -258,7 +277,7 @@ void CollisionParameters::calculate_y()
 {
     for (unsigned int l = 0; l<_size_bins; l++)
     {
-    	_y[l] = _e0*_user_object.return_activity(l)/_ec/_m_neg/_n0;
+    	_y[l] = _e0*_user_object.return_activity(l)/1.0E18/_ec/_m_neg/_n0;
     }
 }
 
@@ -285,14 +304,53 @@ void CollisionParameters::calculate_avg_charge()
     }
 }
 
+/// Calculation of std charge parameter
+void CollisionParameters::calculate_std_charge()
+{
+    for (unsigned int l = 0; l<_size_bins; l++)
+    {
+    	_std_charge[l] = sqrt( _y[l] + (1.0/(2.0*_omega[l])) );
+    }
+}
+
 /// Calculation of charge boundaries for the average charge parameter
 void CollisionParameters::calculate_charge_bounds()
 {
     for (unsigned int l = 0; l<_size_bins; l++)
     {
-    	_charge_lb[l] = (int)_avg_charge[l] - 15;
-        _charge_ub[l] = (int)_avg_charge[l] + 15;
+    	_charge_lb[l] = _avg_charge[l] - 2.0*_std_charge[l];
+        _charge_ub[l] = _avg_charge[l] + 2.0*_std_charge[l];
     }
+}
+
+/// Calculation of normal distribution of charge
+Real CollisionParameters::charge_dist(Real charge, int l)
+{
+	Real value = 0.0;
+    
+    //Sum up all number concentrations associated with size bin l
+    Real sum = 0.0;
+    int start = l*_nuc_bins;
+    int end = start+_nuc_bins;
+    for (int i=start; i<end; i++)
+    {
+        sum += (*_N[i])[_qp];
+    }
+    
+    //Estimate normalized charge distribution for given charge value and size class l
+    value = exp( -(charge - _avg_charge[l])*(charge - _avg_charge[l])/(2.0*_std_charge[l]*_std_charge[l]) ) / ( _std_charge[l]*sqrt(2.0*3.14159) );
+    
+    return value*sum;
+}
+
+/// Helper function for calculation of interium alpha function for collision efficiency
+Real CollisionParameters::alpha_int(Real charge_l, Real charge_q, int l, int q)
+{
+    Real Y = charge_l*charge_q*_ec*_ec/(4.0*3.14159*_e0*_kB*_temp[_qp]*(_rad[l]+_rad[q]));
+    if (Y == 0.0)
+    	return 1.0;
+    else
+    	return Y/(exp(Y)-1.0);
 }
 
 /// Calculation of particle diffusion
@@ -332,7 +390,7 @@ void CollisionParameters::calculate_beta_Br()
             Real top = 4.0*3.14159*(_rad[l]+_rad[q])*(_diffusion[_qp][lm]+_diffusion[_qp][qr]);
             Real bot = ( (_rad[l]+_rad[q]) / ((_rad[l]+_rad[q])+sqrt(dl*dl+dq*dq)) ) + ( (4.0*(_diffusion[_qp][lm]+_diffusion[_qp][qr])) / ((_rad[l]+_rad[q])*sqrt(_vp[l]*_vp[l]+_vp[q]*_vp[q])) );
             
-            _beta_Br[_qp][lm][qr] = top/bot;
+            _beta_Br[_qp][lm][qr] = top/bot*1.0E18;
         }
     }
 }
@@ -353,6 +411,18 @@ Real CollisionParameters::Reynolds(int qr)
 Real CollisionParameters::Schmidt(int lm)
 {
     return _air_visc[_qp]/_diffusion[_qp][lm]/_air_dens[_qp];
+}
+
+/// Calculation of the Stokes number for Gravitational efficiency
+Real CollisionParameters::Stokes(int lm, int qr)
+{
+    int q = (int)qr/_nuc_bins;
+    Real ux = fabs((*_vx[lm])[_qp] - _wx[_qp]);
+    Real uy = fabs((*_vy[lm])[_qp] - _wy[_qp]);
+    Real uz = fabs((*_vz[lm])[_qp] - _wz[_qp]);
+    Real u_mag = sqrt(pow(ux, 2.0) + pow(uy, 2.0) + pow(uz, 2.0));
+    
+    return u_mag*RelVel(qr,lm)/_rad[q]/9.8;
 }
 
 /// Calculation of Convective frequency
@@ -392,7 +462,7 @@ void CollisionParameters::calculate_beta_GC()
         {
         	int q = (int)qr/_nuc_bins;
             Real vel = RelVel(lm,qr);
-            _beta_GC[_qp][lm][qr] = 3.14159*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*vel;
+            _beta_GC[_qp][lm][qr] = 3.14159*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*vel*1.0E18;
         }
     }
 }
@@ -407,7 +477,7 @@ void CollisionParameters::calculate_beta_TI()
         {
             int q = (int)qr/_nuc_bins;
             Real vel = RelVel(lm,qr);
-            _beta_TI[_qp][lm][qr] = (pow(_air_dens[_qp],0.25)*pow(_ed,0.75)/9.8/pow(_air_visc[_qp],0.25))*3.14159*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*vel;
+            _beta_TI[_qp][lm][qr] = (pow(_air_dens[_qp],0.25)*pow(_ed,0.75)/9.8/pow(_air_visc[_qp],0.25))*3.14159*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*vel*1.0E18;
         }
     }
 }
@@ -421,20 +491,20 @@ void CollisionParameters::calculate_beta_TS()
         for (unsigned int qr = 0; qr<_N.size(); ++qr)
         {
             int q = (int)qr/_nuc_bins;
-            _beta_TS[_qp][lm][qr] = sqrt(8.0*3.14159*_air_dens[_qp]*_ed/15.0/_air_visc[_qp])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q]);
+            _beta_TS[_qp][lm][qr] = sqrt(8.0*3.14159*_air_dens[_qp]*_ed/15.0/_air_visc[_qp])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*1.0E18;
         }
     }
 }
 
-// -------------- UNITS ON RADIUS ARE AN ISSUE HERE WHEN DOING NUMERICAL INTEGRATION!!! --------------
+// -------------- BE AWARE: Estimates for van der Waals interactions are very rough due to numerical integration --------------
 
 /// f Helper function for van der Waals frequency
 Real CollisionParameters::f_rad(Real r, int l, int q)
 {
 	Real t1, t2, t3;
-    t1 = (2.0*_rad[l]*_rad[q])/(r*r-(_rad[l]+_rad[q])*(_rad[l]+_rad[q]));
-    t2 = (2.0*_rad[l]*_rad[q])/(r*r-(_rad[l]-_rad[q])*(_rad[l]-_rad[q]));
-    t3 = log((r*r-(_rad[l]+_rad[q])*(_rad[l]+_rad[q]))/(r*r-(_rad[l]-_rad[q])*(_rad[l]-_rad[q])));
+    t1 = (2.0*_rad[l]*_rad[q]*1.0E+6*1.0E+6)/(r*r-(_rad[l]+_rad[q])*1.0E+6*(_rad[l]+_rad[q])*1.0E+6);
+    t2 = (2.0*_rad[l]*_rad[q]*1.0E+6)/(r*r-(_rad[l]-_rad[q])*1.0E+6*(_rad[l]-_rad[q])*1.0E+6);
+    t3 = log((r*r-(_rad[l]+_rad[q])*1.0E+6*(_rad[l]+_rad[q])*1.0E+6)/(r*r-(_rad[l]-_rad[q])*1.0E+6*(_rad[l]-_rad[q])*1.0E+6));
     return -_AH/6.0*(t1+t2+t3);
 }
 
@@ -442,8 +512,8 @@ Real CollisionParameters::f_rad(Real r, int l, int q)
 Real CollisionParameters::g_rad(Real r, int l, int q)
 {
 	Real t1, t2;
-    t1 = (2.6*_rad[l]*_rad[q])/((_rad[l]+_rad[q])*(_rad[l]+_rad[q]));
-    t2 = (_rad[l]*_rad[q])/((_rad[l]+_rad[q])*(r-_rad[l]-_rad[q]));
+    t1 = (2.6*_rad[l]*_rad[q]*1.0E+6*1.0E+6)/((_rad[l]+_rad[q])*1.0E+6*(_rad[l]+_rad[q])*1.0E+6);
+    t2 = (_rad[l]*_rad[q]*1.0E+6*1.0E+6)/((_rad[l]+_rad[q])*1.0E+6*(r-_rad[l]-_rad[q])*1.0E+6);
     return 1.0+t1*sqrt(t2)+t2;
 }
 
@@ -457,22 +527,27 @@ Real CollisionParameters::trap_rule(Real f_xp1, Real f_x, Real dx)
 Real CollisionParameters::Wk_integral(Real lb, Real eps, int l, int q)
 {
     Real value = 0.0;
-    Real pre_int = -1.0/(2.0*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*_kB*_temp[_qp]);
+    Real pre_int = -1.0/(2.0*(_rad[l]+_rad[q])*1.0E+6*(_rad[l]+_rad[q])*1.0E+6*_kB*_temp[_qp]);
     
     Real r = lb+eps;
-    Real dr = 2.0*eps;
+    Real dr = 0.1;
     Real new_add;
     Real sum = 0.0;
     int step = 0;
     
-    std::cout << "\nStart\n";
     do
     {
-        Real f_r = f_rad(r, l, q);
-        Real f_rdr = f_rad(r+dr, l, q);
-        Real f_rmr = f_rad(r-dr, l, q);
-        Real der = (f_rdr-f_r)/dr;
-        Real der2 = (f_rdr-2.0*f_r+f_rmr)/dr/dr;
+        Real f_r;
+        Real f_rdr;
+        Real f_rmr;
+        Real der;
+        Real der2;
+        
+        f_r = f_rad(r, l, q);
+        f_rdr = f_rad(r+dr, l, q);
+        f_rmr = f_rad(r+0.5*dr, l, q);
+        der = (f_rdr-f_r)/dr;
+        der2 = (f_rdr-2.0*f_rmr+f_r)/dr/dr*4.0;
         
         Real F_x = (der + r*der2)*exp(-(0.5*r*der+f_r)/(_kB*_temp[_qp]))*r*r;
         
@@ -488,9 +563,8 @@ Real CollisionParameters::Wk_integral(Real lb, Real eps, int l, int q)
         new_add = trap_rule(F_xp1, F_x, dr);
         
         sum = sum + new_add;
-        //std::cout << step << "\t" << new_add << std::endl;
         step++;
-    } while (new_add > eps && step < 20);
+    } while (fabs(new_add) > eps && step < 20);
     
     value = pre_int*sum;
     
@@ -504,10 +578,10 @@ Real CollisionParameters::Wk_integral(Real lb, Real eps, int l, int q)
 Real CollisionParameters::Wc_integral(Real lb, Real eps, int l, int q)
 {
     Real value = 0.0;
-    Real pre_int = (_rad[l]+_rad[q]);
+    Real pre_int = (_rad[l]+_rad[q])*1.0E+6;
     
     Real r = lb+eps;
-    Real dr = 2.0*eps;
+    Real dr = 0.1;
     Real new_add;
     Real sum = 0.0;
     int step = 0;
@@ -548,15 +622,59 @@ void CollisionParameters::calculate_beta_VW()
         for (unsigned int qr = 0; qr<_N.size(); ++qr)
         {
             int q = (int)qr/_nuc_bins;
-            Real Wk = Wk_integral((_rad[l]+_rad[q]), 1.0E-6, l, q);
-            Real Wc = Wc_integral((_rad[l]+_rad[q]), 1.0E-6, l, q);
+            Real Wk = Wk_integral((_rad[l]+_rad[q])*1.0E+6, 1.0E-6, l, q);
+            Real Wc = Wc_integral((_rad[l]+_rad[q])*1.0E+6, 1.0E-6, l, q);
+            Real rat = Wc/Wk;
+            if (isnan(rat))
+            	rat = Wc/(Wk+1.0E-6);
             Real top = 1.0 + ( (4*(_diffusion[_qp][lm]+_diffusion[_qp][qr]))/((_rad[l]+_rad[q])*sqrt(_vp[l]*_vp[l]+_vp[q]*_vp[q])) );
             top = top*Wc;
-            Real bot = 1.0+(Wc/Wk)*( (4*(_diffusion[_qp][lm]+_diffusion[_qp][qr]))/((_rad[l]+_rad[q])*sqrt(_vp[l]*_vp[l]+_vp[q]*_vp[q])) );
+            Real bot = 1.0+(rat)*( (4*(_diffusion[_qp][lm]+_diffusion[_qp][qr]))/((_rad[l]+_rad[q])*sqrt(_vp[l]*_vp[l]+_vp[q]*_vp[q])) );
             _beta_VW[_qp][lm][qr] = _beta_Br[_qp][lm][qr]*((top/bot)-1.0);
         }
     }
 }
 
+
+/// Calculation of Brownian efficiency
+void CollisionParameters::calculate_alpha_Br()
+{
+    for (unsigned int lm = 0; lm<_N.size(); ++lm)
+    {
+        int l = (int)lm/_nuc_bins;
+        for (unsigned int qr = 0; qr<_N.size(); ++qr)
+        {
+            int q = (int)qr/_nuc_bins;
+            
+            //Temp variables
+            Real top_sum = 0.0;
+            Real bot_sum = 0.0;
+            
+            //Sum over charges for l (n_l)
+            Real n_l = _charge_lb[l];
+            Real dn_l = (_charge_ub[l] - _charge_lb[l])/10.0;
+            for (int nl_i=0; nl_i<11; nl_i++)
+            {
+                //Sum over charges for q (n_q)
+                Real n_q = _charge_lb[q];
+                Real dn_q = (_charge_ub[q] - _charge_lb[q])/10.0;
+                for (int nq_i=0; nq_i<11; nq_i++)
+                {
+                    Real alpha = alpha_int(n_l, n_q, l, q);
+                    top_sum += charge_dist(n_l, l)*charge_dist(n_q, q)*(alpha - 1.0);
+                    bot_sum += charge_dist(n_l, l)*charge_dist(n_q, q);
+                    
+                    n_q += dn_q;
+                }//End q sum
+                
+                n_l += dn_l;
+            }//End l sum
+            
+            //Compute average alpha
+            _alpha_Br[_qp][lm][qr] = 1.0 + (top_sum/bot_sum);
+            
+        }
+    }
+}
 
 

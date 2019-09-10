@@ -71,6 +71,7 @@ protected:
     
     const MaterialProperty<std::vector<int> > & _local_to_global;///< MaterialProperty for the local -> global indices for conc variables ==> size = num_var
     const MaterialProperty<std::vector<Real> > & _diffusion;	///< MaterialProperty for the particle diffusion (m^2/s) ==> size = num_var
+    const MaterialProperty<std::vector<Real> > & _dispersion;	///< MaterialProperty for the particle dispersion (m^2/s) ==> size = num_var
     
     const MaterialProperty<std::vector<std::vector<Real> > > & _beta_Br;	///< MaterialProperty for the Brownian frequency (m^3/s) ==> size = num_var x num_var
     const MaterialProperty<std::vector<std::vector<Real> > > & _beta_CE;	///< MaterialProperty for the Convective frequency (m^3/s) ==> size = num_var x num_var
@@ -78,7 +79,8 @@ protected:
     const MaterialProperty<std::vector<std::vector<Real> > > & _beta_TI;	///< MaterialProperty for the Inertial frequency (m^3/s) ==> size = num_var x num_var
     const MaterialProperty<std::vector<std::vector<Real> > > & _beta_TS;	///< MaterialProperty for the Shear frequency (m^3/s) ==> size = num_var x num_var
     const MaterialProperty<std::vector<std::vector<Real> > > & _beta_VW;	///< MaterialProperty for the van der Waals frequency (m^3/s) ==> size = num_var x num_var
-    const MaterialProperty<std::vector<std::vector<Real> > > & _alpha_Br;	///< MaterialProperty for the Brownian efficiency (-) ==> size = num_var x num_var
+    const MaterialProperty<std::vector<std::vector<Real> > > & _alpha_Br;	///< MaterialProperty for the Brownian, Convective, and van der Waals efficiency (-) ==> size = num_var x num_var
+    const MaterialProperty<std::vector<std::vector<Real> > > & _alpha_GC;	///< MaterialProperty for the Gravitational efficiency (-) ==> size = num_var x num_var
     
 private:
     
