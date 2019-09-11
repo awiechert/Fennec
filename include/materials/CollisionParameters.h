@@ -112,6 +112,9 @@ protected:
     /// Calculation of particle diffusion
     void calculate_diffusion();
     
+    /// Calculation of particle disperision (molecular diffusion + eddy diffusion)
+    void calculate_dispersion();
+    
     /// Calculation of intermediate for Brownian frequency
     Real del(int l);
     
@@ -163,6 +166,9 @@ protected:
     /// Calculation of Brownian efficiency
     void calculate_alpha_Br();
     
+    /// Calculation of Gravitational efficiency
+    void calculate_alpha_GC();
+    
 private:
 	const CARDINAL_Object & _user_object;			///< User object for CARDINAL simulation data/results
 	std::vector<const VariableValue *> _N;			///< Pointer list for the non-linear variables for number concentrations
@@ -195,6 +201,7 @@ private:
     std::vector<Real> _mass;				///< Mass for debris particles of each size class (kg) ==> size = num_size_bins
     std::vector<Real> _vp;					///< Thermal speed for debris particles of each size class (m/s) ==> size = num_size_bins
     std::vector<Real> _lam;					///< Mean free path of debris particles in the air (m)
+    std::vector<Real> _tau;					///< Particle relaxation time in the air (s)
     std::vector<Real> _y;					///< y parameter for charge Gaussian ==> size = num_size_bins
     std::vector<Real> _omega;				///< omega parameter for charge Gaussian ==> size = num_size_bins
     std::vector<Real> _avg_charge;			///< average charge number for charge Gaussian ==> size = num_size_bins
@@ -205,6 +212,7 @@ private:
     
     MaterialProperty<std::vector<int> > & _local_to_global;///< MaterialProperty for the local -> global indices for conc variables ==> size = num_var
     MaterialProperty<std::vector<Real> > & _diffusion;	///< MaterialProperty for the particle diffusion (m^2/s) ==> size = num_var
+    MaterialProperty<std::vector<Real> > & _eddy_diff;	///< MaterialProperty for the particle eddy diffusion (m^2/s) ==> size = num_var
     MaterialProperty<std::vector<Real> > & _dispersion;	///< MaterialProperty for the particle dispersion (m^2/s) ==> size = num_var
     
     MaterialProperty<std::vector<std::vector<Real> > > & _beta_Br;	///< MaterialProperty for the Brownian frequency (m^3/s/GGp) ==> size = num_var x num_var

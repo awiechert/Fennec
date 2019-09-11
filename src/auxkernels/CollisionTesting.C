@@ -59,6 +59,7 @@ _global_index(coupled("conc")),
 _global_index_other(coupled("conc_other")),
 _local_to_global(getMaterialProperty<std::vector<int> >("index_list")),
 _diffusion(getMaterialProperty<std::vector<Real> >("particle_diffusion")),
+_eddy_diff(getMaterialProperty<std::vector<Real> >("eddy_diffusion")),
 _dispersion(getMaterialProperty<std::vector<Real> >("particle_dispersion")),
 _beta_Br(getMaterialProperty<std::vector<std::vector<Real> > >("beta_Br")),
 _beta_CE(getMaterialProperty<std::vector<std::vector<Real> > >("beta_CE")),
@@ -77,9 +78,10 @@ Real CollisionTesting::computeValue()
 	if (_found == false)
     	this->findLocalIndex();
     
-    Real _beta = (_beta_Br[_qp][_local_index][_local_index_other]+_beta_CE[_qp][_local_index][_local_index_other]+_beta_GC[_qp][_local_index][_local_index_other]+_beta_TI[_qp][_local_index][_local_index_other]+_beta_TS[_qp][_local_index][_local_index_other]+_beta_VW[_qp][_local_index][_local_index_other]);
+    //Real _beta = (_beta_Br[_qp][_local_index][_local_index_other]+_beta_CE[_qp][_local_index][_local_index_other]+_beta_GC[_qp][_local_index][_local_index_other]+_beta_TI[_qp][_local_index][_local_index_other]+_beta_TS[_qp][_local_index][_local_index_other]+_beta_VW[_qp][_local_index][_local_index_other]);
     
-    return _alpha_Br[_qp][_local_index][_local_index_other]*_beta*_N[_qp]*_N_other[_qp];
+    //return _alpha_Br[_qp][_local_index][_local_index_other]*_beta*_N[_qp]*_N_other[_qp];
+    return _beta_CE[_qp][_local_index][_local_index_other];
 }
 
 /// Function to setup the local index

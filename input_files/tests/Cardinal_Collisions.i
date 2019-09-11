@@ -568,8 +568,8 @@
 	[./testing]
  		type = CollisionTesting
         variable = CoTest
-        conc = N6
-        conc_other = N9
+        conc = N2
+        conc_other = N0
         execute_on = 'initial timestep_end'
     [../]
 

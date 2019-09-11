@@ -71,6 +71,7 @@ protected:
     
     const MaterialProperty<std::vector<int> > & _local_to_global;///< MaterialProperty for the local -> global indices for conc variables ==> size = num_var
     const MaterialProperty<std::vector<Real> > & _diffusion;	///< MaterialProperty for the particle diffusion (m^2/s) ==> size = num_var
+    const MaterialProperty<std::vector<Real> > & _eddy_diff;	///< MaterialProperty for the particle eddy diffusion (m^2/s) ==> size = num_var
     const MaterialProperty<std::vector<Real> > & _dispersion;	///< MaterialProperty for the particle dispersion (m^2/s) ==> size = num_var
     
     const MaterialProperty<std::vector<std::vector<Real> > > & _beta_Br;	///< MaterialProperty for the Brownian frequency (m^3/s) ==> size = num_var x num_var
