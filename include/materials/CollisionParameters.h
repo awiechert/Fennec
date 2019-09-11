@@ -17,6 +17,7 @@
  *			[4] C.F. Clement, R.A. Clement, R.G. Harrison, J. Aero. Sci., 26, 1207-1225, 1995.
  *			[5] M.Z. Jacobson, Fundamentals of Atmospheric Modeling (2nd Ed.), Cambridge U. Press, New York, 2005.
  *			[6] R.G. Harrison, K.S. Carslaw, Review of Geophysics, 41, 2003.
+ *			[7] B. Zhao, J. Wu, Atmospheric Environment, 40, 457-466, 2006. 
  *
  *  \author Austin Ladshaw
  *	\date 09/06/2019
