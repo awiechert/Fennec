@@ -111,6 +111,8 @@ protected:
     unsigned int _this_var;										///< Relative Index for this non-linear variable
     std::unordered_map<unsigned int, unsigned int> _those_var;	///< Relative indices for the list of non-linear variables
     
+    bool _gama_correction;								///< Boolean to specify use of gama correction term (Always true when not testing)
+    
 private:
     
 };

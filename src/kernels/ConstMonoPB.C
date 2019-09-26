@@ -54,6 +54,7 @@ InputParameters validParams<ConstMonoPB>()
     InputParameters params = validParams<Kernel>();
     params.addParam<Real>("efficiency",1.0,"Collision Efficiency (-)");
     params.addParam<Real>("frequency",1.0,"Collision Frequency (m^3/s)");
+    params.addParam<bool>("gama_correction",true,"Only change to false for testing purposes.");
     params.addRequiredParam< std::vector<Real> >("diameters","Set of particle diameters corresponding to each size bin (m) (Must have same order as the 'coupled_list')");
     params.addRequiredCoupledVar("coupled_list","List of names of the number concentration variables being coupled (including this variable)");
     params.addRequiredCoupledVar("main_variable","Name of the number concentration variable this kernel acts on");
@@ -65,7 +66,8 @@ ConstMonoPB::ConstMonoPB(const InputParameters & parameters)
 _const_alpha(getParam<Real>("efficiency")),
 _const_beta(getParam<Real>("frequency")),
 _dia(getParam<std::vector<Real> >("diameters")),
-_u_var(coupled("main_variable"))
+_u_var(coupled("main_variable")),
+_gama_correction(getParam<bool>("gama_correction"))
 {
     _M = coupledComponents("coupled_list");
     if (_M != _dia.size())
@@ -197,7 +199,10 @@ void ConstMonoPB::GamaFill()
         for (int l=0; l<_M; l++)
         {
         	if ( (_vol[k]+_vol[l]) > _vol[_M-1] )
-            	_gama[k][l] = 0.0;
+            	if (_gama_correction == true)
+            		_gama[k][l] = 0.0;
+                else
+                	_gama[k][l] = 1.0;
             else
             	_gama[k][l] = 1.0;
         }

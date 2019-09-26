@@ -4,7 +4,7 @@
 	vy = 0.0
  	vz = 0.0
  
-    diameters = '1.420248 1.7894005'
+    diameters = '1 2'
     gama_correction = false
 
 [] #END GlobalParams
@@ -28,13 +28,13 @@
     [./N0]
         order = FIRST
         family = MONOMIAL
-        initial_condition = 0
+        initial_condition = 100
     [../]
  
  	[./N1]
  		order = FIRST
  		family = MONOMIAL
-        initial_condition = 1
+        initial_condition = 0
  	[../]
 
 
@@ -124,17 +124,17 @@
 [Postprocessors]
 
 #May consider custom versions of these postprocessors to correct for negative mass ocsillations...
-	[./N0]
-		type = ElementAverageValue
-		variable = N0
-		execute_on = 'initial timestep_end'
-	[../]
+#	[./N0]
+#		type = ElementAverageValue
+#		variable = N0
+#		execute_on = 'initial timestep_end'
+#	[../]
  
-	[./N1]
-		type = ElementAverageValue
-		variable = N1
-		execute_on = 'initial timestep_end'
-	[../]
+#	[./N1]
+#		type = ElementAverageValue
+#		variable = N1
+#		execute_on = 'initial timestep_end'
+#	[../]
  
 	[./vol_total]
 		type = ElementAverageValue
@@ -167,9 +167,9 @@
     petsc_options_value = 'hypre boomeramg 100'
 
     [./TimeStepper]
-#		type = SolutionTimeAdaptiveDT
-		type = ConstantDT
-        dt = 0.25
+		type = SolutionTimeAdaptiveDT
+#		type = ConstantDT
+        dt = 0.025
     [../]
 
 [] #END Executioner
