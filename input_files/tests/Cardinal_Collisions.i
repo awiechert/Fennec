@@ -6,6 +6,7 @@
  
  	# Diameters are in um here. Kernels usually want units in m.
     diameters = '0.00178 0.00562 0.0178 0.0562 0.178 0.562 1.78 5.62 17.8 56.2'
+    alpha_correction = true
 
 [] #END GlobalParams
 
@@ -17,9 +18,9 @@
 
     type = GeneratedMesh
     dim = 3
- 	nx = 2
-	ny = 2
-	nz = 2
+ 	nx = 1
+	ny = 1
+	nz = 1
  	xmin = -4000.0
  	xmax = 4000.0
  	ymin = -4000.0
@@ -434,7 +435,7 @@
     [../]
 
     [./N0_MPB]
-        type = ConstMonoPB
+        type = BrownianMonoPB
         variable = N0
         main_variable = N0
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -447,7 +448,7 @@
  	[../]
  
  	[./N1_MPB]
- 		type = ConstMonoPB
+ 		type = BrownianMonoPB
  		variable = N1
         main_variable = N1
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -460,7 +461,7 @@
  	[../]
  
  	[./N2_MPB]
- 		type = ConstMonoPB
+ 		type = BrownianMonoPB
  		variable = N2
  		main_variable = N2
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -473,7 +474,7 @@
  	[../]
  
  	[./N3_MPB]
- 		type = ConstMonoPB
+ 		type = BrownianMonoPB
  		variable = N3
  		main_variable = N3
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -486,7 +487,7 @@
  	[../]
  
     [./N4_MPB]
- 		type = ConstMonoPB
+ 		type = BrownianMonoPB
  		variable = N4
  		main_variable = N4
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -499,7 +500,7 @@
 	 [../]
  
  	[./N5_MPB]
- 		type = ConstMonoPB
+ 		type = BrownianMonoPB
  		variable = N5
  		main_variable = N5
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -512,7 +513,7 @@
  	[../]
  
     [./N6_MPB]
- 		type = ConstMonoPB
+ 		type = BrownianMonoPB
  		variable = N6
  		main_variable = N6
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -525,7 +526,7 @@
  	[../]
  
  	[./N7_MPB]
- 		type = ConstMonoPB
+ 		type = BrownianMonoPB
  		variable = N7
  		main_variable = N7
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -538,7 +539,7 @@
  	[../]
  
  	[./N8_MPB]
- 		type = ConstMonoPB
+ 		type = BrownianMonoPB
  		variable = N8
  		main_variable = N8
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -551,7 +552,7 @@
  	[../]
  
  	[./N9_MPB]
- 		type = ConstMonoPB
+ 		type = BrownianMonoPB
  		variable = N9
  		main_variable = N9
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -568,7 +569,7 @@
 	[./testing]
  		type = CollisionTesting
         variable = CoTest
-        conc = N2
+        conc = N0
         conc_other = N0
         execute_on = 'initial timestep_end'
     [../]
@@ -577,7 +578,6 @@
 		type = VolumeBalanceCheck
 		variable = V_total
 		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        diameters = '0.00178 0.00562 0.0178 0.0562 0.178 0.562 1.78 5.62 17.8 56.2'
         execute_on = 'initial timestep_end'
 	[../]
  
@@ -816,7 +816,7 @@
     solve_type = pjfnk
     line_search = bt    # Options: default shell none basic l2 bt cp
     start_time = 0.0
-	end_time = 0.05
+	end_time = 100.0
     dtmax = 0.5
     petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
     petsc_options_value = 'hypre boomeramg 100'
@@ -849,6 +849,6 @@
 
     exodus = true
     csv = true
-    print_linear_residuals = true
+    print_linear_residuals = false
 
 [] #END Outputs

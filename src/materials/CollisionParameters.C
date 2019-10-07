@@ -97,6 +97,7 @@ _m_neg(getParam<Real>("neg_mobility")),
 _m_pos(getParam<Real>("pos_mobility")),
 _arc(getParam<Real>("ion_recomb")),
 _local_to_global(declareProperty<std::vector<int> >("index_list")),
+_diameter(declareProperty<std::vector<Real> >("diameter")),
 _diffusion(declareProperty<std::vector<Real> >("particle_diffusion")),
 _eddy_diff(declareProperty<std::vector<Real> >("eddy_diffusion")),
 _dispersion(declareProperty<std::vector<Real> >("particle_dispersion")),
@@ -163,6 +164,7 @@ void CollisionParameters::initQpStatefulProperties()
     _alpha_Br[_qp].resize(_N.size());
     _alpha_GC[_qp].resize(_N.size());
     _local_to_global[_qp].resize(_N.size());
+    _diameter[_qp].resize(_N.size());
     
     //Initialize constants
     _kB = 1.38065E-23;
@@ -204,6 +206,8 @@ void CollisionParameters::initQpStatefulProperties()
         _beta_VW[_qp][lm].resize(_N.size());
         _alpha_Br[_qp][lm].resize(_N.size());
         _alpha_GC[_qp][lm].resize(_N.size());
+        int l = (int)lm/_nuc_bins;
+        _diameter[_qp][lm] = _rad[l]*2.0;
     }
     
 }
