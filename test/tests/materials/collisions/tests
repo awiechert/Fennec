@@ -1,0 +1,7 @@
+[Tests]
+  [./collisions-Brownian]
+    type = 'Exodiff'
+    input = 'Cardinal_Collisions.i'
+    exodiff = 'Cardinal_Collisions_out.e'
+  [../]
+[]
