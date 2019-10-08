@@ -339,6 +339,13 @@ Real CollisionParameters::charge_dist(Real charge, int l)
     //Estimate normalized charge distribution for given charge value and size class l
     value = exp( -(charge - _avg_charge[l])*(charge - _avg_charge[l])/(2.0*_std_charge[l]*_std_charge[l]) ) / ( _std_charge[l]*sqrt(2.0*3.14159) );
     
+    if (isnan(value))
+    {
+    	if (charge == _avg_charge[l])
+        	value = 1.0;
+        else
+        	value = 0.0;
+    }
     return value*sum;
 }
 
@@ -749,7 +756,10 @@ void CollisionParameters::calculate_alpha_Br()
             }//End l sum
             
             //Compute average alpha
-            _alpha_Br[_qp][lm][qr] = 1.0 + (top_sum/bot_sum);
+            if (bot_sum == 0.0)
+            	_alpha_Br[_qp][lm][qr] = 1.0;
+            else
+            	_alpha_Br[_qp][lm][qr] = 1.0 + (top_sum/bot_sum);
             
         }
     }
