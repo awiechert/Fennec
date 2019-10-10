@@ -102,11 +102,6 @@
 		family = MONOMIAL
 	[../]
  
- 	[./N_total]
- 		order = FIRST
- 		family = MONOMIAL
-	[../]
- 
 	[./N_avg]
  		order = FIRST
  		family = MONOMIAL
@@ -354,13 +349,6 @@
 		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
         diameters = '0.00178 0.00562 0.0178 0.0562 0.178 0.562 1.78 5.62 17.8 56.2'
         execute_on = 'initial timestep_end'
-	[../]
- 
- 	[./N_accumulated]
- 		type = AccumulatedMaterial
- 		variable = N_total
- 		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 		execute_on = 'initial timestep_begin timestep_end'
 	[../]
  
 	[./N_average]

@@ -50,6 +50,25 @@
 		order = FIRST
 		family = MONOMIAL
 	[../]
+ 
+ 	[./vpx]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 		initial_condition = 1.0
+	[../]
+ 
+	[./vpy]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 		initial_condition = 1.0
+	[../]
+ 
+	[./vpz]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 		initial_condition = -1.0
+	[../]
+
 
 [] #END AuxVariables
 
@@ -111,6 +130,9 @@
 		type = AccumulatedMaterial
 		variable = u_total
 		coupled_vars = 'u'
+ 		vxs = 'vpx'
+ 		vys = 'vpy'
+ 		vzs = 'vpz'
 	[../]
 
 [] #END AuxKernels

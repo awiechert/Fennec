@@ -156,6 +156,9 @@
 		type = AccumulatedMaterial
 		variable = c_total
 		coupled_vars = 'c'
+ 		vxs = 'vpx'
+ 		vys = 'vpy'
+ 		vzs = 'vpz'
 	[../]
  
 	[./part_vel_x]

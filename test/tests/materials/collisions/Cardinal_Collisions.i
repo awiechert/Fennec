@@ -585,7 +585,10 @@
  		type = AccumulatedMaterial
  		variable = N_total
  		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 		execute_on = 'initial timestep_begin timestep_end'
+ 		vxs = 'vp0x vp1x vp2x vp3x vp4x vp5x vp6x vp7x vp8x vp9x'
+ 		vys = 'vp0y vp1y vp2y vp3y vp4y vp5y vp6y vp7y vp8y vp9y'
+ 		vzs = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z'
+ 		execute_on = 'initial timestep_end'
 	[../]
  
 	[./N_average]

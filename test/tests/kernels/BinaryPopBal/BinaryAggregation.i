@@ -38,11 +38,6 @@
 [] #END Variables
 
 [AuxVariables]
- 
-	[./N_total]
-		order = FIRST
-		family = MONOMIAL
-	[../]
 
 [] #END AuxVariables
 
@@ -88,12 +83,6 @@
 
 [AuxKernels]
 
-	[./N_accumulated]
-		type = AccumulatedMaterial
-		variable = N_total
-		coupled_vars = 'N0 N1'
-	[../]
-
 [] #END AuxKernels
 
 [BCs]
@@ -131,12 +120,6 @@
 	[./N1]
 		type = ElementAverageValue
 		variable = N1
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./N_total]
-		type = ElementAverageValue
-		variable = N_total
 		execute_on = 'initial timestep_end'
 	[../]
 
