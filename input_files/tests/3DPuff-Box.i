@@ -297,7 +297,10 @@
 		type = AccumulatedMaterial
 		variable = c_total
 		coupled_vars = 'c1 c2 c3'
-		execute_on = 'initial timestep_begin timestep_end'
+ 		vxs = 'vp1x vp2x vp3x'
+ 		vys = 'vp1y vp2y vp3y'
+ 		vzs = 'vp1z vp2z vp3z'
+		execute_on = 'initial timestep_end'
 	[../]
  
 	[./c_average]

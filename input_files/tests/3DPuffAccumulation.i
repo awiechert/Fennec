@@ -50,6 +50,24 @@ nz = 10
 		order = FIRST
 		family = MONOMIAL
 	[../]
+ 
+ [./wx]
+ order = FIRST
+ family = MONOMIAL
+ initial_condition = 1.0
+	[../]
+ 
+	[./wy]
+ order = FIRST
+ family = MONOMIAL
+ initial_condition = 1.0
+	[../]
+ 
+	[./wz]
+ order = FIRST
+ family = MONOMIAL
+ initial_condition = -1.0
+	[../]
 
 [] #END AuxVariables
 
@@ -111,6 +129,9 @@ nz = 10
 		type = AccumulatedMaterial
 		variable = u_total
 		coupled_vars = 'u'
+ 		vxs = 'wx'
+ 		vys = 'wy'
+ 		vzs = 'wz'
 	[../]
 
 [] #END AuxKernels

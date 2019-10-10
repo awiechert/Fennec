@@ -6,8 +6,8 @@
  
 #    diameters = '0.00178 0.00562 0.0178 0.0562 0.178 0.562 1.78 5.62 17.8 56.2'
 
-	#order of shape function for all variables
-	order = CONSTANT
+	#order of shape function for all variables (use: 'CONSTANT' or 'FIRST')
+	order = FIRST
 
 [] #END GlobalParams
 
@@ -19,15 +19,16 @@
 
  	type = GeneratedMesh
  	dim = 3
- 	nx = 100
-	ny = 100
-	nz = 50
+    #NOTE: When NOT using mesh adaptivity, double or triple the nx, ny, and nz values
+ 	nx = 30
+	ny = 12
+	nz = 6
  	xmin = 0.0
- 	xmax = 120000.0
+ 	xmax = 36000.0
  	ymin = 0.0
- 	ymax = 120000.0
+ 	ymax = 12000.0
 	zmin = 500.0
-	zmax = 10000.0
+	zmax = 12000.0
 
 [] # END Mesh
 
@@ -375,7 +376,7 @@
 	[./wy_parabola]
  		type = ParabolicWindIC
  		variable = wy
- 		max_velocity = 10.0
+ 		max_velocity = 0.0
  		min_velocity = 0.0
  		max_altitude = 100.0
  		power_param = 0.5
@@ -384,6 +385,8 @@
 [] #END ICs
 
 [Kernels]
+
+#NOTE: The particle aggregation slows down the computations to a crawl
 
     [./N0_dot]
         type = CoefTimeDerivative
@@ -404,12 +407,12 @@
  		variable = N0
  	[../]
 
-    [./N0_MPB]
-        type = BrownianMonoPB 			#ConstMonoPB works
-        variable = N0
-        main_variable = N0
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-    [../]
+#    [./N0_MPB]
+#        type = BrownianMonoPB
+#        variable = N0
+#        main_variable = N0
+#        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+#    [../]
  
  	[./N1_dot]
  		type = CoefTimeDerivative
@@ -430,12 +433,12 @@
  		variable = N1
  	[../]
  
- 	[./N1_MPB]
- 		type = BrownianMonoPB
- 		variable = N1
-        main_variable = N1
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 	[../]
+# 	[./N1_MPB]
+# 		type = BrownianMonoPB
+# 		variable = N1
+#        main_variable = N1
+# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+# 	[../]
  
  	[./N2_dot]
  		type = CoefTimeDerivative
@@ -456,12 +459,12 @@
  		variable = N2
  	[../]
  
- 	[./N2_MPB]
- 		type = BrownianMonoPB
- 		variable = N2
- 		main_variable = N2
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-    [../]
+# 	[./N2_MPB]
+# 		type = BrownianMonoPB
+# 		variable = N2
+# 		main_variable = N2
+# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+#    [../]
  
  	[./N3_dot]
  		type = CoefTimeDerivative
@@ -482,12 +485,12 @@
  		variable = N3
  	[../]
  
- 	[./N3_MPB]
- 		type = BrownianMonoPB
- 		variable = N3
- 		main_variable = N3
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 	[../]
+# 	[./N3_MPB]
+# 		type = BrownianMonoPB
+# 		variable = N3
+# 		main_variable = N3
+# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+# 	[../]
  
  	[./N4_dot]
  		type = CoefTimeDerivative
@@ -508,12 +511,12 @@
  		variable = N4
  	[../]
  
-    [./N4_MPB]
- 		type = BrownianMonoPB
- 		variable = N4
- 		main_variable = N4
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 	[../]
+#    [./N4_MPB]
+# 		type = BrownianMonoPB
+# 		variable = N4
+# 		main_variable = N4
+# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+# 	[../]
  
  	[./N5_dot]
  		type = CoefTimeDerivative
@@ -534,12 +537,12 @@
  		variable = N5
  	[../]
  
- 	[./N5_MPB]
- 		type = BrownianMonoPB
- 		variable = N5
- 		main_variable = N5
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 	[../]
+# 	[./N5_MPB]
+# 		type = BrownianMonoPB
+# 		variable = N5
+# 		main_variable = N5
+# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+# 	[../]
  
  	[./N6_dot]
  		type = CoefTimeDerivative
@@ -560,12 +563,12 @@
  		variable = N6
  	[../]
  
-    [./N6_MPB]
- 		type = BrownianMonoPB
- 		variable = N6
- 		main_variable = N6
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 	[../]
+#    [./N6_MPB]
+# 		type = BrownianMonoPB
+# 		variable = N6
+# 		main_variable = N6
+# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+# 	[../]
  
  	[./N7_dot]
  		type = CoefTimeDerivative
@@ -586,12 +589,12 @@
  		variable = N7
  	[../]
  
- 	[./N7_MPB]
- 		type = BrownianMonoPB
- 		variable = N7
- 		main_variable = N7
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 	[../]
+# 	[./N7_MPB]
+# 		type = BrownianMonoPB
+# 		variable = N7
+# 		main_variable = N7
+# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+# 	[../]
  
  	[./N8_dot]
  		type = CoefTimeDerivative
@@ -612,12 +615,12 @@
  		variable = N8
  	[../]
  
- 	[./N8_MPB]
- 		type = BrownianMonoPB
- 		variable = N8
- 		main_variable = N8
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 	[../]
+# 	[./N8_MPB]
+# 		type = BrownianMonoPB
+# 		variable = N8
+# 		main_variable = N8
+# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+# 	[../]
  
  	[./N9_dot]
  		type = CoefTimeDerivative
@@ -638,12 +641,12 @@
  		variable = N9
  	[../]
  
- 	[./N9_MPB]
- 		type = BrownianMonoPB
- 		variable = N9
- 		main_variable = N9
- 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 	[../]
+# 	[./N9_MPB]
+# 		type = BrownianMonoPB
+# 		variable = N9
+# 		main_variable = N9
+# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+# 	[../]
 
 [] #END Kernels
 
@@ -787,7 +790,10 @@
  		type = AccumulatedMaterial
  		variable = N_total
  		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 		execute_on = 'initial timestep_begin timestep_end'
+ 		vxs = 'vp0x vp1x vp2x vp3x vp4x vp5x vp6x vp7x vp8x vp9x'
+ 		vys = 'vp0y vp1y vp2y vp3y vp4y vp5y vp6y vp7y vp8y vp9y'
+ 		vzs = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z'
+ 		execute_on = 'initial timestep_end'
 	[../]
  
 	[./N_average]
@@ -1607,8 +1613,8 @@
     solve_type = pjfnk
     line_search = bt    # Options: default shell none basic l2 bt cp
     start_time = 0.0
-	end_time = 1000.0
-    dtmax = 6.0
+	end_time = 5000.0
+    dtmax = 60.0
     petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
     petsc_options_value = 'hypre boomeramg 100'
 

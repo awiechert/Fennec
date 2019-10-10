@@ -1,12 +1,12 @@
 /*!
  *  \file AccumulatedMaterial.h
- *	\brief Auxillary kernel to keep track of the total accumulated amount of a variable
+ *	\brief Auxillary kernel to keep track of the total accumulated amount of a variable on a surface
  *	\details This file creates an auxillary kernel that computes the total accumulated amount
- *			of a non-linear variable that has passed through a particular element in the mesh. 
- *			This kernel couples with a non-linear variable and integrates it over the volume
- *			of the current element. That integrated amount is then continuously added to 
+ *			of a non-linear variable that has passed through a particular boundary in the mesh.
+ *			This kernel couples with a non-linear variable and integrates it over the flux
+ *			accross the current boundary. That integrated amount is then continuously added to
  *			prior integrals calculated to create a running total of material that has passed
- *			through the element.
+ *			through the boundary.
  *
  *  \author Austin Ladshaw
  *	\date 05/18/2018
@@ -67,6 +67,11 @@ protected:
 	virtual Real computeValue() override;
 	
 	std::vector<const VariableValue *> _coupled_u;			///< Pointer list for the non-linear variables
+    std::vector<const VariableValue *> _coupled_u_old;		///< Pointer list for the non-linear variables at prior step
+    
+    std::vector<const VariableValue *> _vx;			///< Pointer list for the x-direction velocities
+    std::vector<const VariableValue *> _vy;			///< Pointer list for the y-direction velocities
+    std::vector<const VariableValue *> _vz;			///< Pointer list for the z-direction velocities
 	
 private:
 	

@@ -14,15 +14,15 @@
 
     type = GeneratedMesh
     dim = 3
-	nx = 5
-	ny = 5
-	nz = 5
-    xmin = 0.0
-    xmax = 10.0
-    ymin = 0.0
-    ymax = 10.0
+	nx = 20
+	ny = 20
+	nz = 10
+ 	xmin = 0.0
+ 	xmax = 20.0
+ 	ymin = 0.0
+ 	ymax = 20.0
 	zmin = 0.0
-	zmax = 5.0
+	zmax = 10.0
 
 [] # END Mesh
 
@@ -61,13 +61,13 @@
 	[./wx]
 		order = FIRST
 		family = MONOMIAL
-		initial_condition = 0.0
+		initial_condition = 5.0
 	[../]
  
 	[./wy]
 		order = FIRST
 		family = MONOMIAL
-		initial_condition = 0.0
+		initial_condition = 5.0
 	[../]
  
 	[./wz]
@@ -149,40 +149,40 @@
 	[./c1_ellipse]
 		type = ConstantEllipsoidIC
 		variable = c1
-		value_inside = 10.0
+		value_inside = 100.0
 		value_outside = 0.0
-		x_length = 2
-		y_length = 1.5
-		z_length = 1
-		x_center = 2.5
-		y_center = 2.5
-		z_center = 3
+		x_length = 3
+		y_length = 3
+		z_length = 2
+		x_center = 4
+		y_center = 4
+		z_center = 5
 	[../]
  
 	[./c2_ellipse]
 		type = ConstantEllipsoidIC
 		variable = c2
-		value_inside = 20.0
+		value_inside = 200.0
 		value_outside = 0.0
-		x_length = 2
-		y_length = 1.5
-		z_length = 1
-		x_center = 2.5
-		y_center = 2.5
-		z_center = 3
+		x_length = 3
+		y_length = 3
+		z_length = 2
+		x_center = 4
+		y_center = 4
+		z_center = 5
 	[../]
  
 	[./c3_ellipse]
 		type = ConstantEllipsoidIC
 		variable = c3
-		value_inside = 10.0
+		value_inside = 100.0
 		value_outside = 0.0
-		x_length = 2
-		y_length = 1.5
-		z_length = 1
-		x_center = 2.5
-		y_center = 2.5
-		z_center = 3
+		x_length = 3
+		y_length = 3
+		z_length = 2
+		x_center = 4
+		y_center = 4
+		z_center = 5
 	[../]
 
 [] #END ICs
@@ -297,9 +297,9 @@
 		type = AccumulatedMaterial
 		variable = c_total
 		coupled_vars = 'c1 c2 c3'
- 		vxs = 'vp1x vp2x vp3x'
- 		vys = 'vp1y vp2y vp3y'
- 		vzs = 'vp1z vp2z vp3z'
+        vxs = 'vp1x vp2x vp3x'
+        vys = 'vp1y vp2y vp3y'
+        vzs = 'vp1z vp2z vp3z'
 		execute_on = 'initial timestep_end'
 	[../]
  
@@ -333,8 +333,8 @@
 		direction = 1
  		windx = wx
  		windy = wy
- 		windz = wz
- 		varx = vp1x
+		 windz = wz
+		 varx = vp1x
  		vary = vp1y
  		varz = vp1z
 		air_density = air_dens
@@ -557,7 +557,7 @@
     solve_type = pjfnk
     line_search = bt    # Options: default shell none basic l2 bt cp
     start_time = 0.0
-	end_time = 5.0
+	end_time = 10.0
     dtmax = 1.0
     petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
     petsc_options_value = 'hypre boomeramg 100'
