@@ -108,7 +108,9 @@ _beta_TI(declareProperty<std::vector<std::vector<Real> > >("beta_TI")),
 _beta_TS(declareProperty<std::vector<std::vector<Real> > >("beta_TS")),
 _beta_VW(declareProperty<std::vector<std::vector<Real> > >("beta_VW")),
 _alpha_Br(declareProperty<std::vector<std::vector<Real> > >("alpha_Br")),
-_alpha_GC(declareProperty<std::vector<std::vector<Real> > >("alpha_GC"))
+_alpha_GC(declareProperty<std::vector<std::vector<Real> > >("alpha_GC")),
+_time_record(declareProperty<int>("time_record")),
+_done(declareProperty<bool>("done"))
 {
     unsigned int n = coupledComponents("coupled_conc");
     unsigned int xn = coupledComponents("coupled_vx");
@@ -210,39 +212,50 @@ void CollisionParameters::initQpStatefulProperties()
         _diameter[_qp][lm] = _rad[l]*2.0;
     }
     
+    _done[_qp] = false;
+    _time_record[_qp] = 0;
 }
 
 //Compute properties
 void CollisionParameters::computeQpProperties()
 {
-    //Initialize Space
+    //Initialize Space (called only once)
     if (_diffusion[_qp].size() < _N.size())
         this->initQpStatefulProperties();
-	
-	//Simple inline calculations
-    _va = sqrt( 8.0*_kB*_temp[_qp]/3.14159/_ma );
-    _AH = 100.0*_kB*_temp[_qp]; //NOTE: May change to more precise calculation later
-    calculate_n0();
+
+	//Only call this if we have not already called it
+    if (_time_record[_qp] != _t_step)
+    {
+        //if (_qp == 0)
+            //std::cout << "\nComputing Collision Parameters...\n";
+        
+		//Simple inline calculations
+    	_va = sqrt( 8.0*_kB*_temp[_qp]/3.14159/_ma );
+    	_AH = 100.0*_kB*_temp[_qp]; //NOTE: May change to more precise calculation later
+    	calculate_n0();
     
-    //Calculation of vector parameters
-    calculate_vp();
-    calculate_y();
-    calculate_omega();
-    calculate_avg_charge();
-    calculate_std_charge();
-    calculate_charge_bounds();
+    	//Calculation of vector parameters
+    	calculate_vp();
+    	calculate_y();
+    	calculate_omega();
+    	calculate_avg_charge();
+    	calculate_std_charge();
+    	calculate_charge_bounds();
     
-    //Calculation of the material properties
-    calculate_diffusion();
-    calculate_dispersion();
-    calculate_beta_Br();
-    calculate_beta_CE();
-    calculate_beta_GC();
-    calculate_beta_TI();
-    calculate_beta_TS();
-    calculate_beta_VW();
-    calculate_alpha_Br();
-    calculate_alpha_GC();
+    	//Calculation of the material properties
+    	calculate_diffusion();
+    	calculate_dispersion();
+    	calculate_beta_Br();
+    	calculate_beta_CE();
+    	calculate_beta_GC();
+    	calculate_beta_TI();
+    	calculate_beta_TS();
+    	calculate_beta_VW();
+    	calculate_alpha_Br();
+    	calculate_alpha_GC();
+        
+        _time_record[_qp] = _t_step;
+    }
 }
 
 

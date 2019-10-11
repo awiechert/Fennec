@@ -225,4 +225,8 @@ private:
     MaterialProperty<std::vector<std::vector<Real> > > & _beta_VW;	///< MaterialProperty for the van der Waals frequency (m^3/s/GGp) ==> size = num_var x num_var
     MaterialProperty<std::vector<std::vector<Real> > > & _alpha_Br;	///< MaterialProperty for the Brownian, Convective, and van der Waals efficiency (-) ==> size = num_var x num_var
     MaterialProperty<std::vector<std::vector<Real> > > & _alpha_GC;	///< MaterialProperty for the Gravitational efficiency (-) ==> size = num_var x num_var
+    
+    /// The below properties are used to determine whether or not the functions have already been called at the current _qp & _t combination
+    MaterialProperty<int> & _time_record;
+    MaterialProperty<bool> & _done;
 };

@@ -245,7 +245,7 @@ Real BrownianMonoPB::computeQpResidual()
 
 Real BrownianMonoPB::computeQpJacobian()
 {
-	this->AlphaBetaFill();
+	//this->AlphaBetaFill();
     // Partial Derivatives with respect to this variable
     int k = _this_var;
     Real m_sum = 0.0;
@@ -271,7 +271,7 @@ Real BrownianMonoPB::computeQpJacobian()
 
 Real BrownianMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
-	this->AlphaBetaFill();
+	//this->AlphaBetaFill();
     // Partial Derivatives with respect to other variables
     int h = _those_var[jvar];
     int k = _this_var;
