@@ -82,7 +82,7 @@ Real CollisionTesting::computeValue()
     //Real _beta = (_beta_Br[_qp][_local_index][_local_index_other]+_beta_CE[_qp][_local_index][_local_index_other]+_beta_GC[_qp][_local_index][_local_index_other]+_beta_TI[_qp][_local_index][_local_index_other]+_beta_TS[_qp][_local_index][_local_index_other]+_beta_VW[_qp][_local_index][_local_index_other]);
     
     //return _alpha_Br[_qp][_local_index][_local_index_other]*_beta_Br[_qp][_local_index][_local_index_other]*_N[_qp]*_N_other[_qp];
-    //return _alpha_Br[_qp][_local_index][_local_index_other];
+    //std::cout << _alpha_Br[_qp][_local_index][_local_index_other] << std::endl;;
     return _beta_Br[_qp][_local_index][_local_index_other];
 }
 

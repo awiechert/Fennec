@@ -186,7 +186,7 @@ Real AccumulatedMaterial::computeValue()
                 velocity(1)=(*_vy[i])[_qp];
                 velocity(2)=(*_vz[i])[_qp];
                 
-                if (/*(*_coupled_u[i])[_qp] > 0.0 && */(normal*velocity) > 0.0)
+                if ((*_coupled_u[i])[_qp] > 0.0 && (normal*velocity) > 0.0)
                 {
                 	_total = _total + (normal*velocity)*area*_dt*(*_coupled_u[i])[_qp];
                 }

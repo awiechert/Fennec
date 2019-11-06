@@ -20,15 +20,15 @@
  	type = GeneratedMesh
  	dim = 3
     #NOTE: When NOT using mesh adaptivity, double or triple the nx, ny, and nz values
- 	nx = 15
-	ny = 6
+	nx = 4
+    ny = 4
 	nz = 4
- 	xmin = 0.0
- 	xmax = 36000.0
- 	ymin = 0.0
- 	ymax = 12000.0
-	zmin = 500.0
-	zmax = 12000.0
+ 	xmin = 2000.0
+ 	xmax = 10000.0
+ 	ymin = 2000.0
+ 	ymax = 10000.0
+	zmin = 7000.0
+	zmax = 9000.0
 
 [] # END Mesh
 
@@ -117,7 +117,7 @@
  
 	[./wz]
  		family = MONOMIAL
- 		initial_condition = 10.0
+ 		initial_condition = 0.0
 	[../]
  
  	[./vp0x]
@@ -1673,10 +1673,10 @@
 	[./Markers]
  		[./errorfrac]
  			type = ErrorFractionMarker
-# 			refine = 0.0
-# 			coarsen = 0.0
-			refine = 0.5
-			coarsen = 0.5
+ 			refine = 0.0
+ 			coarsen = 0.0
+#			refine = 0.5
+#			coarsen = 0.5
  			indicator = error
  		[../]
 	[../]

@@ -88,11 +88,11 @@
 
 [AuxVariables]
 
- 	[./CoTest]  #Variable is exclusively for testing purposes
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
+# 	[./CoTest]  #Variable is exclusively for testing purposes
+# 		order = FIRST
+# 		family = MONOMIAL
+# 		initial_condition = 0.0
+#	[../]
  
 	[./V_total]
 		order = FIRST
@@ -566,13 +566,13 @@
 
 [AuxKernels]
 
-	[./testing]
- 		type = CollisionTesting
-        variable = CoTest
-        conc = N0
-        conc_other = N0
-        execute_on = 'initial timestep_end'
-    [../]
+#	[./testing]
+# 		type = CollisionTesting
+#        variable = CoTest
+#        conc = N0
+#        conc_other = N0
+#        execute_on = 'initial timestep_end'
+#    [../]
 
 	[./Total_Volume]
 		type = VolumeBalanceCheck
@@ -721,11 +721,11 @@
 
 [Postprocessors]
 
-	[./CollisionRate]
- 		type = ElementAverageValue
- 		variable = CoTest
-        execute_on = 'initial timestep_end'
-	[../]
+#	[./CollisionRate]
+# 		type = ElementAverageValue
+# 		variable = CoTest
+#        execute_on = 'initial timestep_end'
+#	[../]
 
 #May consider custom versions of these postprocessors to correct for negative mass ocsillations...
 	[./N0]

@@ -224,11 +224,9 @@ void CollisionParameters::computeQpProperties()
         this->initQpStatefulProperties();
 
 	//Only call this if we have not already called it
+    //NOTE: Problem may be in how much the parameter changes from timestep to timestep...
     if (_time_record[_qp] != _t_step)
     {
-        //if (_qp == 0)
-            //std::cout << "\nComputing Collision Parameters...\n";
-        
 		//Simple inline calculations
     	_va = sqrt( 8.0*_kB*_temp[_qp]/3.14159/_ma );
     	_AH = 100.0*_kB*_temp[_qp]; //NOTE: May change to more precise calculation later
@@ -255,6 +253,22 @@ void CollisionParameters::computeQpProperties()
     	calculate_alpha_GC();
         
         _time_record[_qp] = _t_step;
+        
+        //Print out to check stuff
+        /*
+        if (_qp == 0)
+        {
+            std::cout << "\nComputing Collision Parameters...\n";
+            for (unsigned int lm = 0; lm<_N.size(); ++lm)
+            {
+                for (unsigned int qr = 0; qr<_N.size(); ++qr)
+                {
+                    std::cout << _alpha_Br[_qp][lm][qr] << "\t";
+                }
+                std::cout << "\n";
+            }
+        }
+        */
     }
 }
 
@@ -270,7 +284,8 @@ void CollisionParameters::calculate_n0()
     for (unsigned int lm = 0; lm<_N.size(); ++lm)
     {
         int l = (int)lm/_nuc_bins;
-        sum += (*_N[lm])[_qp]*_user_object.return_activity(l);
+        if ((*_N[lm])[_qp] > 0.0)
+        	sum += ((*_N[lm])[_qp])*_user_object.return_activity(l);
     }
     _n0 = sqrt( (_ions[_qp] + sum)/_arc );
 }
@@ -346,7 +361,8 @@ Real CollisionParameters::charge_dist(Real charge, int l)
     int end = start+_nuc_bins;
     for (int i=start; i<end; i++)
     {
-        sum += (*_N[i])[_qp];
+    	if ((*_N[i])[_qp] > 0.0)
+        	sum += ((*_N[i])[_qp]);
     }
     
     //Estimate normalized charge distribution for given charge value and size class l
