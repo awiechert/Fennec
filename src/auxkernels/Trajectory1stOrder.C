@@ -143,7 +143,7 @@ Real Trajectory1stOrder::computeValue()
 	{
 		Real v_max;
 		if (_n == 2)
-			v_max = -sqrt(-a/C);
+			v_max = -sqrt(-a/C)+wind;
 		else
 			v_max = wind;
 	
