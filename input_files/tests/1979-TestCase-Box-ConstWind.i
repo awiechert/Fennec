@@ -5,6 +5,8 @@
 	Dzz = 10.0
  
 #    diameters = '0.00178 0.00562 0.0178 0.0562 0.178 0.562 1.78 5.62 17.8 56.2'
+	alpha_correction = true
+    PBM_FullImplicit = false
 
 	#order of shape function for all variables (use: 'CONSTANT' or 'FIRST')
 	order = FIRST
@@ -117,7 +119,7 @@
  
 	[./wz]
  		family = MONOMIAL
- 		initial_condition = -10.0
+ 		initial_condition = -5.0
 	[../]
  
  	[./vp0x]
@@ -1599,7 +1601,7 @@
 [Executioner]
 
     type = Transient
-	scheme = bdf2    #use: 'implicit-euler' or 'bdf2'
+	scheme = implicit-euler    #use: 'implicit-euler' or 'bdf2'
     # All options: "implicit-euler explicit-euler crank-nicolson bdf2 explicit-midpoint dirk explicit-tvd-rk-2 newmark-beta"
 
     # NOTE: The default tolerances are far to strict and cause the program to crawl
@@ -1609,16 +1611,16 @@
     nl_abs_step_tol = 1e-10
     l_tol = 1e-6
     l_abs_tol = 1e-10
-    l_max_its = 200
-    nl_max_its = 40
+    l_max_its = 100
+    nl_max_its = 20
 
-    solve_type = jfnk   # Use: pjfnk (with SMP) and jfnk (with PBP) [PJFNK NOT WORKING!!!]
+    solve_type = pjfnk   # Use: pjfnk (with SMP) and jfnk (with PBP) 
  
  	# WARNING!  pjfnk solver may be slow and inefficient. JFNK is converging faster!
  
     line_search = bt    # Options: default shell none basic l2 bt cp
     start_time = 0.0
-	end_time = 5000.0
+	end_time = 2500.0
     dtmax = 60.0
 
     [./TimeStepper]
@@ -1632,6 +1634,7 @@
 [] #END Executioner
 
 [Preconditioning]
+	active = 'smp'
 	[./smp]
 		type = SMP
 		full = true
@@ -1646,6 +1649,16 @@
  		#petsc_options_iname ='-ksp_type -pc_type -sub_pc_type -ksp_gmres_restart -snes_max_funcs'
  		#petsc_options_value = 'gmres bjacobi ilu 2000 20000'
 	[../]
+ 
+    [./pbp]
+    	type = PBP
+        solve_order = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+        petsc_options = '-snes_converged_reason'
+        # The off diags below create a block tri-diagonal preconditioning matrix
+        #off_diag_row =    'N0 N1 N1 N2 N2 N3 N3 N4 N4 N5 N5 N6 N6 N7 N7 N8 N8 N9'
+        #off_diag_column = 'N1 N0 N2 N1 N3 N2 N4 N3 N5 N4 N6 N5 N7 N6 N8 N7 N9 N8'
+ 		preconditioner = 'amg amg amg amg amg amg amg amg amg amg'
+    [../]
 	
 [] #END Preconditioning
  
@@ -1678,6 +1691,6 @@
 
     exodus = true
     csv = true
-    print_linear_residuals = false
+    print_linear_residuals = true
 
 [] #END Outputs

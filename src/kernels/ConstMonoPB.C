@@ -237,6 +237,7 @@ Real ConstMonoPB::computeQpResidual()
 
 Real ConstMonoPB::computeQpJacobian()
 {
+	/*
 	// Partial Derivatives with respect to this variable
     int k = _this_var;
     Real m_sum = 0.0;
@@ -258,10 +259,15 @@ Real ConstMonoPB::computeQpJacobian()
     }
     
     return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*l_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[k][k]*_alpha[k][k]*_beta[k][k]*_u[_qp]);
+    */
+    
+    //Preconditioning with this kernel seems to not work
+    return 0.0;
 }
 
 Real ConstMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
+	/*
     // Partial Derivatives with respect to other variables
     int h = _those_var[jvar];
     int k = _this_var;
@@ -282,6 +288,10 @@ Real ConstMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
     }
     
     return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[k][h]*_alpha[k][h]*_beta[k][h]*(*_coupled_u[k])[_qp]);
+    */
+    
+    //Preconditioning with this kernel seems to not work
+    return 0.0;
 }
 
 

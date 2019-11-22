@@ -54,6 +54,7 @@ InputParameters validParams<BrownianMonoPB>()
 {
     InputParameters params = validParams<Kernel>();
     params.addParam<bool>("alpha_correction",true,"Only change to false for testing purposes.");
+    params.addParam<bool>("PBM_FullImplicit",true,"true = full implicit coupling (slow), false = semi-implicit coupling (fast)");
     params.addRequiredCoupledVar("coupled_list","List of names of the number concentration variables being coupled (including this variable)");
     params.addRequiredCoupledVar("main_variable","Name of the number concentration variable this kernel acts on");
     return params;
@@ -65,7 +66,8 @@ _u_var(coupled("main_variable")),
 _diameter(getMaterialProperty<std::vector<Real> >("diameter")),
 _beta_Br(getMaterialProperty<std::vector<std::vector<Real> > >("beta_Br")),
 _alpha_Br(getMaterialProperty<std::vector<std::vector<Real> > >("alpha_Br")),
-_useAlpha(getParam<bool>("alpha_correction"))
+_useAlpha(getParam<bool>("alpha_correction")),
+_useFullImplicit(getParam<bool>("PBM_FullImplicit"))
 {
     _M = coupledComponents("coupled_list");
     
@@ -81,7 +83,10 @@ _useAlpha(getParam<bool>("alpha_correction"))
     for (unsigned int i = 0; i<_coupled_u.size(); ++i)
     {
         _coupled_u_var[i] = coupled("coupled_list",i);
-        _coupled_u[i] = &coupledValue("coupled_list",i);
+        if (_useFullImplicit == true)
+        	_coupled_u[i] = &coupledValue("coupled_list",i);   		//FULL Implicit (Slow convergence: Error ~<1%)
+        else
+        	_coupled_u[i] = &coupledValueOld("coupled_list",i);   //SEMI-Explicit (Fast convergence: Error ~5-10%)
         _those_var[_coupled_u_var[i]] = i;
         
         if (_coupled_u_var[i] == _u_var)
@@ -221,53 +226,52 @@ Real BrownianMonoPB::computeQpResidual()
     }
     this->AlphaBetaFill();
     
-    if (_u[_qp] > 0.0)
+    
+    /** NOTE: This scheme is SEMI-EXPLICIT and makes use of OLD states of variables to improve convergence.
+    			As such, it is likely only 1st order accurate in time. See ConstMonoPB.C for the full implicit
+                version of the code.
+    */
+    Real rate = 0.0;
+    Real source = 0.0;
+    Real sink = 0.0;
+    int k = _this_var;
+    
+    //Loop over all variables l
+    for (int l=0; l<_M; l++)
     {
-    	Real rate = 0.0;
-    	Real source = 0.0;
-    	Real sink = 0.0;
-    	int k = _this_var;
-    
-    	//Loop over all variables l
-    	for (int l=0; l<_M; l++)
-    	{
-    		if ((*_coupled_u[l])[_qp] > 0.0)
-        		sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*((*_coupled_u[l])[_qp]);
+        sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*fabs((*_coupled_u[l])[_qp]);
         
-        	Real m_sum = 0.0;
+        Real m_sum = 0.0;
         
-        	//Loop over m variables
-        	for (int m=0; m<=l; m++)
-        	{
-        		if ((*_coupled_u[m])[_qp] > 0.0)
-            		m_sum += (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*((*_coupled_u[m])[_qp]);
-        	}
-        	if ((*_coupled_u[l])[_qp] > 0.0)
-        		source += m_sum*((*_coupled_u[l])[_qp]);
-    	}
-    	rate = _test[_i][_qp]*source;
-    	if (_u[_qp] > 0.0)
-    		rate += - _test[_i][_qp]*(_u[_qp])*sink;
-    
-    	return -rate;
+        //Loop over m variables
+        for (int m=0; m<=l; m++)
+        {
+            m_sum += (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*fabs((*_coupled_u[m])[_qp]);
+        }
+        source += m_sum*fabs((*_coupled_u[l])[_qp]);
     }
-    else
-    	return 10.0*_test[_i][_qp]*(_u[_qp]);
+    rate = _test[_i][_qp]*source;
+
+    rate += - _test[_i][_qp]*_u[_qp]*sink;
+    
+    return -rate;
 }
 
 Real BrownianMonoPB::computeQpJacobian()
 {
+	/*
     // Partial Derivatives with respect to this variable
     int k = _this_var;
-    if (_u[_qp] > 0.0)
-    {
+    
+    //if (_u[_qp] > 0.0)
+    //{
     	Real m_sum = 0.0;
     	Real l_sum_source = 0.0;
     	Real l_sum_sink = 0.0;
     
     	for (int m=0; m<=k; m++)
     	{
-    		if ((*_coupled_u[m])[_qp] > 0.0)
+    		//if ((*_coupled_u[m])[_qp] > 0.0)
         		m_sum += (1.0+this->KroneckerDelta(k,m))*(1.0-0.5*this->KroneckerDelta(k,m))*_frac[k][k][m]*_alpha[k][m]*_beta[k][m]*((*_coupled_u[m])[_qp]);
     	}
     
@@ -275,7 +279,7 @@ Real BrownianMonoPB::computeQpJacobian()
     	{
         	if (l!=k)
         	{
-        		if ((*_coupled_u[l])[_qp] > 0.0)
+        		//if ((*_coupled_u[l])[_qp] > 0.0)
             	{
             		l_sum_source += ((*_coupled_u[l])[_qp])*(1.0-0.5*this->KroneckerDelta(l,k))*_frac[k][l][k]*_alpha[l][k]*_beta[l][k];
             		l_sum_sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*((*_coupled_u[l])[_qp]);
@@ -284,18 +288,34 @@ Real BrownianMonoPB::computeQpJacobian()
     	}
 		Real jac =_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*l_sum_sink;
     
-    	if (_u[_qp] > 0.0)
+    	//if (_u[_qp] > 0.0)
     		jac += -_test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[k][k]*_alpha[k][k]*_beta[k][k]*(_u[_qp]);
     
     	return -jac;
+    //}
+    //else
+    	//return 10.0*_test[_i][_qp]*_phi[_j][_qp];
+    */
+    
+    int k = _this_var;
+    Real l_sum_sink = 0.0;
+    
+    for (int l=0; l<_M; l++)
+    {
+
+        l_sum_sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*fabs((*_coupled_u[l])[_qp]);
     }
-    else
-    	return 10.0*_test[_i][_qp]*_phi[_j][_qp];
+    
+    return _test[_i][_qp]*l_sum_sink*_phi[_j][_qp];
+    
+    //Preconditioning with this kernel seems to not work
+    //return 0.0;
 }
 
 Real BrownianMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
     // Partial Derivatives with respect to other variables
+    /*
     int h = _those_var[jvar];
     int k = _this_var;
     if (_u[_qp] > 0.0)
@@ -324,5 +344,9 @@ Real BrownianMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
     }
     else
     	return 0.0;
+    */
+    
+    //Preconditioning with this kernel seems to not work
+    return 0.0;
 }
 

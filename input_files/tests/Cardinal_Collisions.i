@@ -808,7 +808,7 @@
 	scheme = implicit-euler    #use: 'implicit-euler' or 'bdf2'
 
     # NOTE: The default tolerances are far to strict and cause the program to crawl
-    nl_rel_tol = 1e-10
+    nl_rel_tol = 1e-14
     nl_abs_tol = 1e-8
     nl_rel_step_tol = 1e-10
     nl_abs_step_tol = 1e-10
@@ -819,7 +819,7 @@
     solve_type = pjfnk
     line_search = bt    # Options: default shell none basic l2 bt cp
     start_time = 0.0
-	end_time = 0.05
+	end_time = 100.0
     dtmax = 0.5
     petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
     petsc_options_value = 'hypre boomeramg 100'

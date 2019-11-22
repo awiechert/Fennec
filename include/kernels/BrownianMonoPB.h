@@ -114,6 +114,7 @@ protected:
     const MaterialProperty<std::vector<std::vector<Real> > > & _beta_Br;	///< MaterialProperty for the Brownian frequency (m^3/s) ==> size = num_var x num_var
     const MaterialProperty<std::vector<std::vector<Real> > > & _alpha_Br;	///< MaterialProperty for the Brownian, Convective, and van der Waals efficiency (-) ==> size = num_var x num_var
     bool _useAlpha;															///< Boolean option to determine whether or not to include alpha
+    bool _useFullImplicit;													///< Boolean option to determine whether or not to use full implicit scheme for coupling all variables
     
 private:
     

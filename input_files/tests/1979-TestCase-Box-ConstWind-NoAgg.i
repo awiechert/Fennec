@@ -117,7 +117,7 @@
  
 	[./wz]
  		family = MONOMIAL
- 		initial_condition = -10.0
+ 		initial_condition = -5.0
 	[../]
  
  	[./vp0x]
@@ -1543,13 +1543,13 @@
     l_max_its = 200
     nl_max_its = 40
 
-    solve_type = jfnk   # Use: pjfnk (with SMP) and jfnk (with PBP) [PJFNK NOT WORKING!!!]
+    solve_type = jfnk   # Use: pjfnk (with SMP) and jfnk (with PBP) 
  
  	# WARNING!  pjfnk solver may be slow and inefficient. JFNK is converging faster!
  
     line_search = bt    # Options: default shell none basic l2 bt cp
     start_time = 0.0
-	end_time = 5000.0
+	end_time = 2500.0
     dtmax = 60.0
 
     [./TimeStepper]

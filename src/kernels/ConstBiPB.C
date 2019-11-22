@@ -401,7 +401,7 @@ Real ConstBiPB::computeQpResidual()
 
 Real ConstBiPB::computeQpJacobian()
 {
-
+	/*
 	int kp = _this_var;
     Real qr_sum = 0.0;
     Real lm_sum_source = 0.0;
@@ -429,10 +429,15 @@ Real ConstBiPB::computeQpJacobian()
     }
     
 	return -(_test[_i][_qp]*_phi[_j][_qp]*qr_sum + _test[_i][_qp]*_phi[_j][_qp]*lm_sum_source - _test[_i][_qp]*_phi[_j][_qp]*lm_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[kp][kp]*_alpha[kp][kp]*_beta[kp][kp]*_u[_qp]);
+    */
+    
+    //Preconditioning with this kernel seems to not work
+    return 0.0;
 }
 
 Real ConstBiPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
+	/*
 	int ho = _those_var[jvar];
     int kp = _this_var;
     Real qr_sum = 0.0;
@@ -460,4 +465,8 @@ Real ConstBiPB::computeQpOffDiagJacobian(unsigned int jvar)
     }
     
 	return -(_test[_i][_qp]*_phi[_j][_qp]*qr_sum + _test[_i][_qp]*_phi[_j][_qp]*lm_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[kp][ho]*_alpha[kp][ho]*_beta[kp][ho]*(*_coupled_u[kp])[_qp]);
+    */
+    
+    //Preconditioning with this kernel seems to not work
+    return 0.0;
 }

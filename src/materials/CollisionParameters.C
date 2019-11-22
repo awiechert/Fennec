@@ -226,6 +226,7 @@ void CollisionParameters::computeQpProperties()
 	//Only call this if we have not already called it
     //NOTE: Problem may be in how much the parameter changes from timestep to timestep...
     if (_time_record[_qp] != _t_step)
+    //if (_time_record[_qp] == 0)
     {
 		//Simple inline calculations
     	_va = sqrt( 8.0*_kB*_temp[_qp]/3.14159/_ma );
@@ -382,10 +383,15 @@ Real CollisionParameters::charge_dist(Real charge, int l)
 Real CollisionParameters::alpha_int(Real charge_l, Real charge_q, int l, int q)
 {
     Real Y = charge_l*charge_q*_ec*_ec/(4.0*3.14159*_e0*_kB*_temp[_qp]*(_rad[l]+_rad[q]));
+    Real alpha = 0.0;
     if (Y == 0.0)
-    	return 1.0;
+    	alpha = 1.0;
+    else if (Y > -5.0)
+    	alpha = Y/(exp(Y)-1.0);
     else
-    	return Y/(exp(Y)-1.0);
+    	alpha = 5.0;
+    
+    return alpha;
 }
 
 /// Calculation of particle diffusion
@@ -475,7 +481,16 @@ void CollisionParameters::calculate_beta_Br()
             Real top = 4.0*3.14159*(_rad[l]+_rad[q])*(_diffusion[_qp][lm]+_diffusion[_qp][qr]);
             Real bot = ( (_rad[l]+_rad[q]) / ((_rad[l]+_rad[q])+sqrt(dl*dl+dq*dq)) ) + ( (4.0*(_diffusion[_qp][lm]+_diffusion[_qp][qr])) / ((_rad[l]+_rad[q])*sqrt(_vp[l]*_vp[l]+_vp[q]*_vp[q])) );
             
+            Real before =  _beta_Br[_qp][lm][qr];
             _beta_Br[_qp][lm][qr] = top/bot*1.0E18;
+            
+            if (_t_step > 1 && before != _beta_Br[_qp][lm][qr])
+            {
+                std::cout << "qp: " << _qp << std::endl;
+                std::cout << "Before: " << before << std::endl;
+                std::cout << "After: " << _beta_Br[_qp][lm][qr] << std::endl << std::endl;
+                moose::internal::mooseErrorRaw("Change in beta variable");
+            }
         }
     }
 }
@@ -784,12 +799,17 @@ void CollisionParameters::calculate_alpha_Br()
                 n_l += dn_l;
             }//End l sum
             
+            Real before = _alpha_Br[_qp][lm][qr];
             //Compute average alpha
             if (bot_sum == 0.0)
             	_alpha_Br[_qp][lm][qr] = 1.0;
             else
             	_alpha_Br[_qp][lm][qr] = 1.0 + (top_sum/bot_sum);
             
+            if (_t_step > 1)
+            {
+            	_alpha_Br[_qp][lm][qr] = 0.5*before + 0.5*_alpha_Br[_qp][lm][qr];
+            }
         }
     }
 }
