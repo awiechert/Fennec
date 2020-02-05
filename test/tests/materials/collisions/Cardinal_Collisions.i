@@ -711,8 +711,8 @@
 	[./cardinal]
  		type = CARDINAL_Object
  		execute_on = 'initial timestep_end'
- 		input_file = 'input_files/cardinal/1979-Test-Case.txt'
- 		atm_file = 'input_files/cardinal/DefaultAtmosphere.txt'
+ 		input_file = '1979-Test-Case.txt'
+ 		atm_file = 'DefaultAtmosphere.txt'
  		data_path = 'database/'
         mono_variate_population = true
  	[../]
