@@ -1,30 +1,31 @@
 /*!
- *  \file BrownianMonoPB.h
- *	\brief Kernel for Mono-variate Population Balance Model with Brownian coefficients
- *	\details This file creates a MOOSE kernel that will couple together multiple number
- *			concentrations of particles and calculate a population balance rate function
- *			assuming the collision efficiency and frequency are calculated from Brownian
- *			diffusion functions. This module is based on the following works:
- *
- *			Y.H. Kim, S. Yiacoumi, A. Nenes, C. Tsouris, J. Aero. Sci., 114, 283-300, 2017.
- *
- *			M.Z. Jacobson, Fundamentals of Atmospheric Modeling (2nd Ed.), Cambridge University
- *				Press, New York, 2005.
- *
- *  \author Alexander Wiechert
- *	\date 04/21/2020
- *	\copyright This kernel was designed and built at the Georgia Institute
- *             of Technology by Alexander Wiechert for research in the area
- *             of radioactive particle transport and settling following a
- *			   nuclear event. It was developed for the US DOD under DTRA
- *			   project No. 14-24-FRCWMD-BAA. Portions Copyright (c) 2018, all
- *             rights reserved.
- *
- *			   Alexander Wiechert does not claim any ownership or copyright to the
- *			   MOOSE framework in which these kernels are constructed, only
- *			   the kernels themselves. The MOOSE framework copyright is held
- *			   by the Battelle Energy Alliance, LLC (c) 2010, all rights reserved.
- */
+*  \file BrownianConvecMonoPB.h
+*	\brief Kernel for Mono-variate Population Balance Model with Brownian coefficients
+*	\details This file creates a MOOSE kernel that will couple together multiple number
+*			concentrations of particles and calculate a population balance rate function
+*			assuming the collision efficiency and frequency are calculated from Brownian
+*			diffusion and the convective Brownian diffusion enhancement functions. This
+*			module is based on the following works:
+*
+*			Y.H. Kim, S. Yiacoumi, A. Nenes, C. Tsouris, J. Aero. Sci., 114, 283-300, 2017.
+*
+*			M.Z. Jacobson, Fundamentals of Atmospheric Modeling (2nd Ed.), Cambridge University
+*				Press, New York, 2005.
+*
+*  \author Alexander Wiechert
+*	\date 04/22/2020
+*	\copyright This kernel was designed and built at the Georgia Institute
+*             of Technology by Alexander Wiechert for research in the area
+*             of radioactive particle transport and settling following a
+*			   nuclear event. It was developed for the US DOD under DTRA
+*			   project No. 14-24-FRCWMD-BAA. Portions Copyright (c) 2018, all
+*             rights reserved.
+*
+*			   Alexander Wiechert does not claim any ownership or copyright to the
+*			   MOOSE framework in which these kernels are constructed, only
+*			   the kernels themselves. The MOOSE framework copyright is held
+*			   by the Battelle Energy Alliance, LLC (c) 2010, all rights reserved.
+*/
 
 /****************************************************************/
 /*               DO NOT MODIFY THIS HEADER                      */
@@ -42,25 +43,25 @@
 
 #pragma once
 
-#include "ConstMonoPB.h"
+#include "BrownianMonoPB.h"
 
-/// BrownianMonoPB class object forward declarations
-class BrownianMonoPB;
+/// BrownianConvecMonoPB class object forward declarations
+class BrownianConvecMonoPB;
 
 template<>
-InputParameters validParams<BrownianMonoPB>();
+InputParameters validParams<BrownianConvecMonoPB>();
 
-/// BrownianMonoPB class object inherits from ConstMonoPB object
+/// BrownianConvecMonoPB class object inherits from BrownianMonoPB object
 /** This class object inherits from the Kernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
 	The kernel has a set of parameters (alpha and beta) that may be computed
     by other future kernels.
  */
-class BrownianMonoPB : public ConstMonoPB
+class BrownianConvecMonoPB : public BrownianMonoPB
 {
 public:
     /// Required constructor for objects in MOOSE
-    BrownianMonoPB(const InputParameters & parameters);
+    BrownianConvecMonoPB(const InputParameters & parameters);
     
 protected:
 	/// Function to compute outcome of Kronecker Delta Function
@@ -96,8 +97,7 @@ protected:
     
     /// Parameters for the base class are listed below
     
-    const MaterialProperty<std::vector<std::vector<Real> > > & _beta_Br;	///< MaterialProperty for the Brownian frequency (m^3/s) ==> size = num_var x num_var
-    const MaterialProperty<std::vector<std::vector<Real> > > & _alpha_Br;	///< MaterialProperty for the Brownian, Convective, and van der Waals efficiency (-) ==> size = num_var x num_var
+    const MaterialProperty<std::vector<std::vector<Real> > > & _beta_Ce;	///< MaterialProperty for the convective Brownian diffusion enhancement frequency (m^3/s) ==> size = num_var x num_var
 
 private:
     

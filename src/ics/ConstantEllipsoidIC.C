@@ -1,7 +1,12 @@
 /*!
  *  \file ConstantEllipsoidIC.h
  *	\brief Initial Condition kernel for an Ellipsoid Puff of Particles
- *	\details This file creates a
+ *	\details This file creates an initial condition for a non-linear variable
+ *			that is dispersed in an ellipsoid pattern in space. Area inside the
+ *			ellipsoid is given one value and outside the ellipsoid is given another.
+ *			The ellipsoid boundary can be smoothed based on a smoothing distance that
+ *			will distribute the non-linear variable linearly from the outer to the
+ *			inner ellipsoid.
  *
  *  \author Austin Ladshaw
  *	\date 05/18/2018

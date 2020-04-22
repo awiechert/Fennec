@@ -620,7 +620,7 @@ void CollisionParameters::calculate_beta_TS()
         for (unsigned int qr = 0; qr<_N.size(); ++qr)
         {
             int q = (int)qr/_nuc_bins;
-            _beta_TS[_qp][lm][qr] = sqrt(8.0*3.14159*_air_dens[_qp]*_ed/15.0/_air_visc[_qp])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*1.0E18;
+            _beta_TS[_qp][lm][qr] = sqrt(8.0*3.14159*_air_dens[_qp]*_ed/15.0/_air_visc[_qp])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*1.0E18;000;
         }
     }
 }

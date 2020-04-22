@@ -1,10 +1,11 @@
 /*!
- *  \file BrownianMonoPB.h
+ *  \file BrownianConvecMonoPB.h
  *	\brief Kernel for Mono-variate Population Balance Model with Brownian coefficients
  *	\details This file creates a MOOSE kernel that will couple together multiple number
  *			concentrations of particles and calculate a population balance rate function
  *			assuming the collision efficiency and frequency are calculated from Brownian
- *			diffusion functions. This module is based on the following works:
+ *			diffusion and the convective Brownian diffusion enhancement functions. This 
+ *			module is based on the following works:
  *
  *			Y.H. Kim, S. Yiacoumi, A. Nenes, C. Tsouris, J. Aero. Sci., 114, 283-300, 2017.
  *
@@ -12,7 +13,7 @@
  *				Press, New York, 2005.
  *
  *  \author Alexander Wiechert
- *	\date 04/21/2020
+ *	\date 04/22/2020
  *	\copyright This kernel was designed and built at the Georgia Institute
  *             of Technology by Alexander Wiechert for research in the area
  *             of radioactive particle transport and settling following a
@@ -40,32 +41,32 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#include "BrownianMonoPB.h"
+#include "BrownianConvecMonoPB.h"
 
 /**
  * All MOOSE based object classes you create must be registered using this macro.  The first
  * argument is the name of the App with an "App" suffix (i.e., "fennecApp"). The second
  * argument is the name of the C++ class you created.
  */
-registerMooseObject("fennecApp", BrownianMonoPB);
+
+registerMooseObject("fennecApp", BrownianConvecMonoPB);
 
 template<>
-InputParameters validParams<BrownianMonoPB>()
+InputParameters validParams<BrownianConvecMonoPB>()
 {
-    InputParameters params = validParams<ConstMonoPB>();
+    InputParameters params = validParams<BrownianMonoPB>();
     return params;
 
 }
 
-BrownianMonoPB::BrownianMonoPB(const InputParameters & parameters)
-: ConstMonoPB(parameters),
-_beta_Br(getMaterialProperty<std::vector<std::vector<Real> > >("beta_Br")),
-_alpha_Br(getMaterialProperty<std::vector<std::vector<Real> > >("alpha_Br"))
+BrownianConvecMonoPB::BrownianConvecMonoPB(const InputParameters & parameters)
+: BrownianMonoPB(parameters),
+_beta_Ce(getMaterialProperty<std::vector<std::vector<Real> > >("beta_CE"))
 {
 
 }
 
-Real BrownianMonoPB::KroneckerDelta(int i, int j)
+Real BrownianConvecMonoPB::KroneckerDelta(int i, int j)
 {
     if (i==j)
     	return 1.0;
@@ -73,45 +74,45 @@ Real BrownianMonoPB::KroneckerDelta(int i, int j)
     	return 0.0;
 }
 
-void BrownianMonoPB::AlphaBetaFill()
+void BrownianConvecMonoPB::AlphaBetaFill()
 {
     for (int l=0; l<_M; l++)
     {
         for (int m=0; m<_M; m++)
         {
-            _beta[l][m] = _beta_Br[_qp][l][m];
+            _beta[l][m] = _beta_Br[_qp][l][m]+_beta_Ce[_qp][l][m];
             _alpha[l][m] = _alpha_Br[_qp][l][m];
         }
     }
 }
 
-void BrownianMonoPB::VolumeFill()
+void BrownianConvecMonoPB::VolumeFill()
 {
 	ConstMonoPB::VolumeFill();
 }
 
-void BrownianMonoPB::FractionFill()
+void BrownianConvecMonoPB::FractionFill()
 {
 	ConstMonoPB::FractionFill();
 }
 
-void BrownianMonoPB::GamaFill()
+void BrownianConvecMonoPB::GamaFill()
 {
 	ConstMonoPB::GamaFill();
 }
 
-Real BrownianMonoPB::computeQpResidual()
+Real BrownianConvecMonoPB::computeQpResidual()
 {
     this->AlphaBetaFill();
     return ConstMonoPB::computeQpResidual();
 }
 
-Real BrownianMonoPB::computeQpJacobian()
+Real BrownianConvecMonoPB::computeQpJacobian()
 {
     return ConstMonoPB::computeQpJacobian();
 }
 
-Real BrownianMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
+Real BrownianConvecMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
     return 0.0;
 }
