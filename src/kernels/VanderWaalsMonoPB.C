@@ -1,11 +1,10 @@
 /*!
- *  \file CoagulationMonoPB.h
- *	\brief Kernel for Mono-variate Population Balance Model with all coagulation coefficients
+ *  \file VanderWaalsMonoPB.h
+ *	\brief Kernel for Mono-variate Population Balance Model with van der Waals coefficients
  *	\details This file creates a MOOSE kernel that will couple together multiple number
  *			concentrations of particles and calculate a population balance rate function
- *			assuming the collision efficiency and frequency are calculated from Brownian
- *			diffusion, Brownian convection enhancement, gravitational collection, turbulent 
- *			inertial motion, and turbulent shear functions.
+ *			assuming the collision efficiency and frequency are calculated from van der
+ *			Waals functions. This module is based on the following works:
  *
  *			Y.H. Kim, S. Yiacoumi, A. Nenes, C. Tsouris, J. Aero. Sci., 114, 283-300, 2017.
  *
@@ -41,42 +40,33 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#include "CoagulationMonoPB.h"
+#include "VanderWaalsMonoPB.h"
 
 /**
  * All MOOSE based object classes you create must be registered using this macro.  The first
  * argument is the name of the App with an "App" suffix (i.e., "fennecApp"). The second
  * argument is the name of the C++ class you created.
  */
-
-registerMooseObject("fennecApp", CoagulationMonoPB);
+registerMooseObject("fennecApp", VanderWaalsMonoPB);
 
 template<>
-InputParameters validParams<CoagulationMonoPB>()
+InputParameters validParams<VanderWaalsMonoPB>()
 {
-    InputParameters params = validParams<BrownianConvecMonoPB>();
-    params.addParam<Real>("alpha_TI",1.0,"Collision Efficiency for Turbulent Inertial Motion (-)");
-    params.addParam<Real>("alpha_TS",1.0,"Collision Efficiency for Turbulent Shear (-)");
+    InputParameters params = validParams<ConstMonoPB>();
     params.addParam<Real>("alpha_VW",1.0,"Collision Efficiency for van der Waals forces (-)");
     return params;
 
 }
 
-CoagulationMonoPB::CoagulationMonoPB(const InputParameters & parameters)
-: BrownianConvecMonoPB(parameters),
-_alpha_TI(getParam<Real>("alpha_TI")),
-_alpha_TS(getParam<Real>("alpha_TS")),
+VanderWaalsMonoPB::VanderWaalsMonoPB(const InputParameters & parameters)
+: ConstMonoPB(parameters),
 _alpha_VW(getParam<Real>("alpha_VW")),
-_beta_GC(getMaterialProperty<std::vector<std::vector<Real> > >("beta_GC")),
-_beta_TI(getMaterialProperty<std::vector<std::vector<Real> > >("beta_TI")),
-_beta_TS(getMaterialProperty<std::vector<std::vector<Real> > >("beta_TS")),
-_alpha_GC(getMaterialProperty<std::vector<std::vector<Real> > >("alpha_GC")),
 _beta_VW(getMaterialProperty<std::vector<std::vector<Real> > >("beta_VW"))
 {
 
 }
 
-Real CoagulationMonoPB::KroneckerDelta(int i, int j)
+Real VanderWaalsMonoPB::KroneckerDelta(int i, int j)
 {
     if (i==j)
     	return 1.0;
@@ -84,52 +74,45 @@ Real CoagulationMonoPB::KroneckerDelta(int i, int j)
     	return 0.0;
 }
 
-void CoagulationMonoPB::AlphaBetaFill()
+void VanderWaalsMonoPB::AlphaBetaFill()
 {
     for (int l=0; l<_M; l++)
     {
         for (int m=0; m<_M; m++)
         {
-        	Real BM = _alpha_Br[_qp][l][m]*_beta_Br[_qp][l][m];
-            Real BC = _alpha_Br[_qp][l][m]*_beta_Ce[_qp][l][m];
-            Real GC = _alpha_GC[_qp][l][m]*_beta_GC[_qp][l][m];
-            Real TI = _alpha_TI*_beta_TI[_qp][l][m];
-            Real TS = _alpha_TS*_beta_TS[_qp][l][m];
-            Real VW = _alpha_VW*_beta_VW[_qp][l][m];
-            
-            _beta[l][m] = BM+BC+GC+TI+TS+VW;
-            _alpha[l][m] = 1.0;
+            _beta[l][m] = _beta_VW[_qp][l][m];
+            _alpha[l][m] = _alpha_VW;
         }
     }
 }
 
-void CoagulationMonoPB::VolumeFill()
+void VanderWaalsMonoPB::VolumeFill()
 {
 	ConstMonoPB::VolumeFill();
 }
 
-void CoagulationMonoPB::FractionFill()
+void VanderWaalsMonoPB::FractionFill()
 {
 	ConstMonoPB::FractionFill();
 }
 
-void CoagulationMonoPB::GamaFill()
+void VanderWaalsMonoPB::GamaFill()
 {
 	ConstMonoPB::GamaFill();
 }
 
-Real CoagulationMonoPB::computeQpResidual()
+Real VanderWaalsMonoPB::computeQpResidual()
 {
     this->AlphaBetaFill();
     return ConstMonoPB::computeQpResidual();
 }
 
-Real CoagulationMonoPB::computeQpJacobian()
+Real VanderWaalsMonoPB::computeQpJacobian()
 {
     return ConstMonoPB::computeQpJacobian();
 }
 
-Real CoagulationMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
+Real VanderWaalsMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
     return 0.0;
 }

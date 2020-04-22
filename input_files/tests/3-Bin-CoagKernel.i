@@ -5,7 +5,7 @@
  	vz = 0.0
  
  	# Diameters are in um here. Kernels usually want units in m.
-    diameters = '0.001 0.01'
+    diameters = '0.001 0.1 10.0'
 
 [] #END GlobalParams
 
@@ -38,6 +38,11 @@
     [../]
  
  	[./N1]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 	[../]
+ 
+ 	[./N2]
  		order = FIRST
  		family = MONOMIAL
  	[../]
@@ -144,6 +149,24 @@
  		initial_condition = -0.0025
 	[../]
  
+ 	[./vp2x]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 		initial_condition = 0.0
+	[../]
+ 
+	[./vp2y]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 		initial_condition = 0.0
+	[../]
+ 
+	[./vp2z]
+ 		order = FIRST
+ 		family = MONOMIAL
+ 		initial_condition = -0.0045
+	[../]
+ 
 [] #END AuxVariables
 
 [ICs]
@@ -166,6 +189,15 @@
  		cardinal_object = cardinal
  	[../]
  
+ 	[./N2_IC]
+ 		type = CARDINAL_CloudIC
+ 		variable = N2
+ 		x_center = 0
+ 		y_center = 0
+ 		local_size_index = 2
+ 		cardinal_object = cardinal
+ 	[../]
+ 
 [] #END ICs
 
 [Kernels]
@@ -177,10 +209,10 @@
     [../]
 
     [./N0_MPB]
-        type = BrownianConvecMonoPB
+        type = CoagulationMonoPB
         variable = N0
         main_variable = N0
-        coupled_list = 'N0 N1'
+        coupled_list = 'N0 N1 N2'
     [../]
  
  	[./N1_dot]
@@ -190,11 +222,24 @@
  	[../]
  
  	[./N1_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N1
         main_variable = N1
- 		coupled_list = 'N0 N1'
+ 		coupled_list = 'N0 N1 N2'
  	[../]
+ 
+ 	[./N2_dot]
+ 		type = CoefTimeDerivative
+ 		variable = N2
+ 		Coefficient = 1.0
+ 	[../]
+ 
+ 	[./N2_MPB]
+ 		type = CoagulationMonoPB
+ 		variable = N2
+ 		main_variable = N2
+ 		coupled_list = 'N0 N1 N2'
+    [../]
  
 [] #END Kernels
 
@@ -208,38 +253,38 @@
  		type = CollisionTesting
         variable = CoTest
         conc = N0
-        conc_other = N1
+        conc_other = N2
         execute_on = 'initial timestep_end'
     [../]
 
 	[./Total_Volume]
 		type = VolumeBalanceCheck
 		variable = V_total
-		coupled_vars = 'N0 N1'
+		coupled_vars = 'N0 N1 N2'
         execute_on = 'initial timestep_end'
 	[../]
  
  	[./N_accumulated]
  		type = AccumulatedMaterial
  		variable = N_total
- 		coupled_vars = 'N0 N1'
- 		vxs = 'vp0x vp1x'
- 		vys = 'vp0y vp1y'
- 		vzs = 'vp0z vp1z'
+ 		coupled_vars = 'N0 N1 N2'
+ 		vxs = 'vp0x vp1x vp2x'
+ 		vys = 'vp0y vp1y vp2y'
+ 		vzs = 'vp0z vp1z vp2z'
  		execute_on = 'initial timestep_end'
 	[../]
  
 	[./N_average]
  		type = AverageMaterial
  		variable = N_avg
-		coupled_vars = 'N0 N1'
+		coupled_vars = 'N0 N1 N2'
  		execute_on = 'initial timestep_begin timestep_end'
 	[../]
  
     [./ionization]
  		type = TotalAirIonization
         variable = air_ions
-        coupled_list = 'N0 N1'
+        coupled_list = 'N0 N1 N2'
         air_density = air_dens
         cardinal_object = cardinal
         background_ionization = 0.0
@@ -263,7 +308,14 @@
  		boundary = 'left right'
  		u_input = 0.0
  	[../]
-
+ 
+ 	[./N2_Flux]
+ 		type = DGFluxBC
+ 		variable = N2
+ 		boundary = 'left right'
+ 		u_input = 0.0
+ 	[../]
+ 
 [] #END BCs
 
 [Materials]
@@ -272,7 +324,7 @@
  		type = CollisionParameters
         block = 0
         cardinal_object = cardinal
-        coupled_conc = 'N0 N1'
+        coupled_conc = 'N0 N1 N2'
         air_density = air_dens
         air_viscosity = air_visc
         temperature = air_temp
@@ -280,9 +332,9 @@
         windx = wx
         windy = wy
         windz = wz
-        coupled_vx = 'vp0x vp1x'
-        coupled_vy = 'vp0y vp1y'
-        coupled_vz = 'vp0z vp1z'
+        coupled_vx = 'vp0x vp1x vp2x'
+        coupled_vy = 'vp0y vp1y vp2y'
+        coupled_vz = 'vp0z vp1z vp2z'
     [../]
 
 [] #END Materials
@@ -293,7 +345,7 @@
 	[./cardinal]
  		type = CARDINAL_Object
  		execute_on = 'initial timestep_end'
- 		input_file = 'input_files/cardinal/2-Bin-MassTest.txt'
+ 		input_file = 'input_files/cardinal/3-Bin-MassTest.txt'
  		atm_file = 'input_files/cardinal/DefaultAtmosphere.txt'
  		data_path = 'database/'
         mono_variate_population = true
@@ -302,12 +354,6 @@
  [] #END UserObjects
 
 [Postprocessors]
-
-	[./CollisionRate]
- 		type = ElementAverageValue
- 		variable = CoTest
-        execute_on = 'initial timestep_end'
-	[../]
 
 #May consider custom versions of these postprocessors to correct for negative mass ocsillations...
 	[./N0]
@@ -321,17 +367,17 @@
 		variable = N1
 		execute_on = 'initial timestep_end'
 	[../]
-
+ 
+ 	[./N2]
+ 		type = ElementAverageValue
+ 		variable = N2
+		 execute_on = 'initial timestep_end'
+	[../]
+ 
 	[./V_total]
 		type = ElementAverageValue
 		variable = V_total
 		execute_on = 'initial timestep_end'
-	[../]
- 
- 	[./total_ionization]
- 		type = ElementAverageValue
- 		variable = air_ions
- 		execute_on = 'initial timestep_end'
 	[../]
 
 [] #END Postprocessors

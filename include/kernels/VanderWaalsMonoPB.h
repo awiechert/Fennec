@@ -1,11 +1,10 @@
 /*!
- *  \file CoagulationMonoPB.h
- *	\brief Kernel for Mono-variate Population Balance Model with all coagulation coefficients
+ *  \file VanderWaalsMonoPB.h
+ *	\brief Kernel for Mono-variate Population Balance Model with van der Waals coefficients
  *	\details This file creates a MOOSE kernel that will couple together multiple number
  *			concentrations of particles and calculate a population balance rate function
- *			assuming the collision efficiency and frequency are calculated from Brownian
- *			diffusion, Brownian convection enhancement, gravitational collection, turbulent
- *			inertial motion, and turbulent shear functions.
+ *			assuming the collision efficiency and frequency are calculated from van der
+ *			Waals functions. This module is based on the following works:
  *
  *			Y.H. Kim, S. Yiacoumi, A. Nenes, C. Tsouris, J. Aero. Sci., 114, 283-300, 2017.
  *
@@ -43,31 +42,31 @@
 
 #pragma once
 
-#include "BrownianConvecMonoPB.h"
+#include "ConstMonoPB.h"
 
-/// CoagulationMonoPB class object forward declarations
-class CoagulationMonoPB;
+/// BrownianMonoPB class object forward declarations
+class VanderWaalsMonoPB;
 
 template<>
-InputParameters validParams<CoagulationMonoPB>();
+InputParameters validParams<VanderWaalsMonoPB>();
 
-/// CoagulationMonoPB class object inherits from BrownianConvecMonoPB object
-/** This class object inherits from the BrownianConvecMonoPB object in the MOOSE framework.
+/// BrownianMonoPB class object inherits from ConstMonoPB object
+/** This class object inherits from the Kernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
 	The kernel has a set of parameters (alpha and beta) that may be computed
     by other future kernels.
  */
-class CoagulationMonoPB : public BrownianConvecMonoPB
+class VanderWaalsMonoPB : public ConstMonoPB
 {
 public:
     /// Required constructor for objects in MOOSE
-    CoagulationMonoPB(const InputParameters & parameters);
+    VanderWaalsMonoPB(const InputParameters & parameters);
     
 protected:
-    /// Function to compute outcome of Kronecker Delta Function
+	/// Function to compute outcome of Kronecker Delta Function
     Real KroneckerDelta(int i, int j);
     
-    /// Function to fill out all the alpha and beta parameters
+    /// Function to fill out all the alpha and beta parameters with constants
     void AlphaBetaFill();
     
     /// Function to fill out all the volume size bins
@@ -78,7 +77,7 @@ protected:
     
     /// Function to fill out all the gama values
     void GamaFill();
-    
+
     /// Required residual function for standard kernels in MOOSE
     /** This function returns a residual contribution for this object.*/
     virtual Real computeQpResidual() override;
@@ -95,18 +94,12 @@ protected:
      cross coupling of the variables. */
     virtual Real computeQpOffDiagJacobian(unsigned int jvar) override;
     
-    /// Parameters for the class are listed below
-
-    Real _alpha_TI;											///< Collision efficiency for turbulent inertial motion (-)
-    Real _alpha_TS;											///< Collision efficiency for turbulent shear (-)
-    Real _alpha_VW;											///< Collision Efficiency for van der Waals forces (-)
-
-    const MaterialProperty<std::vector<std::vector<Real> > > & _beta_GC;	///< MaterialProperty for the gravitational collection frequency (m^3/s) ==> size = num_var x num_var
-    const MaterialProperty<std::vector<std::vector<Real> > > & _beta_TI;	///< MaterialProperty for the collision frequency from turbulent inertial motion (m^3/s) ==> size = num_var x num_var
-    const MaterialProperty<std::vector<std::vector<Real> > > & _beta_TS;	///< MaterialProperty for the Brownian convection frequency (m^3/s) ==> size = num_var x num_var
-    const MaterialProperty<std::vector<std::vector<Real> > > & _alpha_GC;	///< MaterialProperty for the gravitational collection efficiency (-) ==> size = num_var x num_var
-    const MaterialProperty<std::vector<std::vector<Real> > > & _beta_VW;	///< MaterialProperty for the Brownian frequency (m^3/s) ==> size = num_var x num_var
+    /// Parameters for the base class are listed below
     
+    Real _alpha_VW;											///< Collision Efficiency for van der Waals forces (-)
+    
+    const MaterialProperty<std::vector<std::vector<Real> > > & _beta_VW;	///< MaterialProperty for the Brownian frequency (m^3/s) ==> size = num_var x num_var
+
 private:
     
 };
