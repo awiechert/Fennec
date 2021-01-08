@@ -1026,7 +1026,7 @@ bool Crane::get_FileOut()
     return this->FileOut;
 }
 
-Matrix<double> & Crane::get_part_conc_var()
+eMatrix<double> & Crane::get_part_conc_var()
 {
     return this->part_conc_var;
 }
@@ -1318,12 +1318,12 @@ void Crane::compute_surf_area(double m, double x, double s, double w, double T, 
     this->set_surf_area( 4.0*M_PI*pow(this->get_horz_rad(), 2.0) );
 }
 
-void Crane::compute_shear_vel(Matrix<double> v_top, Matrix<double> v_bot)
+void Crane::compute_shear_vel(eMatrix<double> v_top, eMatrix<double> v_bot)
 {
     this->set_shear_vel( (v_top-v_bot).norm() );
 }
 
-void Crane::compute_shear_ratio(double m, double x, double s, double w, double T, double P, double z, double u, double E, Matrix<double> v_top, Matrix<double> v_bot)
+void Crane::compute_shear_ratio(double m, double x, double s, double w, double T, double P, double z, double u, double E, eMatrix<double> v_top, eMatrix<double> v_bot)
 {
     this->compute_surf_area(m, x, s, w, T, P, z);
     this->compute_cloud_volume(m, x, s, w, T, P);
@@ -1399,7 +1399,7 @@ void Crane::compute_settling_rate(double Dj, double m, double x, double s, doubl
     
 }
 
-void Crane::compute_total_mass_fallout_rate(double m, double x, double s, double w, double T, double P, double z, const Matrix<double> &n)
+void Crane::compute_total_mass_fallout_rate(double m, double x, double s, double w, double T, double P, double z, const eMatrix<double> &n)
 {
     this->compute_horz_rad(m, x, s, w, T, P, z);
     this->settling_rate.clear();
@@ -1818,7 +1818,7 @@ void Crane::add_rel_humid(double z, double HR)
 
 void Crane::add_wind_vel(double z, double vx, double vy)
 {
-    Matrix<double> v(2,1);
+    eMatrix<double> v(2,1);
     v(0,0) = vx;
     v(1,0) = vy;
     this->wind_vel[z] = v;
@@ -2540,13 +2540,13 @@ double Crane::return_rel_humid(double z)
     return HR;
 }
 
-Matrix<double> Crane::return_wind_vel(double z)
+eMatrix<double> Crane::return_wind_vel(double z)
 {
-    Matrix<double> HR;
+    eMatrix<double> HR;
     
     //Setup the iterators
-    std::map<double,Matrix<double>>::iterator it=this->wind_vel.begin();
-    std::map<double,Matrix<double>>::reverse_iterator rit=this->wind_vel.rbegin();
+    std::map<double,eMatrix<double>>::iterator it=this->wind_vel.begin();
+    std::map<double,eMatrix<double>>::reverse_iterator rit=this->wind_vel.rbegin();
     
     //Special Case 1: z less than lowest value in map
     if (z <= it->first)
@@ -2558,13 +2558,13 @@ Matrix<double> Crane::return_wind_vel(double z)
     
     //Iterate through map
     double old_z = it->first;
-    Matrix<double> old_Te = it->second;
+    eMatrix<double> old_Te = it->second;
     for (it=this->wind_vel.begin(); it!=this->wind_vel.end(); ++it)
     {
         if (it->first > z)
         {
-            Matrix<double> slope = (it->second - old_Te) / (it->first - old_z);
-            Matrix<double> inter = it->second - (slope*it->first);
+            eMatrix<double> slope = (it->second - old_Te) / (it->first - old_z);
+            eMatrix<double> inter = it->second - (slope*it->first);
             HR = slope*z + inter;
             break;
         }
@@ -2580,7 +2580,7 @@ Matrix<double> Crane::return_wind_vel(double z)
 
 double Crane::return_wind_speed(double z)
 {
-    Matrix<double> v = this->return_wind_vel(z);
+    eMatrix<double> v = this->return_wind_vel(z);
     return v.norm();
 }
 
@@ -2596,7 +2596,7 @@ void Crane::compute_current_atm_press(double z)
 
 // Below are listed functions to feed to DOVE as residuals
 
-double rate_cloud_rise(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double rate_cloud_rise(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     double res = 0.0;
     
@@ -2626,12 +2626,12 @@ double rate_cloud_rise(int i, const Matrix<double> &u, double t, const void *dat
     return res;
 }
 
-double rate_cloud_alt(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double rate_cloud_alt(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     return u(dove.getVariableIndex("u (m/s)"),0);
 }
 
-double rate_x_water_vapor(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double rate_x_water_vapor(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     double res = 0.0;
     
@@ -2663,7 +2663,7 @@ double rate_x_water_vapor(int i, const Matrix<double> &u, double t, const void *
     return res;
 }
 
-double rate_temperature(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double rate_temperature(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     double res = 0.0;
     
@@ -2729,7 +2729,7 @@ double rate_temperature(int i, const Matrix<double> &u, double t, const void *da
     return res;
 }
 
-double rate_w_water_conds(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double rate_w_water_conds(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     double res = 0.0;
     
@@ -2766,7 +2766,7 @@ double rate_w_water_conds(int i, const Matrix<double> &u, double t, const void *
     return res;
 }
 
-double rate_energy(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double rate_energy(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     double res = 0.0;
     
@@ -2799,7 +2799,7 @@ double rate_energy(int i, const Matrix<double> &u, double t, const void *data, c
     return res;
 }
 
-double rate_cloud_mass(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double rate_cloud_mass(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     double res = 0.0;
     
@@ -2821,7 +2821,7 @@ double rate_cloud_mass(int i, const Matrix<double> &u, double t, const void *dat
     return res;
 }
 
-double rate_s_soil(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double rate_s_soil(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     double res = 0.0;
     
@@ -2849,7 +2849,7 @@ double rate_s_soil(int i, const Matrix<double> &u, double t, const void *data, c
     return res;
 }
 
-double rate_entrained_mass(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double rate_entrained_mass(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     double res = 0.0;
     
@@ -2949,27 +2949,27 @@ void Crane::compute_rise_bottom(double z_new, double z_old, double dt)
     this->set_rise_bottom((z_new-z_old)/dt);
 }
 
-Matrix<double> & Crane::return_parcel_alt_top()
+eMatrix<double> & Crane::return_parcel_alt_top()
 {
     return this->parcel_alt_top;
 }
 
-Matrix<double> & Crane::return_parcel_alt_bot()
+eMatrix<double> & Crane::return_parcel_alt_bot()
 {
     return this->parcel_alt_bot;
 }
 
-Matrix<double> & Crane::return_parcel_rad_top()
+eMatrix<double> & Crane::return_parcel_rad_top()
 {
     return this->parcel_rad_top;
 }
 
-Matrix<double> & Crane::return_parcel_rad_bot()
+eMatrix<double> & Crane::return_parcel_rad_bot()
 {
     return this->parcel_rad_bot;
 }
 
-Matrix<double> & Crane::return_parcel_conc()
+eMatrix<double> & Crane::return_parcel_conc()
 {
     return this->parcel_conc;
 }
@@ -3722,7 +3722,7 @@ void Crane::estimate_parameters(Dove &dove)
     this->compute_vert_rad(this->get_cloud_alt());
     
     double Te, P, HR;
-    Matrix<double> v_top(2,1), v_bot(2,1);
+    eMatrix<double> v_top(2,1), v_bot(2,1);
     Te = this->return_amb_temp(this->get_cloud_alt());
     P = this->return_atm_press(this->get_cloud_alt());
     HR = this->return_rel_humid(this->get_cloud_alt());

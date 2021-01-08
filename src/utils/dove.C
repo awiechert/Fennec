@@ -626,7 +626,7 @@ void Dove::set_LinearStatus(bool choice)
 }
 
 //Register user function
-void Dove::regFunction(int i, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) )
+void Dove::regFunction(int i, double (*func) (int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove) )
 {
     if ((*func) == NULL)
     {
@@ -638,13 +638,13 @@ void Dove::regFunction(int i, double (*func) (int i, const Matrix<double> &u, do
 }
 
 //Register name function
-void Dove::regFunction(std::string name, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) )
+void Dove::regFunction(std::string name, double (*func) (int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove) )
 {
     this->regFunction(this->getVariableIndex(name), func);
 }
 
 //Register time coeff functions
-void Dove::registerCoeff(int i, double (*coeff) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) )
+void Dove::registerCoeff(int i, double (*coeff) (int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove) )
 {
     if ((*coeff) == NULL)
         this->user_coeff.edit(i, 0, default_coeff);
@@ -658,13 +658,13 @@ void Dove::registerCoeff(int i, double (*coeff) (int i, const Matrix<double> &u,
 }
 
 //Register name coeff func
-void Dove::registerCoeff(std::string name, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) )
+void Dove::registerCoeff(std::string name, double (*func) (int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove) )
 {
     this->registerCoeff(this->getVariableIndex(name), func);
 }
 
 //Register jacobians
-void Dove::registerJacobi(int i, int j, double (*jac) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove) )
+void Dove::registerJacobi(int i, int j, double (*jac) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove) )
 {
     if ((*jac) == NULL)
     {
@@ -677,7 +677,7 @@ void Dove::registerJacobi(int i, int j, double (*jac) (int i, int j, const Matri
 }
 
 //Register jacobians by names
-void Dove::registerJacobi(std::string func_name, std::string var_name, double (*jac) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove) )
+void Dove::registerJacobi(std::string func_name, std::string var_name, double (*jac) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove) )
 {
     int i = this->getVariableIndex(func_name);
     int j = this->getVariableIndex(var_name);
@@ -812,25 +812,25 @@ void Dove::createJacobian()
 }
 
 //Return reference to Jacobian
-Matrix<double>& Dove::getNumJacobian()
+eMatrix<double>& Dove::getNumJacobian()
 {
     return this->Jacobian;
 }
 
 //Return reference to un
-Matrix<double>& Dove::getCurrentU()
+eMatrix<double>& Dove::getCurrentU()
 {
     return this->un;
 }
 
 //Return reference to unm1
-Matrix<double>& Dove::getOldU()
+eMatrix<double>& Dove::getOldU()
 {
     return this->unm1;
 }
 
 //Return reference to unp1
-Matrix<double>& Dove::getNewU()
+eMatrix<double>& Dove::getNewU()
 {
     return this->unp1;
 }
@@ -876,43 +876,43 @@ double Dove::getMaxRate()
 }
 
 //Return u_n for i
-double Dove::getCurrentU(int i, const Matrix<double> &u) const
+double Dove::getCurrentU(int i, const eMatrix<double> &u) const
 {
     return this->un(i,0);
 }
 
 //Return u_n-1 for i
-double Dove::getOldU(int i, const Matrix<double> &u) const
+double Dove::getOldU(int i, const eMatrix<double> &u) const
 {
     return this->unm1(i,0);
 }
 
 //Return u_n+1 for i
-double Dove::getNewU(int i, const Matrix<double> &u) const
+double Dove::getNewU(int i, const eMatrix<double> &u) const
 {
     return u(i,0);
 }
 
 //Return u_n for name
-double Dove::getCurrentU(std::string name, const Matrix<double> &u) const
+double Dove::getCurrentU(std::string name, const eMatrix<double> &u) const
 {
     return this->un(this->getVariableIndex(name),0);
 }
 
 //Return u_n-1 for name
-double Dove::getOldU(std::string name, const Matrix<double> &u) const
+double Dove::getOldU(std::string name, const eMatrix<double> &u) const
 {
     return this->unm1(this->getVariableIndex(name),0);
 }
 
 //Return u_n+1 for name
-double Dove::getNewU(std::string name, const Matrix<double> &u) const
+double Dove::getNewU(std::string name, const eMatrix<double> &u) const
 {
     return u(this->getVariableIndex(name),0);
 }
 
 //Return du_i/dt
-double Dove::coupledTimeDerivative(int i, const Matrix<double> &u) const
+double Dove::coupledTimeDerivative(int i, const eMatrix<double> &u) const
 {
     
     double rn = 0.0;
@@ -933,16 +933,16 @@ double Dove::coupledTimeDerivative(int i, const Matrix<double> &u) const
 }
 
 //Return du_name/dt
-double Dove::coupledTimeDerivative(std::string name, const Matrix<double> &u) const
+double Dove::coupledTimeDerivative(std::string name, const eMatrix<double> &u) const
 {
     int i = this->getVariableIndex(name);
     return this->coupledTimeDerivative(i,u);
 }
 
 //Return d(du_i/dt)/du_j
-double Dove::coupledDerivativeTimeDerivative(int i, int j, const Matrix<double> &u) const
+double Dove::coupledDerivativeTimeDerivative(int i, int j, const eMatrix<double> &u) const
 {
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::const_iterator it = this->user_jacobi[i].find(j);
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::const_iterator it = this->user_jacobi[i].find(j);
     if (it == this->user_jacobi[i].end())
     {
         return default_jacobi(i,j,u,this->getCurrentTime(),this->user_data, *this);
@@ -1072,7 +1072,7 @@ double Dove::getNonlinearResidual()
 }
 
 //Return map
-std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)> & Dove::getJacobiMap(int i)
+std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)> & Dove::getJacobiMap(int i)
 {
     return this->user_jacobi[i];
 }
@@ -1363,21 +1363,21 @@ double Dove::ComputeTimeStep()
 }
 
 //Eval user function i
-double Dove::Eval_Func(int i, const Matrix<double>& u, double t)
+double Dove::Eval_Func(int i, const eMatrix<double>& u, double t)
 {
     return this->user_func(i,0)(i,u,t,this->user_data, *this);
 }
 
 //Eval user time coefficient function i
-double Dove::Eval_Coeff(int i, const Matrix<double>& u, double t)
+double Dove::Eval_Coeff(int i, const eMatrix<double>& u, double t)
 {
     return this->user_coeff(i,0)(i,u,t,this->user_data, *this);
 }
 
 //Eval user time coefficient function i
-double Dove::Eval_Jacobi(int i, int j, const Matrix<double>& u, double t)
+double Dove::Eval_Jacobi(int i, int j, const eMatrix<double>& u, double t)
 {
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it = this->user_jacobi[i].find(j);
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it = this->user_jacobi[i].find(j);
     if (it == this->user_jacobi[i].end())
     {
         return default_jacobi(i,j,u,t,this->user_data, *this);
@@ -1895,7 +1895,7 @@ int Dove::solve_FE()
 int Dove::solve_RK4()
 {
     int success = 0;
-    Matrix<double> temp;
+    eMatrix<double> temp;
     temp.set_size(this->num_func, 1);
     for (int i=0; i<this->num_func; i++)
     {
@@ -1932,7 +1932,7 @@ int Dove::solve_RKF()
 {
     int success = 0;
     double res = 0.0;
-    Matrix<double> temp;
+    eMatrix<double> temp;
     temp.set_size(this->num_func, 1);
     for (int i=0; i<this->num_func; i++)
     {
@@ -1981,7 +1981,7 @@ int Dove::solve_RKF()
  */
 
 //Function for implicit-BE method residual
-int residual_BE(const Matrix<double> &u, Matrix<double> &Res, const void *data)
+int residual_BE(const eMatrix<double> &u, eMatrix<double> &Res, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
@@ -1995,7 +1995,7 @@ int residual_BE(const Matrix<double> &u, Matrix<double> &Res, const void *data)
 }
 
 //Jacobi preconditioning for BE
-int precond_Jac_BE(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_Jac_BE(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
@@ -2010,7 +2010,7 @@ int precond_Jac_BE(const Matrix<double> &v, Matrix<double> &p, const void *data)
 }
 
 //Tridiagonal preconditioning for BE
-int precond_Tridiag_BE(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_Tridiag_BE(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
@@ -2072,14 +2072,14 @@ int precond_Tridiag_BE(const Matrix<double> &v, Matrix<double> &p, const void *d
 }
 
 //Upper Gauss Seidel Preconditioner (solve Up=v)
-int precond_UpperGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_UpperGS_BE(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
     
     double sum_upper = 0.0, sum_lower = 0.0;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
     
     //Loop over rows
     for (int i=dat->getNumFunc()-1; i>=0; i--)
@@ -2108,13 +2108,13 @@ int precond_UpperGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *d
 }
 
 //Lower Gauss Seidel Preconditioner (Lp=v)
-int precond_LowerGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_LowerGS_BE(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
     double sum_lower = 0.0, sum_upper = 0.0;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
     
     //Loop over rows
     for (int i=0; i<dat->getNumFunc(); i++)
@@ -2143,7 +2143,7 @@ int precond_LowerGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *d
 }
 
 //Symmetric Gauss Seidel Preconditioner
-int precond_SymmetricGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_SymmetricGS_BE(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     
@@ -2154,7 +2154,7 @@ int precond_SymmetricGS_BE(const Matrix<double> &v, Matrix<double> &p, const voi
 }
 
 //Function for implicit-CN method residual
-int residual_CN(const Matrix<double> &u, Matrix<double> &Res, const void *data)
+int residual_CN(const eMatrix<double> &u, eMatrix<double> &Res, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
@@ -2168,7 +2168,7 @@ int residual_CN(const Matrix<double> &u, Matrix<double> &Res, const void *data)
 }
 
 //Jacobi preconditioning for CN
-int precond_Jac_CN(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_Jac_CN(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
@@ -2183,7 +2183,7 @@ int precond_Jac_CN(const Matrix<double> &v, Matrix<double> &p, const void *data)
 }
 
 //Tridiagonal preconditioning for CN
-int precond_Tridiag_CN(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_Tridiag_CN(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
@@ -2245,14 +2245,14 @@ int precond_Tridiag_CN(const Matrix<double> &v, Matrix<double> &p, const void *d
 }
 
 //Upper Gauss Seidel Preconditioner (solve Up=v)
-int precond_UpperGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_UpperGS_CN(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
     
     double sum_upper = 0.0, sum_lower = 0.0;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
     
     //Loop over rows
     for (int i=dat->getNumFunc()-1; i>=0; i--)
@@ -2281,13 +2281,13 @@ int precond_UpperGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *d
 }
 
 //Lower Gauss Seidel Preconditioner (Lp=v)
-int precond_LowerGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_LowerGS_CN(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
     double sum_lower = 0.0, sum_upper = 0.0;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
     
     //Loop over rows
     for (int i=0; i<dat->getNumFunc(); i++)
@@ -2316,7 +2316,7 @@ int precond_LowerGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *d
 }
 
 //Symmetric Gauss Seidel Preconditioner
-int precond_SymmetricGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_SymmetricGS_CN(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     
@@ -2327,7 +2327,7 @@ int precond_SymmetricGS_CN(const Matrix<double> &v, Matrix<double> &p, const voi
 }
 
 //Function for implicit-BDF2 method residual
-int residual_BDF2(const Matrix<double> &u, Matrix<double> &Res, const void *data)
+int residual_BDF2(const eMatrix<double> &u, eMatrix<double> &Res, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
@@ -2350,7 +2350,7 @@ int residual_BDF2(const Matrix<double> &u, Matrix<double> &Res, const void *data
 }
 
 //Jacobi preconditioning for BDF2
-int precond_Jac_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_Jac_BDF2(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
@@ -2373,7 +2373,7 @@ int precond_Jac_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *dat
 }
 
 //Tridiagonal preconditioning for BDF2
-int precond_Tridiag_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_Tridiag_BDF2(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
@@ -2442,7 +2442,7 @@ int precond_Tridiag_BDF2(const Matrix<double> &v, Matrix<double> &p, const void 
 }
 
 //Upper Gauss Seidel Preconditioner (solve Up=v)
-int precond_UpperGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_UpperGS_BDF2(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
@@ -2455,8 +2455,8 @@ int precond_UpperGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void 
     an = (1.0 + (2.0*rn)) / (1.0 + rn);
     
     double sum_upper = 0.0, sum_lower = 0.0;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
     
     //Loop over rows
     for (int i=dat->getNumFunc()-1; i>=0; i--)
@@ -2485,13 +2485,13 @@ int precond_UpperGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void 
 }
 
 //Lower Gauss Seidel Preconditioner (Lp=v)
-int precond_LowerGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_LowerGS_BDF2(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     Dove *dat = (Dove *) data;
     double sum_lower = 0.0, sum_upper = 0.0;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
-    std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::iterator it;
+    std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)>::reverse_iterator rit;
     
     double rn = 0.0;
     if (dat->getOldTime() > 0.0)
@@ -2527,7 +2527,7 @@ int precond_LowerGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void 
 }
 
 //Symmetric Gauss Seidel Preconditioner
-int precond_SymmetricGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data)
+int precond_SymmetricGS_BDF2(const eMatrix<double> &v, eMatrix<double> &p, const void *data)
 {
     int success = 0;
     
@@ -2538,53 +2538,53 @@ int precond_SymmetricGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const v
 }
 
 /// Default  function
-double default_func(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double default_func(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     return 0.0;
 }
 
 /// Default time coefficient function
-double default_coeff(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double default_coeff(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     return 1.0;
 }
 
 /// Default Jacobian element function
-double default_jacobi(int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double default_jacobi(int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     return 0.0;
 }
 
 
 // -------------------- Begin temporary testing --------------------------
-double f0(int i, const Matrix<double> &x, double t, const void *res_data, const Dove &dove)
+double f0(int i, const eMatrix<double> &x, double t, const void *res_data, const Dove &dove)
 {
     return x(0,0) + 1;
 }
 
-double f1(int i, const Matrix<double> &x, double t, const void *res_data, const Dove &dove)
+double f1(int i, const eMatrix<double> &x, double t, const void *res_data, const Dove &dove)
 {
     return x(1,0) - x(0,0);
 }
 
-int test_matvec(const Matrix<double> &x, Matrix<double> &Mx, const void *data)
+int test_matvec(const eMatrix<double> &x, eMatrix<double> &Mx, const void *data)
 {
     Mx(0,0) = 5*x(0,0);
     return 0;
 }
 
-int test_res(const Matrix<double> &x, Matrix<double> &Mx, const void *data)
+int test_res(const eMatrix<double> &x, eMatrix<double> &Mx, const void *data)
 {
     Mx(0,0) = 5.0*x(0,0)*x(0,0) - 1.0;
     return 0;
 }
 
-double first_order_decay(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double first_order_decay(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     return -u(i,0);
 }
 
-double nonlinear_first_order_decay(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double nonlinear_first_order_decay(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     return u(0,0)*u(1,0);
 }
@@ -2598,23 +2598,23 @@ typedef struct
     double uo;
 }Test03_data;
 
-double Lap1D_BC0(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double Lap1D_BC0(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     return 0.0;
 }
 
-double Lap1D_Jac_BC0(int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double Lap1D_Jac_BC0(int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     return 0.0;
 }
 
-double Lap1D_BC1(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double Lap1D_BC1(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test03_data *dat = (Test03_data *) data;
     return (dat->D/dat->dx/dat->dx)*(u(i+1,0) - 2*u(i,0) + dat->uo);
 }
 
-double Lap1D_Jac_BC1(int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double Lap1D_Jac_BC1(int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test03_data *dat = (Test03_data *) data;
     if (i == j)
@@ -2625,13 +2625,13 @@ double Lap1D_Jac_BC1(int i, int j, const Matrix<double> &u, double t, const void
         return 0.0;
 }
 
-double Lap1D_Interior(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double Lap1D_Interior(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test03_data *dat = (Test03_data *) data;
     return (dat->D/dat->dx/dat->dx)*(u(i+1,0) - 2*u(i,0) + u(i-1,0));
 }
 
-double Lap1D_Jac_Interior(int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double Lap1D_Jac_Interior(int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test03_data *dat = (Test03_data *) data;
     if (i == j)
@@ -2644,13 +2644,13 @@ double Lap1D_Jac_Interior(int i, int j, const Matrix<double> &u, double t, const
         return 0.0;
 }
 
-double Lap1D_BCN(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double Lap1D_BCN(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test03_data *dat = (Test03_data *) data;
     return (dat->D/dat->dx/dat->dx)*(u(i-1,0) - 2*u(i,0) + u(i-1,0));
 }
 
-double Lap1D_Jac_BCN(int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double Lap1D_Jac_BCN(int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test03_data *dat = (Test03_data *) data;
     if (i == j)
@@ -2667,7 +2667,7 @@ typedef struct
     int N;
 }Test05_data;
 
-double Lap2D_Nonlinear(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double Lap2D_Nonlinear(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test05_data *dat = (Test05_data *) data;
     
@@ -2690,7 +2690,7 @@ double Lap2D_Nonlinear(int i, const Matrix<double> &u, double t, const void *dat
     return u(i,0)*u(upper,0) + u(i,0)*u(ub,0) - 4.0*u(i,0)*u(i,0) + u(i,0)*u(lb,0) + u(i,0)*u(lower,0);
 }
 
-double Lap2D_NonlinearJac(int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double Lap2D_NonlinearJac(int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test05_data *dat = (Test05_data *) data;
     
@@ -2905,7 +2905,7 @@ typedef struct
     double rho;
 } Test06_data;
 
-double ldf_kinetics(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double ldf_kinetics(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test06_data *dat = (Test06_data *) data;
     double rate = dat->kldf*(dat->K*u(dove.getVariableIndex("c"),0) - u(dove.getVariableIndex("q"),0));
@@ -2913,13 +2913,13 @@ double ldf_kinetics(int i, const Matrix<double> &u, double t, const void *data, 
     return rate;
 }
 
-double mb_timecoef(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double mb_timecoef(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test06_data *dat = (Test06_data *) data;
     return dat->eps;
 }
 
-double mb_cstr(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double mb_cstr(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test06_data *dat = (Test06_data *) data;
     double rate = dat->Q*dat->co - dat->Q*u(dove.getVariableIndex("c"),0) - dat->rho*dove.coupledTimeDerivative("q",u);
@@ -2955,19 +2955,19 @@ typedef struct
     double qmax_i2 = 0.5; //mol/kg
 } Test07_data;
 
-double meb_mass_timecoef(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double meb_mass_timecoef(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test07_data *dat = (Test07_data *) data;
     return dat->eps*dat->V;
 }
 
-double meb_energy_timecoef(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double meb_energy_timecoef(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test07_data *dat = (Test07_data *) data;
     return (dat->eps*dat->V*dat->cg*dat->rhog) + (dat->cs*dat->rhob*dat->V);
 }
 
-double h2o_ldf_kinetics(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double h2o_ldf_kinetics(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test07_data *dat = (Test07_data *) data;
     
@@ -2986,7 +2986,7 @@ double h2o_ldf_kinetics(int i, const Matrix<double> &u, double t, const void *da
     return rate;
 }
 
-double i2_ldf_kinetics(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double i2_ldf_kinetics(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test07_data *dat = (Test07_data *) data;
     
@@ -3005,7 +3005,7 @@ double i2_ldf_kinetics(int i, const Matrix<double> &u, double t, const void *dat
     return rate;
 }
 
-double h2o_mb(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double h2o_mb(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test07_data *dat = (Test07_data *) data;
     
@@ -3017,7 +3017,7 @@ double h2o_mb(int i, const Matrix<double> &u, double t, const void *data, const 
     return rate;
 }
 
-double i2_mb(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double i2_mb(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test07_data *dat = (Test07_data *) data;
     
@@ -3029,7 +3029,7 @@ double i2_mb(int i, const Matrix<double> &u, double t, const void *data, const D
     return rate;
 }
 
-double T_eb(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)
+double T_eb(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)
 {
     Test07_data *dat = (Test07_data *) data;
     

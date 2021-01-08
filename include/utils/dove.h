@@ -121,17 +121,17 @@ integrate_subtype integration_choice(std::string &choice);
  
 	User functions for the right-hand side are written as...
  
-	du_i/dt = user_function_i(const Matrix<double> &u, const void *data_struct)
+	du_i/dt = user_function_i(const eMatrix<double> &u, const void *data_struct)
  
 	In some cases, there is a need to include a time coefficient on the left-hand side of the rate
 	expression. For those cases, the user may also provide a time coefficient function...
  
-	user_time_coeff_i(const Matrix<double> &u, const void *data_struct) * du_i/dt = user_function_i(...)
+	user_time_coeff_i(const eMatrix<double> &u, const void *data_struct) * du_i/dt = user_function_i(...)
  
 	For most implicit problems, the ODE system must be solved iteratively using a Newton-style method. In
 	these cases, the user may also provide functions for Jacobian matrix elements...
 	
-	user_jacobi_element_i_j(const Matrix<double> &u, const void *data_struct)
+	user_jacobi_element_i_j(const eMatrix<double> &u, const void *data_struct)
  
 	All of these above functions are to be put into Matrices inside of the Dove class object so that Dove
 	will call those functions when it needs to be called. Data structures for all function calls are optional
@@ -192,7 +192,7 @@ public:
 	
 	/// Register the ith user function
 	/** This function will register the ith user function into the object. That function must accept as arguments the function
-		identifier i, a constant Matrix for variables u, a double for time t, and a void data pointer. All of this information
+		identifier i, a constant eMatrix for variables u, a double for time t, and a void data pointer. All of this information
 		is required to be in the function parameters, but is not required to be used by the function. The indentifier i can be
 		used to conveniently define coupling between nieghboring elements/variables in the system. In other words, the int i
 		denotes not only the function being registered, but also the primary coupled variable for the function.
@@ -206,11 +206,11 @@ public:
 	 
 		\note You are allowed to point to the same user function for all i, but you must make sure that the resulting system is
 		non-singular (i.e., use argument i passed to the function to denote interally which function you are at). */
-	void regFunction(int i, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) );
+	void regFunction(int i, double (*func) (int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove) );
 	
 	/// Register the named user function
 	/** This function will register the named user function into the object. That function must accept as arguments the function
-		identifier i, a constant Matrix for variables u, a double for time t, and a void data pointer. All of this information
+		identifier i, a constant eMatrix for variables u, a double for time t, and a void data pointer. All of this information
 		is required to be in the function parameters, but is not required to be used by the function. The indentifier i can be
 		used to conveniently define coupling between nieghboring elements/variables in the system. In other words, the int i
 		denotes not only the function being registered, but also the primary coupled variable for the function.
@@ -224,31 +224,31 @@ public:
 	 
 		\note You are allowed to point to the same user function for all i, but you must make sure that the resulting system is
 		non-singular (i.e., use argument i passed to the function to denote interally which function you are at). */
-	void regFunction(std::string name, double (*func) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) );
+	void regFunction(std::string name, double (*func) (int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove) );
 	
 	/// Register the ith time coeff function
 	/** This function will register the ith coeff function into the object. That function must accept as arguments the coefficient
-		identifier i, a constant Matrix for variables u, a double for time t, and a void data pointer. All of this information
+		identifier i, a constant eMatrix for variables u, a double for time t, and a void data pointer. All of this information
 		is required to be in the function parameters, but is not required to be used by the function. The indentifier i can be
 		used to conveniently define identify where the coefficient may be applied spatially. In other words, if solving a PDE,
 		the time coefficient may be a function of location in space, which can be potentially identified by int i.
 	 
 		For example, in 1-D space, the distance x can be computed as x = dx*i for a regular grid. */
-	void registerCoeff(int i, double (*coeff) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) );
+	void registerCoeff(int i, double (*coeff) (int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove) );
 	
 	/// Register the named time coeff function
 	/** This function will register the named coeff function into the object. That function must accept as arguments the coefficient
-		identifier i, a constant Matrix for variables u, a double for time t, and a void data pointer. All of this information
+		identifier i, a constant eMatrix for variables u, a double for time t, and a void data pointer. All of this information
 		is required to be in the function parameters, but is not required to be used by the function. The indentifier i can be
 		used to conveniently define identify where the coefficient may be applied spatially. In other words, if solving a PDE,
 		the time coefficient may be a function of location in space, which can be potentially identified by int i.
 	 
 		For example, in 1-D space, the distance x can be computed as x = dx*i for a regular grid. */
-	void registerCoeff(std::string name, double (*coeff) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove) );
+	void registerCoeff(std::string name, double (*coeff) (int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove) );
 	
 	/// Register the i-jth element of jacobian
 	/** This function will register the (i,j) jacobian function into the object. That function must accept as arguments the jacobi
-		identifiers (i and j), a constant Matrix for variables u, a double for time t, and a void data pointer. All of this information
+		identifiers (i and j), a constant eMatrix for variables u, a double for time t, and a void data pointer. All of this information
 		is required to be in the function parameters, but is not required to be used by the function. The indentifiers i and j can be
 		used to determine which Jacobian function this should be, thus allowing a user to potentially reference the same function for
 		all Jacobi elements, but return different results based on matrix location.
@@ -257,11 +257,11 @@ public:
 	 
 		\note The jacobian information is used only in preconditioning actions taken by DOVE. The type of preconditioning can
 		be choosen by the user. There are standard types of preconditioning available. */
-	void registerJacobi(int i, int j, double (*jac) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove) );
+	void registerJacobi(int i, int j, double (*jac) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove) );
 	
 	/// Register the named element of jacobian
 	/** This function will register the named jacobian function into the object. That function must accept as arguments the jacobi
-		identifiers (i and j), a constant Matrix for variables u, a double for time t, and a void data pointer. All of this information
+		identifiers (i and j), a constant eMatrix for variables u, a double for time t, and a void data pointer. All of this information
 		is required to be in the function parameters, but is not required to be used by the function. The indentifiers i and j can be
 		used to determine which Jacobian function this should be, thus allowing a user to potentially reference the same function for
 		all Jacobi elements, but return different results based on matrix location.
@@ -270,31 +270,31 @@ public:
 	 
 		\note The jacobian information is used only in preconditioning actions taken by DOVE. The type of preconditioning can
 		be choosen by the user. There are standard types of preconditioning available. */
-	void registerJacobi(std::string func_name, std::string var_name, double (*jac) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove) );
+	void registerJacobi(std::string func_name, std::string var_name, double (*jac) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove) );
 	
 	void print_header(bool addNewLine);					///< Function to print out a header to output file
 	void print_newresult(bool addNewLine);				///< Function to print out the new result of n+1 time level
 	void print_result(bool addNewLine);					///< Function to print out the old result of n time level
 	
 	void createJacobian();                          ///< Function to create and store a numerical jacobian
-	Matrix<double>& getNumJacobian();               ///< Return reference to the numerical jacobian
-	Matrix<double>& getCurrentU();					///< Return reference to the n level solution
-	Matrix<double>& getOldU();						///< Return reference to the n-1 level solution
-	Matrix<double>& getNewU();						///< Return reference to the n+1 level solution
+	eMatrix<double>& getNumJacobian();               ///< Return reference to the numerical jacobian
+	eMatrix<double>& getCurrentU();					///< Return reference to the n level solution
+	eMatrix<double>& getOldU();						///< Return reference to the n-1 level solution
+	eMatrix<double>& getNewU();						///< Return reference to the n+1 level solution
 	int getVariableIndex(std::string name) const;	///< Return the index of the variable whose name matches the given string (checks hash table)
 	std::string getVariableName(int i);				///< Return the name of the variable based on the given index
 	double getMaxRate();							///< Returns the value of the maximum rate of change for all variables
-	double getCurrentU(int i, const Matrix<double> &u) const;	///< Return the value of the n level solution for variable i
-	double getOldU(int i, const Matrix<double> &u) const;		///< Return the value of the n-1 level solution for variable i
-	double getNewU(int i, const Matrix<double> &u) const;		///< Return the value of the n+1 level solution for variable i
-	double getCurrentU(std::string name, const Matrix<double> &u) const;///< Return the value of the n level solution for variable of given name
-	double getOldU(std::string name, const Matrix<double> &u) const;	///< Return the value of the n-1 level solution for variable of given name
-	double getNewU(std::string name, const Matrix<double> &u) const;	///< Return the value of the n+1 level solution for variable of given name
-	double coupledTimeDerivative(int i, const Matrix<double> &u) const;	///< Return the value of the ith variable's time derivative
-	double coupledTimeDerivative(std::string name, const Matrix<double> &u) const;		///< Return the value of the named variable's time derivative
+	double getCurrentU(int i, const eMatrix<double> &u) const;	///< Return the value of the n level solution for variable i
+	double getOldU(int i, const eMatrix<double> &u) const;		///< Return the value of the n-1 level solution for variable i
+	double getNewU(int i, const eMatrix<double> &u) const;		///< Return the value of the n+1 level solution for variable i
+	double getCurrentU(std::string name, const eMatrix<double> &u) const;///< Return the value of the n level solution for variable of given name
+	double getOldU(std::string name, const eMatrix<double> &u) const;	///< Return the value of the n-1 level solution for variable of given name
+	double getNewU(std::string name, const eMatrix<double> &u) const;	///< Return the value of the n+1 level solution for variable of given name
+	double coupledTimeDerivative(int i, const eMatrix<double> &u) const;	///< Return the value of the ith variable's time derivative
+	double coupledTimeDerivative(std::string name, const eMatrix<double> &u) const;		///< Return the value of the named variable's time derivative
 	
 	/// Return the value of the ith variable's time derivative's jth derivative
-	double coupledDerivativeTimeDerivative(int i, int j, const Matrix<double> &u) const;
+	double coupledDerivativeTimeDerivative(int i, int j, const eMatrix<double> &u) const;
 	
 	const void *getUserData();						///< Return pointer to user data
 	int getNumFunc() const;							///< Return the number of functions
@@ -332,13 +332,13 @@ public:
 	int getRecursionLevel();						///< Returns the number of recursion levels allow for Krylov preconditioning
 	bool isValidName(std::string name);				///< Returns true if the given name is a variable in the DOVE system
 	
-	/// Function to return a reference to the Jacobian Matrix map at the ith row of the matrix
-	std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)> & getJacobiMap(int i);
+	/// Function to return a reference to the Jacobian eMatrix map at the ith row of the matrix
+	std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)> & getJacobiMap(int i);
 	
 	double ComputeTimeStep();											///< Returns a computed value for the next time step
-	double Eval_Func(int i, const Matrix<double>& u, double t);			///< Evaluate user function i at given u matrix and time t
-	double Eval_Coeff(int i, const Matrix<double>& u, double t);		///< Evaluate user time coefficient function i at given u matrix and time t
-	double Eval_Jacobi(int i, int j, const Matrix<double>& u, double t);///< Evaluate user jacobian function for (i,j) at given u matrix and time t
+	double Eval_Func(int i, const eMatrix<double>& u, double t);			///< Evaluate user function i at given u matrix and time t
+	double Eval_Coeff(int i, const eMatrix<double>& u, double t);		///< Evaluate user time coefficient function i at given u matrix and time t
+	double Eval_Jacobi(int i, int j, const eMatrix<double>& u, double t);///< Evaluate user jacobian function for (i,j) at given u matrix and time t
 	
 	int solve_timestep();							///< Function to solve a single time step
 	void validate_precond();						///< Function to validate and set preconditioning pointer
@@ -375,12 +375,12 @@ public:
 	int solve_RKF();
 	
 protected:
-	Matrix<std::string> var_names;					///< Matrix of variable names (access names by index in numerical order)
+	eMatrix<std::string> var_names;					///< eMatrix of variable names (access names by index in numerical order)
 	std::unordered_map<std::string, int> var_names_hash;	///< Hash table of variable names and corresponding indices (access index by name)
-	Matrix<int> var_steady;							///< Matrix of boolean args used to dictate which variables are considered steady-state (if any)
-	Matrix<double> un;								///< Matrix for nth level solution vector
-	Matrix<double> unp1;							///< Matrix for n+1 level solution vector
-	Matrix<double> unm1;							///< Matrix for n-1 level solution vector
+	eMatrix<int> var_steady;							///< eMatrix of boolean args used to dictate which variables are considered steady-state (if any)
+	eMatrix<double> un;								///< eMatrix for nth level solution vector
+	eMatrix<double> unp1;							///< eMatrix for n+1 level solution vector
+	eMatrix<double> unm1;							///< eMatrix for n-1 level solution vector
 	double dt;										///< Time step between n and n+1 time levels
 	double dt_old;									///< Time step between n and n-1 time levels
 	double time_end;								///< Time on which to end the ODE simulations
@@ -411,27 +411,27 @@ protected:
 	int linmax;										///< Users requested maximum number of linear steps
 	int timesteps;									///< Running count of number of time steps taken
 	
-	/// Matrix object for user defined rate functions
-	Matrix<double (*) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)> user_func;
-	/// Matrix object for user defined time coefficients (optional)
-	Matrix<double (*) (int i, const Matrix<double> &u, double t, const void *data, const Dove &dove)> user_coeff;
+	/// eMatrix object for user defined rate functions
+	eMatrix<double (*) (int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)> user_func;
+	/// eMatrix object for user defined time coefficients (optional)
+	eMatrix<double (*) (int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove)> user_coeff;
 	/// A vector of Maps for user defined Jacobian elements (optional)
-	/** This structure creates a Sparse Matrix of functions whose sparcity pattern is unknown at creation.
+	/** This structure creates a Sparse eMatrix of functions whose sparcity pattern is unknown at creation.
 		Each "vector" index denotes a row in the full matrix. In each row, there is a map of the non-zero
 		elements. Doing the mapping in this way allows for the sparcity of the matrix to easily change
 		while also allowing for relatively fast access to the non-zero elements.
 	 */
-	std::vector< std::map<int, double (*) (int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove)> > user_jacobi;
+	std::vector< std::map<int, double (*) (int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove)> > user_jacobi;
 	const void *user_data;														///< Pointer for user defined data structure
 	
 	PJFNK_DATA newton_dat;							///< Data structure for the PJFNK iterative method
 	/// Function pointer for the residual function of DOVE
-	int (*residual) (const Matrix<double> &x, Matrix<double> &F, const void *res_data);
+	int (*residual) (const eMatrix<double> &x, eMatrix<double> &F, const void *res_data);
 	/// Function pointer for the preconditioning operation of DOVE
-	int (*precon) (const Matrix<double> &r, Matrix<double> &p, const void *precon_data);
+	int (*precon) (const eMatrix<double> &r, eMatrix<double> &p, const void *precon_data);
 	
 	NUM_JAC_DATA jac_dat;                           ///< Data structure for making Numerical Jacobian Matrices
-	Matrix<double> Jacobian;                        ///< Matrix to hold numerical jacobian
+	eMatrix<double> Jacobian;                        ///< eMatrix to hold numerical jacobian
 	
 private:
 	
@@ -444,7 +444,7 @@ private:
 	at a single time step.
  
 	Res[i] = Rnp1[i]*unp1[i] - Rn[i]*un[i] - dt*func[i](unp1)   */
-int residual_BE(const Matrix<double> &u, Matrix<double> &Res, const void *data);
+int residual_BE(const eMatrix<double> &u, eMatrix<double> &Res, const void *data);
 
 /// Preconditioning function for a Jacobi preconditioner on the implicit-BE method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -455,7 +455,7 @@ int residual_BE(const Matrix<double> &u, Matrix<double> &Res, const void *data);
 	Jacobi preconditioning:  Solve  Dp=v for p using input vector v and the diagonals (D) of the full jacobian.
  
 	Diagonals for BE are of the form: dR_i/du_i = Rnp1[i] - dt*jacobi[i][i](unp1)  */
-int precond_Jac_BE(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_Jac_BE(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for a Tridiagonal preconditioner on the implicit-BE method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -468,7 +468,7 @@ int precond_Jac_BE(const Matrix<double> &v, Matrix<double> &p, const void *data)
 	Diagonals for BE are of the form: dR_i/du_i = Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BE are of form: dR_i/du_j = Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
  and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_Tridiag_BE(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_Tridiag_BE(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for an Upper-Gauss-Seidel preconditioner on the implicit-BE method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -482,7 +482,7 @@ int precond_Tridiag_BE(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Diagonals for BE are of the form: dR_i/du_i = Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BE are of form: dR_i/du_j = Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
  and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_UpperGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_UpperGS_BE(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for a Lower-Gauss-Seidel preconditioner on the implicit-BE method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -496,7 +496,7 @@ int precond_UpperGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Diagonals for BE are of the form: dR_i/du_i = Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BE are of form: dR_i/du_j = Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
  and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_LowerGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_LowerGS_BE(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for a Symmetric-Gauss-Seidel preconditioner on the implicit-BE method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -510,7 +510,7 @@ int precond_LowerGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Diagonals for BE are of the form: dR_i/du_i = Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BE are of form: dR_i/du_j = Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
  and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_SymmetricGS_BE(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_SymmetricGS_BE(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Residual function for implicit-CN method
 /** This function will be passed to PJFNK as the residual function for the Dove object. In this function,
@@ -519,7 +519,7 @@ int precond_SymmetricGS_BE(const Matrix<double> &v, Matrix<double> &p, const voi
 	at a single time step.
  
 	Res[i] = Rnp1[i]*unp1[i] - Rn[i]*un[i] - 0.5*dt*func[i](unp1) - 0.5*dt*func[i](un)   */
-int residual_CN(const Matrix<double> &u, Matrix<double> &Res, const void *data);
+int residual_CN(const eMatrix<double> &u, eMatrix<double> &Res, const void *data);
 
 /// Preconditioning function for a Jacobi preconditioner on the implicit-CN method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -530,7 +530,7 @@ int residual_CN(const Matrix<double> &u, Matrix<double> &Res, const void *data);
 	Jacobi preconditioning:  Solve  Dp=v for p using input vector v and the diagonals (D) of the full jacobian.
  
 	Diagonals for CN are of the form: dR_i/du_i = Rnp1[i] - 0.5*dt*jacobi[i][i](unp1)  */
-int precond_Jac_CN(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_Jac_CN(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for a Tridiagonal preconditioner on the implicit-CN method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -543,7 +543,7 @@ int precond_Jac_CN(const Matrix<double> &v, Matrix<double> &p, const void *data)
 	Diagonals for CN are of the form: dR_i/du_i = Rnp1[i] - 0.5*dt*jacobi[i][i](unp1)
 	Off-Diagonals for CN are of form: dR_i/du_j = Rnp1[i] - 0.5*dt*jacobi[i][j](unp1) for i==j
  and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_Tridiag_CN(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_Tridiag_CN(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for an Upper-Gauss-Seidel preconditioner on the implicit-CN method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -557,7 +557,7 @@ int precond_Tridiag_CN(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Diagonals for CN are of the form: dR_i/du_i = Rnp1[i] - 0.5*dt*jacobi[i][i](unp1)
 	Off-Diagonals for CN are of form: dR_i/du_j = Rnp1[i] - 0.5*dt*jacobi[i][j](unp1) for i==j
  and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_UpperGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_UpperGS_CN(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for a Lower-Gauss-Seidel preconditioner on the implicit-CN method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -571,7 +571,7 @@ int precond_UpperGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Diagonals for CN are of the form: dR_i/du_i = Rnp1[i] - 0.5*dt*jacobi[i][i](unp1)
 	Off-Diagonals for CN are of form: dR_i/du_j = Rnp1[i] - 0.5*dt*jacobi[i][j](unp1) for i==j
  and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_LowerGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_LowerGS_CN(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for a Symmetric-Gauss-Seidel preconditioner on the implicit-CN method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -585,7 +585,7 @@ int precond_LowerGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *d
 	Diagonals for CN are of the form: dR_i/du_i = Rnp1[i] - 0.5*dt*jacobi[i][i](unp1)
 	Off-Diagonals for CN are of form: dR_i/du_j = Rnp1[i] - 0.5*dt*jacobi[i][j](unp1) for i==j
  and	  dR_i/du_j = -0.5*dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_SymmetricGS_CN(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_SymmetricGS_CN(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Residual function for implicit-BDF2 method
 /** This function will be passed to PJFNK as the residual function for the Dove object. In this function,
@@ -600,7 +600,7 @@ int precond_SymmetricGS_CN(const Matrix<double> &v, Matrix<double> &p, const voi
 	and where rn = dt/dt_old
  
 	\note if rn = 0 (i.e. for first step) then this is same as BE method*/
-int residual_BDF2(const Matrix<double> &u, Matrix<double> &Res, const void *data);
+int residual_BDF2(const eMatrix<double> &u, eMatrix<double> &Res, const void *data);
 
 /// Preconditioning function for a Jacobi preconditioner on the implicit-BDF2 method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -611,7 +611,7 @@ int residual_BDF2(const Matrix<double> &u, Matrix<double> &Res, const void *data
 	Jacobi preconditioning:  Solve  Dp=v for p using input vector v and the diagonals (D) of the full jacobian.
  
 	Diagonals for BDF2 are of the form: dR_i/du_i = an*Rnp1[i] - dt*jacobi[i][i](unp1)  */
-int precond_Jac_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_Jac_BDF2(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for a Tridiagonal preconditioner on the implicit-BDF2 method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -624,7 +624,7 @@ int precond_Jac_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *dat
 	Diagonals for BDF2 are of the form: dR_i/du_i = an*Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BDF2 are of form: dR_i/du_j = an*Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
  and	  dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_Tridiag_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_Tridiag_BDF2(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for an Upper-Gauss-Seidel preconditioner on the implicit-BDF2 method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -638,7 +638,7 @@ int precond_Tridiag_BDF2(const Matrix<double> &v, Matrix<double> &p, const void 
 	Diagonals for BDF2 are of the form: dR_i/du_i = an*Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BDF2 are of form: dR_i/du_j = an*Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
  and	dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_UpperGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_UpperGS_BDF2(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for a Lower-Gauss-Seidel preconditioner on the implicit-BDF2 method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -652,7 +652,7 @@ int precond_UpperGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void 
 	Diagonals for BDF2 are of the form: dR_i/du_i = an*Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BDF2 are of form: dR_i/du_j = an*Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
  and	dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_LowerGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_LowerGS_BDF2(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Preconditioning function for a Symmetric-Gauss-Seidel preconditioner on the implicit-BDF2 method
 /** This function will be passed to PJFNK as the preconditioning operation for the Dove object. In this function,
@@ -666,16 +666,16 @@ int precond_LowerGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void 
 	Diagonals for BDF2 are of the form: dR_i/du_i = an*Rnp1[i] - dt*jacobi[i][i](unp1)
 	Off-Diagonals for BDF2 are of form: dR_i/du_j = an*Rnp1[i] - dt*jacobi[i][j](unp1) for i==j
  and	dR_i/du_j = -dt*jacobi[i][j](unp1)          for i!=j*/
-int precond_SymmetricGS_BDF2(const Matrix<double> &v, Matrix<double> &p, const void *data);
+int precond_SymmetricGS_BDF2(const eMatrix<double> &v, eMatrix<double> &p, const void *data);
 
 /// Default function
-double default_func(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double default_func(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// Default time coefficient function
-double default_coeff(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double default_coeff(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// Default Jacobian element function
-double default_jacobi(int i, int j, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double default_jacobi(int i, int j, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// Test function for DOVE kernel
 /** This function sets up and solves a test problem for DOVE. It is callable from the UI. */

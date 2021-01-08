@@ -249,7 +249,7 @@ public:
 	double get_settling_rate_old(double Dj);	///< Get the settling_rate_old associated with size Dj
 	bool get_ConsoleOut();						///< Get the ConsoleOut parameter
 	bool get_FileOut();							///< Get the FileOut parameter
-	Matrix<double> & get_part_conc_var();		///< Get the part_conc_var parameter
+	eMatrix<double> & get_part_conc_var();		///< Get the part_conc_var parameter
 	double get_saturation_time();				///< Get the saturation_time parameter
 	double get_solidification_time();			///< Get the solidification_time parameter
 	double get_stabilization_time();			///< Get the stabilization_time parameter
@@ -295,14 +295,14 @@ public:
 	void compute_horz_rad(double m, double x, double s, double w, double T, double P, double z);///< Function to compute horizontal radius
 	void compute_sigma_turbulence(double E, double z);			///< Function to compute sigma turbulence given E and z
 	void compute_surf_area(double m, double x, double s, double w, double T, double P, double z);///< Function to compute cloud surface area
-	void compute_shear_vel(Matrix<double> v_top, Matrix<double> v_bot);	///< Function to compute the shear_vel based on v_top and v_bot
+	void compute_shear_vel(eMatrix<double> v_top, eMatrix<double> v_bot);	///< Function to compute the shear_vel based on v_top and v_bot
 	/// Function to compute the shear_ratio based on the fundamental variables and atmospheric parameters
-	void compute_shear_ratio(double m, double x, double s, double w, double T, double P, double z, double u, double E, Matrix<double> v_top, Matrix<double> v_bot);
+	void compute_shear_ratio(double m, double x, double s, double w, double T, double P, double z, double u, double E, eMatrix<double> v_top, eMatrix<double> v_bot);
 	void compute_slip_factor(double Dj, double T, double P);	///< Function to compute the slip_factor given Dj, T, and P
 	void compute_davies_num(double Dj, double m, double x, double s, double w, double T, double P);///< Function to compute davies_num given the conditions
 	void compute_settling_rate(double Dj, double m, double x, double s, double w, double T, double P);///< Function to compute the settling rates of specific particle size
 	/// Function to compute total_mass_fallout_rate based on all given variables and parameters
-	void compute_total_mass_fallout_rate(double m, double x, double s, double w, double T, double P, double z, const Matrix<double> &n);
+	void compute_total_mass_fallout_rate(double m, double x, double s, double w, double T, double P, double z, const eMatrix<double> &n);
 	
 	// Below are listed compute functions specific for initial conditions or system constants
 	void compute_energy_switch(double W);						///< Function to compute energy switch from W
@@ -352,7 +352,7 @@ public:
 	double return_amb_temp(double z);							///< Function to return the ambient temperature (K) given an altitude z (m)
 	double return_atm_press(double z);							///< Function to return the atmospheric pressure (Pa) given an altitude z (m)
 	double return_rel_humid(double z);							///< Function to return the relative humidity (%) given an altitude z (m)
-	Matrix<double> return_wind_vel(double z);					///< Function to return wind velocity vector (m/s) given an altitude z (m)
+	eMatrix<double> return_wind_vel(double z);					///< Function to return wind velocity vector (m/s) given an altitude z (m)
 	double return_wind_speed(double z);							///< Function to return wind speed (m/s) given an altitude (m)
 	void compute_current_amb_temp(double z);					///< Function to set the current_amb_temp parameter given an altitude (m)
 	void compute_current_atm_press(double z);					///< Function to set the current_amb_press parameter given an altitude (m)
@@ -373,11 +373,11 @@ public:
 	void compute_alt_bottom(double z, double Hc);				///< Function to compute cloud cap bottom given center z and height Hc
 	void compute_rise_top(double z_new, double z_old, double dt);	///< Function to compute cloud cap top rise given changes in top altitudes
 	void compute_rise_bottom(double z_new, double z_old, double dt);///< Function to compute cloud cap bottom rise given changes in bottom altitudes
-	Matrix<double> & return_parcel_alt_top();					///< Function to return matrix of parcels and particle sizes for top of parcel
-	Matrix<double> & return_parcel_alt_bot();					///< Function to return matrix of parcels and particle sizes for bottom of parcel
-	Matrix<double> & return_parcel_rad_top();			///< Function to return matrix of parcels and particle sizes for radius of top of parcel
-	Matrix<double> & return_parcel_rad_bot();			///< Function to return matrix of parcels and particle sizes for radius of bottom of parcel
-	Matrix<double> & return_parcel_conc();				///< Function to return matrix of parcel concentrations (row = parcel, col = particle size)
+	eMatrix<double> & return_parcel_alt_top();					///< Function to return matrix of parcels and particle sizes for top of parcel
+	eMatrix<double> & return_parcel_alt_bot();					///< Function to return matrix of parcels and particle sizes for bottom of parcel
+	eMatrix<double> & return_parcel_rad_top();			///< Function to return matrix of parcels and particle sizes for radius of top of parcel
+	eMatrix<double> & return_parcel_rad_bot();			///< Function to return matrix of parcels and particle sizes for radius of bottom of parcel
+	eMatrix<double> & return_parcel_conc();				///< Function to return matrix of parcel concentrations (row = parcel, col = particle size)
 	
 	// Below are list functions associated with actions completed outside of the solver in DOVE
 	
@@ -496,7 +496,7 @@ protected:
 	std::map<double, double> rel_humid;	///< Relative Humidity (%) at various altitudes (m)						(HR)
 	/// Wind Velocities (m/s) at various altitudes (m)															(v_a)
 	/** Velocities stored in x (0,0) and y (1,0) components at a given altitude */
-	std::map<double, Matrix<double> > wind_vel;
+	std::map<double, eMatrix<double> > wind_vel;
 	std::map<double, double> part_hist;			///< Normalized Histogram of Particle Distribution by size (um)
 	std::map<double, double> settling_rate;		///< Particle settling rate (m/s) by particle size (um)			(f_j)
 	std::vector<double> part_size;				///< Particle sizes listed in order from smallest to largest (um)
@@ -531,7 +531,7 @@ protected:
 	std::map<double, double> part_conc;			///< Number of particles per volume (Gp/m^3) given size (um)	(n_j(t))
 	double current_time;						///< Current time since explosion (s)							(t)
 	
-	Matrix<double> part_conc_var;				///< Storage matrix for particle concentrations (Gp/m^3) in order of size
+	eMatrix<double> part_conc_var;				///< Storage matrix for particle concentrations (Gp/m^3) in order of size
 	double saturation_time;						///< Time at which saturation has occurred (s)
 	double solidification_time;					///< Time at which the melted debris has solidified (s)
 	double stabilization_time;					///< Time at which the debris cloud has stabilized (s)
@@ -549,12 +549,12 @@ protected:
 	double alt_bottom_old;						///< Old bottom of the cloud cap (m)							(zb_old)
 	double rise_top;							///< Cloud rise for top of cloud cap (m/s)						(ut)
 	double rise_bottom;							///< Cloud rise for the bottom of cloud cap (m/s)				(ub)
-	Matrix<double> parcel_alt_top;				///< Top of stem of ith parcel for jth particle size (m)		(zt_ij)
-	Matrix<double> parcel_alt_bot;				///< Bottom of the stem of ith parcel for jth particle size (m)	(zb_ij)
-	Matrix<double> parcel_rad_top;				///< Radius of the Top of stem of ith parcel for jth particle size (m)			(Rt_ij)
-	Matrix<double> parcel_rad_bot;				///< Radius of the Bottom of the stem of ith parcel for jth particle size (m)	(Rb_ij)
+	eMatrix<double> parcel_alt_top;				///< Top of stem of ith parcel for jth particle size (m)		(zt_ij)
+	eMatrix<double> parcel_alt_bot;				///< Bottom of the stem of ith parcel for jth particle size (m)	(zb_ij)
+	eMatrix<double> parcel_rad_top;				///< Radius of the Top of stem of ith parcel for jth particle size (m)			(Rt_ij)
+	eMatrix<double> parcel_rad_bot;				///< Radius of the Bottom of the stem of ith parcel for jth particle size (m)	(Rb_ij)
 	std::map<double, double> settling_rate_old;	///< Old Particle settling rate (m/s) by particle size (um)		(f_j)
-	Matrix<double> parcel_conc;					///< Concentration of dust inside each parcel (Gp/m^3)
+	eMatrix<double> parcel_conc;					///< Concentration of dust inside each parcel (Gp/m^3)
 	FILE *CloudFile;							///< Output file to show help plot cloud growth over time
 	double t_cloud_out;							///< Time to print out cloud profiles to output file
 	double t_cloud_count;						///< Counter for the cloud output frequency
@@ -566,31 +566,31 @@ private:
 // Below are listed functions to feed to DOVE as residuals
 
 /// Function to provide a coupled cloud rise residual
-double rate_cloud_rise(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double rate_cloud_rise(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// Function to provide a coupled cloud altitude residual
-double rate_cloud_alt(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double rate_cloud_alt(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// Function to provide a coupled water ratio residual
-double rate_x_water_vapor(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double rate_x_water_vapor(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// Function to provide a coupled temperature residual
-double rate_temperature(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double rate_temperature(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// Function to provide a coupled water fraction residual
-double rate_w_water_conds(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double rate_w_water_conds(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// Function to provide a coupled energy residual
-double rate_energy(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double rate_energy(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// Function to provide a coupled cloud mass residual
-double rate_cloud_mass(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double rate_cloud_mass(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// Function to provide a coupled soil ratio residual
-double rate_s_soil(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double rate_s_soil(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// Function to provide a coupled entrained mass residual
-double rate_entrained_mass(int i, const Matrix<double> &u, double t, const void *data, const Dove &dove);
+double rate_entrained_mass(int i, const eMatrix<double> &u, double t, const void *data, const Dove &dove);
 
 /// CRANE Executable given an input file
 /** Main CRANE executable from the ecosystem cli. User must provide a yaml-style input file directing

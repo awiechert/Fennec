@@ -2,7 +2,7 @@
  *  \file macaw.h macaw.cpp
  *	\brief MAtrix CAlculation Workspace
  *	\details This is a small C++ library that faciltates the use and construction of
- *		real matrices using vector objects. The Matrix class is templated so that users
+ *		real matrices using vector objects. The eMatrix class is templated so that users
  *		are able to work with matrices of any type including, but not limited to: (i)
  *		doubles, (ii) ints, (iii) floats, and (iv) even other matrices! Routines and 
  *		functions are defined for Dense matrix operations. As a result, we typically
@@ -12,7 +12,7 @@
  *
  *		While the primary goal of this object was to define how to operate on real matrices,
  *		we could extend this idea to complex matrices as well. For this, we could develop
- *		objects that represent imaginary and complex numbers and then create a Matrix of
+ *		objects that represent imaginary and complex numbers and then create a eMatrix of
  *		those objects. For this reason, the matrix operations here are all templated to
  *		abstract away the specificity of the type of matrix being operated on.
  *
@@ -43,25 +43,25 @@
 #define M_PI        3.14159265358979323846264338327950288   ///< Value of PI with double precision
 #endif
 
-/// Templated C++ Matrix Class Object (click Matrix to go to function definitions)
+/// Templated C++ eMatrix Class Object (click eMatrix to go to function definitions)
 /** C++ templated class object containing many different functions, actions, and solver
 	routines associated with Dense Matrices. Operator overloads are also provided to 
 	give the user a more natural way of operating matrices on other matrices or scalars.
 	These operator overloads are especially useful for reducing the amount of code needed
 	to be written when working with matrix-based problems. */
 template <class T>
-class Matrix
+class eMatrix
 {
 public:
 	
-	//Generalized Matrix Operations
-	Matrix(int rows, int columns);			///< Constructor for matrix with given number of rows and columns
+	//Generalized eMatrix Operations
+	eMatrix(int rows, int columns);			///< Constructor for matrix with given number of rows and columns
 	T& operator()(int i, int j);			///< Access operator for the matrix element at row i and column j (e.g., aij = A(i,j))
 	T operator()(int i, int j) const;		///< Constant access operator for the the matrix element at row i and column j
-	Matrix(const Matrix& M);				///< Copy constructor for constructing a matrix as a copy of another matrix
-	Matrix& operator=(const Matrix& M);		///< Equals operator for setting one matrix equal to another matrix
-	Matrix();								///< Default constructor for creating an empty matrix
-    ~Matrix();								///< Default destructor for clearing out memory
+	eMatrix(const eMatrix& M);				///< Copy constructor for constructing a matrix as a copy of another matrix
+	eMatrix& operator=(const eMatrix& M);		///< Equals operator for setting one matrix equal to another matrix
+	eMatrix();								///< Default constructor for creating an empty matrix
+    ~eMatrix();								///< Default destructor for clearing out memory
 	void set_size(int i, int j);			///< Function to set/change the size of a matrix to i rows and j columns
     void zeros();							///< Function to set/change all values in a matrix to zeros
     void edit(int i, int j, T value);		///< Function to set/change the element of a matrix at row i and column j to given value
@@ -70,48 +70,48 @@ public:
 	T determinate();						///< Function to compute the determinate of a matrix and return that value
     T norm();								///< Function to compute the L2-norm of a matrix and return that value
 	T sum();								///< Function to compute the sum of all elements in a matrix and return that value
-    T inner_product(const Matrix& x);		///< Function to compute the inner product between this matrix and matrix x
-	Matrix& cofactor(const Matrix& M);		///< Function to convert this matrix to a cofactor matrix of the given matrix M
-	Matrix operator+(const Matrix& M);		///< Operator to add this matrix and matrix M and return the new matrix result
-	Matrix operator-(const Matrix& M);		///< Operator to subtract this matrix and matrix M and return the new matrix result
-	Matrix operator*(const T);				///< Operator to multiply this matrix by a scalar T return the new matrix result
-	Matrix operator/(const T);				///< Operator to divide this matrix by a scalar T and return the new matrix result
-	Matrix operator+(const T);				///< Operator to add this matrix to a scalar T and return the new matrix result
-	Matrix operator-(const T);				///< Operator to subtract this matrix to a scalar T and return the new matrix result
-	Matrix operator*(const Matrix& M);		///< Operator to multiply this matrix and matrix M and return the new matrix result
-	Matrix outer_product(const Matrix& M);	///< Operator to perform an outer product between this and M and return result
-	Matrix& transpose(const Matrix& M);		///< Function to convert this matrix to the transpose of the given matrix M
+    T inner_product(const eMatrix& x);		///< Function to compute the inner product between this matrix and matrix x
+	eMatrix& cofactor(const eMatrix& M);		///< Function to convert this matrix to a cofactor matrix of the given matrix M
+	eMatrix operator+(const eMatrix& M);		///< Operator to add this matrix and matrix M and return the new matrix result
+	eMatrix operator-(const eMatrix& M);		///< Operator to subtract this matrix and matrix M and return the new matrix result
+	eMatrix operator*(const T);				///< Operator to multiply this matrix by a scalar T return the new matrix result
+	eMatrix operator/(const T);				///< Operator to divide this matrix by a scalar T and return the new matrix result
+	eMatrix operator+(const T);				///< Operator to add this matrix to a scalar T and return the new matrix result
+	eMatrix operator-(const T);				///< Operator to subtract this matrix to a scalar T and return the new matrix result
+	eMatrix operator*(const eMatrix& M);		///< Operator to multiply this matrix and matrix M and return the new matrix result
+	eMatrix outer_product(const eMatrix& M);	///< Operator to perform an outer product between this and M and return result
+	eMatrix& transpose(const eMatrix& M);		///< Function to convert this matrix to the transpose of the given matrix M
 	/// Function to convert this matrix into the result of the given matrix M transposed and multiplied by the other given matrix v
-    Matrix& transpose_multiply(const Matrix& MT, const Matrix& v);
-	Matrix& adjoint(const Matrix &M);		///< Function to convert this matrix to the adjoint of the given matrix
-	Matrix& inverse(const Matrix &M);		///< Function to convert this matrix to the inverse of the given matrix
+    eMatrix& transpose_multiply(const eMatrix& MT, const eMatrix& v);
+	eMatrix& adjoint(const eMatrix &M);		///< Function to convert this matrix to the adjoint of the given matrix
+	eMatrix& inverse(const eMatrix &M);		///< Function to convert this matrix to the inverse of the given matrix
 	void Display(const std::string Name);	///< Function to display the contents of this matrix given a Name for the matrix
 	
-	//Specialized Matrix Operations for 1-D FDM
-	Matrix& tridiagonalSolve(const Matrix& A, const Matrix& b); ///< Function to solve Ax=b for x if A is symmetric, tridiagonal (this->x)
-	Matrix& ladshawSolve(const Matrix& A, const Matrix& d);		///< Function to solve Ax=d for x if A is non-symmetric, tridiagonal (this->x)
+	//Specialized eMatrix Operations for 1-D FDM
+	eMatrix& tridiagonalSolve(const eMatrix& A, const eMatrix& b); ///< Function to solve Ax=b for x if A is symmetric, tridiagonal (this->x)
+	eMatrix& ladshawSolve(const eMatrix& A, const eMatrix& d);		///< Function to solve Ax=d for x if A is non-symmetric, tridiagonal (this->x)
 	
 	/// Function to fill in this matrix with coefficients A, B, and C to form a tridiagonal matrix
 	/** This function fills in the diagonal elements of a square matrix with coefficient B, upper diagonal with C, and
 		lower diagonal with A. The boolean will apply a transformation to those coefficients, if the problem happens to
 		stem from 1-D diffusion in spherical coordinates. */
-	Matrix& tridiagonalFill(const T A, const T B, const T C, bool Spherical);
+	eMatrix& tridiagonalFill(const T A, const T B, const T C, bool Spherical);
 	
 	/// Function to fill out this matrix with coefficients from a 3D Laplacian function
 	/** This function will fill out the coefficients of the matrix with the coefficients that stem from 
 		discretizing a 3D Laplacian on a natural grid with 2nd order finite differences. */
-    Matrix& naturalLaplacian3D(int m);
+    eMatrix& naturalLaplacian3D(int m);
 	
 	/// Function to fill out a column matrix with spherical specific boundary conditions
 	/** This function will fille out a column matrix with zeros at all nodes expect for the node indicated. That node's
 		value will be the product of the node id with the coeff and variable values given. */
-	Matrix& sphericalBCFill(int node, const T coeff, T variable);
+	eMatrix& sphericalBCFill(int node, const T coeff, T variable);
 	
 	/// Function to set all values in a column matrix to a given constant
-	Matrix& ConstantICFill(const T IC);
+	eMatrix& ConstantICFill(const T IC);
 	
-	//Specialized Matrix Operations for SKIMMER
-	Matrix& SolnTransform(const Matrix& A, bool Forward);	///< Function to transform the values in a column matrix from cartesian to spherical coordinates
+	//Specialized eMatrix Operations for SKIMMER
+	eMatrix& SolnTransform(const eMatrix& A, bool Forward);	///< Function to transform the values in a column matrix from cartesian to spherical coordinates
 	
 	/// Function to compute a spatial average of this column matrix in spherical coordinates
 	/** This function is used to compute an average value of a variable, represented in this column matrix, by
@@ -142,66 +142,66 @@ public:
 		\param Dirichlet True if problem has a Dirichlet BC, False if Neumann*/
 	T IntegralTotal(double dr, double bound, bool Dirichlet);
 	
-	//Specialized Matrix Operations for 1-D Conservation Laws
+	//Specialized eMatrix Operations for 1-D Conservation Laws
 	
 	/// Function to fill in this matrix, in tridiagonal fashion, using the vectors of coefficients
-	Matrix& tridiagonalVectorFill(const std::vector<T> &A, const std::vector<T> &B, const std::vector<T> &C);
+	eMatrix& tridiagonalVectorFill(const std::vector<T> &A, const std::vector<T> &B, const std::vector<T> &C);
 	
 	/// Function to fill in a column matrix with the values of the given vector object
-	Matrix& columnVectorFill(const std::vector<T> &A);
+	eMatrix& columnVectorFill(const std::vector<T> &A);
 	
 	/// Function to project a column matrix solution in time based on older state vectors
-	/** This function is used in finch.h to form Matrix u_star. It uses the size of the current step and old step,
+	/** This function is used in finch.h to form eMatrix u_star. It uses the size of the current step and old step,
 		dt and dt_old respectively, to form an approximation for the next state. The current state and olde state
 		of the variables are passed as b and b_old respectively. */
-	Matrix& columnProjection(const Matrix& b, const Matrix& b_old, const double dt, const double dt_old);
+	eMatrix& columnProjection(const eMatrix& b, const eMatrix& b_old, const double dt, const double dt_old);
 	
 	/// Function to fill in a column matrix with all zeros except at the given node
 	/** Similar to sphericalBCFill, this function will set the values of all elements in the column matrix to 
 		zero except at the given node, where the value is set to the product of coeff and variable. This is 
 		often used to set BCs in finch.h or other related files/simulations. */
-	Matrix& dirichletBCFill(int node, const T coeff, T variable);
+	eMatrix& dirichletBCFill(int node, const T coeff, T variable);
     
-    //Matrix operations for functions focused on Krylov, GMRES, and PJFNK methods
+    //eMatrix operations for functions focused on Krylov, GMRES, and PJFNK methods
 	
 	/// Function to solve the system Dx=v for x given that D is diagonal (this->x)
-  	Matrix& diagonalSolve(const Matrix& D, const Matrix& v);
+  	eMatrix& diagonalSolve(const eMatrix& D, const eMatrix& v);
 	
 	/// Function to solve the system Ux=v for x given that U is upper Triagular (this->x)
-    Matrix& upperTriangularSolve(const Matrix& U, const Matrix& v);
+    eMatrix& upperTriangularSolve(const eMatrix& U, const eMatrix& v);
 	
 	/// Function to solve the system Lx=v for x given that L is lower Triagular (this->x)
-    Matrix& lowerTriangularSolve(const Matrix& L, const Matrix& v);
+    eMatrix& lowerTriangularSolve(const eMatrix& L, const eMatrix& v);
 	
 	/// Function to convert this square matrix to upper Triangular (assuming this is upper Hessenberg)
 	/** During this transformation, a column vector (b) is also being transformed to represent the BCs in
 		a linear system. This algorithm uses Givens Rotations to efficiently convert the upper Hessenberg
 		matrix to an upper triangular matrix. */
-    Matrix& upperHessenberg2Triangular(Matrix& b);
+    eMatrix& upperHessenberg2Triangular(eMatrix& b);
 	
 	/// Function to convert this square matrix to lower Triangular (assuming this is lower Hessenberg)
 	/** During this transformation, a column vector (b) is also being transformed to represent the BCs in
 		a linear system. This algorithm uses Givens Rotations to efficiently convert the lower Hessenberg
 		matrix to an lower triangular matrix. */
-    Matrix& lowerHessenberg2Triangular(Matrix& b);
+    eMatrix& lowerHessenberg2Triangular(eMatrix& b);
 	
 	/// Function to solve the system Hx=v for x given that H is upper Hessenberg (this->x)
-    Matrix& upperHessenbergSolve(const Matrix& H, const Matrix& v);
+    eMatrix& upperHessenbergSolve(const eMatrix& H, const eMatrix& v);
 	
 	/// Function to solve the system Hx=v for x given that H is lower Hessenberg (this->x)
-    Matrix& lowerHessenbergSolve(const Matrix& H, const Matrix& v);
+    eMatrix& lowerHessenbergSolve(const eMatrix& H, const eMatrix& v);
 	
 	/// Function to solve the system Mx=b using QR factorization for x given that M is invertable
-	Matrix& qrSolve(const Matrix& M, const Matrix& b);
+	eMatrix& qrSolve(const eMatrix& M, const eMatrix& b);
 	
-    Matrix& columnExtract(int j, const Matrix& M);	///< Function to set this column matrix to the jth column of the given matrix M
-    Matrix& rowExtract(int i, const Matrix& M);		///< Function to set this row matrix to the ith row of the given matrix M
-    Matrix& columnReplace(int j, const Matrix& v);	///< Function to this matrices' jth column with the given column matrix v
-    Matrix& rowReplace(int i, const Matrix& v);		///< Function to this matrices' ith row with the given row matrix v
+    eMatrix& columnExtract(int j, const eMatrix& M);	///< Function to set this column matrix to the jth column of the given matrix M
+    eMatrix& rowExtract(int i, const eMatrix& M);		///< Function to set this row matrix to the ith row of the given matrix M
+    eMatrix& columnReplace(int j, const eMatrix& v);	///< Function to this matrices' jth column with the given column matrix v
+    eMatrix& rowReplace(int i, const eMatrix& v);		///< Function to this matrices' ith row with the given row matrix v
     void rowShrink();								///< Function to delete the last row of this matrix
     void columnShrink();							///< Function to delete the last column of this matrix
-    void rowExtend(const Matrix& v);				///< Function to add the row matrix v to the end of this matrix
-    void columnExtend(const Matrix& v);				///< Function to add the column matrix v to the end of this matrix
+    void rowExtend(const eMatrix& v);				///< Function to add the row matrix v to the end of this matrix
+    void columnExtend(const eMatrix& v);				///< Function to add the column matrix v to the end of this matrix
     
 	
 protected:
@@ -212,7 +212,7 @@ protected:
 
 //Defined methods for the template class
 template <class T>
-Matrix<T>::Matrix(int rows, int columns)
+eMatrix<T>::eMatrix(int rows, int columns)
 :
 num_rows(rows),
 num_cols(columns),
@@ -223,7 +223,7 @@ Data(rows * columns)
 
 //For setting values
 template <class T>
-T& Matrix<T>::operator()(int i, int j)
+T& eMatrix<T>::operator()(int i, int j)
 {
 	if (i>=num_rows || j>=num_cols || i<0 || j<0)
 	{
@@ -236,7 +236,7 @@ T& Matrix<T>::operator()(int i, int j)
 
 //For accessing values
 template <class T>
-T Matrix<T>::operator()(int i, int j) const
+T eMatrix<T>::operator()(int i, int j) const
 {
 	if (i>=num_rows || j>=num_cols || i<0 || j<0)
 	{
@@ -251,7 +251,7 @@ T Matrix<T>::operator()(int i, int j) const
 
 //For copying a matrix at initialization
 template <class T>
-Matrix<T>::Matrix(const Matrix& M)
+eMatrix<T>::eMatrix(const eMatrix& M)
 :
 num_rows(M.num_rows),
 num_cols(M.num_cols),
@@ -268,7 +268,7 @@ Data(M.num_rows * M.num_cols)
 
 //For setting one matrix equal to anther of same size
 template <class T>
-Matrix<T> &Matrix<T>::operator=(const Matrix &M)
+eMatrix<T> &eMatrix<T>::operator=(const eMatrix &M)
 {
 	if (this == &M)
 	{
@@ -296,7 +296,7 @@ Matrix<T> &Matrix<T>::operator=(const Matrix &M)
 
 //Default Constructor
 template <class T>
-Matrix<T>::Matrix()
+eMatrix<T>::eMatrix()
 :
 Data(1)
 {
@@ -306,14 +306,14 @@ Data(1)
 
 //Default Destructor
 template <class T>
-Matrix<T>::~Matrix()
+eMatrix<T>::~eMatrix()
 {
     Data.clear();
 }
 
 //Allocate size
 template <class T>
-void Matrix<T>::set_size(int i, int j)
+void eMatrix<T>::set_size(int i, int j)
 {
     if (i <= 0 || j <= 0)
     {
@@ -328,7 +328,7 @@ void Matrix<T>::set_size(int i, int j)
 
 //Reset all existing matrix entries to zero
 template <class T>
-void Matrix<T>::zeros()
+void eMatrix<T>::zeros()
 {
   	for (int n=0; n<this->Data.size(); n++)
 		this->Data[n] = 0;
@@ -336,7 +336,7 @@ void Matrix<T>::zeros()
 
 //Add/Change an element to a sparse matrix
 template <class T>
-void Matrix<T>::edit(int i, int j, T value)
+void eMatrix<T>::edit(int i, int j, T value)
 {
     if (i>=num_rows || j>=num_cols || i<0 || j<0)
     {
@@ -348,21 +348,21 @@ void Matrix<T>::edit(int i, int j, T value)
 
 //Function to return the number of rows in the matrix
 template <class T>
-int Matrix<T>::rows()
+int eMatrix<T>::rows()
 {
     return this->num_rows;
 }
 
 //Function to return the number of columns in the matrix
 template <class T>
-int Matrix<T>::columns()
+int eMatrix<T>::columns()
 {
     return this->num_cols;
 }
 
 //Function to determine the determinate of a matrix
 template <class T>
-T Matrix<T>::determinate()
+T eMatrix<T>::determinate()
 {
 	T det=0;
 	if (num_rows!=num_cols)
@@ -390,7 +390,7 @@ T Matrix<T>::determinate()
 				det = det+0;
 				break;
 			}
-			Matrix<T> temp((num_rows-1), (num_cols-1));
+			eMatrix<T> temp((num_rows-1), (num_cols-1));
 			int r=0;
 			int c=0;
 			for(int i=0; i<num_rows; i++)
@@ -431,7 +431,7 @@ T Matrix<T>::determinate()
 
 //Calculates the 2-Norm of a matrix or vector
 template <class T>
-T Matrix<T>::norm()
+T eMatrix<T>::norm()
 {
 	T norm = 0;
 	/*Note: if M is a vector, this returns the 2-Norm,
@@ -452,7 +452,7 @@ T Matrix<T>::norm()
 
 //Calcuates the sum of all entries
 template <class T>
-T Matrix<T>::sum()
+T eMatrix<T>::sum()
 {
 	T sum = 0;
 	for(int i=0; i<num_rows; i++)
@@ -467,7 +467,7 @@ T Matrix<T>::sum()
 
 //Calculates the inner product of two vectors
 template <class T>
-T Matrix<T>::inner_product(const Matrix& x)
+T eMatrix<T>::inner_product(const eMatrix& x)
 {
 	T prod = 0;
 	if (x.num_cols != 1 || num_cols != 1)
@@ -493,7 +493,7 @@ T Matrix<T>::inner_product(const Matrix& x)
 
 //Forming the cofactor of a square matrix
 template <class T>
-Matrix<T> &Matrix<T>::cofactor(const Matrix &M)
+eMatrix<T> &eMatrix<T>::cofactor(const eMatrix &M)
 {
 	if (this == &M)
 	{
@@ -527,7 +527,7 @@ Matrix<T> &Matrix<T>::cofactor(const Matrix &M)
 		//Loop for all elements in cofactor
 		for (int k=0; k<(M.num_rows * M.num_cols); k++)
 		{
-			Matrix<T> temp((M.num_rows-1), (M.num_cols-1));
+			eMatrix<T> temp((M.num_rows-1), (M.num_cols-1));
 			
 			int r=0;	//row index of temp
 			int c=0;	//col index of temp
@@ -568,9 +568,9 @@ Matrix<T> &Matrix<T>::cofactor(const Matrix &M)
 	}
 }
 
-//Matrix addition
+//eMatrix addition
 template <class T>
-Matrix<T> Matrix<T>::operator+(const Matrix &M)
+eMatrix<T> eMatrix<T>::operator+(const eMatrix &M)
 {
 	if(num_rows!=M.num_rows && num_cols!=M.num_cols)
 	{
@@ -579,7 +579,7 @@ Matrix<T> Matrix<T>::operator+(const Matrix &M)
 	}
 	else
 	{
-		Matrix<T> temp(num_rows,num_cols);
+		eMatrix<T> temp(num_rows,num_cols);
 		for (int i=0; i<num_rows; i++)
 		{
 			for (int j=0; j<num_cols; j++)
@@ -591,9 +591,9 @@ Matrix<T> Matrix<T>::operator+(const Matrix &M)
 	}
 }
 
-//Matrix subtraction
+//eMatrix subtraction
 template <class T>
-Matrix<T> Matrix<T>::operator-(const Matrix &M)
+eMatrix<T> eMatrix<T>::operator-(const eMatrix &M)
 {
 	if(num_rows!=M.num_rows && num_cols!=M.num_cols)
 	{
@@ -602,7 +602,7 @@ Matrix<T> Matrix<T>::operator-(const Matrix &M)
 	}
 	else
 	{
-		Matrix<T> temp(num_rows,num_cols);
+		eMatrix<T> temp(num_rows,num_cols);
 		for (int i=0; i<num_rows; i++)
 		{
 			for (int j=0; j<num_cols; j++)
@@ -614,11 +614,11 @@ Matrix<T> Matrix<T>::operator-(const Matrix &M)
 	}
 }
 
-//Matrix scalar multiplication
+//eMatrix scalar multiplication
 template <class T>
-Matrix<T> Matrix<T>::operator*(const T a)
+eMatrix<T> eMatrix<T>::operator*(const T a)
 {
-	Matrix<T> temp(num_rows,num_cols);
+	eMatrix<T> temp(num_rows,num_cols);
 	for (int i=0; i<num_rows; i++)
 	{
 		for (int j=0; j<num_cols; j++)
@@ -629,11 +629,11 @@ Matrix<T> Matrix<T>::operator*(const T a)
 	return temp;
 }
 
-//Matrix scalar division
+//eMatrix scalar division
 template <class T>
-Matrix<T> Matrix<T>::operator/(const T a)
+eMatrix<T> eMatrix<T>::operator/(const T a)
 {
-	Matrix<T> temp(num_rows,num_cols);
+	eMatrix<T> temp(num_rows,num_cols);
 	for (int i=0; i<num_rows; i++)
 	{
 		for (int j=0; j<num_cols; j++)
@@ -644,11 +644,11 @@ Matrix<T> Matrix<T>::operator/(const T a)
 	return temp;
 }
 
-//Matrix scalar addition
+//eMatrix scalar addition
 template <class T>
-Matrix<T> Matrix<T>::operator+(const T a)
+eMatrix<T> eMatrix<T>::operator+(const T a)
 {
-	Matrix<T> temp(num_rows,num_cols);
+	eMatrix<T> temp(num_rows,num_cols);
 	for (int i=0; i<num_rows; i++)
 	{
 		for (int j=0; j<num_cols; j++)
@@ -659,11 +659,11 @@ Matrix<T> Matrix<T>::operator+(const T a)
 	return temp;
 }
 
-//Matrix scalar subtraction
+//eMatrix scalar subtraction
 template <class T>
-Matrix<T> Matrix<T>::operator-(const T a)
+eMatrix<T> eMatrix<T>::operator-(const T a)
 {
-	Matrix<T> temp(num_rows,num_cols);
+	eMatrix<T> temp(num_rows,num_cols);
 	for (int i=0; i<num_rows; i++)
 	{
 		for (int j=0; j<num_cols; j++)
@@ -674,9 +674,9 @@ Matrix<T> Matrix<T>::operator-(const T a)
 	return temp;
 }
 
-//Matrix  multiplication
+//eMatrix  multiplication
 template <class T>
-Matrix<T> Matrix<T>::operator*(const Matrix &M)
+eMatrix<T> eMatrix<T>::operator*(const eMatrix &M)
 {
 	if (num_cols!=M.num_rows)
 	{
@@ -685,7 +685,7 @@ Matrix<T> Matrix<T>::operator*(const Matrix &M)
 	}
 	else
 	{
-		Matrix<T> temp(num_rows, M.num_cols);
+		eMatrix<T> temp(num_rows, M.num_cols);
 		temp.num_rows = num_rows;
 		temp.num_cols = M.num_cols;
 		temp.Data.resize(num_rows*M.num_cols);
@@ -707,7 +707,7 @@ Matrix<T> Matrix<T>::operator*(const Matrix &M)
 
 //Formation of new matrix from an outer product
 template <class T>
-Matrix<T> Matrix<T>::outer_product(const Matrix &M)
+eMatrix<T> eMatrix<T>::outer_product(const eMatrix &M)
 {
 	if (this->num_cols != 1 || M.num_cols != 1)
 	{
@@ -720,7 +720,7 @@ Matrix<T> Matrix<T>::outer_product(const Matrix &M)
 		return *this;
 	}
 	
-	Matrix<T> result(this->num_rows, M.num_rows);
+	eMatrix<T> result(this->num_rows, M.num_rows);
 	result.num_rows = this->num_rows;
 	result.num_cols = M.num_rows;
 	result.Data.resize(num_rows*M.num_rows);
@@ -738,7 +738,7 @@ Matrix<T> Matrix<T>::outer_product(const Matrix &M)
 
 //Transpose of a matrix
 template <class T>
-Matrix<T> &Matrix<T>::transpose(const Matrix &M)
+eMatrix<T> &eMatrix<T>::transpose(const eMatrix &M)
 {
 	if (this == &M)
 	{
@@ -761,7 +761,7 @@ Matrix<T> &Matrix<T>::transpose(const Matrix &M)
 
 //Transposes the matrix MT then multiplies by matrix v in one step
 template <class T>
-Matrix<T> &Matrix<T>::transpose_multiply(const Matrix &MT, const Matrix &v)
+eMatrix<T> &eMatrix<T>::transpose_multiply(const eMatrix &MT, const eMatrix &v)
 {
 	if (MT.num_rows != v.num_rows)
 	{
@@ -796,7 +796,7 @@ Matrix<T> &Matrix<T>::transpose_multiply(const Matrix &MT, const Matrix &v)
 
 //Adjoint of a square matrix
 template <class T>
-Matrix<T> &Matrix<T>::adjoint(const Matrix &M)
+eMatrix<T> &eMatrix<T>::adjoint(const eMatrix &M)
 {
 	if(num_rows!=num_cols)
 	{
@@ -818,7 +818,7 @@ Matrix<T> &Matrix<T>::adjoint(const Matrix &M)
 
 //Inverse of a square matrix
 template <class T>
-Matrix<T> &Matrix<T>::inverse(const Matrix &M)
+eMatrix<T> &eMatrix<T>::inverse(const eMatrix &M)
 {
 	if(num_rows!=num_cols)
 	{
@@ -834,7 +834,7 @@ Matrix<T> &Matrix<T>::inverse(const Matrix &M)
 	{
 		this->set_size(M.num_rows,M.num_cols);
 		double det_inv;
-		Matrix<T> A(M);
+		eMatrix<T> A(M);
 		det_inv = 1/A.determinate();
 		*this = this->adjoint(A) * det_inv;
 		A.Data.clear();
@@ -842,9 +842,9 @@ Matrix<T> &Matrix<T>::inverse(const Matrix &M)
 	}
 }
 
-//Display Matrix to console
+//Display eMatrix to console
 template <class T>
-void Matrix<T>::Display(const std::string Name)
+void eMatrix<T>::Display(const std::string Name)
 {
 	std::cout << Name << " = " << std::endl;
 	if (num_rows == 0 || num_cols == 0)
@@ -869,7 +869,7 @@ void Matrix<T>::Display(const std::string Name)
 
 //Function to solve the tridiagonal matrix using the Thomas Algorithm (only for symmetric matrix)
 template <class T>
-Matrix<T> &Matrix<T>::tridiagonalSolve(const Matrix& A, const Matrix& b)
+eMatrix<T> &eMatrix<T>::tridiagonalSolve(const eMatrix& A, const eMatrix& b)
 {
 	if (this == &A || this == &b)
 	{
@@ -938,7 +938,7 @@ Matrix<T> &Matrix<T>::tridiagonalSolve(const Matrix& A, const Matrix& b)
 
 //Function to solve the tridiagonal matrix using the My Algorithm (works for any tridiagonal matrix)
 template <class T>
-Matrix<T> &Matrix<T>::ladshawSolve(const Matrix& A, const Matrix& d)
+eMatrix<T> &eMatrix<T>::ladshawSolve(const eMatrix& A, const eMatrix& d)
 {
 	if (this == &A || this == &d)
 	{
@@ -1043,7 +1043,7 @@ Matrix<T> &Matrix<T>::ladshawSolve(const Matrix& A, const Matrix& d)
 
 //Function to fill in a tridiagonal matrix with constant coefficients
 template <class T>
-Matrix<T> &Matrix<T>::tridiagonalFill(const T A, const T B, const T C, bool Spherical)
+eMatrix<T> &eMatrix<T>::tridiagonalFill(const T A, const T B, const T C, bool Spherical)
 {
 	//Check for square matrix
 	if (num_cols!=num_rows)
@@ -1093,7 +1093,7 @@ Matrix<T> &Matrix<T>::tridiagonalFill(const T A, const T B, const T C, bool Sphe
 
 //Fill in a 3D Laplacian matrix with natural ordering of mesh size m
 template <class T>
-Matrix<T> &Matrix<T>::naturalLaplacian3D(int m)
+eMatrix<T> &eMatrix<T>::naturalLaplacian3D(int m)
 {
   	int N = m*m*m;
   	this->set_size(N, N);
@@ -1170,7 +1170,7 @@ Matrix<T> &Matrix<T>::naturalLaplacian3D(int m)
 
 //Fill in the Dirichlet BC for spherical coordinates
 template <class T>
-Matrix<T> &Matrix<T>::sphericalBCFill(int node, const T coeff, T variable)
+eMatrix<T> &eMatrix<T>::sphericalBCFill(int node, const T coeff, T variable)
 {
 	if (num_cols>1)
 	{
@@ -1196,7 +1196,7 @@ Matrix<T> &Matrix<T>::sphericalBCFill(int node, const T coeff, T variable)
 
 //Fill in the Constant IC for each system
 template <class T>
-Matrix<T> &Matrix<T>::ConstantICFill(const T IC)
+eMatrix<T> &eMatrix<T>::ConstantICFill(const T IC)
 {
 	if (num_cols>1)
 	{
@@ -1215,7 +1215,7 @@ Matrix<T> &Matrix<T>::ConstantICFill(const T IC)
 
 //Transform Solution Forward or Backward based on flag
 template <class T>
-Matrix<T> &Matrix<T>::SolnTransform(const Matrix& A, bool Forward)
+eMatrix<T> &eMatrix<T>::SolnTransform(const eMatrix& A, bool Forward)
 {
 	//Reverse Transform (i.e. q_tilde to q)
 	//Forward Transform (i.e. q to q_tilde)
@@ -1244,7 +1244,7 @@ Matrix<T> &Matrix<T>::SolnTransform(const Matrix& A, bool Forward)
 
 //Performs Integral average for spherical coordinates based on matrix data (not given center node)
 template <class T>
-T Matrix<T>::IntegralAvg(double radius, double dr, double bound, bool Dirichlet)
+T eMatrix<T>::IntegralAvg(double radius, double dr, double bound, bool Dirichlet)
 {
 	T avg = 0;
 	T sum = 0;
@@ -1282,7 +1282,7 @@ T Matrix<T>::IntegralAvg(double radius, double dr, double bound, bool Dirichlet)
 
 //Performs Integral average for spherical coordinates based on matrix data (given center node)
 template <class T>
-T Matrix<T>::sphericalAvg(double radius, double dr, double bound, bool Dirichlet)
+T eMatrix<T>::sphericalAvg(double radius, double dr, double bound, bool Dirichlet)
 {
 	T avg = 0;
 	T sum = 0;
@@ -1304,7 +1304,7 @@ T Matrix<T>::sphericalAvg(double radius, double dr, double bound, bool Dirichlet
 
 //Performs Integral total for spherical coordinates based on matrix data
 template <class T>
-T Matrix<T>::IntegralTotal(double dr, double bound, bool Dirichlet)
+T eMatrix<T>::IntegralTotal(double dr, double bound, bool Dirichlet)
 {
 	T tot = 0;
 	T sum = 0;
@@ -1341,7 +1341,7 @@ T Matrix<T>::IntegralTotal(double dr, double bound, bool Dirichlet)
 
 //Function to fill in the tridiagonal matrix for 1-D Conservation Laws
 template <class T>
-Matrix<T> &Matrix<T>::tridiagonalVectorFill(const std::vector<T> &A, const std::vector<T> &B, const std::vector<T> &C)
+eMatrix<T> &eMatrix<T>::tridiagonalVectorFill(const std::vector<T> &A, const std::vector<T> &B, const std::vector<T> &C)
 {
 	//Check for square matrix
 	if (num_cols!=num_rows)
@@ -1384,7 +1384,7 @@ Matrix<T> &Matrix<T>::tridiagonalVectorFill(const std::vector<T> &A, const std::
 
 //Function to fill in a column matrix based on a vector of values
 template <class T>
-Matrix<T> &Matrix<T>::columnVectorFill(const std::vector<T> &A)
+eMatrix<T> &eMatrix<T>::columnVectorFill(const std::vector<T> &A)
 {
 	if (num_cols>1)
 	{
@@ -1406,7 +1406,7 @@ Matrix<T> &Matrix<T>::columnVectorFill(const std::vector<T> &A)
 
 //Function to perform a column projection based on previous time series info
 template <class T>
-Matrix<T> &Matrix<T>::columnProjection(const Matrix& b, const Matrix& b_old, const double dt, const double dt_old)
+eMatrix<T> &eMatrix<T>::columnProjection(const eMatrix& b, const eMatrix& b_old, const double dt, const double dt_old)
 {
 	if (b.num_cols>1 || b_old.num_cols>1 || b.num_rows!=b_old.num_rows)
 	{
@@ -1431,7 +1431,7 @@ Matrix<T> &Matrix<T>::columnProjection(const Matrix& b, const Matrix& b_old, con
 
 //Fill in the Dirichlet BC for non-spherical coordinates
 template <class T>
-Matrix<T> &Matrix<T>::dirichletBCFill(int node, const T coeff, T variable)
+eMatrix<T> &eMatrix<T>::dirichletBCFill(int node, const T coeff, T variable)
 {
 	if (num_cols>1)
 	{
@@ -1457,7 +1457,7 @@ Matrix<T> &Matrix<T>::dirichletBCFill(int node, const T coeff, T variable)
 
 //Directly solve a Diagonal linear system
 template <class T>
-Matrix<T> &Matrix<T>::diagonalSolve(const Matrix& D, const Matrix& v)
+eMatrix<T> &eMatrix<T>::diagonalSolve(const eMatrix& D, const eMatrix& v)
 {
   	if (this == &D || this == &v)
   	{
@@ -1492,7 +1492,7 @@ Matrix<T> &Matrix<T>::diagonalSolve(const Matrix& D, const Matrix& v)
 
 //Directly solve an upper triangular linear system
 template <class T>
-Matrix<T> &Matrix<T>::upperTriangularSolve(const Matrix& U, const Matrix& v)
+eMatrix<T> &eMatrix<T>::upperTriangularSolve(const eMatrix& U, const eMatrix& v)
 {
     if (this == &U || this == &v)
     {
@@ -1533,7 +1533,7 @@ Matrix<T> &Matrix<T>::upperTriangularSolve(const Matrix& U, const Matrix& v)
 
 //Directly solve a lower triangular linear system
 template <class T>
-Matrix<T> &Matrix<T>::lowerTriangularSolve(const Matrix& L, const Matrix& v)
+eMatrix<T> &eMatrix<T>::lowerTriangularSolve(const eMatrix& L, const eMatrix& v)
 {
     if (this == &L || this == &v)
     {
@@ -1574,7 +1574,7 @@ Matrix<T> &Matrix<T>::lowerTriangularSolve(const Matrix& L, const Matrix& v)
 
 //Function to convert an upper Hessenberg to upper triangular matrix while editing matrix b
 template <class T>
-Matrix<T> &Matrix<T>::upperHessenberg2Triangular(Matrix& b)
+eMatrix<T> &eMatrix<T>::upperHessenberg2Triangular(eMatrix& b)
 {
     if (this->num_rows<2 || this->num_cols<2)
     {
@@ -1623,7 +1623,7 @@ Matrix<T> &Matrix<T>::upperHessenberg2Triangular(Matrix& b)
 
 //Function to convert an lower Hessenberg to lower triangular matrix while editing matrix b
 template <class T>
-Matrix<T> &Matrix<T>::lowerHessenberg2Triangular(Matrix& b)
+eMatrix<T> &eMatrix<T>::lowerHessenberg2Triangular(eMatrix& b)
 {
     if (this->num_rows<2 || this->num_cols<2)
     {
@@ -1672,14 +1672,14 @@ Matrix<T> &Matrix<T>::lowerHessenberg2Triangular(Matrix& b)
 
 //Function to solve Hx=v when H is upper Hessenberg
 template <class T>
-Matrix<T> &Matrix<T>::upperHessenbergSolve(const Matrix& H, const Matrix& v)
+eMatrix<T> &eMatrix<T>::upperHessenbergSolve(const eMatrix& H, const eMatrix& v)
 {
     if (this == &H || this == &v)
     {
         mError(arg_matrix_same);
         return *this;
     }
-    Matrix<T> U(H), b(v);
+    eMatrix<T> U(H), b(v);
     U.upperHessenberg2Triangular(b);
     this->upperTriangularSolve(U, b);
     U.Data.clear();
@@ -1689,14 +1689,14 @@ Matrix<T> &Matrix<T>::upperHessenbergSolve(const Matrix& H, const Matrix& v)
 
 //Function to solve Hx=v when H is lower Hessenberg
 template <class T>
-Matrix<T> &Matrix<T>::lowerHessenbergSolve(const Matrix& H, const Matrix& v)
+eMatrix<T> &eMatrix<T>::lowerHessenbergSolve(const eMatrix& H, const eMatrix& v)
 {
     if (this == &H || this == &v)
     {
         mError(arg_matrix_same);
         return *this;
     }
-    Matrix<T> L(H), b(v);
+    eMatrix<T> L(H), b(v);
     L.lowerHessenberg2Triangular(b);
     this->lowerTriangularSolve(L, b);
     L.Data.clear();
@@ -1706,7 +1706,7 @@ Matrix<T> &Matrix<T>::lowerHessenbergSolve(const Matrix& H, const Matrix& v)
 
 // Function to solve Mx=b using QR factorization
 template <class T>
-Matrix<T> &Matrix<T>::qrSolve(const Matrix& M, const Matrix& b)
+eMatrix<T> &eMatrix<T>::qrSolve(const eMatrix& M, const eMatrix& b)
 {
 	//Check for errors
 	if (this == &M || this == &b)
@@ -1727,7 +1727,7 @@ Matrix<T> &Matrix<T>::qrSolve(const Matrix& M, const Matrix& b)
 	
 	//Setup temporary variables
 	double alpha;
-	Matrix<T> w, U, R(M), Qt_b(b);
+	eMatrix<T> w, U, R(M), Qt_b(b);
 	w.set_size(this->num_rows,1);
 	U.set_size(this->num_rows,this->num_rows);
 	
@@ -1757,7 +1757,7 @@ Matrix<T> &Matrix<T>::qrSolve(const Matrix& M, const Matrix& b)
 
 //Function to extract a column matrix 'this' from a full matrix M
 template <class T>
-Matrix<T> &Matrix<T>::columnExtract(int j, const Matrix& M)
+eMatrix<T> &eMatrix<T>::columnExtract(int j, const eMatrix& M)
 {
     if (this == &M)
     {
@@ -1778,7 +1778,7 @@ Matrix<T> &Matrix<T>::columnExtract(int j, const Matrix& M)
 
 //Function to extract a row matrix 'this' from a full matrix M
 template <class T>
-Matrix<T> &Matrix<T>::rowExtract(int i, const Matrix& M)
+eMatrix<T> &eMatrix<T>::rowExtract(int i, const eMatrix& M)
 {
     if (this == &M)
     {
@@ -1799,7 +1799,7 @@ Matrix<T> &Matrix<T>::rowExtract(int i, const Matrix& M)
 
 //Function to replace an existing column of 'this' with the column matrix v
 template <class T>
-Matrix<T> &Matrix<T>::columnReplace(int j, const Matrix &v)
+eMatrix<T> &eMatrix<T>::columnReplace(int j, const eMatrix &v)
 {
     if (this->num_rows != v.num_rows)
     {
@@ -1820,7 +1820,7 @@ Matrix<T> &Matrix<T>::columnReplace(int j, const Matrix &v)
 
 //Function to replace an existing column of 'this' with the column matrix v
 template <class T>
-Matrix<T> &Matrix<T>::rowReplace(int i, const Matrix &v)
+eMatrix<T> &eMatrix<T>::rowReplace(int i, const eMatrix &v)
 {
     if (this->num_cols != v.num_cols)
     {
@@ -1841,7 +1841,7 @@ Matrix<T> &Matrix<T>::rowReplace(int i, const Matrix &v)
 
 //Function to reduce the number of rows in the matrix by neglecting the last row
 template <class T>
-void Matrix<T>::rowShrink()
+void eMatrix<T>::rowShrink()
 {
     /*
      Note: because of how the matrix data is stored, this is the only line
@@ -1854,10 +1854,10 @@ void Matrix<T>::rowShrink()
 
 //Function to reduce the number of columns in the matrix by neglecting the last column
 template <class T>
-void Matrix<T>::columnShrink()
+void eMatrix<T>::columnShrink()
 {
     //Here we must force a reinitialization of the data because of how it is stored
-    Matrix<T> temp(*this);
+    eMatrix<T> temp(*this);
     this->set_size(temp.num_rows, temp.num_cols-1);
     for (int i=0; i<this->num_rows; i++)
     {
@@ -1871,7 +1871,7 @@ void Matrix<T>::columnShrink()
 
 //Function to add another row to the end of an existing matrix
 template <class T>
-void Matrix<T>::rowExtend(const Matrix &v)
+void eMatrix<T>::rowExtend(const eMatrix &v)
 {
     if (this->num_cols != v.num_cols)
     {
@@ -1887,14 +1887,14 @@ void Matrix<T>::rowExtend(const Matrix &v)
 
 //Function to add another column to the end of an existing matrix
 template <class T>
-void Matrix<T>::columnExtend(const Matrix &v)
+void eMatrix<T>::columnExtend(const eMatrix &v)
 {
     if (this->num_rows != v.num_rows)
     {
         mError(matvec_mis_match)
         return;
     }
-    Matrix<T> temp(*this);
+    eMatrix<T> temp(*this);
     this->set_size(temp.num_rows, temp.num_cols+1);
     for (int i=0; i<this->num_rows; i++)
     {
@@ -1910,7 +1910,7 @@ void Matrix<T>::columnExtend(const Matrix &v)
 
 /// Function to run the MACAW tests
 /** This function is callable from the UI and is used to run several
-	algorithm tests for the Matrix objects. This test should never
+	algorithm tests for the eMatrix objects. This test should never
 	report any errors. */
 int MACAW_TESTS();
 
