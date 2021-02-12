@@ -65,11 +65,11 @@ void error(int flag)
 			break;
 			
 		case out_of_bounds:
-			std::cout << "\nError!\n\nIndex Out of Bounds of Matrix!" << std::endl;
+			std::cout << "\nError!\n\nIndex Out of Bounds of eMatrix!" << std::endl;
 			break;
 			
 		case non_square_matrix:
-			std::cout << "\nError!\n\nNon-Square Matrix!" << std::endl;
+			std::cout << "\nError!\n\nNon-Square eMatrix!" << std::endl;
 			break;
 			
 		case dim_mis_match:
@@ -77,7 +77,7 @@ void error(int flag)
 			break;
 			
 		case empty_matrix:
-			std::cout << "\nError!\n\nEmpty or Non-Initialized Matrix!" << std::endl;
+			std::cout << "\nError!\n\nEmpty or Non-Initialized eMatrix!" << std::endl;
 			break;
 			
 		case opt_no_support:
@@ -93,7 +93,7 @@ void error(int flag)
 			break;
 			
 		case unstable_matrix:
-			std::cout << "\nWarning!\n\nInstability in Coefficient Matrix!" << std::endl;
+			std::cout << "\nWarning!\n\nInstability in Coefficient eMatrix!" << std::endl;
 			break;
 			
 		case no_diffusion:
@@ -109,19 +109,19 @@ void error(int flag)
 			break;
 			
 		case matvec_mis_match:
-			std::cout << "\nError!\n\nMatrix and Vector Sizes Do Not Match!" << std::endl;
+			std::cout << "\nError!\n\neMatrix and Vector Sizes Do Not Match!" << std::endl;
 			break;
 			
 		case arg_matrix_same:
-			std::cout << "\nError!\n\nMatrix argument and storage matrix are the same!" << std::endl;
+			std::cout << "\nError!\n\neMatrix argument and storage matrix are the same!" << std::endl;
 			break;
 			
 		case singular_matrix:
-			std::cout << "\nWarning!\n\nMatrix is Singular or Close to Singular!" << std::endl;
+			std::cout << "\nWarning!\n\neMatrix is Singular or Close to Singular!" << std::endl;
 			break;
 			
 		case matrix_too_small:
-			std::cout << "\nError!\n\nMatrix is too small for this function!" << std::endl;
+			std::cout << "\nError!\n\neMatrix is too small for this function!" << std::endl;
 			break;
 			
 		case invalid_size:

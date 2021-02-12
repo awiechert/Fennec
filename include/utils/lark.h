@@ -127,13 +127,13 @@ typedef struct
 	
 	bool Output = true; ///< True = print messages to console
 	
-  	std::vector< Matrix<double> > Vk; ///< (N) x (k) orthonormal vector basis stored as a vector of column matrices
-    Matrix<double> Hkp1;			///< (k+1) x (k) upper Hessenberg matrix
-    Matrix<double> yk;          	///< (k) x (1) vector search direction
-    Matrix<double>e1;				///< (k) x (1) orthonormal vector with 1 in first position
-    Matrix<double> w;           	///< (N) x (1) interim result of the matrix_vector multiplication
-  	Matrix<double> v;				///< (N) x (1) holding cell for the column entries of Vk and other interims
-  	Matrix<double> sum;				///< (N) x (1) running sum of subspace vectors for use in altering w
+  	std::vector< eMatrix<double> > Vk; ///< (N) x (k) orthonormal vector basis stored as a vector of column matrices
+    eMatrix<double> Hkp1;			///< (k+1) x (k) upper Hessenberg matrix
+    eMatrix<double> yk;          	///< (k) x (1) vector search direction
+    eMatrix<double>e1;				///< (k) x (1) orthonormal vector with 1 in first position
+    eMatrix<double> w;           	///< (N) x (1) interim result of the matrix_vector multiplication
+  	eMatrix<double> v;				///< (N) x (1) holding cell for the column entries of Vk and other interims
+  	eMatrix<double> sum;				///< (N) x (1) running sum of subspace vectors for use in altering w
 	
 }ARNOLDI_DATA;
 
@@ -160,9 +160,9 @@ typedef struct
 	
 	bool Output = true;			///< True = print messages to console
     
-    Matrix<double> x;           ///< Current solution to the linear system
-	Matrix<double> bestx;		///< Best found solution to the linear system
-  	Matrix<double> r;			///< Residual vector for the linear system
+    eMatrix<double> x;           ///< Current solution to the linear system
+	eMatrix<double> bestx;		///< Best found solution to the linear system
+  	eMatrix<double> r;			///< Residual vector for the linear system
 	
     ARNOLDI_DATA arnoldi_dat;	///< Data structure for the kyrlov subspace
     
@@ -191,21 +191,21 @@ typedef struct
 	
 	bool Output = true;			///< True = print messages to console
 	
-	Matrix<double> x;					///< Current solution to the linear system
-	Matrix<double> bestx;				///< Best found solution to the linear system
-	Matrix<double> r;					///< Residual vector for the linear system
+	eMatrix<double> x;					///< Current solution to the linear system
+	eMatrix<double> bestx;				///< Best found solution to the linear system
+	eMatrix<double> r;					///< Residual vector for the linear system
 	
-	std::vector< Matrix<double> > Vk;			///< (N x k) orthonormal vector basis
-	std::vector< Matrix<double> > Zk;			///< (N x k) preconditioned vector set
+	std::vector< eMatrix<double> > Vk;			///< (N x k) orthonormal vector basis
+	std::vector< eMatrix<double> > Zk;			///< (N x k) preconditioned vector set
 	std::vector< std::vector< double > > H;		///< (k+1 x k) upper Hessenberg storage matrix
 	std::vector< std::vector< double > > H_bar;	///< (k+1 x k) Factorized matrix
 	std::vector< double > y;					///< (k x 1) Vector search direction
 	std::vector< double > e0;					///< (k+1 x 1) Normalized vector with residual info
 	std::vector< double > e0_bar;				///< (k+1 x 1) Factorized normal vector
 	
-	Matrix<double> w;           	///< (N) x (1) interim result of the matrix_vector multiplication
-	Matrix<double> v;				///< (N) x (1) holding cell for the column entries of Vk and other interims
-	Matrix<double> sum;				///< (N) x (1) running sum of subspace vectors for use in altering w
+	eMatrix<double> w;           	///< (N) x (1) interim result of the matrix_vector multiplication
+	eMatrix<double> v;				///< (N) x (1) holding cell for the column entries of Vk and other interims
+	eMatrix<double> sum;				///< (N) x (1) running sum of subspace vectors for use in altering w
 	
 }GMRESRP_DATA;
 
@@ -230,14 +230,14 @@ typedef struct
 	
 	bool Output = true;			///< True = print messages to console
   
-  	Matrix<double> x;						///< Current solution to the linear system
-	Matrix<double> bestx;					///< Best found solution to the linear system
-  	Matrix<double> r;						///< Residual vector for the linear system
-  	Matrix<double> r_old;					///< Previous residual vector
-  	Matrix<double> z;						///< Preconditioned residual vector (result of precon function)
-  	Matrix<double> z_old;					///< Previous preconditioned residual vector
-  	Matrix<double> p;						///< Search direction
-  	Matrix<double> Ap;						///< Result of matrix-vector multiplication
+  	eMatrix<double> x;						///< Current solution to the linear system
+	eMatrix<double> bestx;					///< Best found solution to the linear system
+  	eMatrix<double> r;						///< Residual vector for the linear system
+  	eMatrix<double> r_old;					///< Previous residual vector
+  	eMatrix<double> z;						///< Preconditioned residual vector (result of precon function)
+  	eMatrix<double> z_old;					///< Previous preconditioned residual vector
+  	eMatrix<double> p;						///< Search direction
+  	eMatrix<double> Ap;						///< Result of matrix-vector multiplication
   
 }PCG_DATA;
 
@@ -267,16 +267,16 @@ typedef struct
 	
 	bool Output = true;			///< True = print messages to console
 	
-	Matrix<double> x;					///< Current solution to the linear system
-	Matrix<double> bestx;				///< Best found solution to the linear system
-	Matrix<double> r;					///< Residual vector for the linear system
-	Matrix<double> r0;					///< Initial residual vector
-	Matrix<double> v;					///< Search direction for p
-	Matrix<double> p;					///< Search direction for updating
-	Matrix<double> y;					///< Preconditioned search direction
-	Matrix<double> s;					///< Residual updating vector
-	Matrix<double> z;					///< Preconditioned residual updating vector
-	Matrix<double> t;					///< Search direction for resdidual updates
+	eMatrix<double> x;					///< Current solution to the linear system
+	eMatrix<double> bestx;				///< Best found solution to the linear system
+	eMatrix<double> r;					///< Residual vector for the linear system
+	eMatrix<double> r0;					///< Initial residual vector
+	eMatrix<double> v;					///< Search direction for p
+	eMatrix<double> p;					///< Search direction for updating
+	eMatrix<double> y;					///< Preconditioned search direction
+	eMatrix<double> s;					///< Residual updating vector
+	eMatrix<double> z;					///< Preconditioned residual updating vector
+	eMatrix<double> t;					///< Search direction for resdidual updates
 	
 }BiCGSTAB_DATA;
 
@@ -304,16 +304,16 @@ typedef struct
 	
 	bool Output = true;			///< True = print messages to console
 	
-	Matrix<double> x;					///< Current solution to the linear system
-	Matrix<double> bestx;				///< Best found solution to the linear system
-	Matrix<double> r;					///< Residual vector for the linear system
-	Matrix<double> r0;					///< Initial residual vector
-	Matrix<double> u;					///< Search direction for v
-	Matrix<double> w;					///< Updates sigma and u
-	Matrix<double> v;					///< Search direction for x
-	Matrix<double> p;					///< Preconditioning result for w, z, and matvec for Ax
-	Matrix<double> c;					///< Holds the matvec result between A and p
-	Matrix<double> z;					///< Full search direction for x
+	eMatrix<double> x;					///< Current solution to the linear system
+	eMatrix<double> bestx;				///< Best found solution to the linear system
+	eMatrix<double> r;					///< Residual vector for the linear system
+	eMatrix<double> r0;					///< Initial residual vector
+	eMatrix<double> u;					///< Search direction for v
+	eMatrix<double> w;					///< Updates sigma and u
+	eMatrix<double> v;					///< Search direction for x
+	eMatrix<double> p;					///< Preconditioning result for w, z, and matvec for Ax
+	eMatrix<double> c;					///< Holds the matvec result between A and p
+	eMatrix<double> z;					///< Full search direction for x
 	
 }CGS_DATA;
 
@@ -323,8 +323,8 @@ typedef struct
 	This is a sub-routine required by GCR and GMRESR to stabilize the outer iterations. */
 typedef struct
 {
-	Matrix<double> Ii;					///< The ith column vector of the identity operator
-	Matrix<double> Ai;					///< The ith column vector of the user's linear operator
+	eMatrix<double> Ii;					///< The ith column vector of the identity operator
+	eMatrix<double> Ai;					///< The ith column vector of the user's linear operator
 
 }OPTRANS_DATA;
 
@@ -353,13 +353,13 @@ typedef struct
 	
 	bool Output = true;			///< True = print messages to the console
 	
-	Matrix<double> x;					///< Current solution to the linear system
-	Matrix<double> bestx;				///< Best found solution to the linear system
-	Matrix<double> r;					///< Residual Vector
-	Matrix<double> c_temp;				///< Temporary c vector to be updated
-	Matrix<double> u_temp;				///< Temporary u vector to be updated
-	std::vector<Matrix<double> > u;		///< Vector span for updating x
-	std::vector<Matrix<double> > c;		///< Vector span for updating r
+	eMatrix<double> x;					///< Current solution to the linear system
+	eMatrix<double> bestx;				///< Best found solution to the linear system
+	eMatrix<double> r;					///< Residual Vector
+	eMatrix<double> c_temp;				///< Temporary c vector to be updated
+	eMatrix<double> u_temp;				///< Temporary u vector to be updated
+	std::vector<eMatrix<double> > u;		///< Vector span for updating x
+	std::vector<eMatrix<double> > c;		///< Vector span for updating r
 
 	OPTRANS_DATA transpose_dat;			///< Data structure for Operator Transposition
 	
@@ -388,15 +388,15 @@ typedef struct
 	double gcr_rel_tol = 1e-6;	///< Relative outer residual tolerance
 	double gcr_abs_tol = 1e-6;	///< Absolute outer residual tolerance
 	
-	Matrix<double> arg;			///< Argument matrix passed between preconditioner and iterator
+	eMatrix<double> arg;			///< Argument matrix passed between preconditioner and iterator
 	
 	GCR_DATA gcr_dat;			///< Data structure for the outer GCR steps
 	GMRESRP_DATA gmres_dat;		///< Data structure for the inner GMRES steps
 		
 	/// User supplied matrix-vector product function
-	int (*matvec) (const Matrix<double> &x, Matrix<double> &Ax, const void *matvec_data);
+	int (*matvec) (const eMatrix<double> &x, eMatrix<double> &Ax, const void *matvec_data);
 	/// Optional user supplied terminal preconditioner
-	int (*terminal_precon) (const Matrix<double> &r, Matrix<double> &p, const void *precon_data);
+	int (*terminal_precon) (const eMatrix<double> &r, eMatrix<double> &p, const void *precon_data);
 	
 	const void *matvec_data;	///< Data structure for the user's matvec function
 	const void *term_precon;	///< Data structure for the user's terminal preconditioner
@@ -431,9 +431,9 @@ typedef struct
 	std::vector<GMRESRP_DATA> gmres_in;		///< Data structures for each recursion level
 	
 	/// User supplied matrix-vector product function
-	int (*matvec) (const Matrix<double> &x, Matrix<double> &Ax, const void *matvec_data);
+	int (*matvec) (const eMatrix<double> &x, eMatrix<double> &Ax, const void *matvec_data);
 	/// Optional user supplied terminal preconditioner
-	int (*terminal_precon) (const Matrix<double> &r, Matrix<double> &p, const void *precon_data);
+	int (*terminal_precon) (const eMatrix<double> &r, eMatrix<double> &p, const void *precon_data);
 	
 	const void *matvec_data;	///< Data structure for the user's matvec function
 	const void *term_precon;	///< Data structure for the user's terminal preconditioner
@@ -448,9 +448,9 @@ typedef struct
 	and occassionally more efficient for dense systems. */
 typedef struct
 {
-	Matrix<double> ek;				///< Unit vector used to extract columns from the linear operator
-	Matrix<double> Ro;				///< Upper triangular matrix formed from factoring the linear operator
-	Matrix<double> x;				///< Solution to the linear system
+	eMatrix<double> ek;				///< Unit vector used to extract columns from the linear operator
+	eMatrix<double> Ro;				///< Upper triangular matrix formed from factoring the linear operator
+	eMatrix<double> x;				///< Solution to the linear system
 	
 }QR_DATA;
 
@@ -474,9 +474,9 @@ typedef struct
 	
 	bool Output = true;			///< True = print messages to console
 	
-	Matrix<double> x0;						///< Previous iterate solution vector
-	Matrix<double> bestx;					///< Best found solution vector
-	Matrix<double> r;						///< Residual of the non-linear system
+	eMatrix<double> x0;						///< Previous iterate solution vector
+	eMatrix<double> bestx;					///< Best found solution vector
+	eMatrix<double> r;						///< Residual of the non-linear system
 	
 }PICARD_DATA;
 
@@ -495,8 +495,8 @@ typedef struct
 	
 	bool constRho = false;				///< True = use a constant value for rho
 	
-	Matrix<double> Fk;					///< Old residual vector of the Newton step
-	Matrix<double> xk;					///< Old solution vector of the Newton step
+	eMatrix<double> Fk;					///< Old residual vector of the Newton step
+	eMatrix<double> xk;					///< Old solution vector of the Newton step
 	
 }BACKTRACK_DATA;
 
@@ -550,11 +550,11 @@ typedef struct
 	bool Bounce = false;		///< True = allow Linesearch to go outside local well, False = Strict local convergence
 	bool Converged = false;		///< True = solution has converged, False = solution has not converged
 	
-	Matrix<double> F;					///< Stored fuction evaluation at x (also the residual)
-	Matrix<double> Fv;					///< Stored function evaluation at x+eps*v
-	Matrix<double> v;					///< Stored vector of x+eps*v
-	Matrix<double> x;					///< Current solution vector for the non-linear system
-	Matrix<double> bestx;				///< Best found solution vector to the non-linear system
+	eMatrix<double> F;					///< Stored fuction evaluation at x (also the residual)
+	eMatrix<double> Fv;					///< Stored function evaluation at x+eps*v
+	eMatrix<double> v;					///< Stored vector of x+eps*v
+	eMatrix<double> x;					///< Current solution vector for the non-linear system
+	eMatrix<double> bestx;				///< Best found solution vector to the non-linear system
 	
 	//The PJFNK implementation will choose the linear method best suited for your problem
 	GMRESLP_DATA gmreslp_dat;   	///< Data structure for the GMRESLP method
@@ -577,9 +577,9 @@ typedef struct
 	/// Data structure pointer for user's preconditioning data
 	const void *precon_data;
 	/// Function pointer for the user's function F(x) using there data
-	int (*funeval) (const Matrix<double> &x, Matrix<double> &F, const void *res_data);
+	int (*funeval) (const eMatrix<double> &x, eMatrix<double> &F, const void *res_data);
 	/// Function pointer for the user's preconditioning function for the linear system
-	int (*precon) (const Matrix<double> &r, Matrix<double> &p, const void *precon_data);
+	int (*precon) (const eMatrix<double> &r, eMatrix<double> &p, const void *precon_data);
 	
 }PJFNK_DATA;
 
@@ -590,9 +590,9 @@ typedef struct
 typedef struct
 {
 	double eps = sqrt(DBL_EPSILON);		///< Perturbation value
-	Matrix<double> Fx;					///< Vector of function evaluations at x
-	Matrix<double> Fxp;					///< Vector of function evaluations at x+eps
-	Matrix<double> dxj;					///< Vector of perturbed x values
+	eMatrix<double> Fx;					///< Vector of function evaluations at x
+	eMatrix<double> Fxp;					///< Vector of function evaluations at x+eps
+	eMatrix<double> dxj;					///< Vector of perturbed x values
 	
 }NUM_JAC_DATA;
 
@@ -601,22 +601,22 @@ typedef struct
 //Data structures used by examples to test the algorithms of LARK
 typedef struct
 {
-    Matrix<double> M;               //(N) x (N) coefficient matrix
-    Matrix<double> b;               //(N) x (1) right side vector solution
+    eMatrix<double> M;               //(N) x (N) coefficient matrix
+    eMatrix<double> b;               //(N) x (1) right side vector solution
     
 }EX01_DATA;
 
 typedef struct
 {
-  	Matrix<double> M;               //(N) x (N) coefficient matrix
-	Matrix<double> b;               //(N) x (1) right side vector solution
+  	eMatrix<double> M;               //(N) x (N) coefficient matrix
+	eMatrix<double> b;               //(N) x (1) right side vector solution
   
 }EX02_DATA;
 
 typedef struct
 {
-  	Matrix<double> M;               //(N) x (N) coefficient matrix
-  	Matrix<double> b;               //(N) x (1) right side vector solution
+  	eMatrix<double> M;               //(N) x (N) coefficient matrix
+  	eMatrix<double> b;               //(N) x (1) right side vector solution
   
 }EX04_DATA;
 
@@ -625,41 +625,41 @@ typedef struct
 	double h;				//Mesh size for non-linear PDE
 	double k;				//Scaling factor for non-linear portion of PDE
 	int N;					//Number of nodes in mesh
-	Matrix<double> x;				//Nx1 solution vector
-	Matrix<double> M;				//NxN preconditioning matrix
-	Matrix<double> s;				//Search direction for Picard
-	Matrix<double> p;				//Conditioned search direction
+	eMatrix<double> x;				//Nx1 solution vector
+	eMatrix<double> M;				//NxN preconditioning matrix
+	eMatrix<double> s;				//Search direction for Picard
+	eMatrix<double> p;				//Conditioned search direction
 }EX09_DATA;
 
 typedef struct
 {
 	int N;					//Number of nodes in the mesh
 	int m;					//Dimensional length for natural laplacian
-	Matrix<double> b;				//Boundary Conditions for the problem
+	eMatrix<double> b;				//Boundary Conditions for the problem
 }EX15_DATA;
 
 //These functions are used to run LARK Tests
-int matvec_ex01(const Matrix<double>& v, Matrix<double>& w, const void *data);
+int matvec_ex01(const eMatrix<double>& v, eMatrix<double>& w, const void *data);
 
-int precon_ex01(const Matrix<double>& b, Matrix<double>& p, const void *data);
+int precon_ex01(const eMatrix<double>& b, eMatrix<double>& p, const void *data);
 
-int matvec_ex02(const Matrix<double>& v, Matrix<double>& w, const void *data);
+int matvec_ex02(const eMatrix<double>& v, eMatrix<double>& w, const void *data);
 
-int matvec_ex04(const Matrix<double>& v, Matrix<double>& w, const void *data);
+int matvec_ex04(const eMatrix<double>& v, eMatrix<double>& w, const void *data);
 
-int precon_ex04(const Matrix<double>& b, Matrix<double>& p, const void *data);
+int precon_ex04(const eMatrix<double>& b, eMatrix<double>& p, const void *data);
 
-int evalx_ex09(const Matrix<double> &x, Matrix<double>& G, const void *data);
+int evalx_ex09(const eMatrix<double> &x, eMatrix<double>& G, const void *data);
 
-int funeval_ex09(const Matrix<double> &x, Matrix<double>& F, const void *data);
+int funeval_ex09(const eMatrix<double> &x, eMatrix<double>& F, const void *data);
 
-int funeval_ex10(const Matrix<double> &x, Matrix<double>& F, const void *data);
+int funeval_ex10(const eMatrix<double> &x, eMatrix<double>& F, const void *data);
 
-int precon_ex10(const Matrix<double> &r, Matrix<double>& p, const void *data);
+int precon_ex10(const eMatrix<double> &r, eMatrix<double>& p, const void *data);
 
-int matvec_ex15(const Matrix<double>& v, Matrix<double>& w, const void *data);
+int matvec_ex15(const eMatrix<double>& v, eMatrix<double>& w, const void *data);
 
-int precon_ex15(const Matrix<double>& w, Matrix<double>& p, const void *data);
+int precon_ex15(const eMatrix<double>& w, eMatrix<double>& p, const void *data);
 
 /// \endcond
 
@@ -674,7 +674,7 @@ int precon_ex15(const Matrix<double>& w, Matrix<double>& p, const void *data);
 	\param x matrix that will hold the new updated solution to the linear system
 	\param x0 matrix that holds the previous solution to the linear system
 	\param arnoldi_dat pointer to the ARNOLDI_DATA data structure*/
-int update_arnoldi_solution(Matrix<double>& x, Matrix<double>& x0, ARNOLDI_DATA *arnoldi_dat);
+int update_arnoldi_solution(eMatrix<double>& x, eMatrix<double>& x0, ARNOLDI_DATA *arnoldi_dat);
 
 /// Function to factor a linear operator into an orthonormal basis and upper Hessenberg matrix
 /** This function performs the Arnoldi algorithm to factor a linear operator into an orthonormal
@@ -690,7 +690,7 @@ int update_arnoldi_solution(Matrix<double>& x, Matrix<double>& x0, ARNOLDI_DATA 
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator
 	\param precon_data user supplied void pointer to a data structure needed for the precondtioning operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an
 		int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -699,7 +699,7 @@ int update_arnoldi_solution(Matrix<double>& x, Matrix<double>& x0, ARNOLDI_DATA 
 		that the function may need in order to perform the linear operation. 
 	\n --------------------------------------------------------------------------------*/
  
-/**	\note int (*precon) (const Matrix<double>& b, Matrix<double> &Mb, const void *data)
+/**	\note int (*precon) (const eMatrix<double>& b, eMatrix<double> &Mb, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a preconditioning operator. It has the same form as
 		the above linear operator function and should have all the same properties. The only 
@@ -708,9 +708,9 @@ int update_arnoldi_solution(Matrix<double>& x, Matrix<double>& x0, ARNOLDI_DATA 
 		matrix inversion. The matrix b is given as the vector that this operator is acting on and
 		the void pointer data is for any user data structure that the operator may need.
 	\n --------------------------------------------------------------------------------*/
-int arnoldi( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *data),
-            int (*precon) (const Matrix<double>& b, Matrix<double> &p, const void *data),
-            Matrix<double> &r0, ARNOLDI_DATA *arnoldi_dat, const void *matvec_data,
+int arnoldi( int (*matvec) (const eMatrix<double>& v, eMatrix<double> &w, const void *data),
+            int (*precon) (const eMatrix<double>& b, eMatrix<double> &p, const void *data),
+            eMatrix<double> &r0, ARNOLDI_DATA *arnoldi_dat, const void *matvec_data,
 		    const void *precon_data );
 
 /// Function to iteratively solve a non-symmetric, indefinite linear system with GMRESLP
@@ -728,7 +728,7 @@ int arnoldi( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const vo
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator
 	\param precon_data user supplied void pointer to a data structure needed for the precondtioning operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an 
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -737,7 +737,7 @@ int arnoldi( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const vo
  that the function may need in order to perform the linear operation.
 	\n --------------------------------------------------------------------------------*/
 
-/**	\note int (*precon) (const Matrix<double>& b, Matrix<double> &Mb, const void *data)
+/**	\note int (*precon) (const eMatrix<double>& b, eMatrix<double> &Mb, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a preconditioning operator. It has the same form as
  the above linear operator function and should have all the same properties. The only
@@ -746,9 +746,9 @@ int arnoldi( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const vo
  matrix inversion. The matrix b is given as the vector that this operator is acting on and
  the void pointer data is for any user data structure that the operator may need.
 	\n --------------------------------------------------------------------------------*/
-int gmresLeftPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *data),
-           int (*precon) (const Matrix<double>& b, Matrix<double> &p, const void *data),
-           Matrix<double> &b, GMRESLP_DATA *gmreslp_dat, const void *matvec_data,
+int gmresLeftPreconditioned( int (*matvec) (const eMatrix<double>& v, eMatrix<double> &w, const void *data),
+           int (*precon) (const eMatrix<double>& b, eMatrix<double> &p, const void *data),
+           eMatrix<double> &b, GMRESLP_DATA *gmreslp_dat, const void *matvec_data,
 		   const void *precon_data );
 
 /// Function to directly solve a non-symmetric, indefinite linear system with FOM
@@ -766,7 +766,7 @@ int gmresLeftPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<doub
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator
 	\param precon_data user supplied void pointer to a data structure needed for the precondtioning operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -775,7 +775,7 @@ int gmresLeftPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<doub
  that the function may need in order to perform the linear operation.
 	\n --------------------------------------------------------------------------------*/
 
-/**	\note int (*precon) (const Matrix<double>& b, Matrix<double> &Mb, const void *data)
+/**	\note int (*precon) (const eMatrix<double>& b, eMatrix<double> &Mb, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a preconditioning operator. It has the same form as
  the above linear operator function and should have all the same properties. The only
@@ -784,9 +784,9 @@ int gmresLeftPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<doub
  matrix inversion. The matrix b is given as the vector that this operator is acting on and
  the void pointer data is for any user data structure that the operator may need.
 	\n --------------------------------------------------------------------------------*/
-int fom( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *data),
-         int (*precon) (const Matrix<double>& b, Matrix<double> &p, const void *data),
-         Matrix<double> &b, GMRESLP_DATA *gmreslp_dat, const void *matvec_data,
+int fom( int (*matvec) (const eMatrix<double>& v, eMatrix<double> &w, const void *data),
+         int (*precon) (const eMatrix<double>& b, eMatrix<double> &p, const void *data),
+         eMatrix<double> &b, GMRESLP_DATA *gmreslp_dat, const void *matvec_data,
 		 const void *precon_data );
 
 /// Function to iteratively solve a non-symmetric, indefinite linear system with GMRESRP
@@ -804,7 +804,7 @@ int fom( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator
 	\param precon_data user supplied void pointer to a data structure needed for the precondtioning operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -813,7 +813,7 @@ int fom( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *
  that the function may need in order to perform the linear operation.
 	\n --------------------------------------------------------------------------------*/
 
-/**	\note int (*precon) (const Matrix<double>& b, Matrix<double> &Mb, const void *data)
+/**	\note int (*precon) (const eMatrix<double>& b, eMatrix<double> &Mb, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a preconditioning operator. It has the same form as
  the above linear operator function and should have all the same properties. The only
@@ -822,9 +822,9 @@ int fom( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *
  matrix inversion. The matrix b is given as the vector that this operator is acting on and
  the void pointer data is for any user data structure that the operator may need.
 	\n --------------------------------------------------------------------------------*/
-int gmresRightPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *data),
-		  int (*precon) (const Matrix<double>& b, Matrix<double> &p, const void *data),
-		  Matrix<double> &b, GMRESRP_DATA *gmresrp_dat, const void *matvec_data,
+int gmresRightPreconditioned( int (*matvec) (const eMatrix<double>& v, eMatrix<double> &w, const void *data),
+		  int (*precon) (const eMatrix<double>& b, eMatrix<double> &p, const void *data),
+		  eMatrix<double> &b, GMRESRP_DATA *gmresrp_dat, const void *matvec_data,
 		  const void *precon_data );
 
 /// Function to iteratively solve a symmetric, definite linear system with PCG
@@ -840,7 +840,7 @@ int gmresRightPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<dou
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator
 	\param precon_data user supplied void pointer to a data structure needed for the precondtioning operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -849,7 +849,7 @@ int gmresRightPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<dou
  that the function may need in order to perform the linear operation.
 	\n --------------------------------------------------------------------------------*/
 
-/**	\note int (*precon) (const Matrix<double>& b, Matrix<double> &Mb, const void *data)
+/**	\note int (*precon) (const eMatrix<double>& b, eMatrix<double> &Mb, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a preconditioning operator. It has the same form as
  the above linear operator function and should have all the same properties. The only
@@ -858,9 +858,9 @@ int gmresRightPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<dou
  matrix inversion. The matrix b is given as the vector that this operator is acting on and
  the void pointer data is for any user data structure that the operator may need.
 	\n --------------------------------------------------------------------------------*/
-int pcg( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void *data),
-		 int (*precon) (const Matrix<double>& r, Matrix<double> &z, const void *data),
-		 Matrix<double> &b, PCG_DATA *pcg_dat, const void *matvec_data,
+int pcg( int (*matvec) (const eMatrix<double>& p, eMatrix<double> &Ap, const void *data),
+		 int (*precon) (const eMatrix<double>& r, eMatrix<double> &z, const void *data),
+		 eMatrix<double> &b, PCG_DATA *pcg_dat, const void *matvec_data,
 		 const void *precon_data );
 
 /// Function to iteratively solve a non-symmetric, definite linear system with BiCGSTAB
@@ -877,7 +877,7 @@ int pcg( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void 
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator
 	\param precon_data user supplied void pointer to a data structure needed for the precondtioning operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -886,7 +886,7 @@ int pcg( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void 
  that the function may need in order to perform the linear operation.
 	\n --------------------------------------------------------------------------------*/
 
-/**	\note int (*precon) (const Matrix<double>& b, Matrix<double> &Mb, const void *data)
+/**	\note int (*precon) (const eMatrix<double>& b, eMatrix<double> &Mb, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a preconditioning operator. It has the same form as
  the above linear operator function and should have all the same properties. The only
@@ -895,9 +895,9 @@ int pcg( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void 
  matrix inversion. The matrix b is given as the vector that this operator is acting on and
  the void pointer data is for any user data structure that the operator may need.
 	\n --------------------------------------------------------------------------------*/
-int bicgstab( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void *data),
-			  int (*precon) (const Matrix<double>& r, Matrix<double> &z, const void *data),
-			  Matrix<double> &b, BiCGSTAB_DATA *bicg_dat, const void *matvec_data,
+int bicgstab( int (*matvec) (const eMatrix<double>& p, eMatrix<double> &Ap, const void *data),
+			  int (*precon) (const eMatrix<double>& r, eMatrix<double> &z, const void *data),
+			  eMatrix<double> &b, BiCGSTAB_DATA *bicg_dat, const void *matvec_data,
 			  const void *precon_data );
 
 /// Function to iteratively solve a non-symmetric, definite linear system with CGS
@@ -914,7 +914,7 @@ int bicgstab( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const 
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator
 	\param precon_data user supplied void pointer to a data structure needed for the precondtioning operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -923,7 +923,7 @@ int bicgstab( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const 
  that the function may need in order to perform the linear operation.
 	\n --------------------------------------------------------------------------------*/
 
-/**	\note int (*precon) (const Matrix<double>& b, Matrix<double> &Mb, const void *data)
+/**	\note int (*precon) (const eMatrix<double>& b, eMatrix<double> &Mb, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a preconditioning operator. It has the same form as
  the above linear operator function and should have all the same properties. The only
@@ -932,9 +932,9 @@ int bicgstab( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const 
  matrix inversion. The matrix b is given as the vector that this operator is acting on and
  the void pointer data is for any user data structure that the operator may need.
 	\n --------------------------------------------------------------------------------*/
-int cgs( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void *data),
-		 int (*precon) (const Matrix<double>& r, Matrix<double> &z, const void *data),
-		 Matrix<double> &b, CGS_DATA *cgs_dat, const void *matvec_data,
+int cgs( int (*matvec) (const eMatrix<double>& p, eMatrix<double> &Ap, const void *data),
+		 int (*precon) (const eMatrix<double>& r, eMatrix<double> &z, const void *data),
+		 eMatrix<double> &b, CGS_DATA *cgs_dat, const void *matvec_data,
 		 const void *precon_data );
 
 /// Function that is used to perform transposition of a linear operator and results in a new vector A^T*r=u
@@ -951,7 +951,7 @@ int cgs( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void 
 	\param transpose_dat pointer to the OPTRANS_DATA data structure
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -959,8 +959,8 @@ int cgs( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void 
  result of a matrix-vector product. Void pointer data is used to pass any user data structure
  that the function may need in order to perform the linear operation.
 	\n --------------------------------------------------------------------------------*/
-int operatorTranspose(int(*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data),
-					  Matrix<double> &r, Matrix<double> &u, OPTRANS_DATA *transpose_dat, 
+int operatorTranspose(int(*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data),
+					  eMatrix<double> &r, eMatrix<double> &u, OPTRANS_DATA *transpose_dat,
 					  const void *matvec_data);
 
 /// Function to iteratively solve a non-symmetric, definite linear system with GCR
@@ -977,7 +977,7 @@ int operatorTranspose(int(*matvec) (const Matrix<double>& v, Matrix<double> &Av,
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator
 	\param precon_data user supplied void pointer to a data structure needed for the precondtioning operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -986,7 +986,7 @@ int operatorTranspose(int(*matvec) (const Matrix<double>& v, Matrix<double> &Av,
  that the function may need in order to perform the linear operation.
 	\n --------------------------------------------------------------------------------*/
 
-/**	\note int (*precon) (const Matrix<double>& b, Matrix<double> &Mb, const void *data)
+/**	\note int (*precon) (const eMatrix<double>& b, eMatrix<double> &Mb, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a preconditioning operator. It has the same form as
  the above linear operator function and should have all the same properties. The only
@@ -995,9 +995,9 @@ int operatorTranspose(int(*matvec) (const Matrix<double>& v, Matrix<double> &Av,
  matrix inversion. The matrix b is given as the vector that this operator is acting on and
  the void pointer data is for any user data structure that the operator may need.
 	\n --------------------------------------------------------------------------------*/
-int gcr( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const void *data),
-		 int (*precon) (const Matrix<double>& r, Matrix<double> &Mr, const void *data),
-		 Matrix<double> &b, GCR_DATA *gcr_dat, const void *matvec_data,
+int gcr( int (*matvec) (const eMatrix<double>& x, eMatrix<double> &Ax, const void *data),
+		 int (*precon) (const eMatrix<double>& r, eMatrix<double> &Mr, const void *data),
+		 eMatrix<double> &b, GCR_DATA *gcr_dat, const void *matvec_data,
 		 const void *precon_data );
 
 /// Function used in conjunction with GMRESR to apply GMRESRP iterations as a preconditioner
@@ -1009,7 +1009,7 @@ int gcr( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const void 
 	\param r vector supplied to the preconditioner to operate on
 	\param Mr vector to hold the result of the preconditioning operation
 	\param data void pointer to the GMRESR_DATA data structure*/
-int gmresrPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const void *data);
+int gmresrPreconditioner( const eMatrix<double>& r, eMatrix<double> &Mr, const void *data);
 
 /// Function to iteratively solve a non-symmetric, indefinite linear system with GMRESR
 /** This function iteratively solves a non-symmetric, indefinite linear system using the
@@ -1028,7 +1028,7 @@ int gmresrPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const voi
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator
 	\param term_precon_data user supplied void pointer to a data structure needed for the precondtioning operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -1037,7 +1037,7 @@ int gmresrPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const voi
  that the function may need in order to perform the linear operation.
 	\n --------------------------------------------------------------------------------*/
 
-/**	\note int (*terminal_precon) (const Matrix<double>& b, Matrix<double> &Mb, const void *data)
+/**	\note int (*terminal_precon) (const eMatrix<double>& b, eMatrix<double> &Mb, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a preconditioning operator. It has the same form as
  the above linear operator function and should have all the same properties. The only
@@ -1046,9 +1046,9 @@ int gmresrPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const voi
  matrix inversion. The matrix b is given as the vector that this operator is acting on and
  the void pointer data is for any user data structure that the operator may need.
 	\n --------------------------------------------------------------------------------*/
-int gmresr( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const void *data),
-		  int (*terminal_precon) (const Matrix<double>& r, Matrix<double> &Mr, const void *data),
-		  Matrix<double> &b, GMRESR_DATA *gmresr_dat, const void *matvec_data,
+int gmresr( int (*matvec) (const eMatrix<double>& x, eMatrix<double> &Ax, const void *data),
+		  int (*terminal_precon) (const eMatrix<double>& r, eMatrix<double> &Mr, const void *data),
+		  eMatrix<double> &b, GMRESR_DATA *gmresr_dat, const void *matvec_data,
 		  const void *term_precon_data );
 
 /// Preconditioner function for the Krylov Multi-Space
@@ -1060,7 +1060,7 @@ int gmresr( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const vo
 	\param r vector supplied to the preconditioner to operate on
 	\param Mr vector to hold the result of the preconditioning operation
 	\param data void pointer to the KMS_DATA data structure*/
-int kmsPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const void *data);
+int kmsPreconditioner( const eMatrix<double>& r, eMatrix<double> &Mr, const void *data);
 
 /// Function to iteratively solve a non-symmetric, indefinite linear system with KMS
 /** This function iteratively solves a non-symmetric, indefinite linear system using the
@@ -1083,7 +1083,7 @@ int kmsPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const void *
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator
 	\param term_precon_data user supplied void pointer to a data structure needed for the precondtioning operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -1092,7 +1092,7 @@ int kmsPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const void *
  that the function may need in order to perform the linear operation.
 	\n --------------------------------------------------------------------------------*/
 
-/**	\note int (*terminal_precon) (const Matrix<double>& b, Matrix<double> &Mb, const void *data)
+/**	\note int (*terminal_precon) (const eMatrix<double>& b, eMatrix<double> &Mb, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a preconditioning operator. It has the same form as
  the above linear operator function and should have all the same properties. The only
@@ -1101,9 +1101,9 @@ int kmsPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const void *
  matrix inversion. The matrix b is given as the vector that this operator is acting on and
  the void pointer data is for any user data structure that the operator may need.
 	\n --------------------------------------------------------------------------------*/
-int krylovMultiSpace( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const void *data),
-					 int (*terminal_precon) (const Matrix<double>& r, Matrix<double> &Mr, const void *data),
-					 Matrix<double> &b, KMS_DATA *kms_dat, const void *matvec_data,
+int krylovMultiSpace( int (*matvec) (const eMatrix<double>& x, eMatrix<double> &Ax, const void *data),
+					 int (*terminal_precon) (const eMatrix<double>& r, eMatrix<double> &Mr, const void *data),
+					 eMatrix<double> &b, KMS_DATA *kms_dat, const void *matvec_data,
 					 const void *term_precon_data );
 
 /// Function to solve a dense linear operator system using QR factorization
@@ -1122,7 +1122,7 @@ int krylovMultiSpace( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax
 	\param qr_dat pointer to the QR_DATA data structure
 	\param matvec_data user supplied void pointer to a data structure needed for the linear operator*/
 
-/**	\note int (*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data)
+/**	\note int (*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a linear operator. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -1130,8 +1130,8 @@ int krylovMultiSpace( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax
  result of a matrix-vector product. Void pointer data is used to pass any user data structure
  that the function may need in order to perform the linear operation.
 	\n --------------------------------------------------------------------------------*/
-int QRsolve( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const void *data),
-			Matrix<double> &b, QR_DATA *qr_dat, const void *matvec_data);
+int QRsolve( int (*matvec) (const eMatrix<double>& x, eMatrix<double> &Ax, const void *data),
+			eMatrix<double> &b, QR_DATA *qr_dat, const void *matvec_data);
 
 /// Function to iteratively solve a non-linear system using the Picard or Fixed-Point method
 /** This function iteratively solves a non-linear system using the Picard method. User supplies
@@ -1148,7 +1148,7 @@ int QRsolve( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const v
 	\param res_data user supplied void pointer to a data structure used for residual evaluations
 	\param evalx_data user supplied void pointer to a data structure used for evaluation of weak form*/
 
-/**	\note int (*res) (const Matrix<double>& x, Matrix<double> &F, const void *data)
+/**	\note int (*res) (const eMatrix<double>& x, eMatrix<double> &F, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for the non-linear residuals. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -1158,7 +1158,7 @@ int QRsolve( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const v
  the residuals.
 	\n --------------------------------------------------------------------------------*/
 
-/**	\note int (*evalx) (const Matrix<double>& x0, Matrix<double> &x, const void *data)
+/**	\note int (*evalx) (const eMatrix<double>& x0, eMatrix<double> &x, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function to approximate the next solution vector x based on
 		the previous solution vector x0. The x0 matrix is passed to this function and must
@@ -1170,9 +1170,9 @@ int QRsolve( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const v
 		Example Residual: F(x) = x^2 + x - 1    Goal is to make this function equal zero \n
 		Example Weak Form: x = 1 - x0^2         Rearrage residual to form a weak solution
 	\n --------------------------------------------------------------------------------*/
-int picard( int (*res) (const Matrix<double>& x, Matrix<double> &r, const void *data),
-		    int (*evalx) (const Matrix<double>& x0, Matrix<double> &x, const void *data),
-			Matrix<double> &x, PICARD_DATA *picard_dat, const void *res_data,
+int picard( int (*res) (const eMatrix<double>& x, eMatrix<double> &r, const void *data),
+		    int (*evalx) (const eMatrix<double>& x0, eMatrix<double> &x, const void *data),
+			eMatrix<double> &x, PICARD_DATA *picard_dat, const void *res_data,
 		    const void *evalx_data);
 
 /// Function to form a linear operator of a Jacobian matrix used along with the PJFNK method
@@ -1185,7 +1185,7 @@ int picard( int (*res) (const Matrix<double>& x, Matrix<double> &r, const void *
 	\param v vector to be multiplied by the Jacobian matrix
 	\param Jv storage vector for the result of the Jacobi-vector product
 	\param data void pointer to the PJFNK_DATA data structure holding solver information*/
-int jacvec( const Matrix<double>& v, Matrix<double>& Jv, const void *data);
+int jacvec( const eMatrix<double>& v, eMatrix<double>& Jv, const void *data);
 
 /// Function to perform a Backtracking Line Search operation to smooth out convergence of PJFNK
 /** This function performs a simple backtracking line search operation on the residuals from the
@@ -1205,7 +1205,7 @@ int jacvec( const Matrix<double>& v, Matrix<double>& Jv, const void *data);
 	\param backtrack_dat pointer to the BACKTRACK_DATA data structure
 	\param feval_data user supplied void pointer to the data structure needed for residual evaluation*/
 
-/**	\note int (*feval) (const Matrix<double>& x, Matrix<double> &F, const void *data)
+/**	\note int (*feval) (const eMatrix<double>& x, eMatrix<double> &F, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for the non-linear residuals. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -1214,8 +1214,8 @@ int jacvec( const Matrix<double>& v, Matrix<double>& Jv, const void *data);
  structure provided by the user to hold information the function may need in order to form
  the residuals.
 	\n --------------------------------------------------------------------------------*/
-int backtrackLineSearch( int (*feval) (const Matrix<double>& x, Matrix<double> &F, const void *data),
-						 Matrix<double> &Fkp1, Matrix<double> &xkp1, Matrix<double> &pk, double normFk,
+int backtrackLineSearch( int (*feval) (const eMatrix<double>& x, eMatrix<double> &F, const void *data),
+						 eMatrix<double> &Fkp1, eMatrix<double> &xkp1, eMatrix<double> &pk, double normFk,
 						 BACKTRACK_DATA *backtrack_dat, const void *feval_data);
 
 /// Function to perform the PJFNK algorithm to solve a non-linear system of equations
@@ -1236,7 +1236,7 @@ int backtrackLineSearch( int (*feval) (const Matrix<double>& x, Matrix<double> &
 	\param res_data user supplied void pointer to data structure used in residual function
 	\param precon_data user supplied void pointer to data structure used in preconditioning function*/
 
-/**	\note int (*res) (const Matrix<double>& x, Matrix<double> &F, const void *data)
+/**	\note int (*res) (const eMatrix<double>& x, eMatrix<double> &F, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for the non-linear residuals. User's function must return an
  int of 0 upon success and anything else denotes a failure. The function accepts a matrix
@@ -1246,7 +1246,7 @@ int backtrackLineSearch( int (*feval) (const Matrix<double>& x, Matrix<double> &
  the residuals.
 	\n --------------------------------------------------------------------------------*/
 
-/**	\note int (*precon) (const Matrix<double>& b, Matrix<double> &Mb, const void *data)
+/**	\note int (*precon) (const eMatrix<double>& b, eMatrix<double> &Mb, const void *data)
 	\n --------------------------------------------------------------------------------
 	\n This is a user supplied function for a preconditioning operator. It has the same form as
  the linear operators from the Krylov methods and should have all the same properties. The only
@@ -1255,9 +1255,9 @@ int backtrackLineSearch( int (*feval) (const Matrix<double>& x, Matrix<double> &
  matrix inversion. The matrix b is given as the vector that this operator is acting on and
  the void pointer data is for any user data structure that the operator may need.
 	\n --------------------------------------------------------------------------------*/
-int pjfnk( int (*res) (const Matrix<double>& x, Matrix<double> &F, const void *data),
-		   int (*precon) (const Matrix<double>& r, Matrix<double>& p, const void *data),
-		   Matrix<double> &x, PJFNK_DATA *pjfnk_dat, const void *res_data,
+int pjfnk( int (*res) (const eMatrix<double>& x, eMatrix<double> &F, const void *data),
+		   int (*precon) (const eMatrix<double>& r, eMatrix<double>& p, const void *data),
+		   eMatrix<double> &x, PJFNK_DATA *pjfnk_dat, const void *res_data,
 		   const void *precon_data );
 
 /// Function to form a full numerical Jacobian matrix from a given non-linear function
@@ -1273,8 +1273,8 @@ int pjfnk( int (*res) (const Matrix<double>& x, Matrix<double> &F, const void *d
 	\param Nf number of non-linear functions in the system
 	\param jac_dat pointer to the NUM_JAC_DATA data structure
 	\param user_data user supplied void pointer to a data structure used in the non-linear function*/
-int NumericalJacobian( int (*Func) (const Matrix<double> &x, Matrix<double> &F, const void *user_data),
-					  const Matrix<double> &x, Matrix<double> &J, int Nx, int Nf, NUM_JAC_DATA *jac_dat,
+int NumericalJacobian( int (*Func) (const eMatrix<double> &x, eMatrix<double> &F, const void *user_data),
+					  const eMatrix<double> &x, eMatrix<double> &J, int Nx, int Nf, NUM_JAC_DATA *jac_dat,
 					  const void *user_data);
 
 /// Function that runs a variety of tests on all the functions in LARK

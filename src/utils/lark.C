@@ -14,7 +14,7 @@
 /// \cond
 
 //Example matrix vector product function
-int matvec_ex01(const Matrix<double>& v, Matrix<double>& w, const void *data)
+int matvec_ex01(const eMatrix<double>& v, eMatrix<double>& w, const void *data)
 {
     int success = 0;
     EX01_DATA *dat = (EX01_DATA *) data;
@@ -25,13 +25,13 @@ int matvec_ex01(const Matrix<double>& v, Matrix<double>& w, const void *data)
 }
 
 //Example for preconditioning
-int precon_ex01(const Matrix<double>& b, Matrix<double>& p, const void *data)
+int precon_ex01(const eMatrix<double>& b, eMatrix<double>& p, const void *data)
 {
     int success = 0;
     EX01_DATA *dat = (EX01_DATA *) data;
     
     //Example 1.1: Symmetric Gauss-Siedel Preconditioning (Slowest, but improves convergence)
-    //Matrix<double> interim;
+    //eMatrix<double> interim;
     //p.lowerTriangularSolve(dat->M, interim.upperTriangularSolve(dat->M, b));
     
     //Example 1.2: Upper Triangular Preconditioning
@@ -50,7 +50,7 @@ int precon_ex01(const Matrix<double>& b, Matrix<double>& p, const void *data)
 }
 
 //Example matrix vector product function
-int matvec_ex02(const Matrix<double>& v, Matrix<double>& w, const void *data)
+int matvec_ex02(const eMatrix<double>& v, eMatrix<double>& w, const void *data)
 {
     int success = 0;
     EX02_DATA *dat = (EX02_DATA *) data;
@@ -61,7 +61,7 @@ int matvec_ex02(const Matrix<double>& v, Matrix<double>& w, const void *data)
 }
 
 //Example matrix vector product function
-int matvec_ex04(const Matrix<double>& v, Matrix<double>& w, const void *data)
+int matvec_ex04(const eMatrix<double>& v, eMatrix<double>& w, const void *data)
 {
     int success = 0;
     EX04_DATA *dat = (EX04_DATA *) data;
@@ -70,13 +70,13 @@ int matvec_ex04(const Matrix<double>& v, Matrix<double>& w, const void *data)
 }
 
 //Tridiagonal preconditioning for a 3D Laplacian
-int precon_ex04(const Matrix<double>& b, Matrix<double>& p, const void *data)
+int precon_ex04(const eMatrix<double>& b, eMatrix<double>& p, const void *data)
 {
     int success = 0;
     EX04_DATA *dat = (EX04_DATA *) data;
     
     //Example 1.1: Symmetric Gauss-Siedel Preconditioning (Slowest, but improves convergence)
-    Matrix<double> interim;
+    eMatrix<double> interim;
     p.lowerTriangularSolve(dat->M, interim.upperTriangularSolve(dat->M, b));
     
     //Example 1.2: Upper Triangular Preconditioning
@@ -95,7 +95,7 @@ int precon_ex04(const Matrix<double>& b, Matrix<double>& p, const void *data)
 }
 
 //Function to approximate the solution to x for the Picard Iteration
-int evalx_ex09(const Matrix<double> &x, Matrix<double>& G, const void *data)
+int evalx_ex09(const eMatrix<double> &x, eMatrix<double>& G, const void *data)
 {
     int success = 0;
     EX09_DATA *dat = (EX09_DATA *) data;
@@ -126,7 +126,7 @@ int evalx_ex09(const Matrix<double> &x, Matrix<double>& G, const void *data)
 }
 
 //Function evaluation for Picard example 9
-int funeval_ex09(const Matrix<double> &x, Matrix<double>& F, const void *data)
+int funeval_ex09(const eMatrix<double> &x, eMatrix<double>& F, const void *data)
 {
     int success = 0;
     EX09_DATA *dat = (EX09_DATA *) data;
@@ -156,7 +156,7 @@ int funeval_ex09(const Matrix<double> &x, Matrix<double>& F, const void *data)
 }
 
 //Function evaluation for PJFNK method example 10
-int funeval_ex10(const Matrix<double> &x, Matrix<double>& F, const void *data)
+int funeval_ex10(const eMatrix<double> &x, eMatrix<double>& F, const void *data)
 {
     int success = 0;
     EX09_DATA *dat = (EX09_DATA *) data;
@@ -186,7 +186,7 @@ int funeval_ex10(const Matrix<double> &x, Matrix<double>& F, const void *data)
 }
 
 //Preconditioner for the inner linear iterates for PJFNK example 10
-int precon_ex10(const Matrix<double> &r, Matrix<double>& p, const void *data)
+int precon_ex10(const eMatrix<double> &r, eMatrix<double>& p, const void *data)
 {
     int success = 0;
     EX09_DATA *dat = (EX09_DATA *) data;
@@ -194,7 +194,7 @@ int precon_ex10(const Matrix<double> &r, Matrix<double>& p, const void *data)
     return success;
 }
 
-int matvec_ex15(const Matrix<double>& v, Matrix<double>& w, const void *data)
+int matvec_ex15(const eMatrix<double>& v, eMatrix<double>& w, const void *data)
 {
     int success = 0;
     EX15_DATA *dat = (EX15_DATA *) data;
@@ -274,7 +274,7 @@ int matvec_ex15(const Matrix<double>& v, Matrix<double>& w, const void *data)
     return success;
 }
 
-int precon_ex15(const Matrix<double>& w, Matrix<double>& p, const void *data)
+int precon_ex15(const eMatrix<double>& w, eMatrix<double>& p, const void *data)
 {
     int success = 0;
     EX15_DATA *dat = (EX15_DATA *) data;
@@ -293,7 +293,7 @@ int precon_ex15(const Matrix<double>& w, Matrix<double>& p, const void *data)
 /// \endcond
 
 //Function to compute the updated solution given the matrix-vector arguments
-int update_arnoldi_solution(Matrix<double>& x, Matrix<double>& x0, ARNOLDI_DATA *arnoldi_dat)
+int update_arnoldi_solution(eMatrix<double>& x, eMatrix<double>& x0, ARNOLDI_DATA *arnoldi_dat)
 {
     int success = 0;
     
@@ -333,9 +333,9 @@ int update_arnoldi_solution(Matrix<double>& x, Matrix<double>& x0, ARNOLDI_DATA 
 }
 
 //Function to construct the orthonormal basis with optional preconditioning
-int arnoldi( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *data),
-            int (*precon) (const Matrix<double>& b, Matrix<double> &p, const void *data),
-            Matrix<double> &r0, ARNOLDI_DATA *arnoldi_dat, const void *matvec_data,
+int arnoldi( int (*matvec) (const eMatrix<double>& v, eMatrix<double> &w, const void *data),
+            int (*precon) (const eMatrix<double>& b, eMatrix<double> &p, const void *data),
+            eMatrix<double> &r0, ARNOLDI_DATA *arnoldi_dat, const void *matvec_data,
             const void *precon_data )
 {
     int success = 0;
@@ -488,9 +488,9 @@ int arnoldi( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const vo
 }
 
 //Function to perform the Restarted GMRES algorithm for iteratively solving a linear system
-int gmresLeftPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *data),
-                            int (*precon) (const Matrix<double>& b, Matrix<double> &P, const void *data),
-                            Matrix<double> &b, GMRESLP_DATA *gmreslp_dat, const void *matvec_data,
+int gmresLeftPreconditioned( int (*matvec) (const eMatrix<double>& v, eMatrix<double> &w, const void *data),
+                            int (*precon) (const eMatrix<double>& b, eMatrix<double> &P, const void *data),
+                            eMatrix<double> &b, GMRESLP_DATA *gmreslp_dat, const void *matvec_data,
                             const void *precon_data )
 {
     int success = 0;
@@ -722,9 +722,9 @@ int gmresLeftPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<doub
 }
 
 //Function to perform the Unrestarted GMRES for directly solving a linear system using krylov function
-int fom( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *data),
-        int (*precon) (const Matrix<double>& b, Matrix<double> &P, const void *data),
-        Matrix<double> &b, GMRESLP_DATA *gmreslp_dat, const void *matvec_data,
+int fom( int (*matvec) (const eMatrix<double>& v, eMatrix<double> &w, const void *data),
+        int (*precon) (const eMatrix<double>& b, eMatrix<double> &P, const void *data),
+        eMatrix<double> &b, GMRESLP_DATA *gmreslp_dat, const void *matvec_data,
         const void *precon_data )
 {
     /*
@@ -750,9 +750,9 @@ int fom( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *
 }
 
 //Implementation of the Compact GMRES algorithm
-int gmresRightPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<double> &w, const void *data),
-                             int (*precon) (const Matrix<double>& b, Matrix<double> &p, const void *data),
-                             Matrix<double> &b, GMRESRP_DATA *gmresrp_dat, const void *matvec_data,
+int gmresRightPreconditioned( int (*matvec) (const eMatrix<double>& v, eMatrix<double> &w, const void *data),
+                             int (*precon) (const eMatrix<double>& b, eMatrix<double> &p, const void *data),
+                             eMatrix<double> &b, GMRESRP_DATA *gmresrp_dat, const void *matvec_data,
                              const void *precon_data )
 {
     int success = 0;
@@ -1157,9 +1157,9 @@ int gmresRightPreconditioned( int (*matvec) (const Matrix<double>& v, Matrix<dou
 }
 
 //Implementation of the PCG algorithm for iteratively solving symmetric linear systems
-int pcg( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void *data),
-        int (*precon) (const Matrix<double>& r, Matrix<double> &z, const void *data),
-        Matrix<double> &b, PCG_DATA *pcg_dat, const void *matvec_data,
+int pcg( int (*matvec) (const eMatrix<double>& p, eMatrix<double> &Ap, const void *data),
+        int (*precon) (const eMatrix<double>& r, eMatrix<double> &z, const void *data),
+        eMatrix<double> &b, PCG_DATA *pcg_dat, const void *matvec_data,
         const void *precon_data )
 {
     int success = 0;
@@ -1376,9 +1376,9 @@ int pcg( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void 
 }
 
 //Implementation of the BiCGSTAB iterative method with preconditioning
-int bicgstab( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void *data),
-             int (*precon) (const Matrix<double>& r, Matrix<double> &z, const void *data),
-             Matrix<double> &b, BiCGSTAB_DATA *bicg_dat, const void *matvec_data,
+int bicgstab( int (*matvec) (const eMatrix<double>& p, eMatrix<double> &Ap, const void *data),
+             int (*precon) (const eMatrix<double>& r, eMatrix<double> &z, const void *data),
+             eMatrix<double> &b, BiCGSTAB_DATA *bicg_dat, const void *matvec_data,
              const void *precon_data )
 {
     int success = 0;
@@ -1632,9 +1632,9 @@ int bicgstab( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const 
 }
 
 //Implementation of the CGS method for solving non-symmetric linear systems
-int cgs( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void *data),
-        int (*precon) (const Matrix<double>& r, Matrix<double> &z, const void *data),
-        Matrix<double> &b, CGS_DATA *cgs_dat, const void *matvec_data,
+int cgs( int (*matvec) (const eMatrix<double>& p, eMatrix<double> &Ap, const void *data),
+        int (*precon) (const eMatrix<double>& r, eMatrix<double> &z, const void *data),
+        eMatrix<double> &b, CGS_DATA *cgs_dat, const void *matvec_data,
         const void *precon_data )
 {
     int success = 0;
@@ -1882,8 +1882,8 @@ int cgs( int (*matvec) (const Matrix<double>& p, Matrix<double> &Ap, const void 
 }
 
 //Function for forming the tranpose multiplication operation for a given linear operator
-int operatorTranspose(int(*matvec) (const Matrix<double>& v, Matrix<double> &Av, const void *data),
-                      Matrix<double> &r, Matrix<double> &u, OPTRANS_DATA *transpose_dat,
+int operatorTranspose(int(*matvec) (const eMatrix<double>& v, eMatrix<double> &Av, const void *data),
+                      eMatrix<double> &r, eMatrix<double> &u, OPTRANS_DATA *transpose_dat,
                       const void *matvec_data)
 {
     int success = 0;
@@ -1936,9 +1936,9 @@ int operatorTranspose(int(*matvec) (const Matrix<double>& v, Matrix<double> &Av,
 }
 
 //Function for solving a non-symmetric linear system using GCR
-int gcr( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const void *data),
-        int (*precon) (const Matrix<double>& r, Matrix<double> &Mr, const void *data),
-        Matrix<double> &b, GCR_DATA *gcr_dat, const void *matvec_data,
+int gcr( int (*matvec) (const eMatrix<double>& x, eMatrix<double> &Ax, const void *data),
+        int (*precon) (const eMatrix<double>& r, eMatrix<double> &Mr, const void *data),
+        eMatrix<double> &b, GCR_DATA *gcr_dat, const void *matvec_data,
         const void *precon_data )
 {
     int success = 0;
@@ -2248,7 +2248,7 @@ int gcr( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const void 
 }
 
 //Function for preconditioning GCR in the GMRESR application
-int gmresrPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const void *data)
+int gmresrPreconditioner( const eMatrix<double>& r, eMatrix<double> &Mr, const void *data)
 {
     int success = 0;
     GMRESR_DATA *dat = (GMRESR_DATA *) data;
@@ -2286,9 +2286,9 @@ int gmresrPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const voi
 }
 
 //Function for the implementation of the GMRESR algorithm
-int gmresr( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const void *data),
-           int (*terminal_precon) (const Matrix<double>& r, Matrix<double> &Mr, const void *data),
-           Matrix<double> &b, GMRESR_DATA *gmresr_dat, const void *matvec_data,
+int gmresr( int (*matvec) (const eMatrix<double>& x, eMatrix<double> &Ax, const void *data),
+           int (*terminal_precon) (const eMatrix<double>& r, eMatrix<double> &Mr, const void *data),
+           eMatrix<double> &b, GMRESR_DATA *gmresr_dat, const void *matvec_data,
            const void *term_precon_data )
 {
     int success = 0;
@@ -2398,7 +2398,7 @@ int gmresr( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const vo
 }
 
 // Preconditioner function for the Krylov Multi-Space
-int kmsPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const void *data)
+int kmsPreconditioner( const eMatrix<double>& r, eMatrix<double> &Mr, const void *data)
 {
     int success = 0;
     KMS_DATA * kms_dat = (KMS_DATA *) data;
@@ -2455,7 +2455,7 @@ int kmsPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const void *
         kms_dat->gmres_in[kms_dat->level-1].tol_rel = kms_dat->inner_reltol;
     }
     
-    Matrix<double> temp = r;
+    eMatrix<double> temp = r;
     if (kms_dat->gmres_in[kms_dat->level - 1].x.rows() != Mr.rows())
         kms_dat->gmres_in[kms_dat->level - 1].x.set_size(Mr.rows(), 1);
     else
@@ -2472,9 +2472,9 @@ int kmsPreconditioner( const Matrix<double>& r, Matrix<double> &Mr, const void *
 }
 
 // Function to iteratively solve a non-symmetric, indefinite linear system with KMS
-int krylovMultiSpace( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const void *data),
-                     int (*terminal_precon) (const Matrix<double>& r, Matrix<double> &Mr, const void *data),
-                     Matrix<double> &b, KMS_DATA *kms_dat, const void *matvec_data,
+int krylovMultiSpace( int (*matvec) (const eMatrix<double>& x, eMatrix<double> &Ax, const void *data),
+                     int (*terminal_precon) (const eMatrix<double>& r, eMatrix<double> &Mr, const void *data),
+                     eMatrix<double> &b, KMS_DATA *kms_dat, const void *matvec_data,
                      const void *term_precon_data )
 {
     int success = 0;
@@ -2578,8 +2578,8 @@ int krylovMultiSpace( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax
 }
 
 //Function to perform the QR factorization of an invertable linear operator
-int QRsolve( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const void *data),
-            Matrix<double> &b, QR_DATA *qr_dat, const void *matvec_data)
+int QRsolve( int (*matvec) (const eMatrix<double>& x, eMatrix<double> &Ax, const void *data),
+            eMatrix<double> &b, QR_DATA *qr_dat, const void *matvec_data)
 {
     int success = 0;
     
@@ -2623,9 +2623,9 @@ int QRsolve( int (*matvec) (const Matrix<double>& x, Matrix<double> &Ax, const v
 }
 
 //Function for solving a non-linear system using a Picard or Fixed-Point iteration
-int picard( int (*res) (const Matrix<double>& x, Matrix<double> &r, const void *data),
-           int (*evalx) (const Matrix<double>& x0, Matrix<double> &x, const void *data),
-           Matrix<double> &x, PICARD_DATA *picard_dat, const void *res_data,
+int picard( int (*res) (const eMatrix<double>& x, eMatrix<double> &r, const void *data),
+           int (*evalx) (const eMatrix<double>& x0, eMatrix<double> &x, const void *data),
+           eMatrix<double> &x, PICARD_DATA *picard_dat, const void *res_data,
            const void *evalx_data )
 {
     int success = 0;
@@ -2787,7 +2787,7 @@ int picard( int (*res) (const Matrix<double>& x, Matrix<double> &r, const void *
 }
 
 //Jacobian-Vector Product function used by the PJFNK implementation
-int jacvec(const Matrix<double>& v, Matrix<double>& Jv, const void *data)
+int jacvec(const eMatrix<double>& v, eMatrix<double>& Jv, const void *data)
 {
     int success = 0;
     PJFNK_DATA *dat = (PJFNK_DATA *) data;
@@ -2813,8 +2813,8 @@ int jacvec(const Matrix<double>& v, Matrix<double>& Jv, const void *data)
 }
 
 //Implementation of the Backtracking Linesearch Algorithm for Newton's Method
-int backtrackLineSearch( int (*feval) (const Matrix<double>& x, Matrix<double> &F, const void *data),
-                        Matrix<double> &Fkp1, Matrix<double> &xkp1, Matrix<double> &pk, double normFk,
+int backtrackLineSearch( int (*feval) (const eMatrix<double>& x, eMatrix<double> &F, const void *data),
+                        eMatrix<double> &Fkp1, eMatrix<double> &xkp1, eMatrix<double> &pk, double normFk,
                         BACKTRACK_DATA *backtrack_dat, const void *feval_data)
 {
     int success = 0;
@@ -3008,9 +3008,9 @@ int backtrackLineSearch( int (*feval) (const Matrix<double>& x, Matrix<double> &
 }
 
 //Implementation of the PJFNK method for soling non-linear systems of equations
-int pjfnk( int (*res) (const Matrix<double>& x, Matrix<double> &F, const void *data),
-          int (*precon) (const Matrix<double>& r, Matrix<double>& p, const void *data),
-          Matrix<double> &x, PJFNK_DATA *pjfnk_dat, const void *res_data,
+int pjfnk( int (*res) (const eMatrix<double>& x, eMatrix<double> &F, const void *data),
+          int (*precon) (const eMatrix<double>& r, eMatrix<double>& p, const void *data),
+          eMatrix<double> &x, PJFNK_DATA *pjfnk_dat, const void *res_data,
           const void *precon_data )
 {
     int success = 0;
@@ -3644,8 +3644,8 @@ int pjfnk( int (*res) (const Matrix<double>& x, Matrix<double> &F, const void *d
 }
 
 //Form a numerical jacobian matrix
-int NumericalJacobian( int (*Func) (const Matrix<double> &x, Matrix<double> &F, const void *user_data),
-                      const Matrix<double> &x, Matrix<double> &J, int Nx, int Nf, NUM_JAC_DATA *jac_dat,
+int NumericalJacobian( int (*Func) (const eMatrix<double> &x, eMatrix<double> &F, const void *user_data),
+                      const eMatrix<double> &x, eMatrix<double> &J, int Nx, int Nf, NUM_JAC_DATA *jac_dat,
                       const void *user_data)
 {
     int success = 0;
@@ -3727,7 +3727,7 @@ int LARK_TESTS()
     ex01_dat.M.tridiagonalFill(-1, 2, -1, false);
     ex01_dat.b.dirichletBCFill(0, 1, bound);
     
-    Matrix<double> solution(rows,1), guess;
+    eMatrix<double> solution(rows,1), guess;
     guess.set_size(rows,1);
     time = clock();
     solution.ladshawSolve(ex01_dat.M,ex01_dat.b);
@@ -3735,7 +3735,7 @@ int LARK_TESTS()
     std::cout << "Direct Solve (s):\t" << (time / CLOCKS_PER_SEC) << std::endl;
     std::cout << "Norm =\t" << (ex01_dat.b - ex01_dat.M*solution).norm() << std::endl; //(PASS)
     
-    Matrix<double> r0(rows,1);
+    eMatrix<double> r0(rows,1);
     r0 = ex01_dat.b - ex01_dat.M*guess;
     ARNOLDI_DATA arnoldi_dat;
     arnoldi_dat.k = maxk;
@@ -3743,7 +3743,7 @@ int LARK_TESTS()
     time = clock();
     success = arnoldi(matvec_ex01,NULL,r0,&arnoldi_dat,(void *)&ex01_dat, (void *)&ex01_dat);
     
-    Matrix<double> x;
+    eMatrix<double> x;
     success = update_arnoldi_solution(x, guess, &arnoldi_dat);
     time = clock() - time;
     std::cout << "Krylov Solve (s):\t" << (time / CLOCKS_PER_SEC) << std::endl;;
@@ -3777,7 +3777,7 @@ int LARK_TESTS()
     EX02_DATA ex02_dat;
     ex02_dat.M.set_size(2, 2);
     ex02_dat.b.set_size(2, 1);
-    Matrix<double> x0(2,1);
+    eMatrix<double> x0(2,1);
     ex02_dat.M.edit(0, 0, 0); ex02_dat.M.edit(0, 1, 1);
     ex02_dat.M.edit(1, 0, -1); ex02_dat.M.edit(1, 1, 0);
     ex02_dat.b.ConstantICFill(1);

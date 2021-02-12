@@ -1951,7 +1951,7 @@ void DecayChain::formEigenvectors()
     
     this->EigenMap.resize((int)this->CoefMap.size());
     
-    Matrix<double> temp;
+    eMatrix<double> temp;
     temp.set_size((int)this->CoefMap.size(), 1);
     //Loop for the kth eigenvector
     for (int k=0; k<this->nuc_list.size(); k++)
@@ -2033,7 +2033,7 @@ int DecayChain::verifyEigenSoln()
         std::cout << "---------------------------\n";
     }
     
-    Matrix<double> zero((int)this->CoefMap.size(),1);
+    eMatrix<double> zero((int)this->CoefMap.size(),1);
     
     //Loop over kth eigenvector and eigenvalue pair
     int errors = 0;
@@ -2444,7 +2444,7 @@ int DecayChain::run_simulation(std::string file_name)
     
     if (this->PrintSparsity == true)
     {
-        fprintf(file, "Sparsity Pattern in Coefficient Matrix:\n------------------------------\n\n");
+        fprintf(file, "Sparsity Pattern in Coefficient eMatrix:\n------------------------------\n\n");
         for (int i=0; i<this->nuc_list.size(); i++)
         {
             fprintf(file, "| ");
@@ -2999,7 +2999,7 @@ void DecayChain::fillOutCoefMap()
         //Loop over all parents
         for (int j=0; j<this->getParentList(i).size(); j++)
         {
-            int J = this->getParentList(i)[j]; //Index in 'Matrix'
+            int J = this->getParentList(i)[j]; //Index in 'eMatrix'
             double coef = 0.0;
             double decay = this->getIsotope( this->getParentList(i)[j] ).DecayRate();
             
@@ -3022,7 +3022,7 @@ void DecayChain::fillOutCoefMap()
         //Loop over all parents
         for (int j=0; j<this->getStableParentList(i).size(); j++)
         {
-            int J = this->getStableParentList(i)[j]; //Index in 'Matrix'
+            int J = this->getStableParentList(i)[j]; //Index in 'eMatrix'
             double coef = 0.0;
             double decay = this->getIsotope( this->getStableParentList(i)[j] ).DecayRate();
             
