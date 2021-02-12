@@ -57,7 +57,6 @@ InputParameters validParams<CoagulationMonoPB>()
     InputParameters params = validParams<BrownianConvecMonoPB>();
     params.addParam<Real>("alpha_TI",1.0,"Collision Efficiency for Turbulent Inertial Motion (-)");
     params.addParam<Real>("alpha_TS",1.0,"Collision Efficiency for Turbulent Shear (-)");
-    params.addParam<Real>("alpha_VW",1.0,"Collision Efficiency for van der Waals forces (-)");
     return params;
 
 }
@@ -66,7 +65,6 @@ CoagulationMonoPB::CoagulationMonoPB(const InputParameters & parameters)
 : BrownianConvecMonoPB(parameters),
 _alpha_TI(getParam<Real>("alpha_TI")),
 _alpha_TS(getParam<Real>("alpha_TS")),
-_alpha_VW(getParam<Real>("alpha_VW")),
 _beta_GC(getMaterialProperty<std::vector<std::vector<Real> > >("beta_GC")),
 _beta_TI(getMaterialProperty<std::vector<std::vector<Real> > >("beta_TI")),
 _beta_TS(getMaterialProperty<std::vector<std::vector<Real> > >("beta_TS")),
@@ -95,7 +93,7 @@ void CoagulationMonoPB::AlphaBetaFill()
             Real GC = _alpha_GC[_qp][l][m]*_beta_GC[_qp][l][m];
             Real TI = _alpha_TI*_beta_TI[_qp][l][m];
             Real TS = _alpha_TS*_beta_TS[_qp][l][m];
-            Real VW = _alpha_VW*_beta_VW[_qp][l][m];
+            Real VW = _alpha_Br[_qp][l][m]*_beta_VW[_qp][l][m];
             
             _beta[l][m] = BM+BC+GC+TI+TS+VW;
             _alpha[l][m] = 1.0;
@@ -126,7 +124,54 @@ Real CoagulationMonoPB::computeQpResidual()
 
 Real CoagulationMonoPB::computeQpJacobian()
 {
-    return ConstMonoPB::computeQpJacobian();
+	/*
+    this->AlphaBetaFill();
+    
+    Real rate = 0.0;
+    Real source = 0.0;
+    Real sink = 0.0;
+    int k = _this_var;
+    
+    for (int l=0; l<_M; l++)
+    {
+        if (l!=k)
+        {
+            sink = sink + _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
+        }
+        else
+        {
+            sink = sink + 2.0*_gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
+        }
+        
+        Real m_sum = 0.0;
+        
+        for (int m=0; m<=l; m++)
+        {
+            if (l!=k && m!=k)
+            {
+                m_sum = m_sum;
+            }
+            else if (l==k && m!=k)
+            {
+                m_sum = m_sum + (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*(*_coupled_u[m])[_qp];
+            }
+            else if (l!=k && m==k)
+            {
+                m_sum = m_sum + (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*(*_coupled_u[l])[_qp];
+            }
+            else
+            {
+                m_sum = m_sum + 2.0*(1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*(*_coupled_u[l])[_qp];
+            }
+        }
+        
+        source = source + m_sum;
+    }
+    
+    rate = (source-sink)*_phi[_j][_qp]*_test[_i][_qp];
+    return -rate;
+    */
+    return 0.0;
 }
 
 Real CoagulationMonoPB::computeQpOffDiagJacobian(unsigned int jvar)

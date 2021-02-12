@@ -96,7 +96,7 @@ protected:
     
     /// Parameters for the base class are listed below
     
-    Real _alpha_VW;											///< Collision Efficiency for van der Waals forces (-)
+    const MaterialProperty<std::vector<std::vector<Real> > > & _alpha_Br;	///< MaterialProperty for the Brownian, Convective, and van der Waals efficiency (-) ==> size = num_var x num_var
     
     const MaterialProperty<std::vector<std::vector<Real> > > & _beta_VW;	///< MaterialProperty for the Brownian frequency (m^3/s) ==> size = num_var x num_var
 

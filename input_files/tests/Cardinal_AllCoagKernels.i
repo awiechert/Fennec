@@ -435,7 +435,7 @@
     [../]
 
     [./N0_MPB]
-        type = BrownianConvecMonoPB
+        type = CoagulationMonoPB
         variable = N0
         main_variable = N0
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -448,7 +448,7 @@
  	[../]
  
  	[./N1_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N1
         main_variable = N1
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -461,7 +461,7 @@
  	[../]
  
  	[./N2_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N2
  		main_variable = N2
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -474,7 +474,7 @@
  	[../]
  
  	[./N3_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N3
  		main_variable = N3
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -487,7 +487,7 @@
  	[../]
  
     [./N4_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N4
  		main_variable = N4
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -500,7 +500,7 @@
 	 [../]
  
  	[./N5_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N5
  		main_variable = N5
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -513,7 +513,7 @@
  	[../]
  
     [./N6_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N6
  		main_variable = N6
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -526,7 +526,7 @@
  	[../]
  
  	[./N7_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N7
  		main_variable = N7
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -539,7 +539,7 @@
  	[../]
  
  	[./N8_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N8
  		main_variable = N8
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -552,7 +552,7 @@
  	[../]
  
  	[./N9_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N9
  		main_variable = N9
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'

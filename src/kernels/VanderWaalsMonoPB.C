@@ -53,14 +53,13 @@ template<>
 InputParameters validParams<VanderWaalsMonoPB>()
 {
     InputParameters params = validParams<ConstMonoPB>();
-    params.addParam<Real>("alpha_VW",1.0,"Collision Efficiency for van der Waals forces (-)");
     return params;
 
 }
 
 VanderWaalsMonoPB::VanderWaalsMonoPB(const InputParameters & parameters)
 : ConstMonoPB(parameters),
-_alpha_VW(getParam<Real>("alpha_VW")),
+_alpha_Br(getMaterialProperty<std::vector<std::vector<Real> > >("alpha_Br")),
 _beta_VW(getMaterialProperty<std::vector<std::vector<Real> > >("beta_VW"))
 {
 
@@ -81,7 +80,7 @@ void VanderWaalsMonoPB::AlphaBetaFill()
         for (int m=0; m<_M; m++)
         {
             _beta[l][m] = _beta_VW[_qp][l][m];
-            _alpha[l][m] = _alpha_VW;
+            _alpha[l][m] = _alpha_Br[_qp][l][m];
         }
     }
 }

@@ -1,19 +1,19 @@
 /*!
- *  \file CoagulationMonoPB.h
- *	\brief Kernel for Mono-variate Population Balance Model with all coagulation coefficients
+ *  \file MultiFragLinearMonoPB.h
+ *	\brief Kernel for Multi-Fragment Breakage in a Mono-variate Population Balance Model
  *	\details This file creates a MOOSE kernel that will couple together multiple number
  *			concentrations of particles and calculate a population balance rate function
- *			assuming the collision efficiency and frequency are calculated from Brownian
- *			diffusion, Brownian convection enhancement, gravitational collection, turbulent
- *			inertial motion, and turbulent shear functions.
+ *			for particle breakup based on the muli-fragment linear binary breakage function.
+ *			This module	is based on the following works:
  *
- *			Y.H. Kim, S. Yiacoumi, A. Nenes, C. Tsouris, J. Aero. Sci., 114, 283-300, 2017.
+ *			S. Kumar, D. Ramkrisha, Chem. Eng. Sci., 51, 1311-1332, 1996a.
  *
- *			M.Z. Jacobson, Fundamentals of Atmospheric Modeling (2nd Ed.), Cambridge University
- *				Press, New York, 2005.
+ *			P.J. Hill, K.M. Ng, AIChE J., 41, 1204-1216, 1995.
+ *
+ *			Y.K. Ho, P. Doshi, H.K. Yeoh, G.C. Ngoh, Chem. Eng. Sci., 116, 601-610, 2014.
  *
  *  \author Alexander Wiechert
- *	\date 04/22/2020
+ *	\date 01/13/2021
  *	\copyright This kernel was designed and built at the Georgia Institute
  *             of Technology by Alexander Wiechert for research in the area
  *             of radioactive particle transport and settling following a
@@ -43,41 +43,36 @@
 
 #pragma once
 
-#include "BrownianConvecMonoPB.h"
+#include "Kernel.h"
 
-/// CoagulationMonoPB class object forward declarations
-class CoagulationMonoPB;
+/// MultiFragLinearMonoPB class object forward declarations
+class MultiFragLinearMonoPB;
 
 template<>
-InputParameters validParams<CoagulationMonoPB>();
+InputParameters validParams<MultiFragLinearMonoPB>();
 
-/// CoagulationMonoPB class object inherits from BrownianConvecMonoPB object
-/** This class object inherits from the BrownianConvecMonoPB object in the MOOSE framework.
-	All public and protected members of this class are required function overrides.
-	The kernel has a set of parameters (alpha and beta) that may be computed
-    by other future kernels.
+/// MultiFragLinearMonoPB class object inherits from Kernel object
+/** This class object inherits from the Kernel object in the MOOSE framework.
+ All public and protected members of this class are required function overrides.
+ The kernel has a set of parameters (alpha and beta) that may be computed
+ by other future kernels.
  */
-class CoagulationMonoPB : public BrownianConvecMonoPB
+
+class MultiFragLinearMonoPB : public Kernel
 {
 public:
     /// Required constructor for objects in MOOSE
-    CoagulationMonoPB(const InputParameters & parameters);
+    MultiFragLinearMonoPB(const InputParameters & parameters);
     
 protected:
     /// Function to compute outcome of Kronecker Delta Function
     Real KroneckerDelta(int i, int j);
     
-    /// Function to fill out all the alpha and beta parameters
-    void AlphaBetaFill();
-    
     /// Function to fill out all the volume size bins
     void VolumeFill();
     
-    /// Function to fill out all the fraction values
-    void FractionFill();
-    
-    /// Function to fill out all the gama values
-    void GamaFill();
+    /// Function to fill out all fragment numbers
+    void FragmentFill();
     
     /// Required residual function for standard kernels in MOOSE
     /** This function returns a residual contribution for this object.*/
@@ -95,16 +90,23 @@ protected:
      cross coupling of the variables. */
     virtual Real computeQpOffDiagJacobian(unsigned int jvar) override;
     
-    /// Parameters for the class are listed below
-
-    Real _alpha_TI;											///< Collision efficiency for turbulent inertial motion (-)
-    Real _alpha_TS;											///< Collision efficiency for turbulent shear (-)
-
-    const MaterialProperty<std::vector<std::vector<Real> > > & _beta_GC;	///< MaterialProperty for the gravitational collection frequency (m^3/s) ==> size = num_var x num_var
-    const MaterialProperty<std::vector<std::vector<Real> > > & _beta_TI;	///< MaterialProperty for the collision frequency from turbulent inertial motion (m^3/s) ==> size = num_var x num_var
-    const MaterialProperty<std::vector<std::vector<Real> > > & _beta_TS;	///< MaterialProperty for the Brownian convection frequency (m^3/s) ==> size = num_var x num_var
-    const MaterialProperty<std::vector<std::vector<Real> > > & _alpha_GC;	///< MaterialProperty for the gravitational collection efficiency (-) ==> size = num_var x num_var
-    const MaterialProperty<std::vector<std::vector<Real> > > & _beta_VW;	///< MaterialProperty for the Brownian frequency (m^3/s) ==> size = num_var x num_var
+    /// Parameters for the base class are listed below
+    
+    unsigned int _M;									///< Number of particle size bins
+    Real _b_coeff;										///< Constant breakup rate coefficient (1/s)
+    Real _f_num;										///< Number of fragments formed during breakup (-)
+    
+    std::vector< Real > _dia;							///< Set of size class diameters (m)
+    std::vector< Real > _vol;							///< Set of volume based size bins (m^3) [assumes spheres]
+    std::vector< std::vector< Real > > _frag;			///< Set of fragmentation number for breakup (-)
+    
+    std::vector<const VariableValue *> _coupled_u;		///< Pointer list to the coupled number concentrations (Gp/m^3)
+    std::vector<unsigned int> _coupled_u_var;			///< Indices for the number concentrations in the system
+    
+    const unsigned int _u_var;							///< Variable identification for the primary coupled variable
+    unsigned int _this_var;								///< Relative Index for this non-linear variable
+    
+    std::unordered_map<unsigned int, unsigned int> _those_var;	///< Relative indices for the list of non-linear variables
     
 private:
     

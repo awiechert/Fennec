@@ -6,7 +6,7 @@
  
  	# Diameters are in um here. Kernels usually want units in m.
     diameters = '0.00178 0.00562 0.0178 0.0562 0.178 0.562 1.78 5.62 17.8 56.2'
-    alpha_correction = true
+    #alpha_correction = true
 
 [] #END GlobalParams
 

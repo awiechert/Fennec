@@ -6,7 +6,8 @@
  
  	# Diameters are in um here. Kernels usually want units in m.
     diameters = '0.00178 0.00562 0.0178 0.0562 0.178 0.562 1.78 5.62 17.8 56.2'
-    alpha_correction = true
+ 	breakup_coefficient = 0.1
+ 	fragment_number = 3.0
 
 [] #END GlobalParams
 
@@ -18,9 +19,9 @@
 
     type = GeneratedMesh
     dim = 3
- 	nx = 1
-	ny = 1
-	nz = 1
+ 	nx = 40
+	ny = 40
+	nz = 5
  	xmin = -4000.0
  	xmax = 4000.0
  	ymin = -4000.0
@@ -435,11 +436,18 @@
     [../]
 
     [./N0_MPB]
-        type = BrownianConvecMonoPB
+        type = CoagulationMonoPB
         variable = N0
         main_variable = N0
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
     [../]
+ 
+ 	[./N0_B]
+ 		type = MultiFragLinearMonoPB
+ 		variable = N0
+ 		main_variable = N0
+ 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[../]
  
  	[./N1_dot]
  		type = CoefTimeDerivative
@@ -448,9 +456,16 @@
  	[../]
  
  	[./N1_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N1
         main_variable = N1
+ 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[../]
+ 
+ 	[./N1_B]
+ 		type = MultiFragLinearMonoPB
+ 		variable = N1
+ 		main_variable = N1
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
  
@@ -461,11 +476,18 @@
  	[../]
  
  	[./N2_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N2
  		main_variable = N2
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
     [../]
+ 
+ 	[./N2_B]
+ 		type = MultiFragLinearMonoPB
+ 		variable = N2
+ 		main_variable = N2
+ 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[../]
  
  	[./N3_dot]
  		type = CoefTimeDerivative
@@ -474,7 +496,14 @@
  	[../]
  
  	[./N3_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
+ 		variable = N3
+ 		main_variable = N3
+ 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[../]
+ 
+ 	[./N3_B]
+ 		type = MultiFragLinearMonoPB
  		variable = N3
  		main_variable = N3
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
@@ -487,8 +516,15 @@
  	[../]
  
     [./N4_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N4
+ 		main_variable = N4
+ 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[../]
+ 
+ 	[./N4_B]
+		type = MultiFragLinearMonoPB
+		variable = N4
  		main_variable = N4
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
@@ -500,8 +536,15 @@
 	 [../]
  
  	[./N5_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N5
+ 		main_variable = N5
+ 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[../]
+ 
+  	[./N5_B]
+		type = MultiFragLinearMonoPB
+		variable = N5
  		main_variable = N5
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
@@ -513,11 +556,18 @@
  	[../]
  
     [./N6_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N6
  		main_variable = N6
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
+ 
+    [./N6_B]
+		type = MultiFragLinearMonoPB
+		variable = N6
+ 		main_variable = N6
+ 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+	[../]
  
  	[./N7_dot]
  		type = CoefTimeDerivative
@@ -526,8 +576,15 @@
  	[../]
  
  	[./N7_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N7
+ 		main_variable = N7
+ 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[../]
+ 
+    [./N7_B]
+		type = MultiFragLinearMonoPB
+		variable = N7
  		main_variable = N7
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
@@ -539,8 +596,15 @@
  	[../]
  
  	[./N8_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N8
+ 		main_variable = N8
+ 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[../]
+ 
+    [./N8_B]
+		type = MultiFragLinearMonoPB
+		variable = N8
  		main_variable = N8
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
@@ -552,8 +616,15 @@
  	[../]
  
  	[./N9_MPB]
- 		type = BrownianConvecMonoPB
+ 		type = CoagulationMonoPB
  		variable = N9
+ 		main_variable = N9
+ 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+ 	[../]
+ 
+    [./N9_B]
+		type = MultiFragLinearMonoPB
+		variable = N9
  		main_variable = N9
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
@@ -813,7 +884,7 @@
     nl_rel_step_tol = 1e-10
     nl_abs_step_tol = 1e-10
     l_tol = 1e-10
-    l_max_its = 200
+    l_max_its = 50
     nl_max_its = 20
 
     solve_type = pjfnk
@@ -827,7 +898,7 @@
     [./TimeStepper]
 		type = SolutionTimeAdaptiveDT
 #		type = ConstantDT
-        dt = 0.5
+        dt = 0.1
     [../]
 
 [] #END Executioner
