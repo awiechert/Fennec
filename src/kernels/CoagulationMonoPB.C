@@ -127,54 +127,56 @@ Real CoagulationMonoPB::computeQpJacobian()
 	/*
     this->AlphaBetaFill();
     
-    Real rate = 0.0;
-    Real source = 0.0;
-    Real sink = 0.0;
     int k = _this_var;
+    Real m_sum = 0.0;
+    Real l_sum_source = 0.0;
+    Real l_sum_sink = 0.0;
+    
+    for (int m=0; m<=k; m++)
+    {
+        m_sum += (1.0+this->KroneckerDelta(k,m))*(1.0-0.5*this->KroneckerDelta(k,m))*_frac[k][k][m]*_alpha[k][m]*_beta[k][m]*(*_coupled_u[m])[_qp];
+    }
     
     for (int l=0; l<_M; l++)
     {
         if (l!=k)
         {
-            sink = sink + _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
+        	l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,k))*_frac[k][l][k]*_alpha[l][k]*_beta[l][k];
+            l_sum_sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
         }
-        else
-        {
-            sink = sink + 2.0*_gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
-        }
-        
-        Real m_sum = 0.0;
-        
-        for (int m=0; m<=l; m++)
-        {
-            if (l!=k && m!=k)
-            {
-                m_sum = m_sum;
-            }
-            else if (l==k && m!=k)
-            {
-                m_sum = m_sum + (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*(*_coupled_u[m])[_qp];
-            }
-            else if (l!=k && m==k)
-            {
-                m_sum = m_sum + (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*(*_coupled_u[l])[_qp];
-            }
-            else
-            {
-                m_sum = m_sum + 2.0*(1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*(*_coupled_u[l])[_qp];
-            }
-        }
-        
-        source = source + m_sum;
     }
     
-    rate = (source-sink)*_phi[_j][_qp]*_test[_i][_qp];
-    return -rate;
+    return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*l_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[k][k]*_alpha[k][k]*_beta[k][k]*_u[_qp]);
+    
     */
     return 0.0;
 }
 
 Real CoagulationMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
+	/*
+    this->AlphaBetaFill();
+    
+    int h = _those_var[jvar];
+    int k = _this_var;
+    Real m_sum = 0.0;
+    Real l_sum_source = 0.0;
+    
+    for (int m=0; m<=h; m++)
+    {
+        m_sum += (1.0+this->KroneckerDelta(h,m))*(1.0-0.5*this->KroneckerDelta(h,m))*_frac[k][h][m]*_alpha[h][m]*_beta[h][m]*(*_coupled_u[m])[_qp];
+    }
+    
+    for (int l=0; l<_M; l++)
+    {
+        if (l!=h)
+        {
+            l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,h))*_frac[k][l][h]*_alpha[l][h]*_beta[l][h];
+        }
+    }
+    
+    return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[k][h]*_alpha[k][h]*_beta[k][h]*_u[_qp]);
+    
+    */
     return 0.0;
 }

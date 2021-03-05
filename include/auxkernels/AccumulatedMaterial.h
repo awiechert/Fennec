@@ -72,6 +72,8 @@ protected:
     std::vector<const VariableValue *> _vx;			///< Pointer list for the x-direction velocities
     std::vector<const VariableValue *> _vy;			///< Pointer list for the y-direction velocities
     std::vector<const VariableValue *> _vz;			///< Pointer list for the z-direction velocities
+    
+    const VariableValue & _u_old;
 	
 private:
 	

@@ -202,8 +202,8 @@ Real MultiFragLinearMonoPB::computeQpResidual()
         source = source + _frag[k][l]*_b_coeff*(*_coupled_u[l])[_qp];
     }
     
-    rate = source - (1.0-this->KroneckerDelta(k,0))*_b_coeff*_u[_qp];
-    return -rate*_test[_i][_qp];
+    rate = source*_test[_i][_qp] - (1.0-this->KroneckerDelta(k,0))*_b_coeff*_u[_qp]*_test[_i][_qp];
+    return -rate;
 }
 
 Real MultiFragLinearMonoPB::computeQpJacobian()

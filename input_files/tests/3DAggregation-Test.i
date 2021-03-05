@@ -1,13 +1,6 @@
 [GlobalParams]
 
- 	vx = 0.0
-	vy = 0.0
- 	vz = 0.0
- 
- 	# Diameters are in um here. Kernels usually want units in m.
-    diameters = '1.78e-3 5.62e-3 1.78e-2 5.62e-2 0.178 0.562 1.78 5.62 17.8 56.2'
- 	breakup_coefficient = 10.0
- 	fragment_number = 3.0
+ 	diameters = '1.78e-9 5.62e-9 1.78e-8 5.62e-8 1.78e-7 5.62e-7 1.78e-6 5.62e-6 1.78e-5 5.62e-5'
 
 [] #END GlobalParams
 
@@ -19,9 +12,9 @@
 
     type = GeneratedMesh
     dim = 3
-	nx = 2
-	ny = 2
-	nz = 3
+	nx = 100
+	ny = 100
+	nz = 120
     xmin = 0.0
     xmax = 10000.0
     ymin = 0.0
@@ -32,8 +25,7 @@
 [] # END Mesh
 
 [Variables]
-# Units: GGp/m^3 (Billion-Billion particles per cubic meter)
-# NOTE: Must be cautious of the units you use for the variables. Bad unit basis can make convergence difficult.
+
     [./N0]
         order = FIRST
         family = MONOMIAL
@@ -88,247 +80,10 @@
 [] #END Variables
 
 [AuxVariables]
-
- 	[./CoTest]  #Variable is exclusively for testing purposes
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
  
 	[./V_total]
-		order = FIRST
-		family = MONOMIAL
-	[../]
- 
- 	[./N_total]
  		order = FIRST
  		family = MONOMIAL
-	[../]
- 
-	[./N_avg]
- 		order = FIRST
- 		family = MONOMIAL
-	[../]
- 
- 	[./air_dens]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 1.225 #kg/m^3
-	[../]
- 
- 	[./air_ions]
- 		order = FIRST
- 		family = MONOMIAL
-	[../]
- 
- 	[./air_visc]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 1.802e-5 #kg/m/s
-	[../]
- 
- 	[./air_temp]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 298 #K
-	[../]
- 
- 	[./wx]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./wy]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./wz]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
- 	[./vp0x]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp0y]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp0z]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = -0.00045
-	[../]
- 
-    [./vp1x]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp1y]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp1z]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = -0.0025
-	[../]
- 
- 	[./vp2x]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp2y]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp2z]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = -0.0045
-	[../]
- 
- 	[./vp3x]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp3y]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp3z]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = -0.025
-	[../]
- 
- 	[./vp4x]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp4y]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp4z]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = -0.014
-	[../]
- 
- 	[./vp5x]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp5y]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp5z]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = -0.025
-	[../]
- 
- 	[./vp6x]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp6y]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp6z]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = -0.045
-	[../]
- 
- 	[./vp7x]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp7y]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp7z]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = -0.25
-	[../]
- 
- 	[./vp8x]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp8y]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp8z]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = -0.14
-	[../]
- 
- 	[./vp9x]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp9y]
- 		order = FIRST
- 		family = MONOMIAL
- 		initial_condition = 0.0
-	[../]
- 
-	[./vp9z]
-        order = FIRST
- 		family = MONOMIAL
- 		initial_condition = -2.5
 	[../]
 
 [] #END AuxVariables
@@ -435,19 +190,12 @@
         Coefficient = 1.0
     [../]
 
-    [./N0_MPB]
-        type = BrownianMonoPB
+    [./N0_MPB_Agg]
+        type = ConstMonoPB
         variable = N0
         main_variable = N0
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
     [../]
- 
-# 	[./N0_B]
-# 		type = MultiFragLinearMonoPB
-# 		variable = N0
-# 		main_variable = N0
-# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-# 	[../]
  
  	[./N1_dot]
  		type = CoefTimeDerivative
@@ -455,19 +203,12 @@
  		Coefficient = 1.0
  	[../]
  
- 	[./N1_MPB]
- 		type = BrownianMonoPB
+ 	[./N1_MPB_Agg]
+ 		type = ConstMonoPB
  		variable = N1
         main_variable = N1
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
- 
-# 	[./N1_B]
-# 		type = MultiFragLinearMonoPB
-# 		variable = N1
-# 		main_variable = N1
-# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-# 	[../]
  
  	[./N2_dot]
  		type = CoefTimeDerivative
@@ -475,19 +216,12 @@
  		Coefficient = 1.0
  	[../]
  
- 	[./N2_MPB]
- 		type = BrownianMonoPB
+ 	[./N2_MPB_Agg]
+ 		type = ConstMonoPB
  		variable = N2
  		main_variable = N2
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
     [../]
- 
-# 	[./N2_B]
-# 		type = MultiFragLinearMonoPB
-# 		variable = N2
-# 		main_variable = N2
-# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-# 	[../]
  
  	[./N3_dot]
  		type = CoefTimeDerivative
@@ -495,19 +229,12 @@
  		Coefficient = 1.0
  	[../]
  
- 	[./N3_MPB]
- 		type = BrownianMonoPB
+ 	[./N3_MPB_Agg]
+ 		type = ConstMonoPB
  		variable = N3
  		main_variable = N3
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
- 
-# 	[./N3_B]
-# 		type = MultiFragLinearMonoPB
-# 		variable = N3
-# 		main_variable = N3
-# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-# 	[../]
  
  	[./N4_dot]
  		type = CoefTimeDerivative
@@ -515,19 +242,12 @@
  		Coefficient = 1.0
  	[../]
  
-    [./N4_MPB]
- 		type = BrownianMonoPB
+    [./N4_MPB_Agg]
+ 		type = ConstMonoPB
  		variable = N4
  		main_variable = N4
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
- 
-# 	[./N4_B]
-#		type = MultiFragLinearMonoPB
-#		variable = N4
-# 		main_variable = N4
-# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-# 	[../]
  
  	[./N5_dot]
  		type = CoefTimeDerivative
@@ -535,19 +255,12 @@
  		Coefficient = 1.0
 	 [../]
  
- 	[./N5_MPB]
- 		type = BrownianMonoPB
+ 	[./N5_MPB_Agg]
+ 		type = ConstMonoPB
  		variable = N5
  		main_variable = N5
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
- 
-#  	[./N5_B]
-#		type = MultiFragLinearMonoPB
-#		variable = N5
-# 		main_variable = N5
-# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-# 	[../]
  
  	[./N6_dot]
  		type = CoefTimeDerivative
@@ -555,19 +268,12 @@
  		Coefficient = 1.0
  	[../]
  
-    [./N6_MPB]
- 		type = BrownianMonoPB
+    [./N6_MPB_Agg]
+ 		type = ConstMonoPB
  		variable = N6
  		main_variable = N6
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
- 
-#    [./N6_B]
-#		type = MultiFragLinearMonoPB
-#		variable = N6
-# 		main_variable = N6
-# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-#	[../]
  
  	[./N7_dot]
  		type = CoefTimeDerivative
@@ -575,19 +281,12 @@
  		Coefficient = 1.0
  	[../]
  
- 	[./N7_MPB]
- 		type = BrownianMonoPB
+ 	[./N7_MPB_Agg]
+ 		type = ConstMonoPB
  		variable = N7
  		main_variable = N7
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
- 
-#    [./N7_B]
-#		type = MultiFragLinearMonoPB
-#		variable = N7
-# 		main_variable = N7
-# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-# 	[../]
  
  	[./N8_dot]
  		type = CoefTimeDerivative
@@ -595,19 +294,12 @@
  		Coefficient = 1.0
  	[../]
  
- 	[./N8_MPB]
- 		type = BrownianMonoPB
+ 	[./N8_MPB_Agg]
+ 		type = ConstMonoPB
  		variable = N8
  		main_variable = N8
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
- 
-#    [./N8_B]
-#		type = MultiFragLinearMonoPB
-#		variable = N8
-# 		main_variable = N8
-# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-# 	[../]
  
  	[./N9_dot]
  		type = CoefTimeDerivative
@@ -615,19 +307,12 @@
  		Coefficient = 1.0
  	[../]
  
- 	[./N9_MPB]
- 		type = BrownianMonoPB
+ 	[./N9_MPB_Agg]
+ 		type = ConstMonoPB
  		variable = N9
  		main_variable = N9
  		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
  	[../]
- 
-#    [./N9_B]
-#		type = MultiFragLinearMonoPB
-#		variable = N9
-# 		main_variable = N9
-# 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-# 	[../]
 
 [] #END Kernels
 
@@ -637,47 +322,12 @@
 
 [AuxKernels]
 
-	[./testing]
- 		type = CollisionTesting
-        variable = CoTest
-        conc = N0
-        conc_other = N9
-        execute_on = 'initial timestep_end'
-    [../]
-
 	[./Total_Volume]
 		type = VolumeBalanceCheck
 		variable = V_total
 		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
         execute_on = 'initial timestep_end'
 	[../]
- 
- 	[./N_accumulated]
- 		type = AccumulatedMaterial
- 		variable = N_total
- 		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 		vxs = 'vp0x vp1x vp2x vp3x vp4x vp5x vp6x vp7x vp8x vp9x'
- 		vys = 'vp0y vp1y vp2y vp3y vp4y vp5y vp6y vp7y vp8y vp9y'
- 		vzs = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z'
- 		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./N_average]
- 		type = AverageMaterial
- 		variable = N_avg
-		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
- 		execute_on = 'initial timestep_begin timestep_end'
-	[../]
- 
-    [./ionization]
- 		type = TotalAirIonization
-        variable = air_ions
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        air_density = air_dens
-        cardinal_object = cardinal
-        background_ionization = 0.0
-        execute_on = 'initial timestep_end'
-    [../]
 
 [] #END AuxKernels
 
@@ -757,26 +407,9 @@
 
 [Materials]
 
-	[./CollisionParams]
- 		type = CollisionParameters
-        block = 0
-        cardinal_object = cardinal
-        coupled_conc = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        air_density = air_dens
-        air_viscosity = air_visc
-        temperature = air_temp
-        ionization = air_ions
-        windx = wx
-        windy = wy
-        windz = wz
-        coupled_vx = 'vp0x vp1x vp2x vp3x vp4x vp5x vp6x vp7x vp8x vp9x'
-        coupled_vy = 'vp0y vp1y vp2y vp3y vp4y vp5y vp6y vp7y vp8y vp9y'
-        coupled_vz = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z'
-    [../]
 
 [] #END Materials
 
- 
 [UserObjects]
  
 	[./cardinal]
@@ -785,20 +418,19 @@
  		input_file = 'input_files/cardinal/1979-Test-Case.txt'
  		atm_file = 'input_files/cardinal/DefaultAtmosphere.txt'
  		data_path = 'database/'
-        mono_variate_population = true
+ 		mono_variate_population = true
  	[../]
  
- [] #END UserObjects
+[] #END UserObjects
 
 [Postprocessors]
 
-	[./CollisionRate]
- 		type = ElementAverageValue
- 		variable = CoTest
-        execute_on = 'initial timestep_end'
-	[../]
-
-#May consider custom versions of these postprocessors to correct for negative mass ocsillations...
+    [./Total_Volume]
+        type = ElementAverageValue
+        variable = V_total
+        execute_on = 'initial timestep_begin timestep_end'
+    [../]
+ 
 	[./N0]
 		type = ElementAverageValue
 		variable = N0
@@ -858,18 +490,6 @@
  		variable = N9
  		execute_on = 'initial timestep_end'
 	[../]
- 
-	[./V_total]
-		type = ElementAverageValue
-		variable = V_total
-		execute_on = 'initial timestep_end'
-	[../]
- 
- 	[./total_ionization]
- 		type = ElementAverageValue
- 		variable = air_ions
- 		execute_on = 'initial timestep_end'
-	[../]
 
 [] #END Postprocessors
 
@@ -885,7 +505,7 @@
     nl_abs_step_tol = 1e-10
     l_tol = 1e-10
     l_max_its = 100
-    nl_max_its = 30
+    nl_max_its = 60
 
     solve_type = pjfnk
     line_search = bt    # Options: default shell none basic l2 bt cp
@@ -896,8 +516,8 @@
     petsc_options_value = 'hypre boomeramg 100'
 
     [./TimeStepper]
-#		type = SolutionTimeAdaptiveDT
-		type = ConstantDT
+		type = SolutionTimeAdaptiveDT
+#		type = ConstantDT
         dt = 0.1
     [../]
 

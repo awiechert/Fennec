@@ -58,7 +58,7 @@ InputParameters validParams<AccumulatedMaterial>()
 }
 
 AccumulatedMaterial::AccumulatedMaterial(const InputParameters & parameters) :
-AuxKernel(parameters)
+AuxKernel(parameters),_u_old(uOld())
 {
 	unsigned int n = coupledComponents("coupled_vars");
     unsigned int nx = coupledComponents("vxs");

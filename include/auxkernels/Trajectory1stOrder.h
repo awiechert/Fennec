@@ -74,6 +74,7 @@ protected:
     const VariableValue & _vz;			///< Particle velocity in the z-direction (m/s)
 	const VariableValue & _air_dens;	///< Variable for the density of air (kg/m^3)  == Typical Value: 1.225 kg/m^3
 	const VariableValue & _air_visc;	///< Variable for the viscosity of air (kg/m/s)== Typical Value: 1.802e-5 kg/m/s
+    const VariableValue & _u_old;
 	
 	Real _part_dia;						///< Parameter for particle diameter (m)
 	Real _part_dens;					///< Parameter for particle density (kg/m^3)
