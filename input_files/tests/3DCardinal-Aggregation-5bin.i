@@ -1,6 +1,6 @@
 [GlobalParams]
 
- 	diameters = '1.0e-9 1.0e-8 1.0e-7 1.0e-6 1.0e-5'
+ 	diameters = '7.5e-6 1.0e-5 2.5e-5 5.0e-5 7.5e-5'
 
 [] #END GlobalParams
 
@@ -46,11 +46,11 @@
  		family = MONOMIAL
  	[../]
  
-	 [./N4]
+    [./N4]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+    
 [] #END Variables
 
 [AuxVariables]
@@ -68,7 +68,7 @@
     [./wx]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 20.0
+		initial_condition = 4.0
 	[../]
  
 	[./wy]
@@ -86,7 +86,7 @@
 	[./vp0x]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 10.0
+		initial_condition = 4.0
 	[../]
  
 	[./vp0y]
@@ -104,7 +104,7 @@
 	[./vp1x]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 10.0
+		initial_condition = 4.0
 	[../]
  
 	[./vp1y]
@@ -122,7 +122,7 @@
 	[./vp2x]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 10.0
+		initial_condition = 4.0
 	[../]
  
 	[./vp2y]
@@ -140,7 +140,7 @@
  	[./vp3x]
  		order = CONSTANT
  		family = MONOMIAL
- 		initial_condition = 10.0
+ 		initial_condition = 4.0
 	[../]
  
 	[./vp3y]
@@ -158,7 +158,7 @@
  	[./vp4x]
  		order = CONSTANT
  		family = MONOMIAL
- 		initial_condition = 10.0
+ 		initial_condition = 4.0
 	[../]
  
 	[./vp4y]
@@ -447,7 +447,7 @@
         type = DGAnisotropicDiffusion
         variable = N4
     [../]
-
+ 
 [] #END DGKernels
 
 [AuxKernels]
@@ -491,7 +491,7 @@
 		varz = vp0z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-9
+		particle_diameter = 7.5e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -508,7 +508,7 @@
 		varz = vp0z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-9
+		particle_diameter = 7.5e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -525,7 +525,7 @@
 		varz = vp0z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-9
+		particle_diameter = 7.5e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -542,7 +542,7 @@
 		varz = vp1z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-8
+		particle_diameter = 1.0e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -559,7 +559,7 @@
 		varz = vp1z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-8
+		particle_diameter = 1.0e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -576,7 +576,7 @@
 		varz = vp1z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-8
+		particle_diameter = 1.0e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -593,7 +593,7 @@
 		varz = vp2z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-7
+		particle_diameter = 2.5e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -610,7 +610,7 @@
 		varz = vp2z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-7
+		particle_diameter = 2.5e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -627,7 +627,7 @@
 		varz = vp2z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-7
+		particle_diameter = 2.5e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -644,7 +644,7 @@
 		varz = vp3z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-6
+		particle_diameter = 5.0e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -661,7 +661,7 @@
 		varz = vp3z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-6
+		particle_diameter = 5.0e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -678,7 +678,7 @@
 		varz = vp3z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-6
+		particle_diameter = 5.0e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -695,7 +695,7 @@
 		varz = vp4z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-5
+		particle_diameter = 7.5e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -712,7 +712,7 @@
 		varz = vp4z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-5
+		particle_diameter = 7.5e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -729,11 +729,11 @@
 		varz = vp4z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.0e-5
+		particle_diameter = 7.5e-5
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
-
+ 
 [] #END AuxKernels
 
 [BCs]
@@ -816,7 +816,7 @@
 	[./cardinal]
  		type = CARDINAL_Object
  		execute_on = 'initial timestep_end'
- 		input_file = 'input_files/cardinal/5-Bin-LowYield.txt'
+ 		input_file = 'input_files/cardinal/5-Bin-LowYield-HE.txt'
  		atm_file = 'input_files/cardinal/DefaultAtmosphere.txt'
  		data_path = 'database/'
         mono_variate_population = true
@@ -874,55 +874,57 @@
  		variable = N4
  		execute_on = 'initial timestep_end'
 	[../]
+
  
 [] #END Postprocessors
 
+[Preconditioning]
+ 
+	[./smp]
+ 		type = SMP
+ 		full = true
+ 		solve_type = pjfnk
+	[../]
+ 
+[] #END Preconditioning
+ 
 [Executioner]
 
     type = Transient
 	scheme = implicit-euler    #use: 'implicit-euler' or 'bdf2'
     automatic_scaling = false
+ 
+ 	petsc_options = '-snes_converged_reason'
+ 	petsc_options_iname = '-ksp_type -pc_type -sub_pc_type -snes_max_it -sub_pc_factor_shift_type -pc_asm_overlap -snes_atol -snes_rtol'
+    petsc_options_value = 'gmres lu ilu 100 NONZERO 2 1E-14 1E-12'
 
-    # NOTE: The default tolerances are far to strict and cause the program to crawl
-    nl_rel_tol = 1e-18
+	line_search = bt    # Options: default shell none basic l2 bt cp
+    nl_rel_tol = 1e-6
     nl_abs_tol = 1e-6
-    nl_rel_step_tol = 1e-16
+    nl_rel_step_tol = 1e-6
     nl_abs_step_tol = 1e-6
-    l_tol = 1e-10
+    l_tol = 1e-4
     l_max_its = 100
-    nl_max_its = 80
-
-    solve_type = NEWTON
-    line_search = bt    # Options: default shell none basic l2 bt cp
+    nl_max_its = 50
+ 
     start_time = 0.0
-	end_time = 10.0
-    dtmax = 1.0
-    petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
-    petsc_options_value = 'hypre boomeramg 100'
+	end_time = 360.0
+    dtmax = 20.0
 
-    [./TimeStepper]
-#		type = SolutionTimeAdaptiveDT
-		type = ConstantDT
-        dt = 0.025
-    [../]
-
-[] #END Executioner
-
-[Preconditioning]
- 
-	[./smp]
-		type = SMP
-		full = true
-		petsc_options = '-snes_converged_reason'
-		petsc_options_iname ='-pc_type -sub_pc_type -pc_hypre_type -pc_hypre_boomeramg_strong_threshold -ksp_gmres_restart -snes_max_funcs'
-		petsc_options_value = 'hypre bjacobi boomeramg 0.7 2000 20000'
+	[./Adaptivity]
+ 		interval = 2
+ 		refine_fraction = 0.2
+ 		coarsen_fraction = 0.5
+ 		max_h_level = 4
 	[../]
-
-[] #END Preconditioning
  
-[Adaptivity]
-
-[] #END Adaptivity
+    [./TimeStepper]
+		type = SolutionTimeAdaptiveDT
+#		type = ConstantDT
+        dt = 0.5
+    [../]
+ 
+[] #END Executioner
 
 [Outputs]
 

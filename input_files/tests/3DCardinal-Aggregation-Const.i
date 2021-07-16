@@ -1,7 +1,9 @@
 [GlobalParams]
 
  	diameters = '1.0e-9 1.0e-8 1.0e-7 1.0e-6 1.0e-5'
+ 	frequency = 24000.0
 
+ 
 [] #END GlobalParams
 
 [Problem]
@@ -269,7 +271,7 @@
     [../]
 
     [./N0_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N0
         main_variable = N0
         coupled_list = 'N0 N1 N2 N3 N4'
@@ -295,7 +297,7 @@
     [../]
  
  	[./N1_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N1
         main_variable = N1
         coupled_list = 'N0 N1 N2 N3 N4'
@@ -321,7 +323,7 @@
     [../]
  
  	[./N2_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N2
         main_variable = N2
         coupled_list = 'N0 N1 N2 N3 N4'
@@ -347,7 +349,7 @@
     [../]
  
  	[./N3_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N3
         main_variable = N3
         coupled_list = 'N0 N1 N2 N3 N4'
@@ -373,7 +375,7 @@
     [../]
  
  	[./N4_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N4
         main_variable = N4
         coupled_list = 'N0 N1 N2 N3 N4'
@@ -792,23 +794,6 @@
 
 [Materials]
 
-	[./CollisionParams]
- 		type = CollisionParameters
-        block = 0
-        cardinal_object = cardinal
-        coupled_conc = 'N0 N1 N2 N3 N4'
-        air_density = air_dens
-        air_viscosity = air_visc
-        temperature = air_temp
-        ionization = air_ions
-        windx = wx
-        windy = wy
-        windz = wz
-        coupled_vx = 'vp0x vp1x vp2x vp3x vp4x'
-        coupled_vy = 'vp0y vp1y vp2y vp3y vp4y'
-        coupled_vz = 'vp0z vp1z vp2z vp3z vp4z'
-    [../]
-
 [] #END Materials
 
 [UserObjects]
@@ -890,7 +875,7 @@
     nl_abs_step_tol = 1e-6
     l_tol = 1e-10
     l_max_its = 100
-    nl_max_its = 80
+    nl_max_its = 500
 
     solve_type = NEWTON
     line_search = bt    # Options: default shell none basic l2 bt cp
