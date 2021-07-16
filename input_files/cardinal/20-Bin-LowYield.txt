@@ -1,0 +1,155 @@
+Simulation_Conditions:
+---
+bomb_yield: 5          #50 kT
+burst_height: 10       #0 m above ground
+ground_level: 0        #500 m above mean sea level
+particle_bins: 20      #number of particle size distributions
+tight_coupling: true   #use tight or loose coupling for variables
+shear_correction: true #use a correction for shear velocity (requires wind profile)
+console_output: true   #print output to console
+
+#Particle size distribution parameters for log-normal distribution (optional)
+- part_dist:
+  useCustom: false    # True if you want to use values below, otherwise system uses defaults
+  min_dia: 0.1        # in um
+  max_dia: 77.0       # in um
+  mean_dia: 1.0       # in um
+  std_dia: 4.0        # in um
+
+#Soil components are by mineral formula and values are molefractions (optional)
+#Valid Components: Al2O3, B2O3, CaO, Na2O, SiO2, Fe2O3, Li2O, NiO, ZrO2, Cr2O3, ZnO, MnO, K2O, and Other
+- soil_comp:
+  CaO: 0.20
+  SiO2: 0.70
+  Other: 0.05
+#NOTE: Do not need to list all components if they are not part of soil
+
+...
+
+#Weapon Information used in conjunction with Fission Yields and Activity Distributions
+Weapon_Info:
+---
+total_mass: 10       #kg (of fissionable isotopes)
+fission_extent: 3    #% of fissionalble isotopes that undergo fission
+fission_yield: 5     #kT weapon yield that is caused by fission (must be number smaller than or equal to bomb_yield)
+yield_cutoff: 99     #% of conversion for fast decaying isotopes (higher % simplifies isotope calculations)
+casing_thickness: 10 #cm of casing material covering the weapon isotopes
+fractionation_model: modified-freiling-tompkins  #options: freiling, freiling-tompkins, modified-freiling, modified-freiling-tompkins 
+
+#Percentages of weapon isotopes that will undergo fission
+- fissionable_isotopes:
+  U-235: 90
+  U-238: 10 
+
+#Molefractions for material components in casing
+#Can be any chemical formulas you want
+#Fe10C is an approximate formula for steel
+- casing_components:
+  Fe10C: 0.9
+  PbBi: 0.1
+
+...
+
+ODE_Options:
+---
+file_output: true           #print results to a file
+console_output: false       #print messages to the console window after each step
+integration_method: bdf2    #choices: be, bdf2, fe, cn, rk4, rkf
+time_stepper: adaptive      #choices: constant, adaptive, fehlberg, ratebased
+preconditioner: sgs         #choices: jacobi, ugs, lgs, sgs
+tolerance: 0.001            #explicit solver tolerance
+dtmin: 1e-8                 #minimum allowable time step
+dtmax: 0.1                  #maximum allowable time step
+converged_dtmin: 0.001      #minimum allowbable time step after convergence 
+time_out: 1.0               #number of seconds between each print-to-file action
+end_time: 1000.0            #number of seconds until simulation forced to end
+
+...
+
+Solver_Options:
+---
+linear_method: qr      #choices: gmreslp, pcg, bicgstab, cgs, fom, gmresrp, gcr, gmresr, kms, gmres, qr
+line_search: bt        #choices: none, bt, abt
+linear: false          #treat system as linear (default = false)
+precondition: false    #use a preconditioner (default = false)
+nl_out: false          #print non-linear residuals to console
+lin_out: false         #print linear residuals to console 
+max_nl_iter: 50        #maximum allowable non-linear iterations
+max_lin_iter: 200      #maximum allowable linear iterations
+restart_limit: 20      #number of allowable vector spans before restart
+recursion_limit: 2     #number of allowable recurives calls for preconditioning 
+nl_abs_tol: 1e-6       #Absolute tolerance for non-linear iterations
+nl_rel_tol: 1e-6       #Relative tolerance for non-linear iterations
+lin_abs_tol: 1e-6      #Absolute tolerance for linear iterations
+lin_rel_tol: 1e-4      #Relative tolerance for linear iterations
+
+...
+
+Wind_Profile:
+---
+#user provides lists of velocity components at various altitude values
+#name of each list is the altitude in m
+#under each list is vx and vy in m/s at corresponding altitude 
+#NOTE: This entire document for wind is optional (a default can be used)
+
+- 216:
+  vx: -5.14
+  vy: 6.13
+
+- 1548:
+  vx: -5.494
+  vy: 11.78
+
+- 3097:
+  vx: 0.8582
+  vy: 4.924
+
+- 5688:
+  vx: 5.13
+  vy: 14.095
+
+- 7327:
+  vx: 10.898
+  vy: 15.56
+
+- 9309:
+  vx: 10.28
+  vy: 12.25
+
+- 10488:
+  vx: 6.309
+  vy: 9.0156
+
+- 11887:
+  vx: 8.356
+  vy: 9.9585
+
+- 13698:
+  vx: 9.8298
+  vy: 6.883
+
+- 16267:
+  vx: 8.457
+  vy: 3.078
+
+- 18526:
+  vx: 5.9733
+  vy: -0.61
+
+- 20665:
+  vx: 6.973
+  vy: -0.618
+
+- 23902:
+  vx: 10.83
+  vy: -1.91
+
+- 26493:
+  vx: 11.0
+  vy: 1.974
+
+- 31023:
+  vx: 24.804
+  vy: -2.1788
+
+...
