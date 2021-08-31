@@ -5621,7 +5621,7 @@
 [] #END Postprocessors
 
 [Preconditioning]
- 
+
 	[./smp]
  		type = SMP
  		full = true
@@ -5638,35 +5638,32 @@
  
  	petsc_options = '-snes_converged_reason'
  	petsc_options_iname = '-ksp_type -pc_type -sub_pc_type -snes_max_it -sub_pc_factor_shift_type -pc_asm_overlap -snes_atol -snes_rtol'
-    petsc_options_value = 'gmres lu ilu 100 NONZERO 2 1E-14 1E-12'
+    petsc_options_value = 'gmres asm ilu 100 NONZERO 2 1E-14 1E-12'
 
 	line_search = bt    # Options: default shell none basic l2 bt cp
     nl_rel_tol = 1e-10
-    nl_abs_tol = 1e-8
+    nl_abs_tol = 1e-6
     nl_rel_step_tol = 1e-10
-    nl_abs_step_tol = 1e-8
-    l_tol = 1e-8
-    l_max_its = 150
+    nl_abs_step_tol = 1e-10
+    l_tol = 1e-4
+    l_max_its = 100
     nl_max_its = 50
  
     start_time = 0.0
-	end_time = 1800.0
-    dtmax = 30.0
+	end_time = 120000.0
+    dtmax = 200.0
 
-#	[./Adaptivity]
-# 		interval = 2
-# 		refine_fraction = 0.2
-# 		coarsen_fraction = 0.3
-# 		max_h_level = 4
-#	[../]
- 
     [./TimeStepper]
 		type = SolutionTimeAdaptiveDT
 #		type = ConstantDT
-        dt = 0.00001
+        dt = 100.0
     [../]
  
 [] #END Executioner
+ 
+[Adaptivity]
+
+[] #END Adaptivity
 
 [Outputs]
 

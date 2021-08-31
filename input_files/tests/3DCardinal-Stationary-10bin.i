@@ -1526,16 +1526,19 @@
 	end_time = 7776000.0
     dtmax = 10000.0
 
+#	[./Adaptivity]
+# 		interval = 1
+# 		refine_fraction = 0.2
+# 		coarsen_fraction = 0.3
+# 		max_h_level = 4
+#	[../]
+
     [./TimeStepper]
 		type = SolutionTimeAdaptiveDT
 #		type = ConstantDT
         dt = 100.0
     [../]
 [] #END Executioner
- 
-[Adaptivity]
-
-[] #END Adaptivity
 
 [Outputs]
 
