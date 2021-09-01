@@ -110,10 +110,10 @@ _mono_variate_model(getParam<bool>("mono_variate_population"))
     std::cout << "\nCARDINAL Runtime: " << (time / CLOCKS_PER_SEC) << " seconds\n";
     
     //Close the open files
-    if (file!= nullptr)
-        fclose(file);
-    if (cloud!=nullptr)
-        fclose(cloud);
+    //if (file!= nullptr)
+    //    fclose(file);
+    //if (cloud!=nullptr)
+    //    fclose(cloud);
     
     if (success != 0)
     	moose::internal::mooseErrorRaw("CARDINAL SIMULATION HAS FAILED!");
