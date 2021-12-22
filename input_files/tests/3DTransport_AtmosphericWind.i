@@ -16,11 +16,11 @@
     dim = 3
 	nx = 200
 	ny = 200
-	nz = 20
+	nz = 10
     xmin = 0.0
-    xmax = 100000.0
+    xmax = 200000.0
     ymin = 0.0
-    ymax = 100000.0
+    ymax = 200000.0
 	zmin = 0.0
 	zmax = 10000.0
 
@@ -101,7 +101,7 @@
 		type = CARDINAL_CloudIC
 		variable = N0
 		x_center = 10000
-		y_center = 10000
+		y_center = 150000
 		local_size_index = 0
 		cardinal_object = cardinal
     [../]
@@ -236,12 +236,12 @@
 
     [./wx_vel]
     	type = PiecewiseMultilinear
-        data_file = XComp_WindProfileTest.txt
+        data_file = XWindProfileTest_Original.txt
     [../]
 
     [./wy_vel]
     	type = PiecewiseMultilinear
-        data_file = YComp_WindProfileTest.txt
+        data_file = YWindProfileTest_Original.txt
     [../]
 
 [] #END Functions
@@ -301,54 +301,84 @@
 [] #END Postprocessors
 
 [Preconditioning]
- 
-	[./smp]
- 		type = SMP
- 		full = true
- 		solve_type = pjfnk
-	[../]
- 
+  [./SMP_PJFNK]
+    type = SMP
+    full = true
+    solve_type = pjfnk   #default to newton, but use pjfnk if newton too slow
+  [../]
 [] #END Preconditioning
- 
+
 [Executioner]
+  	type = Transient
+  	scheme = implicit-euler
 
-    type = Transient
-	scheme = implicit-euler    #use: 'implicit-euler' or 'bdf2'
-    automatic_scaling = false
- 
- 	petsc_options = '-snes_converged_reason'
- 	petsc_options_iname = '-ksp_type -pc_type -sub_pc_type -snes_max_it -sub_pc_factor_shift_type -pc_asm_overlap -snes_atol -snes_rtol'
-    petsc_options_value = 'gmres asm ilu 100 NONZERO 2 1E-14 1E-12'
+  	# NOTE: Add arg -ksp_view to get info on methods used at linear steps
+  	petsc_options = '-snes_converged_reason
 
-	line_search = bt    # Options: default shell none basic l2 bt cp
-    nl_rel_tol = 1e-10
-    nl_abs_tol = 1e-6
-    nl_rel_step_tol = 1e-10
-    nl_abs_step_tol = 1e-10
-    l_tol = 1e-4
-    l_max_its = 100
-    nl_max_its = 50
- 
-    start_time = 0.0
-	end_time = 20.0
-    dtmax = 0.25
+                    -ksp_gmres_modifiedgramschmidt'
 
-    [./TimeStepper]
+  	# NOTE: The sub_pc_type arg not used if pc_type is ksp,
+  	#       Instead, set the ksp_ksp_type to the pc method
+  	#       you want. Then, also set the ksp_pc_type to be
+  	#       the terminal preconditioner.
+  	#
+  	# Good terminal precon options: lu, ilu, asm, gasm, pbjacobi
+  	#                               bjacobi, redundant, telescope
+  	petsc_options_iname ='-ksp_type
+                        -pc_type
+
+                        -sub_pc_type
+
+                        -snes_max_it
+
+                        -sub_pc_factor_shift_type
+                        -pc_asm_overlap
+
+                        -snes_atol
+                        -snes_rtol
+
+                        -ksp_ksp_type
+                        -ksp_pc_type'
+
+  	# snes_max_it = maximum non-linear steps
+  	petsc_options_value = 'fgmres
+                         ksp
+
+                         lu
+
+                         10
+                         NONZERO
+                         10
+                         1E-8
+                         1E-10
+
+                         gmres
+                         ilu'
+
+  	#NOTE: turning off line search can help converge for high Renolds number
+  	line_search = bt
+  	nl_rel_tol = 1e-10
+  	nl_abs_tol = 1e-8
+  	nl_rel_step_tol = 1e-10
+  	nl_abs_step_tol = 1e-8
+  	nl_max_its = 10
+  	l_tol = 1e-6
+  	l_max_its = 100
+
+	start_time = 0.0
+	end_time = 10000.0
+	dtmax = 500.0
+
+  	[./TimeStepper]
 		type = SolutionTimeAdaptiveDT
 #		type = ConstantDT
-        dt = 0.25
-    [../]
+		dt = 500.0
+  	[../]
 [] #END Executioner
- 
-[Adaptivity]
-
-[] #END Adaptivity
 
 [Outputs]
-
-    exodus = true
-    csv = true
-    print_linear_residuals = false
-
+  print_linear_residuals = true
+  exodus = true
+  csv = true
 [] #END Outputs
- 
+
