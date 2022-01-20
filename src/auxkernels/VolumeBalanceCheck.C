@@ -46,10 +46,9 @@
  */
 registerMooseObject("fennecApp", VolumeBalanceCheck);
 
-template<>
-InputParameters validParams<VolumeBalanceCheck>()
+InputParameters VolumeBalanceCheck::validParams()
 {
-    InputParameters params = validParams<AuxKernel>();
+    InputParameters params = AuxKernel::validParams();
     params.addCoupledVar("coupled_vars", "List of non-linear variables coupled to this object");
     params.addRequiredParam< std::vector<Real> >("diameters","Set of particle diameters corresponding to each size bin (m) (Must have same order as the 'coupled_vars')");
     return params;

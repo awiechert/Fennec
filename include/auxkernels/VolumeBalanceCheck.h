@@ -41,12 +41,8 @@
 
 #include "AuxKernel.h"
 
-
 /// VolumeBalanceCheck class object forward declaration
 class VolumeBalanceCheck;
-
-template<>
-InputParameters validParams<VolumeBalanceCheck>();
 
 /// VolumeBalanceCheck class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
@@ -55,6 +51,9 @@ InputParameters validParams<VolumeBalanceCheck>();
 class VolumeBalanceCheck : public AuxKernel
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Standard MOOSE public constructor
     VolumeBalanceCheck(const InputParameters & parameters);
     

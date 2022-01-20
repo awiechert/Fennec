@@ -48,9 +48,9 @@
  */
 registerMooseObject("fennecApp", JKRSmoothAdhesiveForce);
 
-template<> InputParameters validParams<JKRSmoothAdhesiveForce>()
+InputParameters JKRSmoothAdhesiveForce::validParams()
 {
-	InputParameters params = validParams<AuxKernel>();
+	InputParameters params = AuxKernel::validParams();
     params.addRequiredCoupledVar("aerosol_diameter","Diameter of the Aerosol Being Considered (m)");
     params.addRequiredCoupledVar("adhesive_energy","Particle-Substrate Adhesive Surface Energy (N/m)");
 	return params;

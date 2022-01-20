@@ -44,15 +44,15 @@
 /// TotalAirIonization class object forward declaration
 class TotalAirIonization;
 
-template<>
-InputParameters validParams<TotalAirIonization>();
-
 /// TotalAirIonization class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
 	calculate the total ionization rate for the air  */
 class TotalAirIonization : public AuxKernel
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Standard MOOSE public constructor
     TotalAirIonization(const InputParameters & parameters);
     

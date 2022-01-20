@@ -49,10 +49,9 @@
  */
 registerMooseObject("fennecApp", VanderWaalsMonoPB);
 
-template<>
-InputParameters validParams<VanderWaalsMonoPB>()
+InputParameters VanderWaalsMonoPB::validParams()
 {
-    InputParameters params = validParams<ConstMonoPB>();
+    InputParameters params = ConstMonoPB::validParams();
     return params;
 
 }

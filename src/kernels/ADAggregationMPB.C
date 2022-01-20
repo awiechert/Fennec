@@ -1,25 +1,27 @@
 /*!
- *  \file ConstMonoPB.h
- *	\brief Kernel for Mono-variate Population Balance Model with constant coefficients
- *	\details This file creates a MOOSE kernel that will couple together multiple number
+ *  \file ADAggregationMPB.h
+ *	\brief AD Kernel for Mono-variate Population Balance Model with all coagulation coefficients
+ *	\details This file creates a MOOSE AD kernel that will couple together multiple number
  *			concentrations of particles and calculate a population balance rate function
- *			assuming the collision efficiency and frequency are known constants. This module
- *			is based on the following works:
+ *			assuming the collision efficiency and frequency are calculated from Brownian
+ *			diffusion, Brownian convection enhancement, gravitational collection, turbulent 
+ *			inertial motion, and turbulent shear functions.
  *
  *			Y.H. Kim, S. Yiacoumi, A. Nenes, C. Tsouris, J. Aero. Sci., 114, 283-300, 2017.
  *
- *			S. Kumar, D. Ramkrishna, Chem. Eng. Sci., 51, 1311-1332, 1996.
+ *			M.Z. Jacobson, Fundamentals of Atmospheric Modeling (2nd Ed.), Cambridge University
+ *				Press, New York, 2005.
  *
- *  \author Austin Ladshaw
- *	\date 08/02/2019
+ *  \author Alexander Wiechert
+ *	\date 01/10/2022
  *	\copyright This kernel was designed and built at the Georgia Institute
- *             of Technology by Austin Ladshaw for PhD research in the area
+ *             of Technology by Alexander Wiechert for research in the area
  *             of radioactive particle transport and settling following a
  *			   nuclear event. It was developed for the US DOD under DTRA
  *			   project No. 14-24-FRCWMD-BAA. Portions Copyright (c) 2018, all
  *             rights reserved.
  *
- *			   Austin Ladshaw does not claim any ownership or copyright to the
+ *			   Alexander Wiechert does not claim any ownership or copyright to the
  *			   MOOSE framework in which these kernels are constructed, only
  *			   the kernels themselves. The MOOSE framework copyright is held
  *			   by the Battelle Energy Alliance, LLC (c) 2010, all rights reserved.
@@ -39,20 +41,20 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#include "ConstMonoPB.h"
+//Non-functioning: Do Not Use (For Testing Only)
+
+#include "ADAggregationMPB.h"
 
 /**
  * All MOOSE based object classes you create must be registered using this macro.  The first
  * argument is the name of the App with an "App" suffix (i.e., "fennecApp"). The second
  * argument is the name of the C++ class you created.
  */
-registerMooseObject("fennecApp", ConstMonoPB);
+registerMooseObject("fennecApp", ADAggregationMPB);
 
-InputParameters ConstMonoPB::validParams()
+InputParameters ADAggregationMPB::validParams()
 {
-    InputParameters params = Kernel::validParams();
-    params.addParam<Real>("efficiency",1.0,"Collision Efficiency (-)");
-    params.addParam<Real>("frequency",1.0,"Collision Frequency (m^3/s)");
+    InputParameters params = ADKernel::validParams();
     params.addParam<bool>("gama_correction",true,"Only change to false for testing purposes.");
     params.addRequiredParam< std::vector<Real> >("diameters","Set of particle diameters corresponding to each size bin (m) (Must have same order as the 'coupled_list')");
     params.addRequiredCoupledVar("coupled_list","List of names of the number concentration variables being coupled (including this variable)");
@@ -60,13 +62,13 @@ InputParameters ConstMonoPB::validParams()
     return params;
 }
 
-ConstMonoPB::ConstMonoPB(const InputParameters & parameters)
-: Kernel(parameters),
-_const_alpha(getParam<Real>("efficiency")),
-_const_beta(getParam<Real>("frequency")),
+ADAggregationMPB::ADAggregationMPB(const InputParameters & parameters)
+: ADKernel(parameters),
 _dia(getParam<std::vector<Real> >("diameters")),
 _u_var(coupled("main_variable")),
-_gama_correction(getParam<bool>("gama_correction"))
+_gama_correction(getParam<bool>("gama_correction")),
+_beta_Br(getMaterialProperty<std::vector<std::vector<Real> > >("beta_Br")),
+_alpha_Br(getMaterialProperty<std::vector<std::vector<Real> > >("alpha_Br"))
 {
     _M = coupledComponents("coupled_list");
     if (_M != _dia.size())
@@ -101,13 +103,17 @@ _gama_correction(getParam<bool>("gama_correction"))
         	_frac[i][j].resize(_M);
     }
     
-    this->AlphaBetaFill();
+    //Segmentaion fault error occurs when attempting to calculate alpha and beta values at this point.
+    //No issues with VolumeFill, FractionFill, or GamaFill for some unknown reason.
+    //Error is utterly incomprehensible to me.
+    //this->AlphaBetaFill();
+    
     this->VolumeFill();
     this->FractionFill();
     this->GamaFill();
 }
 
-Real ConstMonoPB::KroneckerDelta(int i, int j)
+Real ADAggregationMPB::KroneckerDelta(int i, int j)
 {
     if (i==j)
     	return 1.0;
@@ -115,20 +121,21 @@ Real ConstMonoPB::KroneckerDelta(int i, int j)
     	return 0.0;
 }
 
-void ConstMonoPB::AlphaBetaFill()
+void ADAggregationMPB::AlphaBetaFill()
 {
     for (int l=0; l<_M; l++)
     {
         for (int m=0; m<_M; m++)
         {
-            _alpha[l][m] = _const_alpha;
-            _beta[l][m] = _const_beta;
+            _beta[l][m] = _beta_Br[_qp][l][m];
+            _alpha[l][m] = _alpha_Br[_qp][l][m];
         }
     }
 }
 
-void ConstMonoPB::VolumeFill()
+void ADAggregationMPB::VolumeFill()
 {
+	
 	Real pi = 3.14159;
     Real c = pi/6.0;
     for (int k=0; k<_M; k++)
@@ -137,7 +144,7 @@ void ConstMonoPB::VolumeFill()
     }
 }
 
-void ConstMonoPB::FractionFill()
+void ADAggregationMPB::FractionFill()
 {
     for (int k=0; k<_M; k++)
     {
@@ -191,7 +198,7 @@ void ConstMonoPB::FractionFill()
     }
 }
 
-void ConstMonoPB::GamaFill()
+void ADAggregationMPB::GamaFill()
 {
     for (int k=0; k<_M; k++)
     {
@@ -208,11 +215,15 @@ void ConstMonoPB::GamaFill()
     }
 }
 
-Real ConstMonoPB::computeQpResidual()
+ADReal ADAggregationMPB::computeQpResidual()
 {
-	Real rate = 0.0;
-    Real source = 0.0;
-    Real sink = 0.0;
+	//Kernel (kinda) works when the alphas and betas are calculated at this point. Much slower than a regular kernel.
+    //Jacobi calculation takes twice as long when using an ADKernel.
+    //this->AlphaBetaFill();
+    
+	ADReal rate = 0.0;
+    ADReal source = 0.0;
+    ADReal sink = 0.0;
     int k = _this_var;
     
     //Loop over all variables l
@@ -220,7 +231,7 @@ Real ConstMonoPB::computeQpResidual()
     {
         sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
         
-        Real m_sum = 0.0;
+        ADReal m_sum = 0.0;
         
         //Loop over m variables
         for (int m=0; m<=l; m++)
@@ -233,82 +244,3 @@ Real ConstMonoPB::computeQpResidual()
     
     return -rate;
 }
-
-Real ConstMonoPB::computeQpJacobian()
-{
-	//Preconditioning increases simulation time by about 20 percent. Might be a error in the calculation.
-	
-	// Partial Derivatives with respect to this variable
-    /*int k = _this_var;
-    Real m_sum = 0.0;
-    Real l_sum_source = 0.0;
-    Real l_sum_sink = 0.0;
-    
-    for (int m=0; m<=k; m++)
-    {
-        m_sum += (1.0+this->KroneckerDelta(k,m))*(1.0-0.5*this->KroneckerDelta(k,m))*_frac[k][k][m]*_alpha[k][m]*_beta[k][m]*(*_coupled_u[m])[_qp];
-    }
-    
-    for (int l=0; l<_M; l++)
-    {
-    	if (l < k)
-        {
-            l_sum_sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
-        }
-        
-        if (l == k)
-        {
-            l_sum_source += m_sum;
-        }
-        
-        else
-        {
-            l_sum_sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
-            l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,k))*_frac[k][l][k]*_alpha[l][k]*_beta[l][k];
-        }
-    }
-    
-    return -(_test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*l_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[k][k]*_alpha[k][k]*_beta[k][k]*_u[_qp]);
-    
-    */
-    
-    //Preconditioning with this kernel seems to not work
-    return 0.0;
-}
-
-Real ConstMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
-{
-	
-    // Partial Derivatives with respect to other variables
-    /*int h = _those_var[jvar];
-    int k = _this_var;
-    Real m_sum = 0.0;
-    Real l_sum_source = 0.0;
-    
-    for (int m=0; m<=h; m++)
-    {
-        m_sum += (1.0+this->KroneckerDelta(h,m))*(1.0-0.5*this->KroneckerDelta(h,m))*_frac[k][h][m]*_alpha[h][m]*_beta[h][m]*(*_coupled_u[m])[_qp];
-    }
-    
-    for (int l=h; l<_M; l++)
-    {
-        if (l == h)
-        {
-        	l_sum_source += m_sum;
-        }
-        
-        else
-        {
-            l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,h))*_frac[k][l][h]*_alpha[l][h]*_beta[l][h];
-        }
-    }
-    
-    return -(_test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[k][h]*_alpha[k][h]*_beta[k][h]*(*_coupled_u[k])[_qp]);
-    
-    */
-    
-    //Preconditioning with this kernel seems to not work
-    return 0.0;
-}
-
-

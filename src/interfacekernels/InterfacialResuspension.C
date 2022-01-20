@@ -45,10 +45,9 @@
 
 registerMooseObject("fennecApp", InterfacialResuspension);
 
-template<>
-InputParameters validParams<InterfacialResuspension>()
+InputParameters InterfacialResuspension::validParams()
 {
-	InputParameters params = validParams<InterfaceKernel>();
+    InputParameters params = InterfaceKernel::validParams();
     params.addRequiredCoupledVar("lamda","Aerosol Resuspension Rate (1/s)");
 	return params;
 }

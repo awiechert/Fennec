@@ -53,9 +53,9 @@
  */
 registerMooseObject("fennecApp", UniformAdhesionResuspension);
 
-template<> InputParameters validParams<UniformAdhesionResuspension>()
+InputParameters UniformAdhesionResuspension::validParams()
 {
-	InputParameters params = validParams<AuxKernel>();
+	InputParameters params = AuxKernel::validParams();
     params.addRequiredCoupledVar("resonance_frequency","Variable for Typical Resonance Frequency (1/s)");
     params.addRequiredCoupledVar("adhesion_force","Variable for Uniform Adsheion Force (N)");
     params.addRequiredCoupledVar("aerodynamic_force","Variable for Mean Aerodynamic Force (N)");

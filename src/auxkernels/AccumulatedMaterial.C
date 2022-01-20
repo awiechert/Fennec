@@ -44,12 +44,12 @@
  * argument is the name of the App with an "App" suffix (i.e., "fennecApp"). The second
  * argument is the name of the C++ class you created.
  */
+ 
 registerMooseObject("fennecApp", AccumulatedMaterial);
 
-template<>
-InputParameters validParams<AccumulatedMaterial>()
+InputParameters AccumulatedMaterial::validParams()
 {
-	InputParameters params = validParams<AuxKernel>();
+	InputParameters params = AuxKernel::validParams();
 	params.addCoupledVar("coupled_vars", "List of non-linear variables coupled to this object");
     params.addCoupledVar("vxs", "List of x-direction velocities coupled to this object");
     params.addCoupledVar("vys", "List of y-direction velocities coupled to this object");

@@ -46,8 +46,6 @@
 /// ParabolicWindIC class object forward declarations
 class ParabolicWindIC;
 
-template<> InputParameters validParams<ParabolicWindIC>();
-
 /// ConcentrationIC class object inherits from InitialCondition object
 /** This class object inherits from the InitialCondition object in the MOOSE framework.
 	All public and protected members of this class are required function overrides. The object
@@ -56,7 +54,10 @@ template<> InputParameters validParams<ParabolicWindIC>();
 class ParabolicWindIC : public InitialCondition
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	ParabolicWindIC(const InputParameters & parameters);
 	
 	/// Required function override for setting the value of the non-linear variable at a given point

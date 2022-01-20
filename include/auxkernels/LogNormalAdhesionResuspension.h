@@ -55,9 +55,6 @@
 /// LogNormalAdhesionResuspension class object forward declaration
 class LogNormalAdhesionResuspension;
 
-template<>
-InputParameters validParams<LogNormalAdhesionResuspension>();
-
 /// LogNormalAdhesionResuspension class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel calculates
 	the resuspension rate in a domain where paritcle adhesion is distributed lognormally. */
@@ -65,7 +62,10 @@ InputParameters validParams<LogNormalAdhesionResuspension>();
 class LogNormalAdhesionResuspension : public AuxKernel
 {
 public:
-	/// Standard MOOSE public constructor
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Standard MOOSE public constructor
 	LogNormalAdhesionResuspension(const InputParameters & parameters);
 	
 protected:

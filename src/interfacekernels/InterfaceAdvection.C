@@ -44,10 +44,9 @@
 
 registerMooseObject("fennecApp", InterfaceAdvection);
 
-template<>
-InputParameters validParams<InterfaceAdvection>()
+InputParameters InterfaceAdvection::validParams()
 {
-	InputParameters params = validParams<InterfaceKernel>();
+	InputParameters params = InterfaceKernel::validParams();
     params.addRequiredCoupledVar("ux","Variable for velocity in x-direction");
     params.addRequiredCoupledVar("uy","Variable for velocity in y-direction");
     params.addRequiredCoupledVar("uz","Variable for velocity in z-direction");

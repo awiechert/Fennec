@@ -40,15 +40,15 @@
 /// AccelDT class object forward declarations
 class AccelDT;
 
-template<>
-InputParameters validParams<AccelDT>();
-
 /**
  * Adjust the timestep based on whether or not the solution converged.
  */
 class AccelDT : public TimeStepper
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     AccelDT(const InputParameters & parameters);
     
 protected:

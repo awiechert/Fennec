@@ -40,9 +40,6 @@
 /// MomentumAccumulation class object forward declarations
 class MomentumAccumulation;
 
-template<>
-InputParameters validParams<MomentumAccumulation>();
-
 /// MomentumAccumulation class object inherits from TimeDerivative object
 /** This class object inherits from the TimeDerivative object.
 	All public and protected members of this class are required function overrides.
@@ -51,7 +48,10 @@ InputParameters validParams<MomentumAccumulation>();
 class MomentumAccumulation : public TimeDerivative
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	MomentumAccumulation(const InputParameters & parameters);
 	
 protected:

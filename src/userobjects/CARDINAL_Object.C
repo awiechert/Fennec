@@ -45,11 +45,9 @@
  */
 registerMooseObject("fennecApp", CARDINAL_Object);
 
-template <>
-InputParameters
-validParams<CARDINAL_Object>()
+InputParameters CARDINAL_Object::validParams()
 {
-	InputParameters params = validParams<GeneralUserObject>();
+	InputParameters params = GeneralUserObject::validParams();
 	params.addClassDescription("GeneralUserObject for CARDINAL member data and functions. CARDINAL is used to establish initial conditions for FENNEC simulations by estimating cloud rise, particle distributions, and establishing wind, temperature, pressure, and relative humidity profiles for the atmosphere.");
     params.addRequiredParam<std::string>("input_file", "Name and path (relative to the directory from which the fennec-opt executable is run) to the input file for the CARDINAL simulation");
     params.addRequiredParam<std::string>("atm_file","Name and path (relative to the directory from which the fennec-opt executable is run) to the atmospheric data file for CARDINAL");

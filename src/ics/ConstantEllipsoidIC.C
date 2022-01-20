@@ -46,9 +46,9 @@
  */
 registerMooseObject("fennecApp", ConstantEllipsoidIC);
 
-template<> InputParameters validParams<ConstantEllipsoidIC>()
+InputParameters ConstantEllipsoidIC::validParams()
 {
-	InputParameters params = validParams<InitialCondition>();
+	InputParameters params = InitialCondition::validParams();
 	params.addParam<Real>("x_length",1,"Length of x-coordinate radius");
 	params.addParam<Real>("y_length",1,"Length of y-coordinate radius");
 	params.addParam<Real>("z_length",1,"Length of z-coordinate radius");

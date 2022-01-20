@@ -46,10 +46,9 @@
  */
 registerMooseObject("fennecApp", NuclideBalanceCheck);
 
-template<>
-InputParameters validParams<NuclideBalanceCheck>()
+InputParameters NuclideBalanceCheck::validParams()
 {
-    InputParameters params = validParams<AuxKernel>();
+    InputParameters params = AuxKernel::validParams();
     params.addCoupledVar("coupled_vars", "List of non-linear variables coupled to this object");
     params.addRequiredParam< std::vector<Real> >("total_nuclides","Set of total nuclide numbers corresponding to each nuclide bin (mol) (Must have same order as each column of 'coupled_list')");
     return params;

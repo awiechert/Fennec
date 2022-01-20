@@ -40,14 +40,14 @@
 /// CollisionTesting class object forward declaration
 class CollisionTesting;
 
-template<>
-InputParameters validParams<CollisionTesting>();
-
 /// CollisionTesting class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework.  */
 class CollisionTesting : public AuxKernel
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Standard MOOSE public constructor
     CollisionTesting(const InputParameters & parameters);
     

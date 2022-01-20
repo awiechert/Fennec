@@ -20,41 +20,17 @@
 
 [Mesh]
 
-
-    [gen]
-    	type = GeneratedMeshGenerator
-    	dim = 3
-		nx = 700
-		ny = 10
-		nz = 11
-    	xmin = 0.0
-    	xmax = 700000.0
-    	ymin = 0.0
-    	ymax = 10000.0
-		zmin = 0.0
-		zmax = 11000.0
-	[]
-
-	[./subdomain1]
-		input = gen
-        type = SubdomainBoundingBoxGenerator
-        bottom_left = '0 0 0'
-        top_right = '500000 10000 1000'
-        block_id = 1
-    [../]
-
-	[./break_boundary]
-		type = BreakBoundaryOnSubdomainGenerator
-		input = subdomain1
-	[../]
-
-	[./interface]
-		input = break_boundary
-		type = SideSetsBetweenSubdomainsGenerator
-		primary_block = '0'
-		paired_block = '1'
-		new_boundary = 'master_interface'
-	[../]
+    type = GeneratedMesh
+    dim = 3
+	nx = 50
+	ny = 50
+	nz = 50
+    xmin = 0.0
+    xmax = 10000.0
+    ymin = 0.0
+    ymax = 10000.0
+	zmin = 0.0
+	zmax = 10000.0
 
 [] # END Mesh
 
@@ -178,146 +154,6 @@
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
- 	[../]
-
-    [./N0d]
-        order = CONSTANT
-        family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
-    [../]
- 
- 	[./N1d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N2d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N3d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
-    [./N4d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N5d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N6d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N7d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
-    [./N8d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
-
-    [./N9d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
-
-	[./N10d]
-        order = CONSTANT
-        family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
-    [../]
- 
- 	[./N11d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N12d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N13d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
-    [./N14d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
-    
-    [./N15d]
-        order = CONSTANT
-        family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
-    [../]
- 
- 	[./N16d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N17d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N18d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
-    [./N19d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
  	[../]
  
 [] #END Variables
@@ -775,27 +611,23 @@
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 1.225 #kg/m^3
-        block = '0 1'
 	[../]
  
 	[./air_visc]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 1.802e-5 #kg/m/s
-        block = '0 1'
 	[../]
  
  	[./air_ions]
  		order = CONSTANT
  		family = MONOMIAL
-        block = '0 1'
 	[../]
  
     [./air_temp]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 298 #K
-        block = '0 1'
 	[../]
 
 [] #END AuxVariables
@@ -1007,29 +839,13 @@
 [Kernels]
 
     [./N0_dot]
-        type = CoefTimeDerivative
-        variable = N0
-        Coefficient = 1.0
-        block = 0
-    [../]
- 
-    [./N0_gadv]
-        type = GConcentrationAdvection
-        variable = N0
-		ux = vp0x
-		uy = vp0y
-		uz = vp0z
-        block = 0
-    [../]
-
-    [./N0_gdiff]
-        type = GAnisotropicDiffusion
+        type = ADTimeDerivative
         variable = N0
         block = 0
     [../]
 
     [./N0_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N0
         main_variable = N0
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1037,7 +853,7 @@
     [../]
  
     [./N0_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N0
  		main_variable = N0
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1045,29 +861,13 @@
 	[../]
  
  	[./N1_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N1
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N1_gadv]
-        type = GConcentrationAdvection
-        variable = N1
-		ux = vp1x
-		uy = vp1y
-		uz = vp1z
-        block = 0
-    [../]
-
-    [./N1_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N1
-        block = 0
-    [../]
 
     [./N1_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N1
         main_variable = N1
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1075,7 +875,7 @@
     [../]
  
     [./N1_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N1
  		main_variable = N1
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1083,29 +883,13 @@
 	[../]
  
  	[./N2_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N2
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N2_gadv]
-        type = GConcentrationAdvection
-        variable = N2
-		ux = vp2x
-		uy = vp2y
-		uz = vp2z
-        block = 0
-    [../]
-
-    [./N2_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N2
-        block = 0
-    [../]
 
     [./N2_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N2
         main_variable = N2
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1113,7 +897,7 @@
     [../]
  
     [./N2_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N2
  		main_variable = N2
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1121,29 +905,13 @@
 	[../]
  
  	[./N3_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N3
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N3_gadv]
-        type = GConcentrationAdvection
-        variable = N3
-		ux = vp3x
-		uy = vp3y
-		uz = vp3z
-        block = 0
-    [../]
-
-    [./N3_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N3
-        block = 0
-    [../]
 
     [./N3_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N3
         main_variable = N3
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1151,7 +919,7 @@
     [../]
  
     [./N3_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N3
  		main_variable = N3
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1159,29 +927,13 @@
 	[../]
  
  	[./N4_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N4
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N4_gadv]
-        type = GConcentrationAdvection
-        variable = N4
-		ux = vp4x
-		uy = vp4y
-		uz = vp4z
-        block = 0
-    [../]
-
-    [./N4_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N4
-        block = 0
-    [../]
 
     [./N4_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N4
         main_variable = N4
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1189,7 +941,7 @@
     [../]
  
     [./N4_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N4
  		main_variable = N4
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1197,29 +949,13 @@
 	[../]
 
     [./N5_dot]
-        type = CoefTimeDerivative
-        variable = N5
-        Coefficient = 1.0
-        block = 0
-    [../]
- 
-    [./N5_gadv]
-        type = GConcentrationAdvection
-        variable = N5
-		ux = vp5x
-		uy = vp5y
-		uz = vp5z
-        block = 0
-    [../]
-
-    [./N5_gdiff]
-        type = GAnisotropicDiffusion
+        type = ADTimeDerivative
         variable = N5
         block = 0
     [../]
 
     [./N5_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N5
         main_variable = N5
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1227,7 +963,7 @@
     [../]
  
     [./N5_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N5
  		main_variable = N5
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1235,29 +971,13 @@
 	[../]
  
  	[./N6_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N6
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N6_gadv]
-        type = GConcentrationAdvection
-        variable = N6
-		ux = vp6x
-		uy = vp6y
-		uz = vp6z
-        block = 0
-    [../]
-
-    [./N6_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N6
-        block = 0
-    [../]
 
     [./N6_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N6
         main_variable = N6
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1265,7 +985,7 @@
     [../]
  
     [./N6_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N6
  		main_variable = N6
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1273,29 +993,13 @@
 	[../]
  
  	[./N7_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N7
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N7_gadv]
-        type = GConcentrationAdvection
-        variable = N7
-		ux = vp7x
-		uy = vp7y
-		uz = vp7z
-        block = 0
-    [../]
-
-    [./N7_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N7
-        block = 0
-    [../]
 
     [./N7_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N7
         main_variable = N7
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1303,7 +1007,7 @@
     [../]
  
     [./N7_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N7
  		main_variable = N7
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1311,29 +1015,13 @@
 	[../]
  
  	[./N8_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N8
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N8_gadv]
-        type = GConcentrationAdvection
-        variable = N8
-		ux = vp8x
-		uy = vp8y
-		uz = vp8z
-        block = 0
-    [../]
-
-    [./N8_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N8
-        block = 0
-    [../]
 
     [./N8_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N8
         main_variable = N8
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1341,7 +1029,7 @@
     [../]
  
     [./N8_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N8
  		main_variable = N8
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1349,29 +1037,13 @@
 	[../]
  
  	[./N9_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N9
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N9_gadv]
-        type = GConcentrationAdvection
-        variable = N9
-		ux = vp9x
-		uy = vp9y
-		uz = vp9z
-        block = 0
-    [../]
-
-    [./N9_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N9
-        block = 0
-    [../]
 
     [./N9_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N9
         main_variable = N9
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1379,7 +1051,7 @@
     [../]
  
     [./N9_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N9
  		main_variable = N9
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1387,29 +1059,13 @@
 	[../]
  
     [./N10_dot]
-        type = CoefTimeDerivative
-        variable = N10
-        Coefficient = 1.0
-        block = 0
-    [../]
- 
-    [./N10_gadv]
-        type = GConcentrationAdvection
-        variable = N10
-		ux = vp10x
-		uy = vp10y
-		uz = vp10z
-        block = 0
-    [../]
-
-    [./N10_gdiff]
-        type = GAnisotropicDiffusion
+        type = ADTimeDerivative
         variable = N10
         block = 0
     [../]
 
     [./N10_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N10
         main_variable = N10
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1417,7 +1073,7 @@
     [../]
  
     [./N10_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N10
  		main_variable = N10
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1425,29 +1081,13 @@
 	[../]
  
  	[./N11_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N11
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N11_gadv]
-        type = GConcentrationAdvection
-        variable = N11
-		ux = vp11x
-		uy = vp11y
-		uz = vp11z
-        block = 0
-    [../]
-
-    [./N11_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N11
-        block = 0
-    [../]
 
     [./N11_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N11
         main_variable = N11
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1455,7 +1095,7 @@
     [../]
  
     [./N11_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N11
  		main_variable = N11
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1463,29 +1103,13 @@
 	[../]
  
  	[./N12_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N12
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N12_gadv]
-        type = GConcentrationAdvection
-        variable = N12
-		ux = vp12x
-		uy = vp12y
-		uz = vp12z
-        block = 0
-    [../]
-
-    [./N12_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N12
-        block = 0
-    [../]
 
     [./N12_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N12
         main_variable = N12
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1493,7 +1117,7 @@
     [../]
  
     [./N12_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N12
  		main_variable = N12
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1501,29 +1125,13 @@
 	[../]
  
  	[./N13_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N13
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N13_gadv]
-        type = GConcentrationAdvection
-        variable = N13
-		ux = vp13x
-		uy = vp13y
-		uz = vp13z
-        block = 0
-    [../]
-
-    [./N13_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N13
-        block = 0
-    [../]
 
     [./N13_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N13
         main_variable = N13
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1531,7 +1139,7 @@
     [../]
  
     [./N13_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N13
  		main_variable = N13
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1539,29 +1147,13 @@
 	[../]
  
  	[./N14_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N14
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N14_gadv]
-        type = GConcentrationAdvection
-        variable = N14
-		ux = vp14x
-		uy = vp14y
-		uz = vp14z
-        block = 0
-    [../]
-
-    [./N14_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N14
-        block = 0
-    [../]
 
     [./N14_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N14
         main_variable = N14
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1569,7 +1161,7 @@
     [../]
  
     [./N14_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N14
  		main_variable = N14
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1577,29 +1169,13 @@
 	[../]
 
     [./N15_dot]
-        type = CoefTimeDerivative
-        variable = N15
-        Coefficient = 1.0
-        block = 0
-    [../]
- 
-    [./N15_gadv]
-        type = GConcentrationAdvection
-        variable = N15
-		ux = vp15x
-		uy = vp15y
-		uz = vp15z
-        block = 0
-    [../]
-
-    [./N15_gdiff]
-        type = GAnisotropicDiffusion
+        type = ADTimeDerivative
         variable = N15
         block = 0
     [../]
 
     [./N15_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N15
         main_variable = N15
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1607,7 +1183,7 @@
     [../]
  
     [./N15_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N15
  		main_variable = N15
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1615,29 +1191,13 @@
 	[../]
  
  	[./N16_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N16
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N16_gadv]
-        type = GConcentrationAdvection
-        variable = N16
-		ux = vp16x
-		uy = vp16y
-		uz = vp16z
-        block = 0
-    [../]
-
-    [./N16_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N16
-        block = 0
-    [../]
 
     [./N16_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N16
         main_variable = N16
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1645,7 +1205,7 @@
     [../]
  
     [./N16_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N16
  		main_variable = N16
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1653,29 +1213,13 @@
 	[../]
  
  	[./N17_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N17
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N17_gadv]
-        type = GConcentrationAdvection
-        variable = N17
-		ux = vp17x
-		uy = vp17y
-		uz = vp17z
-        block = 0
-    [../]
-
-    [./N17_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N17
-        block = 0
-    [../]
 
     [./N17_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N17
         main_variable = N17
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1683,7 +1227,7 @@
     [../]
  
     [./N17_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N17
  		main_variable = N17
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1691,29 +1235,13 @@
 	[../]
  
  	[./N18_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N18
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N18_gadv]
-        type = GConcentrationAdvection
-        variable = N18
-		ux = vp18x
-		uy = vp18y
-		uz = vp18z
-        block = 0
-    [../]
-
-    [./N18_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N18
-        block = 0
-    [../]
 
     [./N18_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N18
         main_variable = N18
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1721,7 +1249,7 @@
     [../]
  
     [./N18_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N18
  		main_variable = N18
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1729,29 +1257,13 @@
 	[../]
  
  	[./N19_dot]
- 		type = CoefTimeDerivative
+ 		type = ADTimeDerivative
  		variable = N19
- 		Coefficient = 1.0
         block = 0
  	[../]
- 
-    [./N19_gadv]
-        type = GConcentrationAdvection
-        variable = N19
-		ux = vp19x
-		uy = vp19y
-		uz = vp19z
-        block = 0
-    [../]
-
-    [./N19_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N19
-        block = 0
-    [../]
 
     [./N19_MPB_Agg]
-        type = CoagulationMonoPB
+        type = BrownianMonoPB
         variable = N19
         main_variable = N19
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1759,800 +1271,20 @@
     [../]
  
     [./N19_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
+ 		type = ADShearMultiFragLinearMPB
  		variable = N19
  		main_variable = N19
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
         block = 0
 	[../]
 
-    [./N0d_dot]
-        type = CoefTimeDerivative
-        variable = N0d
-        Coefficient = 1.0
-        block = 1
-    [../]
- 
- 	[./N1d_dot]
- 		type = CoefTimeDerivative
- 		variable = N1d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N2d_dot]
- 		type = CoefTimeDerivative
- 		variable = N2d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N3d_dot]
- 		type = CoefTimeDerivative
- 		variable = N3d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N4d_dot]
- 		type = CoefTimeDerivative
- 		variable = N4d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
-
-    [./N5d_dot]
-        type = CoefTimeDerivative
-        variable = N5d
-        Coefficient = 1.0
-        block = 1
-    [../]
- 
- 	[./N6d_dot]
- 		type = CoefTimeDerivative
- 		variable = N6d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N7d_dot]
- 		type = CoefTimeDerivative
- 		variable = N7d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N8d_dot]
- 		type = CoefTimeDerivative
- 		variable = N8d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N9d_dot]
- 		type = CoefTimeDerivative
- 		variable = N9d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
-    [./N10d_dot]
-        type = CoefTimeDerivative
-        variable = N10d
-        Coefficient = 1.0
-        block = 1
-    [../]
- 
- 	[./N11d_dot]
- 		type = CoefTimeDerivative
- 		variable = N11d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N12d_dot]
- 		type = CoefTimeDerivative
- 		variable = N12d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N13d_dot]
- 		type = CoefTimeDerivative
- 		variable = N13d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N14d_dot]
- 		type = CoefTimeDerivative
- 		variable = N14d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
-
-    [./N15d_dot]
-        type = CoefTimeDerivative
-        variable = N15d
-        Coefficient = 1.0
-        block = 1
-    [../]
- 
- 	[./N16d_dot]
- 		type = CoefTimeDerivative
- 		variable = N16d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N17d_dot]
- 		type = CoefTimeDerivative
- 		variable = N17d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N18d_dot]
- 		type = CoefTimeDerivative
- 		variable = N18d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N19d_dot]
- 		type = CoefTimeDerivative
- 		variable = N19d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
-
 [] #END Kernels
 
 [DGKernels]
 
-    [./N0_dgadv]
-        type = DGConcentrationAdvection
-        variable = N0
-		ux = vp0x
-		uy = vp0y
-		uz = vp0z
-        block = 0
-    [../]
-
-    [./N0_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N0
-        block = 0
-    [../]
- 
-    [./N1_dgadv]
-        type = DGConcentrationAdvection
-        variable = N1
-		ux = vp1x
-		uy = vp1y
-		uz = vp1z
-        block = 0
-    [../]
-
-    [./N1_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N1
-        block = 0
-    [../]
-
-    [./N2_dgadv]
-        type = DGConcentrationAdvection
-        variable = N2
-		ux = vp2x
-		uy = vp2y
-		uz = vp2z
-        block = 0
-    [../]
-
-    [./N2_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N2
-        block = 0
-    [../]
- 
-    [./N3_dgadv]
-        type = DGConcentrationAdvection
-        variable = N3
-		ux = vp3x
-		uy = vp3y
-		uz = vp3z
-        block = 0
-    [../]
-
-    [./N3_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N3
-        block = 0
-    [../]
-
-    [./N4_dgadv]
-        type = DGConcentrationAdvection
-        variable = N4
-		ux = vp4x
-		uy = vp4y
-		uz = vp4z
-        block = 0
-    [../]
-
-    [./N4_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N4
-        block = 0
-    [../]
-
-    [./N5_dgadv]
-        type = DGConcentrationAdvection
-        variable = N5
-		ux = vp5x
-		uy = vp5y
-		uz = vp5z
-        block = 0
-    [../]
-
-    [./N5_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N5
-        block = 0
-    [../]
- 
-    [./N6_dgadv]
-        type = DGConcentrationAdvection
-        variable = N6
-		ux = vp6x
-		uy = vp6y
-		uz = vp6z
-        block = 0
-    [../]
-
-    [./N6_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N6
-        block = 0
-    [../]
-
-    [./N7_dgadv]
-        type = DGConcentrationAdvection
-        variable = N7
-		ux = vp7x
-		uy = vp7y
-		uz = vp7z
-        block = 0
-    [../]
-
-    [./N7_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N7
-        block = 0
-    [../]
- 
-    [./N8_dgadv]
-        type = DGConcentrationAdvection
-        variable = N8
-		ux = vp8x
-		uy = vp8y
-		uz = vp8z
-        block = 0
-    [../]
-
-    [./N8_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N8
-        block = 0
-    [../]
-
-    [./N9_dgadv]
-        type = DGConcentrationAdvection
-        variable = N9
-		ux = vp9x
-		uy = vp9y
-		uz = vp9z
-        block = 0
-    [../]
-
-    [./N9_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N9
-        block = 0
-    [../]
-
-    [./N10_dgadv]
-        type = DGConcentrationAdvection
-        variable = N10
-		ux = vp10x
-		uy = vp10y
-		uz = vp10z
-        block = 0
-    [../]
-
-    [./N10_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N10
-        block = 0
-    [../]
- 
-    [./N11_dgadv]
-        type = DGConcentrationAdvection
-        variable = N11
-		ux = vp11x
-		uy = vp11y
-		uz = vp11z
-        block = 0
-    [../]
-
-    [./N11_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N11
-        block = 0
-    [../]
-
-    [./N12_dgadv]
-        type = DGConcentrationAdvection
-        variable = N12
-		ux = vp12x
-		uy = vp12y
-		uz = vp12z
-        block = 0
-    [../]
-
-    [./N12_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N12
-        block = 0
-    [../]
- 
-    [./N13_dgadv]
-        type = DGConcentrationAdvection
-        variable = N13
-		ux = vp13x
-		uy = vp13y
-		uz = vp13z
-        block = 0
-    [../]
-
-    [./N13_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N13
-        block = 0
-    [../]
-
-    [./N14_dgadv]
-        type = DGConcentrationAdvection
-        variable = N14
-		ux = vp14x
-		uy = vp14y
-		uz = vp14z
-        block = 0
-    [../]
-
-    [./N14_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N14
-        block = 0
-    [../]
-
-    [./N15_dgadv]
-        type = DGConcentrationAdvection
-        variable = N15
-		ux = vp15x
-		uy = vp15y
-		uz = vp15z
-        block = 0
-    [../]
-
-    [./N15_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N15
-        block = 0
-    [../]
- 
-    [./N16_dgadv]
-        type = DGConcentrationAdvection
-        variable = N16
-		ux = vp16x
-		uy = vp16y
-		uz = vp16z
-        block = 0
-    [../]
-
-    [./N16_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N16
-        block = 0
-    [../]
-
-    [./N17_dgadv]
-        type = DGConcentrationAdvection
-        variable = N17
-		ux = vp17x
-		uy = vp17y
-		uz = vp17z
-        block = 0
-    [../]
-
-    [./N17_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N17
-        block = 0
-    [../]
- 
-    [./N18_dgadv]
-        type = DGConcentrationAdvection
-        variable = N18
-		ux = vp18x
-		uy = vp18y
-		uz = vp18z
-        block = 0
-    [../]
-
-    [./N18_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N18
-        block = 0
-    [../]
-
-    [./N19_dgadv]
-        type = DGConcentrationAdvection
-        variable = N19
-		ux = vp19x
-		uy = vp19y
-		uz = vp19z
-        block = 0
-    [../]
-
-    [./N19_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N19
-        block = 0
-    [../]
-
 [] #END DGKernels
 
 [InterfaceKernels]
-
-	[./N0_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N0
-        neighbor_var = N0d
-		boundary = master_interface
-	[../]
-
-	[./N0_interface_advection]
-		type = InterfaceAdvection
-		variable = N0
-        neighbor_var = N0d
-		boundary = master_interface
-		ux = vp0x
-		uy = vp0y
-		uz = vp0z
-	[../]
-
-	[./N1_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N1
-        neighbor_var = N1d
-		boundary = master_interface
-	[../]
-
-	[./N1_interface_advection]
-		type = InterfaceAdvection
-		variable = N1
-        neighbor_var = N1d
-		boundary = master_interface
-		ux = vp1x
-		uy = vp1y
-		uz = vp1z
-	[../]
-
-	[./N2_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N2
-        neighbor_var = N2d
-		boundary = master_interface
-	[../]
-
-	[./N2_interface_advection]
-		type = InterfaceAdvection
-		variable = N2
-        neighbor_var = N2d
-		boundary = master_interface
-		ux = vp2x
-		uy = vp2y
-		uz = vp2z
-	[../]
-
-	[./N3_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N3
-        neighbor_var = N3d
-		boundary = master_interface
-	[../]
-
-	[./N3_interface_advection]
-		type = InterfaceAdvection
-		variable = N3
-        neighbor_var = N3d
-		boundary = master_interface
-		ux = vp3x
-		uy = vp3y
-		uz = vp3z
-	[../]
-
-	[./N4_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N4
-        neighbor_var = N4d
-		boundary = master_interface
-	[../]
-
-	[./N4_interface_advection]
-		type = InterfaceAdvection
-		variable = N4
-        neighbor_var = N4d
-		boundary = master_interface
-		ux = vp4x
-		uy = vp4y
-		uz = vp4z
-	[../]
-
-	[./N5_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N5
-        neighbor_var = N5d
-		boundary = master_interface
-	[../]
-
-	[./N5_interface_advection]
-		type = InterfaceAdvection
-		variable = N5
-        neighbor_var = N5d
-		boundary = master_interface
-		ux = vp5x
-		uy = vp5y
-		uz = vp5z
-	[../]
-
-	[./N6_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N6
-        neighbor_var = N6d
-		boundary = master_interface
-	[../]
-
-	[./N6_interface_advection]
-		type = InterfaceAdvection
-		variable = N6
-        neighbor_var = N6d
-		boundary = master_interface
-		ux = vp6x
-		uy = vp6y
-		uz = vp6z
-	[../]
-
-	[./N7_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N7
-        neighbor_var = N7d
-		boundary = master_interface
-	[../]
-
-	[./N7_interface_advection]
-		type = InterfaceAdvection
-		variable = N7
-        neighbor_var = N7d
-		boundary = master_interface
-		ux = vp7x
-		uy = vp7y
-		uz = vp7z
-	[../]
-
-	[./N8_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N8
-        neighbor_var = N8d
-		boundary = master_interface
-	[../]
-
-	[./N8_interface_advection]
-		type = InterfaceAdvection
-		variable = N8
-        neighbor_var = N8d
-		boundary = master_interface
-		ux = vp8x
-		uy = vp8y
-		uz = vp8z
-	[../]
-
-	[./N9_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N9
-        neighbor_var = N9d
-		boundary = master_interface
-	[../]
-
-	[./N9_interface_advection]
-		type = InterfaceAdvection
-		variable = N9
-        neighbor_var = N9d
-		boundary = master_interface
-		ux = vp9x
-		uy = vp9y
-		uz = vp9z
-	[../]
-
-	[./N10_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N10
-        neighbor_var = N10d
-		boundary = master_interface
-	[../]
-
-	[./N10_interface_advection]
-		type = InterfaceAdvection
-		variable = N10
-        neighbor_var = N10d
-		boundary = master_interface
-		ux = vp10x
-		uy = vp10y
-		uz = vp10z
-	[../]
-
-	[./N11_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N11
-        neighbor_var = N11d
-		boundary = master_interface
-	[../]
-
-	[./N11_interface_advection]
-		type = InterfaceAdvection
-		variable = N11
-        neighbor_var = N11d
-		boundary = master_interface
-		ux = vp11x
-		uy = vp11y
-		uz = vp11z
-	[../]
-
-	[./N12_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N12
-        neighbor_var = N12d
-		boundary = master_interface
-	[../]
-
-	[./N12_interface_advection]
-		type = InterfaceAdvection
-		variable = N12
-        neighbor_var = N12d
-		boundary = master_interface
-		ux = vp12x
-		uy = vp12y
-		uz = vp12z
-	[../]
-
-	[./N13_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N13
-        neighbor_var = N13d
-		boundary = master_interface
-	[../]
-
-	[./N13_interface_advection]
-		type = InterfaceAdvection
-		variable = N13
-        neighbor_var = N13d
-		boundary = master_interface
-		ux = vp13x
-		uy = vp13y
-		uz = vp13z
-	[../]
-
-	[./N14_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N14
-        neighbor_var = N14d
-		boundary = master_interface
-	[../]
-
-	[./N14_interface_advection]
-		type = InterfaceAdvection
-		variable = N14
-        neighbor_var = N14d
-		boundary = master_interface
-		ux = vp14x
-		uy = vp14y
-		uz = vp14z
-	[../]
-
-	[./N15_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N15
-        neighbor_var = N15d
-		boundary = master_interface
-	[../]
-
-	[./N15_interface_advection]
-		type = InterfaceAdvection
-		variable = N15
-        neighbor_var = N15d
-		boundary = master_interface
-		ux = vp15x
-		uy = vp15y
-		uz = vp15z
-	[../]
-
-	[./N16_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N16
-        neighbor_var = N16d
-		boundary = master_interface
-	[../]
-
-	[./N16_interface_advection]
-		type = InterfaceAdvection
-		variable = N16
-        neighbor_var = N16d
-		boundary = master_interface
-		ux = vp16x
-		uy = vp16y
-		uz = vp16z
-	[../]
-
-	[./N17_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N17
-        neighbor_var = N17d
-		boundary = master_interface
-	[../]
-
-	[./N17_interface_advection]
-		type = InterfaceAdvection
-		variable = N17
-        neighbor_var = N17d
-		boundary = master_interface
-		ux = vp17x
-		uy = vp17y
-		uz = vp17z
-	[../]
-
-	[./N18_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N18
-        neighbor_var = N18d
-		boundary = master_interface
-	[../]
-
-	[./N18_interface_advection]
-		type = InterfaceAdvection
-		variable = N18
-        neighbor_var = N18d
-		boundary = master_interface
-		ux = vp18x
-		uy = vp18y
-		uz = vp18z
-	[../]
-
-	[./N19_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N19
-        neighbor_var = N19d
-		boundary = master_interface
-	[../]
-
-	[./N19_interface_advection]
-		type = InterfaceAdvection
-		variable = N19
-        neighbor_var = N19d
-		boundary = master_interface
-		ux = vp19x
-		uy = vp19y
-		uz = vp19z
-	[../]
 
 [] #END InterfaceKernels
 
@@ -3601,206 +2333,6 @@
 
 [BCs]
 
-    [./N0_Flux_in_L]
-        type = DGConcentrationFluxBC
-        variable = N0
-        boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp0x
-		uy = vp0y
-		uz = vp0z
-    [../]
- 
-	[./N1_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N1
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp1x
-		uy = vp1y
-		uz = vp1z
-	[../]
- 
-	[./N2_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N2
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp2x
-		uy = vp2y
-		uz = vp2z
-	[../]
- 
-    [./N3_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N3
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp3x
-		uy = vp3y
-		uz = vp3z
-	[../]
- 
-	[./N4_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N4
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp4x
-		uy = vp4y
-		uz = vp4z
-	[../]
-
-    [./N5_Flux_in_L]
-        type = DGConcentrationFluxBC
-        variable = N5
-        boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp5x
-		uy = vp5y
-		uz = vp5z
-    [../]
- 
-	[./N6_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N6
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp6x
-		uy = vp6y
-		uz = vp6z
-	[../]
- 
-	[./N7_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N7
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp7x
-		uy = vp7y
-		uz = vp7z
-	[../]
- 
-    [./N8_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N8
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp8x
-		uy = vp8y
-		uz = vp8z
-	[../]
- 
-	[./N9_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N9
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp9x
-		uy = vp9y
-		uz = vp9z
-	[../]
-
-    [./N10_Flux_in_L]
-        type = DGConcentrationFluxBC
-        variable = N10
-        boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp10x
-		uy = vp10y
-		uz = vp10z
-    [../]
- 
-	[./N11_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N11
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp11x
-		uy = vp11y
-		uz = vp11z
-	[../]
- 
-	[./N12_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N12
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp12x
-		uy = vp12y
-		uz = vp12z
-	[../]
- 
-    [./N13_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N13
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp13x
-		uy = vp13y
-		uz = vp13z
-	[../]
- 
-	[./N14_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N14
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp14x
-		uy = vp14y
-		uz = vp14z
-	[../]
-
-    [./N15_Flux_in_L]
-        type = DGConcentrationFluxBC
-        variable = N15
-        boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp15x
-		uy = vp15y
-		uz = vp15z
-    [../]
- 
-	[./N16_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N16
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp16x
-		uy = vp16y
-		uz = vp16z
-	[../]
- 
-	[./N17_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N17
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp17x
-		uy = vp17y
-		uz = vp17z
-	[../]
- 
-    [./N18_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N18
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp18x
-		uy = vp18y
-		uz = vp18z
-	[../]
- 
-	[./N19_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N19
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp19x
-		uy = vp19y
-		uz = vp19z
-	[../]
-
 [] #END BCs
 
 [Materials]
@@ -3821,23 +2353,18 @@
         coupled_vy = 'vp0y vp1y vp2y vp3y vp4y vp5y vp6y vp7y vp8y vp9y vp10y vp11y vp12y vp13y vp14y vp15y vp16y vp17y vp18y vp19y'
         coupled_vz = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z vp10z vp11z vp12z vp13z vp14z vp15z vp16z vp17z vp18z vp19z'
     [../]
+ 
+#	[./ADConversion_BrownianFequency]
+# 		type = MaterialADConverter
+#        reg_props_in = '_beta_Br'
+#        ad_props_out = 'AD_beta_Br'
+#    [../]
 
-	[./CollisionParams_Surface]
- 		type = CollisionParameters
-        block = 1
-        cardinal_object = cardinal
-        coupled_conc = 'N0d N1d N2d N3d N4d N5d N6d N7d N8d N9d N10d N11d N12d N13d N14d N15d N16d N17d N18d N19d'
-        air_density = air_dens
-        air_viscosity = air_visc
-        temperature = air_temp
-        ionization = air_ions
-        windx = 0.0
-        windy = 0.0
-        windz = 0.0
-        coupled_vx = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
-        coupled_vy = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
-        coupled_vz = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
-    [../]
+#	[./ADConversion_BrownianEfficiency]
+# 		type = MaterialADConverter
+#        reg_props_in = '_alpha_Br'
+#        ad_props_out = 'AD_alpha_Br'
+#    [../]
 
 [] #END Materials
 
@@ -3862,146 +2389,6 @@
         execute_on = 'initial timestep_begin timestep_end'
         block = 0
     [../]
- 
-    [./N00_floor]
-		type = ElementAverageValue
-		variable = N0d
-		execute_on = 'initial timestep_end'
-     	block = 1
-	[../]
-
-    [./N01_floor]
-		type = ElementAverageValue
-		variable = N1d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N02_floor]
-		type = ElementAverageValue
-		variable = N2d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N03_floor]
-		type = ElementAverageValue
-		variable = N3d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N04_floor]
-		type = ElementAverageValue
-		variable = N4d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N05_floor]
-		type = ElementAverageValue
-		variable = N5d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N06_floor]
-		type = ElementAverageValue
-		variable = N6d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N07_floor]
-		type = ElementAverageValue
-		variable = N7d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N08_floor]
-		type = ElementAverageValue
-		variable = N8d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N09_floor]
-		type = ElementAverageValue
-		variable = N9d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N10_floor]
-		type = ElementAverageValue
-		variable = N10d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N11_floor]
-		type = ElementAverageValue
-		variable = N11d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N12_floor]
-		type = ElementAverageValue
-		variable = N12d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N13_floor]
-		type = ElementAverageValue
-		variable = N13d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N14_floor]
-		type = ElementAverageValue
-		variable = N14d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N15_floor]
-		type = ElementAverageValue
-		variable = N15d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N16_floor]
-		type = ElementAverageValue
-		variable = N16d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N17_floor]
-		type = ElementAverageValue
-		variable = N17d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N18_floor]
-		type = ElementAverageValue
-		variable = N18d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N19_floor]
-		type = ElementAverageValue
-		variable = N19d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
  
 	[./N00]
 		type = ElementAverageValue
@@ -4153,12 +2540,6 @@
  		solve_type = pjfnk
 	[../]
  
-# 	[./FDP_jfnk]
-# 		type = FDP
-#  		full = true
-# 		solve_type = 'PJFNK'
-# 	[../]
- 
 [] #END Preconditioning
  
 [Executioner]
@@ -4181,13 +2562,13 @@
     nl_max_its = 50
  
     start_time = 0.0
-	end_time = 864000.0
+	end_time = 60.0
     dtmax = 3600.0
 
     [./TimeStepper]
 #		type = SolutionTimeAdaptiveDT
 		type = ConstantDT
-        dt = 360.0
+        dt = 5.0
     [../]
  
 [] #END Executioner
@@ -4201,6 +2582,6 @@
     exodus = true
     csv = true
     print_linear_residuals = false
-    interval = 10
+    #interval = 10
 
 [] #END Outputs

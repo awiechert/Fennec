@@ -46,9 +46,6 @@
 /// DGMomentumAdvection class object forward declarations
 class DGMomentumAdvection;
 
-template<>
-InputParameters validParams<DGMomentumAdvection>();
-
 /// DGMomentumAdvection class object inherits from DGKernel object
 /** This class object inherits from the DGKernel object in the MOOSE framework.
 All public and protected members of this class are required function overrides. The object
@@ -62,7 +59,10 @@ order to provide the full residuals and Jacobians for the system. */
 class DGMomentumAdvection : public DGAdvection
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	DGMomentumAdvection(const InputParameters & parameters);
 
 protected:

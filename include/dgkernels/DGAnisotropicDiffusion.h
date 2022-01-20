@@ -50,9 +50,6 @@
 /// DGAnisotropicDiffusion class object forward declarations
 class DGAnisotropicDiffusion;
 
-template<>
-InputParameters validParams<DGAnisotropicDiffusion>();
-
 /// DGAnisotropicDiffusion class object inherits from DGKernel object
 /** This class object inherits from the DGKernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides. The object
@@ -66,7 +63,10 @@ InputParameters validParams<DGAnisotropicDiffusion>();
 class DGAnisotropicDiffusion : public DGKernel
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	DGAnisotropicDiffusion(const InputParameters & parameters);
 	
 protected:

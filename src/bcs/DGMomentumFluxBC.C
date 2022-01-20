@@ -46,10 +46,9 @@
  */
 registerMooseObject("fennecApp", DGMomentumFluxBC);
 
-template<>
-InputParameters validParams<DGMomentumFluxBC>()
+InputParameters DGMomentumFluxBC::validParams()
 {
-	InputParameters params = validParams<DGFluxBC>();
+	InputParameters params = DGFluxBC::validParams();
 	params.addRequiredCoupledVar("ux","Variable for velocity in x-direction");
 	params.addRequiredCoupledVar("uy","Variable for velocity in y-direction");
 	params.addRequiredCoupledVar("uz","Variable for velocity in z-direction");

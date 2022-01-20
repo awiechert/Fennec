@@ -42,10 +42,9 @@
  */
 registerMooseObject("fennecApp", MomentumAccumulation);
 
-template<>
-InputParameters validParams<MomentumAccumulation>()
+InputParameters MomentumAccumulation::validParams()
 {
-	InputParameters params = validParams<TimeDerivative>();
+	InputParameters params = TimeDerivative::validParams();
 	params.addRequiredCoupledVar("density","Variable for density");
 	return params;
 }

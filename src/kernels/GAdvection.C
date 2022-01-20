@@ -39,10 +39,9 @@
  */
 registerMooseObject("fennecApp", GAdvection);
 
-template<>
-InputParameters validParams<GAdvection>()
+InputParameters GAdvection::validParams()
 {
-	InputParameters params = validParams<Kernel>();
+	InputParameters params = Kernel::validParams();
 	params.addParam<Real>("vx",0, "x-component of velocity vector");
 	params.addParam<Real>("vy",0,"y-component of velocity vector");
 	params.addParam<Real>("vz",0,"z-component of velocity vector");

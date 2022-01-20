@@ -42,9 +42,6 @@
 /// GConcentrationAdvection class object forward declarations
 class GConcentrationAdvection;
 
-template<>
-InputParameters validParams<GConcentrationAdvection>();
-
 /// GConcentrationAdvection class object inherits from Kernel object
 /** This class object inherits from the Kernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
@@ -57,7 +54,10 @@ InputParameters validParams<GConcentrationAdvection>();
 class GConcentrationAdvection : public GAdvection
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	GConcentrationAdvection(const InputParameters & parameters);
 	
 protected:

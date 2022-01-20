@@ -39,10 +39,9 @@
  */
 registerMooseObject("fennecApp", DGFluxLimitedBC);
 
-template<>
-InputParameters validParams<DGFluxLimitedBC>()
+InputParameters DGFluxLimitedBC::validParams()
 {
-	InputParameters params = validParams<IntegratedBC>();
+	InputParameters params = IntegratedBC::validParams();
 	params.addParam<Real>("epsilon", 1.0, "epsilon");
 	params.addParam<Real>("sigma", 10.0, "sigma");
 	params.addParam<Real>("vx",0, "x-component of velocity vector");

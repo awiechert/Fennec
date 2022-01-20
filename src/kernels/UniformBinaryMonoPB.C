@@ -50,10 +50,9 @@
  */
 registerMooseObject("fennecApp", UniformBinaryMonoPB);
 
-template<>
-InputParameters validParams<UniformBinaryMonoPB>()
+InputParameters UniformBinaryMonoPB::validParams()
 {
-    InputParameters params = validParams<Kernel>();
+    InputParameters params = Kernel::validParams();
     params.addParam<Real>("breakup_coefficient",1.0,"Breakup Rate Coefficient (1/s)");
     params.addParam<Real>("fragment_number",2.0,"Number of Fragments formed during breakup (-), Cannot be less than two and should always be set to two when simulating binary breakage");
     params.addRequiredParam< std::vector<Real> >("diameters","Set of particle diameters corresponding to each size bin (m) (Must have same order as the 'coupled_list')");

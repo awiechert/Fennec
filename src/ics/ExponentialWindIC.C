@@ -44,9 +44,9 @@
 
 registerMooseObject("fennecApp", ExponentialWindIC);
 
-template<> InputParameters validParams<ExponentialWindIC>()
+InputParameters ExponentialWindIC::validParams()
 {
-	InputParameters params = validParams<InitialCondition>();
+	InputParameters params = InitialCondition::validParams();
     params.addParam<bool>("x_axis",true,"If true, exponential function will use x-coordinates to calculate wind velocity, will use y-coordinates otherwise.");
     params.addRequiredParam< std::vector<Real> >("constants","Constants for exponential function ()");
 	return params;

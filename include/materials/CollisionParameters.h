@@ -56,9 +56,6 @@
 /// CollisionParameters class object forward declaration
 class CollisionParameters;
 
-template<>
-InputParameters validParams<CollisionParameters>();
-
 /// CollisionParameters class object inherits from Material object
 /** This class object inherits from the Material object in the MOOSE framework.
 	All public and protected members of this class are required function overrides. The object
@@ -69,6 +66,9 @@ InputParameters validParams<CollisionParameters>();
 class CollisionParameters : public Material
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Required constructor for objects in MOOSE
     CollisionParameters(const InputParameters & parameters);
     

@@ -51,10 +51,9 @@
 
 registerMooseObject("fennecApp", CoagulationMonoPB);
 
-template<>
-InputParameters validParams<CoagulationMonoPB>()
+InputParameters CoagulationMonoPB::validParams()
 {
-    InputParameters params = validParams<BrownianConvecMonoPB>();
+    InputParameters params = BrownianConvecMonoPB::validParams();
     params.addParam<Real>("alpha_TI",1.0,"Collision Efficiency for Turbulent Inertial Motion (-)");
     params.addParam<Real>("alpha_TS",1.0,"Collision Efficiency for Turbulent Shear (-)");
     return params;

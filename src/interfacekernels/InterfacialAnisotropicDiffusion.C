@@ -43,10 +43,9 @@
  */
 registerMooseObject("fennecApp", InterfacialAnisotropicDiffusion);
 
-template<>
-InputParameters validParams<InterfacialAnisotropicDiffusion>()
+InputParameters InterfacialAnisotropicDiffusion::validParams()
 {
-	InputParameters params = validParams<InterfaceKernel>();
+	InputParameters params = InterfaceKernel::validParams();
 	params.addParam<Real>("sigma", 10.0, "sigma");
 	params.addParam<Real>("epsilon", 1.0, "epsilon");
 	params.addParam<Real>("Dxx",0,"xx-component of diffusion tensor");

@@ -47,16 +47,16 @@
 /// HallAerodynamicForce class object forward declaration
 class HallAerodynamicForce;
 
-template<>
-InputParameters validParams<HallAerodynamicForce>();
-
 /// HallAerodynamicForce class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
 	calculate the mean aerodynamic pull-off force acting on a particle in the n-direction. */
 class HallAerodynamicForce : public AuxKernel
 {
 public:
-	/// Standard MOOSE public constructor
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Standard MOOSE public constructor
 	HallAerodynamicForce(const InputParameters & parameters);
 	
 protected:

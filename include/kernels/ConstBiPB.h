@@ -56,9 +56,6 @@
 /// ConstBiPB class object forward declarations
 class ConstBiPB;
 
-template<>
-InputParameters validParams<ConstBiPB>();
-
 /// ConstBiPB class object inherits from Kernel object
 /** This class object inherits from the Kernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
@@ -68,6 +65,9 @@ InputParameters validParams<ConstBiPB>();
 class ConstBiPB : public Kernel
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Required constructor for objects in MOOSE
     ConstBiPB(const InputParameters & parameters);
     

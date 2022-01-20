@@ -48,9 +48,6 @@
 /// CoagulationMonoPB class object forward declarations
 class CoagulationMonoPB;
 
-template<>
-InputParameters validParams<CoagulationMonoPB>();
-
 /// CoagulationMonoPB class object inherits from BrownianConvecMonoPB object
 /** This class object inherits from the BrownianConvecMonoPB object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
@@ -60,6 +57,9 @@ InputParameters validParams<CoagulationMonoPB>();
 class CoagulationMonoPB : public BrownianConvecMonoPB
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Required constructor for objects in MOOSE
     CoagulationMonoPB(const InputParameters & parameters);
     

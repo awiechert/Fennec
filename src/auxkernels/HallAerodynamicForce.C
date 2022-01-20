@@ -48,9 +48,9 @@
  */
 registerMooseObject("fennecApp", HallAerodynamicForce);
 
-template<> InputParameters validParams<HallAerodynamicForce>()
+InputParameters HallAerodynamicForce::validParams()
 {
-	InputParameters params = validParams<AuxKernel>();
+	InputParameters params = AuxKernel::validParams();
     params.addRequiredCoupledVar("air_density","Variable for Air Density (kg/m^3)");
     params.addRequiredCoupledVar("kinematic_viscosity","Variable for Air Kinematic Viscocity (m^2/s)");
     params.addRequiredCoupledVar("aerosol_diameter","Diameter of the Aerosol Being Considered (m)");

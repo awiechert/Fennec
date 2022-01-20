@@ -58,10 +58,9 @@
  */
 registerMooseObject("fennecApp", ConstBiPB);
 
-template<>
-InputParameters validParams<ConstBiPB>()
+InputParameters ConstBiPB::validParams()
 {
-    InputParameters params = validParams<Kernel>();
+    InputParameters params = Kernel::validParams();
     params.addParam<Real>("efficiency",1.0,"Collision Efficiency (-)");
     params.addParam<Real>("frequency",1.0,"Collision Frequency (m^3/s)");
     params.addRequiredParam< std::vector<Real> >("diameters","Set of particle diameters corresponding to each size bin (m) (Must have same order as each row of 'coupled_list')");

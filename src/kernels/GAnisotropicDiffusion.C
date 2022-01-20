@@ -39,10 +39,9 @@
  */
 registerMooseObject("fennecApp", GAnisotropicDiffusion);
 
-template<>
-InputParameters validParams<GAnisotropicDiffusion>()
+InputParameters GAnisotropicDiffusion::validParams()
 {
-	InputParameters params = validParams<Kernel>();
+	InputParameters params = Kernel::validParams();
 	params.addParam<Real>("Dxx",0,"xx-component of diffusion tensor");
 	params.addParam<Real>("Dxy",0,"xy-component of diffusion tensor");
 	params.addParam<Real>("Dxz",0,"xz-component of diffusion tensor");

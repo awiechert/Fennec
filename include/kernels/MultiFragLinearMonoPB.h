@@ -48,9 +48,6 @@
 /// MultiFragLinearMonoPB class object forward declarations
 class MultiFragLinearMonoPB;
 
-template<>
-InputParameters validParams<MultiFragLinearMonoPB>();
-
 /// MultiFragLinearMonoPB class object inherits from Kernel object
 /** This class object inherits from the Kernel object in the MOOSE framework.
  All public and protected members of this class are required function overrides.
@@ -61,6 +58,9 @@ InputParameters validParams<MultiFragLinearMonoPB>();
 class MultiFragLinearMonoPB : public Kernel
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Required constructor for objects in MOOSE
     MultiFragLinearMonoPB(const InputParameters & parameters);
     

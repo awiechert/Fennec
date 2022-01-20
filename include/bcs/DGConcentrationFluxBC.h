@@ -44,9 +44,6 @@
 /// DGConcentrationFluxBC class object forward declaration
 class DGConcentrationFluxBC;
 
-template<>
-InputParameters validParams<DGConcentrationFluxBC>();
-
 /// DGConcentrationFluxBC class object inherits from IntegratedBC object
 /** This class object inherits from the IntegratedBC object.
 	All public and protected members of this class are required function overrides.
@@ -55,7 +52,10 @@ InputParameters validParams<DGConcentrationFluxBC>();
 class DGConcentrationFluxBC : public DGFluxBC
 {
 public:
-	/// Required constructor for BC objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for BC objects in MOOSE
 	DGConcentrationFluxBC(const InputParameters & parameters);
 	
 protected:

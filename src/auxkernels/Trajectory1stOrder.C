@@ -46,10 +46,9 @@
  */
 registerMooseObject("fennecApp", Trajectory1stOrder);
 
-template<>
-InputParameters validParams<Trajectory1stOrder>()
+InputParameters Trajectory1stOrder::validParams()
 {
-	InputParameters params = validParams<AuxKernel>();
+	InputParameters params = AuxKernel::validParams();
 	params.addRequiredCoupledVar("windx","Variable for wind velocity in x-direction");
     params.addRequiredCoupledVar("windy","Variable for wind velocity in y-direction");
     params.addRequiredCoupledVar("windz","Variable for wind velocity in z-direction");

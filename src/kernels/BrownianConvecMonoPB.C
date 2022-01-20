@@ -51,12 +51,10 @@
 
 registerMooseObject("fennecApp", BrownianConvecMonoPB);
 
-template<>
-InputParameters validParams<BrownianConvecMonoPB>()
+InputParameters BrownianConvecMonoPB::validParams()
 {
-    InputParameters params = validParams<BrownianMonoPB>();
+    InputParameters params = BrownianMonoPB::validParams();
     return params;
-
 }
 
 BrownianConvecMonoPB::BrownianConvecMonoPB(const InputParameters & parameters)

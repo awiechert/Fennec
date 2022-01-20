@@ -45,9 +45,6 @@
 /// AverageMaterial class object forward declaration
 class AverageMaterial;
 
-template<>
-InputParameters validParams<AverageMaterial>();
-
 /// AverageMaterial class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
 	calculate the average of a set of non-linear variables that has passed through the elements
@@ -56,7 +53,10 @@ InputParameters validParams<AverageMaterial>();
 class AverageMaterial : public AuxKernel
 {
 public:
-	/// Standard MOOSE public constructor
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Standard MOOSE public constructor
 	AverageMaterial(const InputParameters & parameters);
 	
 protected:

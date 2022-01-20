@@ -44,9 +44,6 @@
 /// MomentumPressureGrad class object forward declarations
 class MomentumPressureGrad;
 
-template<>
-InputParameters validParams<MomentumPressureGrad>();
-
 /// MomentumPressureGrad class object inherits from Kernel object
 /** This class object inherits from the Kernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
@@ -55,7 +52,10 @@ InputParameters validParams<MomentumPressureGrad>();
 class MomentumPressureGrad : public Kernel
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	MomentumPressureGrad(const InputParameters & parameters);
 	
 protected:

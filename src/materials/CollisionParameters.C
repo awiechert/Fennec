@@ -57,10 +57,9 @@
  */
 registerMooseObject("fennecApp", CollisionParameters);
 
-template<>
-InputParameters validParams<CollisionParameters>()
+InputParameters CollisionParameters::validParams()
 {
-    InputParameters params = validParams<Material>();
+    InputParameters params = Material::validParams();
     params.addRequiredParam<UserObjectName>("cardinal_object","Name of the CARDINAL_Object object");
     params.addRequiredCoupledVar("coupled_conc","List of names of the number concentration variables being coupled (Must order the same in each kernel following Row Major Order)");
     params.addRequiredCoupledVar("air_density","Variable for air density (kg/m^3)");

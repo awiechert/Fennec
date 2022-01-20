@@ -1,7 +1,7 @@
 /*!
- *  \file ShearMultiFragLinearMonoPB.h
- *	\brief Kernel for Shear Driven Multi-Fragment Breakage in a Mono-variate Population Balance Model
- *	\details This file creates a MOOSE kernel that will couple together multiple number
+ *  \file ADShearMultiFragLinearMPB.h
+ *	\brief ADKernel for Shear Driven Multi-Fragment Breakage in a Mono-variate Population Balance Model
+ *	\details This file creates a MOOSE AD kernel that will couple together multiple number
  *			concentrations of particles and calculate a population balance rate function
  *			for particle breakup based on the muli-fragment linear binary breakage function
  *			with a breakup rate coefficient calculated using a semi-emperical formula for
@@ -16,7 +16,7 @@
  *			Y.K. Ho, P. Doshi, H.K. Yeoh, G.C. Ngoh, Chem. Eng. Sci., 116, 601-610, 2014.
  *
  *  \author Alexander Wiechert
- *	\date 05/14/2021
+ *	\date 01/10/2022
  *	\copyright This kernel was designed and built at the Georgia Institute
  *             of Technology by Alexander Wiechert for research in the area
  *             of radioactive particle transport and settling following a
@@ -46,26 +46,26 @@
 
 #pragma once
 
-#include "Kernel.h"
+#include "ADKernel.h"
 
-/// ShearMultiFragLinearMonoPB class object forward declarations
-class ShearMultiFragLinearMonoPB;
+/// ADShearMultiFragLinearMPB class object forward declarations
+class ADShearMultiFragLinearMPB;
 
-/// ShearMultiFragLinearMonoPB class object inherits from Kernel object
+/// ADShearMultiFragLinearMPB class object inherits from ADKernel object
 /** This class object inherits from the Kernel object in the MOOSE framework.
  All public and protected members of this class are required function overrides.
  The kernel has a set of parameters (alpha and beta) that may be computed
  by other future kernels.
  */
 
-class ShearMultiFragLinearMonoPB : public Kernel
+class ADShearMultiFragLinearMPB : public ADKernel
 {
 public:
     /// Static Member Function for Input Parameters
     static InputParameters validParams();
     
     /// Required constructor for objects in MOOSE
-    ShearMultiFragLinearMonoPB(const InputParameters & parameters);
+    ADShearMultiFragLinearMPB(const InputParameters & parameters);
     
 protected:
     /// Function to compute outcome of Kronecker Delta Function
@@ -85,19 +85,7 @@ protected:
     
     /// Required residual function for standard kernels in MOOSE
     /** This function returns a residual contribution for this object.*/
-    virtual Real computeQpResidual() override;
-    
-    /// Required Jacobian function for standard kernels in MOOSE
-    /** This function returns a Jacobian contribution for this object. The Jacobian being
-     computed is the associated diagonal element in the overall Jacobian matrix for the
-     system and is used in preconditioning of the linear sub-problem. */
-    virtual Real computeQpJacobian() override;
-    
-    /// Not Required, but aids in the preconditioning step
-    /** This function returns the off diagonal Jacobian contribution for this object. By
-     returning a non-zero value we will hopefully improve the convergence rate for the
-     cross coupling of the variables. */
-    virtual Real computeQpOffDiagJacobian(unsigned int jvar) override;
+    virtual ADReal computeQpResidual() override;
     
     /// Parameters for the base class are listed below
     

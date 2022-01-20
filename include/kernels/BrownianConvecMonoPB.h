@@ -48,9 +48,6 @@
 /// BrownianConvecMonoPB class object forward declarations
 class BrownianConvecMonoPB;
 
-template<>
-InputParameters validParams<BrownianConvecMonoPB>();
-
 /// BrownianConvecMonoPB class object inherits from BrownianMonoPB object
 /** This class object inherits from the Kernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
@@ -60,6 +57,9 @@ InputParameters validParams<BrownianConvecMonoPB>();
 class BrownianConvecMonoPB : public BrownianMonoPB
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Required constructor for objects in MOOSE
     BrownianConvecMonoPB(const InputParameters & parameters);
     

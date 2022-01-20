@@ -42,10 +42,9 @@
  */
 registerMooseObject("fennecApp", CollisionTesting);
 
-template<>
-InputParameters validParams<CollisionTesting>()
+InputParameters CollisionTesting::validParams()
 {
-    InputParameters params = validParams<AuxKernel>();
+    InputParameters params = AuxKernel::validParams();
     params.addRequiredCoupledVar("conc","Variable name for a coupled number concentration");
     params.addRequiredCoupledVar("conc_other","Variable name for another coupled number concentration");
     return params;

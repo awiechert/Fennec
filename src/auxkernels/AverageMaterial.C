@@ -46,10 +46,9 @@
  */
 registerMooseObject("fennecApp", AverageMaterial);
 
-template<>
-InputParameters validParams<AverageMaterial>()
+InputParameters AverageMaterial::validParams()
 {
-	InputParameters params = validParams<AuxKernel>();
+	InputParameters params = AuxKernel::validParams();
 	params.addCoupledVar("coupled_vars", "List of non-linear variables coupled to this object");
 	return params;
 }

@@ -45,9 +45,6 @@
 /// NuclideBalanceCheck class object forward declaration
 class NuclideBalanceCheck;
 
-template<>
-InputParameters validParams<NuclideBalanceCheck>();
-
 /// NuclideBalanceCheck class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
 	calculate the total nuclides of all particles within the domain and is used to check that
@@ -55,6 +52,9 @@ InputParameters validParams<NuclideBalanceCheck>();
 class NuclideBalanceCheck : public AuxKernel
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Standard MOOSE public constructor
     NuclideBalanceCheck(const InputParameters & parameters);
     

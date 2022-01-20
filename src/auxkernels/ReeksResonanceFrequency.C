@@ -48,9 +48,9 @@
  */
 registerMooseObject("fennecApp", ReeksResonanceFrequency);
 
-template<> InputParameters validParams<ReeksResonanceFrequency>()
+InputParameters ReeksResonanceFrequency::validParams()
 {
-	InputParameters params = validParams<AuxKernel>();
+	InputParameters params = AuxKernel::validParams();
     params.addRequiredCoupledVar("kinematic_viscosity","Variable for Air Kinematic Viscocity (m^2/s)");
     params.addRequiredCoupledVar("friction_velocity","Variable for Friction Velocity at Surface (m/s)");
 	return params;

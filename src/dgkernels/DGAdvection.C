@@ -39,10 +39,9 @@
  */
 registerMooseObject("fennecApp", DGAdvection);
 
-template<>
-InputParameters validParams<DGAdvection>()
+InputParameters DGAdvection::validParams()
 {
-	InputParameters params = validParams<DGKernel>();
+	InputParameters params = DGKernel::validParams();
 	params.addParam<Real>("vx",0,"x-component of velocity vector");
 	params.addParam<Real>("vy",0,"y-component of velocity vector");
 	params.addParam<Real>("vz",0,"z-component of velocity vector");

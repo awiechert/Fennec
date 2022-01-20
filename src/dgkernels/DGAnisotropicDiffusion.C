@@ -39,10 +39,9 @@
  */
 registerMooseObject("fennecApp", DGAnisotropicDiffusion);
 
-template<>
-InputParameters validParams<DGAnisotropicDiffusion>()
+InputParameters DGAnisotropicDiffusion::validParams()
 {
-	InputParameters params = validParams<DGKernel>();
+	InputParameters params = DGKernel::validParams();
 	params.addParam<Real>("sigma", 10.0, "sigma");
 	params.addParam<Real>("epsilon", 1.0, "epsilon");
 	params.addParam<Real>("Dxx",0,"xx-component of diffusion tensor");

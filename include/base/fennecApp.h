@@ -13,12 +13,11 @@
 
 class fennecApp;
 
-template <>
-InputParameters validParams<fennecApp>();
-
 class fennecApp : public MooseApp
 {
 public:
+  static InputParameters validParams();
+  
   fennecApp(InputParameters parameters);
     
   virtual ~fennecApp();

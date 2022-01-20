@@ -41,8 +41,6 @@
 /// ExponentialWindIC class object forward declarations
 class ExponentialWindIC;
 
-template<> InputParameters validParams<ExponentialWindIC>();
-
 /// ExponentialWindIC class object inherits from InitialCondition object
 /** This class object inherits from the InitialCondition object in the MOOSE framework.
 	All public and protected members of this class are required function overrides. The object
@@ -51,7 +49,10 @@ template<> InputParameters validParams<ExponentialWindIC>();
 class ExponentialWindIC : public InitialCondition
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	ExponentialWindIC(const InputParameters & parameters);
 	
 	/// Required function override for setting the value of the non-linear variable at a given point

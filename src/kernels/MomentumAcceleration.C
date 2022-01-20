@@ -45,10 +45,9 @@
  */
 registerMooseObject("fennecApp", MomentumAcceleration);
 
-template<>
-InputParameters validParams<MomentumAcceleration>()
+InputParameters MomentumAcceleration::validParams()
 {
-	InputParameters params = validParams<Kernel>();
+	InputParameters params = Kernel::validParams();
 	params.addRequiredCoupledVar("density","Variable for density");
 	params.addRequiredCoupledVar("acceleration","Variable for acceleration in the direction of the velocity this kernel acts on");
 	return params;

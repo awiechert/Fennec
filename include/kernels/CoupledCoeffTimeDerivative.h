@@ -41,9 +41,6 @@
 /// CoupledCoeffTimeDerivative class object forward declarationss
 class CoupledCoeffTimeDerivative;
 
-template<>
-InputParameters validParams<CoupledCoeffTimeDerivative>();
-
 /// CoupledCoeffTimeDerivative class object inherits from Kernel object
 /** This class object inherits from the Kernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
@@ -52,7 +49,10 @@ InputParameters validParams<CoupledCoeffTimeDerivative>();
 class CoupledCoeffTimeDerivative : public Kernel
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	CoupledCoeffTimeDerivative(const InputParameters & parameters);
 	
 protected:

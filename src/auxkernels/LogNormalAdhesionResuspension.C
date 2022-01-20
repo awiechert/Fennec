@@ -57,9 +57,9 @@
  */
 registerMooseObject("fennecApp", LogNormalAdhesionResuspension);
 
-template<> InputParameters validParams<LogNormalAdhesionResuspension>()
+InputParameters LogNormalAdhesionResuspension::validParams()
 {
-	InputParameters params = validParams<AuxKernel>();
+	InputParameters params = AuxKernel::validParams();
     params.addRequiredCoupledVar("resonance_frequency","Variable for Typical Resonance Frequency (1/s)");
     params.addRequiredCoupledVar("mean_adhesion_force","Variable for the Mean of the Actual Adsheion Force (N)");
     params.addRequiredCoupledVar("std_adhesion","Standard Deviation of the Normalized Adsheion Force (-)");

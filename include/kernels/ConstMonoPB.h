@@ -46,9 +46,6 @@
 /// ConstMonoPB class object forward declarations
 class ConstMonoPB;
 
-template<>
-InputParameters validParams<ConstMonoPB>();
-
 /// ConstMonoPB class object inherits from Kernel object
 /** This class object inherits from the Kernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
@@ -58,6 +55,9 @@ InputParameters validParams<ConstMonoPB>();
 class ConstMonoPB : public Kernel
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Required constructor for objects in MOOSE
     ConstMonoPB(const InputParameters & parameters);
     

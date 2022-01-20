@@ -45,16 +45,16 @@
 /// Trajectory1stOrder class object forward declaration
 class Trajectory1stOrder;
 
-template<>
-InputParameters validParams<Trajectory1stOrder>();
-
 /// Trajectory1stOrder class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
 	calculate the particle velocity in the n-direction. */
 class Trajectory1stOrder : public AuxKernel
 {
 public:
-	/// Standard MOOSE public constructor
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Standard MOOSE public constructor
 	Trajectory1stOrder(const InputParameters & parameters);
 	
 protected:

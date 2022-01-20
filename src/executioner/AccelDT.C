@@ -42,11 +42,9 @@
  */
 registerMooseObject("fennecApp", AccelDT);
 
-template <>
-InputParameters
-validParams<AccelDT>()
+InputParameters AccelDT::validParams()
 {
-    InputParameters params = validParams<TimeStepper>();
+    InputParameters params = TimeStepper::validParams();
     params.addParam<Real>("dt_multiplier", 1.0, "Value to multiply by success dt size (1.0 <= dt_multiplier <= 2.0)");
     params.addParam<Real>("dt", 0.1, "Initial dt value");
     

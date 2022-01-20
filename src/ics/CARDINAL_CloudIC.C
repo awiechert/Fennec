@@ -49,9 +49,9 @@
  */
 registerMooseObject("fennecApp", CARDINAL_CloudIC);
 
-template<> InputParameters validParams<CARDINAL_CloudIC>()
+InputParameters CARDINAL_CloudIC::validParams()
 {
-    InputParameters params = validParams<InitialCondition>();
+    InputParameters params = InitialCondition::validParams();
     
     params.addRequiredParam<Real>("x_center","Center of x-coordinate radius");
     params.addRequiredParam<Real>("y_center","Center of y-coordinate radius");

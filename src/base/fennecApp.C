@@ -38,11 +38,9 @@
 //#include "ParabolicWindIC.h"
 //#include "ParabolicWind.h"
 
-template <>
-InputParameters
-validParams<fennecApp>()
+InputParameters fennecApp::validParams()
 {
-  InputParameters params = validParams<MooseApp>();
+  InputParameters params = MooseApp::validParams();
   return params;
 }
 

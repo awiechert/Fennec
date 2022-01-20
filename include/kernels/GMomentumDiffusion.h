@@ -40,9 +40,6 @@
 /// GMomentumDiffusion class object forward declarations
 class GMomentumDiffusion;
 
-template<>
-InputParameters validParams<GMomentumDiffusion>();
-
 /// GAnisotropicDiffusion class object inherits from Kernel object
 /** This class object inherits from the Kernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
@@ -55,7 +52,10 @@ InputParameters validParams<GMomentumDiffusion>();
 class GMomentumDiffusion : public GAnisotropicDiffusion
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	GMomentumDiffusion(const InputParameters & parameters);
 	
 protected:

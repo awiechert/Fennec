@@ -42,9 +42,6 @@
 /// InterfaceAdvection class object forward declarations
 class InterfaceAdvection;
 
-template<>
-InputParameters validParams<InterfaceKernel>();
-
 /// InterfaceAdvection class object inherits from InterfaceKernel object
 /** This class object inherits from the InterfaceKernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides. The object
@@ -57,7 +54,10 @@ InputParameters validParams<InterfaceKernel>();
 class InterfaceAdvection : public InterfaceKernel
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	InterfaceAdvection(const InputParameters & parameters);
 	
 protected:

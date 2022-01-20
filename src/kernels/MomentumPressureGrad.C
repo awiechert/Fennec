@@ -46,10 +46,9 @@
  */
 registerMooseObject("fennecApp", MomentumPressureGrad);
 
-template<>
-InputParameters validParams<MomentumPressureGrad>()
+InputParameters MomentumPressureGrad::validParams()
 {
-	InputParameters params = validParams<Kernel>();
+	InputParameters params = Kernel::validParams();
 	params.addRequiredCoupledVar("pressure","Variable for fluid pressure");
 	params.addParam<unsigned int>("direction",0,"Integer to denote the direction this kernel acts on");
 	

@@ -47,16 +47,16 @@
 /// JKRSmoothAdhesiveForce class object forward declaration
 class JKRSmoothAdhesiveForce;
 
-template<>
-InputParameters validParams<JKRSmoothAdhesiveForce>();
-
 /// JKRSmoothAdhesiveForce class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
 	approximate the adhesive force between a spherical particle and a perfectly smooth surface. */
 class JKRSmoothAdhesiveForce : public AuxKernel
 {
 public:
-	/// Standard MOOSE public constructor
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Standard MOOSE public constructor
 	JKRSmoothAdhesiveForce(const InputParameters & parameters);
 	
 protected:

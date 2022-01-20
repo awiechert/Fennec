@@ -49,12 +49,10 @@
  */
 registerMooseObject("fennecApp", BrownianMonoPB);
 
-template<>
-InputParameters validParams<BrownianMonoPB>()
+InputParameters BrownianMonoPB::validParams()
 {
-    InputParameters params = validParams<ConstMonoPB>();
+    InputParameters params = ConstMonoPB::validParams();
     return params;
-
 }
 
 BrownianMonoPB::BrownianMonoPB(const InputParameters & parameters)
@@ -113,5 +111,5 @@ Real BrownianMonoPB::computeQpJacobian()
 
 Real BrownianMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
-    return 0.0;
+    return ConstMonoPB::computeQpOffDiagJacobian(jvar);
 }

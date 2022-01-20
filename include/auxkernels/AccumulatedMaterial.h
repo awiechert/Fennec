@@ -45,9 +45,6 @@
 /// AccumulatedMaterial class object forward declaration
 class AccumulatedMaterial;
 
-template<>
-InputParameters validParams<AccumulatedMaterial>();
-
 /// AccumulatedMaterial class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
 	calculate the total accumulation of a non-linear variable that has passed through the elements
@@ -56,6 +53,9 @@ InputParameters validParams<AccumulatedMaterial>();
 class AccumulatedMaterial : public AuxKernel
 {
 public:
+	/// Static Member Function for Input Parameters
+    static InputParameters validParams();
+	
 	/// Standard MOOSE public constructor
 	AccumulatedMaterial(const InputParameters & parameters);
 	

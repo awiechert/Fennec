@@ -43,9 +43,6 @@
 /// DGAnisotropicDiffusion class object forward declarations
 class InterfacialAnisotropicDiffusion;
 
-template<>
-InputParameters validParams<InterfacialAnisotropicDiffusion>();
-
 /// InterfacialAnisotropicDiffusion class object inherits from InterfaceKernel object
 /** This class object inherits from the InterfaceKernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides. The object
@@ -58,7 +55,10 @@ InputParameters validParams<InterfacialAnisotropicDiffusion>();
 class InterfacialAnisotropicDiffusion : public InterfaceKernel
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	InterfacialAnisotropicDiffusion(const InputParameters & parameters);
 	
 protected:

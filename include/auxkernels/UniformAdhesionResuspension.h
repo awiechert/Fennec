@@ -51,9 +51,6 @@
 /// UniformAdhesionResuspension class object forward declaration
 class UniformAdhesionResuspension;
 
-template<>
-InputParameters validParams<UniformAdhesionResuspension>();
-
 /// UniformAdhesionResuspension class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will calculate 
 	the resuspension rate in a domain with uniform adhesion for all particles of a given size. */
@@ -61,7 +58,10 @@ InputParameters validParams<UniformAdhesionResuspension>();
 class UniformAdhesionResuspension : public AuxKernel
 {
 public:
-	/// Standard MOOSE public constructor
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Standard MOOSE public constructor
 	UniformAdhesionResuspension(const InputParameters & parameters);
 	
 protected:

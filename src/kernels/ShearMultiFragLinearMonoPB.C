@@ -53,10 +53,9 @@
  */
 registerMooseObject("fennecApp", ShearMultiFragLinearMonoPB);
 
-template<>
-InputParameters validParams<ShearMultiFragLinearMonoPB>()
+InputParameters ShearMultiFragLinearMonoPB::validParams()
 {
-    InputParameters params = validParams<Kernel>();
+    InputParameters params = Kernel::validParams();
     params.addParam<Real>("breakup_constant",1.0,"Breakup Constant (-)");
     params.addParam<Real>("kinematic_viscosity",1.562e-5,"Kinematic Viscosity of Air (m^2/s)");
     params.addParam<Real>("prime_radius",1.0e-9,"Radius of the Prime Particle in Aggregate (m)");

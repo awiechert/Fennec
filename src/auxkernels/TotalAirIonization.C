@@ -43,12 +43,12 @@
  * argument is the name of the App with an "App" suffix (i.e., "fennecApp"). The second
  * argument is the name of the C++ class you created.
  */
+
 registerMooseObject("fennecApp", TotalAirIonization);
 
-template<>
-InputParameters validParams<TotalAirIonization>()
+InputParameters TotalAirIonization::validParams()
 {
-    InputParameters params = validParams<AuxKernel>();
+    InputParameters params = AuxKernel::validParams();
     params.addRequiredCoupledVar("coupled_list","List of names of the number concentration variables being coupled");
     params.addRequiredCoupledVar("air_density","Variable for air density (kg/m^3)");
     params.addRequiredParam<UserObjectName>("cardinal_object","Name of the CARDINAL_Object object");

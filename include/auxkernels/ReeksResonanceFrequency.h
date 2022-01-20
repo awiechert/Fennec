@@ -47,16 +47,16 @@
 /// ReeksResonanceFrequency class object forward declaration
 class ReeksResonanceFrequency;
 
-template<>
-InputParameters validParams<ReeksResonanceFrequency>();
-
 /// ReeksResonanceFrequency class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
 	approximate the typical forcing frequency for particle motion in the n-direction. */
 class ReeksResonanceFrequency : public AuxKernel
 {
 public:
-	/// Standard MOOSE public constructor
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Standard MOOSE public constructor
 	ReeksResonanceFrequency(const InputParameters & parameters);
 	
 protected:

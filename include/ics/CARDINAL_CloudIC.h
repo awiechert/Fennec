@@ -48,8 +48,6 @@
 /// CARDINAL_CloudIC class object forward declarations
 class CARDINAL_CloudIC;
 
-template<> InputParameters validParams<CARDINAL_CloudIC>();
-
 /// CARDINAL_CloudIC class object inherits from InitialCondition object
 /** This class object inherits from the InitialCondition object in the MOOSE framework.
 	All public and protected members of this class are required function overrides. The object
@@ -59,6 +57,9 @@ template<> InputParameters validParams<CARDINAL_CloudIC>();
 class CARDINAL_CloudIC : public InitialCondition
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Required constructor for objects in MOOSE
     CARDINAL_CloudIC(const InputParameters & parameters);
     

@@ -47,16 +47,16 @@
 /// SemilogFrictionVelocity class object forward declaration
 class SemilogFrictionVelocity;
 
-template<>
-InputParameters validParams<SemilogFrictionVelocity>();
-
 /// SemilogFrictionVelocity class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
 	calculate the parabolic wind velocity in the n-direction. */
 class SemilogFrictionVelocity : public AuxKernel
 {
 public:
-	/// Standard MOOSE public constructor
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Standard MOOSE public constructor
 	SemilogFrictionVelocity(const InputParameters & parameters);
 	
 protected:

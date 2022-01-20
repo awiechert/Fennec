@@ -48,10 +48,9 @@
  */
 registerMooseObject("fennecApp", DGMomentumDiffusion);
 
-template<>
-InputParameters validParams<DGMomentumDiffusion>()
+InputParameters DGMomentumDiffusion::validParams()
 {
-	InputParameters params = validParams<DGAnisotropicDiffusion>();
+	InputParameters params = DGAnisotropicDiffusion::validParams();
 	params.addRequiredCoupledVar("viscosity","Variable for viscosity");
 	return params;
 }

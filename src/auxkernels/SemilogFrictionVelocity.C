@@ -48,9 +48,9 @@
  */
 registerMooseObject("fennecApp", SemilogFrictionVelocity);
 
-template<> InputParameters validParams<SemilogFrictionVelocity>()
+InputParameters SemilogFrictionVelocity::validParams()
 {
-	InputParameters params = validParams<AuxKernel>();
+	InputParameters params = AuxKernel::validParams();
     params.addRequiredCoupledVar("centerline_velocity","Centerline Wind Velocity (m/s)");
     params.addRequiredCoupledVar("centerline_height","Height of the Centerline Velocity (m)");
     params.addRequiredCoupledVar("roughness_height","Aerodynamic Roughness Height (m)");

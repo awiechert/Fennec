@@ -47,16 +47,16 @@
 /// ParabolicWind class object forward declaration
 class ParabolicWind;
 
-template<>
-InputParameters validParams<ParabolicWind>();
-
 /// ParabolicWind class inherits from AuxKernel
 /** This class object creates an AuxKernel for use in the MOOSE framework. The AuxKernel will
 	calculate the parabolic wind velocity in the n-direction. */
 class ParabolicWind : public AuxKernel
 {
 public:
-	/// Standard MOOSE public constructor
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Standard MOOSE public constructor
 	ParabolicWind(const InputParameters & parameters);
 	
 protected:

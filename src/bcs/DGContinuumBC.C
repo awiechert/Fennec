@@ -43,10 +43,9 @@
  */
 registerMooseObject("fennecApp", DGContinuumBC);
 
-template<>
-InputParameters validParams<DGContinuumBC>()
+InputParameters DGContinuumBC::validParams()
 {
-	InputParameters params = validParams<DGMomentumFluxBC>();
+	InputParameters params = DGMomentumFluxBC::validParams();
 	return params;
 }
 

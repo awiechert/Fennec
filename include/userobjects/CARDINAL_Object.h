@@ -44,9 +44,6 @@
 /// CARDINAL_Object class object forward declaration
 class CARDINAL_Object;
 
-template <>
-InputParameters validParams<CARDINAL_Object>();
-
 /// CARDINAL_Object class object inherits from GeneralUserObject
 /** This class object inherits from the GeneralUserObject.
 	All public and protected members of this class are required function overrides.
@@ -56,7 +53,10 @@ InputParameters validParams<CARDINAL_Object>();
 class CARDINAL_Object : public GeneralUserObject
 {
 public:
-	/// Required constructor for GeneralUserObjects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for GeneralUserObjects in MOOSE
 	CARDINAL_Object(const InputParameters & parameters);
 	
 	/// Required initialization override for GeneralUserObjects in MOOSE

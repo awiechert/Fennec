@@ -47,9 +47,6 @@
 /// BrownianMonoPB class object forward declarations
 class VanderWaalsMonoPB;
 
-template<>
-InputParameters validParams<VanderWaalsMonoPB>();
-
 /// BrownianMonoPB class object inherits from ConstMonoPB object
 /** This class object inherits from the Kernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
@@ -59,6 +56,9 @@ InputParameters validParams<VanderWaalsMonoPB>();
 class VanderWaalsMonoPB : public ConstMonoPB
 {
 public:
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
     /// Required constructor for objects in MOOSE
     VanderWaalsMonoPB(const InputParameters & parameters);
     

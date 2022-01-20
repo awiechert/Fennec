@@ -42,9 +42,6 @@
 /// GMomentumAdvection class object forward declarations
 class GMomentumAdvection;
 
-template<>
-InputParameters validParams<GMomentumAdvection>();
-
 /// GAdvection class object inherits from Kernel object
 /** This class object inherits from the Kernel object in the MOOSE framework.
 	All public and protected members of this class are required function overrides.
@@ -57,7 +54,10 @@ InputParameters validParams<GMomentumAdvection>();
 class GMomentumAdvection : public GAdvection
 {
 public:
-	/// Required constructor for objects in MOOSE
+    /// Static Member Function for Input Parameters
+    static InputParameters validParams();
+    
+    /// Required constructor for objects in MOOSE
 	GMomentumAdvection(const InputParameters & parameters);
 	
 protected:
