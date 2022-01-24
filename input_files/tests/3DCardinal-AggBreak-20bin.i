@@ -24,22 +24,22 @@
     [gen]
     	type = GeneratedMeshGenerator
     	dim = 3
-		nx = 700
-		ny = 10
-		nz = 11
+		nx = 50
+		ny = 50
+		nz = 51
     	xmin = 0.0
-    	xmax = 700000.0
+    	xmax = 10000.0
     	ymin = 0.0
     	ymax = 10000.0
 		zmin = 0.0
-		zmax = 11000.0
+		zmax = 10200.0
 	[]
 
 	[./subdomain1]
 		input = gen
         type = SubdomainBoundingBoxGenerator
         bottom_left = '0 0 0'
-        top_right = '500000 10000 1000'
+        top_right = '10000 10000 200'
         block_id = 1
     [../]
 
@@ -333,22 +333,22 @@
     [./wx]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 1.0
-        block = 0
+		initial_condition = 0.0
+        block = '0 1'
 	[../]
  
 	[./wy]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = 0
+        block = '0 1'
 	[../]
  
 	[./wz]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = 0
+        block = '0 1'
 	[../]
  
 	[./vp0x]
@@ -3822,7 +3822,7 @@
         coupled_vz = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z vp10z vp11z vp12z vp13z vp14z vp15z vp16z vp17z vp18z vp19z'
     [../]
 
-	[./CollisionParams_Surface]
+	[./CollisionParams_Surf]
  		type = CollisionParameters
         block = 1
         cardinal_object = cardinal
@@ -3831,9 +3831,9 @@
         air_viscosity = air_visc
         temperature = air_temp
         ionization = air_ions
-        windx = 0.0
-        windy = 0.0
-        windz = 0.0
+        windx = wx
+        windy = wy
+        windz = wz
         coupled_vx = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
         coupled_vy = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
         coupled_vz = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
@@ -4200,7 +4200,7 @@
 
     exodus = true
     csv = true
-    print_linear_residuals = false
+    print_linear_residuals = true
     interval = 10
 
 [] #END Outputs
