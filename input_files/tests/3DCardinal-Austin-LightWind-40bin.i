@@ -1,15 +1,15 @@
 [GlobalParams]
 
     diameters = '2.00e-8 2.39e-8 2.85e-8 3.40e-8 4.06e-8 4.85e-6 5.80e-8 6.92e-8 8.26e-8 9.86e-8 1.18e-7 1.41e-7 1.68e-7 2.00e-7 2.39e-7 2.86e-7 3.41e-7 4.07e-7 4.87e-7 5.81e-7 6.94e-7 8.28e-7 9.89e-7 1.18e-6 1.41e-6 1.68e-6 2.01e-6 2.40e-6 2.87e-6 3.42e-6 4.08e-6 4.88e-6 5.82e-6 6.95e-6 8.30e-6 9.91e-6 1.18e-5 1.41e-5 1.69e-5 2.01e-5'
- 
+
  	packing_density = '0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75'
- 
+
  	fractal_dimensions = '3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0'
- 
+
  	breakup_constant = 1.0e-5
- 
+
     dissipation = 0.3
- 
+
     energy_dissipation = 0.3
 
 [] #END GlobalParams
@@ -40,42 +40,42 @@
         order = CONSTANT
         family = MONOMIAL
     [../]
- 
+
  	[./N1]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N2]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N3]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
     [./N4]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N5]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N6]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N7]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
     [./N8]
  		order = CONSTANT
  		family = MONOMIAL
@@ -90,47 +90,47 @@
         order = CONSTANT
         family = MONOMIAL
     [../]
- 
+
  	[./N11]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N12]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N13]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
     [./N14]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
-    
+
     [./N15]
         order = CONSTANT
         family = MONOMIAL
     [../]
- 
+
  	[./N16]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N17]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N18]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
     [./N19]
  		order = CONSTANT
  		family = MONOMIAL
@@ -140,42 +140,42 @@
         order = CONSTANT
         family = MONOMIAL
     [../]
- 
+
  	[./N21]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N22]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N23]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
     [./N24]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N25]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N26]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N27]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
     [./N28]
  		order = CONSTANT
  		family = MONOMIAL
@@ -185,47 +185,47 @@
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
     [./N30]
         order = CONSTANT
         family = MONOMIAL
     [../]
- 
+
  	[./N31]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N32]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N33]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
     [./N34]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N35]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N36]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
  	[./N37]
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
     [./N38]
  		order = CONSTANT
  		family = MONOMIAL
@@ -235,21 +235,21 @@
  		order = CONSTANT
  		family = MONOMIAL
  	[../]
- 
+
 [] #END Variables
 
 [AuxVariables]
- 
+
 	[./V_total]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
   	[./N0_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N1_accum]
  		order = CONSTANT
  		family = MONOMIAL
@@ -259,47 +259,47 @@
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N3_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N4_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N5_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N6_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
   	[./N7_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N8_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N9_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N10_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N11_accum]
  		order = CONSTANT
  		family = MONOMIAL
@@ -309,37 +309,37 @@
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N13_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N14_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N15_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N16_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
   	[./N17_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N18_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N19_accum]
  		order = CONSTANT
  		family = MONOMIAL
@@ -349,7 +349,7 @@
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N21_accum]
  		order = CONSTANT
  		family = MONOMIAL
@@ -359,47 +359,47 @@
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N23_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N24_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N25_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N26_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
   	[./N27_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N28_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N29_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N30_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N31_accum]
  		order = CONSTANT
  		family = MONOMIAL
@@ -409,144 +409,144 @@
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N33_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N34_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
  	[./N35_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N36_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
   	[./N37_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N38_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./N39_accum]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./wx]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./wy]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./wz]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp0x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp0y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp0z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp1x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp1y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp1z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp2x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp2y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp2z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
  	[./vp3x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp3y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp3z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
  	[./vp4x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp4y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp4z]
  		order = CONSTANT
  		family = MONOMIAL
@@ -558,85 +558,85 @@
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp5y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp5z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp6x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp6y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp6z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp7x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp7y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp7z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
  	[./vp8x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp8y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp8z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
  	[./vp9x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp9y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp9z]
  		order = CONSTANT
  		family = MONOMIAL
@@ -648,85 +648,85 @@
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp10y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp10z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp11x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp11y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp11z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp12x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp12y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp12z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
  	[./vp13x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp13y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp13z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
  	[./vp14x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp14y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp14z]
  		order = CONSTANT
  		family = MONOMIAL
@@ -738,85 +738,85 @@
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp15y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp15z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp16x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp16y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp16z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp17x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp17y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp17z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
  	[./vp18x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp18y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp18z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
  	[./vp19x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp19y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp19z]
  		order = CONSTANT
  		family = MONOMIAL
@@ -828,85 +828,85 @@
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp20y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp20z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp21x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp21y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp21z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp22x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp22y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp22z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
  	[./vp23x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp23y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp23z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
  	[./vp24x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp24y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp24z]
  		order = CONSTANT
  		family = MONOMIAL
@@ -918,175 +918,175 @@
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp25y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp25z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp26x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp26y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp26z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp27x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp27y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp27z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
  	[./vp28x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp28y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp28z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
  	[./vp29x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp29y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp29z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
     [./vp30x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp30y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp30z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp31x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp31y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp31z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp32x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp32y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp32z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
  	[./vp33x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp33y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp33z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
  	[./vp34x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp34y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp34z]
  		order = CONSTANT
  		family = MONOMIAL
@@ -1098,108 +1098,108 @@
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp35y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp35z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp36x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp36y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp36z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp37x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp37y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp37z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
  	[./vp38x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp38y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp38z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
  	[./vp39x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp39y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./vp39z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
 	[../]
- 
+
 	[./air_dens]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 1.225 #kg/m^3
 	[../]
- 
+
 	[./air_visc]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 1.802e-5 #kg/m/s
 	[../]
- 
+
  	[./air_ions]
  		order = CONSTANT
  		family = MONOMIAL
 	[../]
- 
+
     [./air_temp]
  		order = CONSTANT
  		family = MONOMIAL
@@ -1218,7 +1218,7 @@
         local_size_index = 0
         cardinal_object = cardinal
     [../]
- 
+
  	[./N1_IC]
  		type = CARDINAL_CloudIC
  		variable = N1
@@ -1227,7 +1227,7 @@
  		local_size_index = 1
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N2_IC]
  		type = CARDINAL_CloudIC
  		variable = N2
@@ -1236,7 +1236,7 @@
  		local_size_index = 2
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N3_IC]
  		type = CARDINAL_CloudIC
  		variable = N3
@@ -1245,7 +1245,7 @@
  		local_size_index = 3
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N4_IC]
  		type = CARDINAL_CloudIC
  		variable = N4
@@ -1263,7 +1263,7 @@
         local_size_index = 5
         cardinal_object = cardinal
     [../]
- 
+
  	[./N6_IC]
  		type = CARDINAL_CloudIC
  		variable = N6
@@ -1272,7 +1272,7 @@
  		local_size_index = 6
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N7_IC]
  		type = CARDINAL_CloudIC
  		variable = N7
@@ -1281,7 +1281,7 @@
  		local_size_index = 7
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N8_IC]
  		type = CARDINAL_CloudIC
  		variable = N8
@@ -1290,7 +1290,7 @@
  		local_size_index = 8
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N9_IC]
  		type = CARDINAL_CloudIC
  		variable = N9
@@ -1308,7 +1308,7 @@
         local_size_index = 10
         cardinal_object = cardinal
     [../]
- 
+
  	[./N11_IC]
  		type = CARDINAL_CloudIC
  		variable = N11
@@ -1317,7 +1317,7 @@
  		local_size_index = 11
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N12_IC]
  		type = CARDINAL_CloudIC
  		variable = N12
@@ -1326,7 +1326,7 @@
  		local_size_index = 12
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N13_IC]
  		type = CARDINAL_CloudIC
  		variable = N13
@@ -1335,7 +1335,7 @@
  		local_size_index = 13
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N14_IC]
  		type = CARDINAL_CloudIC
  		variable = N14
@@ -1353,7 +1353,7 @@
         local_size_index = 15
         cardinal_object = cardinal
     [../]
- 
+
  	[./N16_IC]
  		type = CARDINAL_CloudIC
  		variable = N16
@@ -1362,7 +1362,7 @@
  		local_size_index = 16
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N17_IC]
  		type = CARDINAL_CloudIC
  		variable = N17
@@ -1371,7 +1371,7 @@
  		local_size_index = 17
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N18_IC]
  		type = CARDINAL_CloudIC
  		variable = N18
@@ -1380,7 +1380,7 @@
  		local_size_index = 18
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N19_IC]
  		type = CARDINAL_CloudIC
  		variable = N19
@@ -1398,7 +1398,7 @@
         local_size_index = 20
         cardinal_object = cardinal
     [../]
- 
+
  	[./N21_IC]
  		type = CARDINAL_CloudIC
  		variable = N21
@@ -1407,7 +1407,7 @@
  		local_size_index = 21
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N22_IC]
  		type = CARDINAL_CloudIC
  		variable = N22
@@ -1416,7 +1416,7 @@
  		local_size_index = 22
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N23_IC]
  		type = CARDINAL_CloudIC
  		variable = N23
@@ -1425,7 +1425,7 @@
  		local_size_index = 23
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N24_IC]
  		type = CARDINAL_CloudIC
  		variable = N24
@@ -1443,7 +1443,7 @@
         local_size_index = 25
         cardinal_object = cardinal
     [../]
- 
+
  	[./N26_IC]
  		type = CARDINAL_CloudIC
  		variable = N26
@@ -1452,7 +1452,7 @@
  		local_size_index = 26
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N27_IC]
  		type = CARDINAL_CloudIC
  		variable = N27
@@ -1461,7 +1461,7 @@
  		local_size_index = 27
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N28_IC]
  		type = CARDINAL_CloudIC
  		variable = N28
@@ -1470,7 +1470,7 @@
  		local_size_index = 28
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N29_IC]
  		type = CARDINAL_CloudIC
  		variable = N29
@@ -1479,7 +1479,7 @@
  		local_size_index = 29
  		cardinal_object = cardinal
  	[../]
- 
+
     [./N30_IC]
  		type = CARDINAL_CloudIC
         variable = N30
@@ -1488,7 +1488,7 @@
         local_size_index = 30
         cardinal_object = cardinal
     [../]
- 
+
  	[./N31_IC]
  		type = CARDINAL_CloudIC
  		variable = N31
@@ -1497,7 +1497,7 @@
  		local_size_index = 31
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N32_IC]
  		type = CARDINAL_CloudIC
  		variable = N32
@@ -1506,7 +1506,7 @@
  		local_size_index = 32
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N33_IC]
  		type = CARDINAL_CloudIC
  		variable = N33
@@ -1515,7 +1515,7 @@
  		local_size_index = 33
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N34_IC]
  		type = CARDINAL_CloudIC
  		variable = N34
@@ -1533,7 +1533,7 @@
         local_size_index = 35
         cardinal_object = cardinal
     [../]
- 
+
  	[./N36_IC]
  		type = CARDINAL_CloudIC
  		variable = N36
@@ -1542,7 +1542,7 @@
  		local_size_index = 36
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N37_IC]
  		type = CARDINAL_CloudIC
  		variable = N37
@@ -1551,7 +1551,7 @@
  		local_size_index = 37
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N38_IC]
  		type = CARDINAL_CloudIC
  		variable = N38
@@ -1560,7 +1560,7 @@
  		local_size_index = 38
  		cardinal_object = cardinal
  	[../]
- 
+
  	[./N39_IC]
  		type = CARDINAL_CloudIC
  		variable = N39
@@ -1569,7 +1569,7 @@
  		local_size_index = 39
  		cardinal_object = cardinal
  	[../]
- 
+
 [] #END ICs
 
 [Kernels]
@@ -1579,7 +1579,7 @@
         variable = N0
         Coefficient = 1.0
     [../]
- 
+
     [./N0_gadv]
         type = GConcentrationAdvection
         variable = N0
@@ -1599,20 +1599,20 @@
         main_variable = N0
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N0_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N0
  		main_variable = N0
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N1_dot]
  		type = CoefTimeDerivative
  		variable = N1
  		Coefficient = 1.0
  	[../]
- 
+
     [./N1_gadv]
         type = GConcentrationAdvection
         variable = N1
@@ -1632,20 +1632,20 @@
         main_variable = N1
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N1_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N1
  		main_variable = N1
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N2_dot]
  		type = CoefTimeDerivative
  		variable = N2
  		Coefficient = 1.0
  	[../]
- 
+
     [./N2_gadv]
         type = GConcentrationAdvection
         variable = N2
@@ -1665,20 +1665,20 @@
         main_variable = N2
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N2_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N2
  		main_variable = N2
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N3_dot]
  		type = CoefTimeDerivative
  		variable = N3
  		Coefficient = 1.0
  	[../]
- 
+
     [./N3_gadv]
         type = GConcentrationAdvection
         variable = N3
@@ -1698,20 +1698,20 @@
         main_variable = N3
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N3_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N3
  		main_variable = N3
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N4_dot]
  		type = CoefTimeDerivative
  		variable = N4
  		Coefficient = 1.0
  	[../]
- 
+
     [./N4_gadv]
         type = GConcentrationAdvection
         variable = N4
@@ -1731,7 +1731,7 @@
         main_variable = N4
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N4_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N4
@@ -1744,7 +1744,7 @@
         variable = N5
         Coefficient = 1.0
     [../]
- 
+
     [./N5_gadv]
         type = GConcentrationAdvection
         variable = N5
@@ -1764,20 +1764,20 @@
         main_variable = N5
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N5_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N5
  		main_variable = N5
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N6_dot]
  		type = CoefTimeDerivative
  		variable = N6
  		Coefficient = 1.0
  	[../]
- 
+
     [./N6_gadv]
         type = GConcentrationAdvection
         variable = N6
@@ -1797,20 +1797,20 @@
         main_variable = N6
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N6_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N6
  		main_variable = N6
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N7_dot]
  		type = CoefTimeDerivative
  		variable = N7
  		Coefficient = 1.0
  	[../]
- 
+
     [./N7_gadv]
         type = GConcentrationAdvection
         variable = N7
@@ -1830,20 +1830,20 @@
         main_variable = N7
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N7_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N7
  		main_variable = N7
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N8_dot]
  		type = CoefTimeDerivative
  		variable = N8
  		Coefficient = 1.0
  	[../]
- 
+
     [./N8_gadv]
         type = GConcentrationAdvection
         variable = N8
@@ -1863,20 +1863,20 @@
         main_variable = N8
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N8_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N8
  		main_variable = N8
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N9_dot]
  		type = CoefTimeDerivative
  		variable = N9
  		Coefficient = 1.0
  	[../]
- 
+
     [./N9_gadv]
         type = GConcentrationAdvection
         variable = N9
@@ -1896,20 +1896,20 @@
         main_variable = N9
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N9_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N9
  		main_variable = N9
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
     [./N10_dot]
         type = CoefTimeDerivative
         variable = N10
         Coefficient = 1.0
     [../]
- 
+
     [./N10_gadv]
         type = GConcentrationAdvection
         variable = N10
@@ -1929,20 +1929,20 @@
         main_variable = N10
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N10_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N10
  		main_variable = N10
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N11_dot]
  		type = CoefTimeDerivative
  		variable = N11
  		Coefficient = 1.0
  	[../]
- 
+
     [./N11_gadv]
         type = GConcentrationAdvection
         variable = N11
@@ -1962,20 +1962,20 @@
         main_variable = N11
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N11_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N11
  		main_variable = N11
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N12_dot]
  		type = CoefTimeDerivative
  		variable = N12
  		Coefficient = 1.0
  	[../]
- 
+
     [./N12_gadv]
         type = GConcentrationAdvection
         variable = N12
@@ -1995,20 +1995,20 @@
         main_variable = N12
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N12_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N12
  		main_variable = N12
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N13_dot]
  		type = CoefTimeDerivative
  		variable = N13
  		Coefficient = 1.0
  	[../]
- 
+
     [./N13_gadv]
         type = GConcentrationAdvection
         variable = N13
@@ -2028,20 +2028,20 @@
         main_variable = N13
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N13_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N13
  		main_variable = N13
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N14_dot]
  		type = CoefTimeDerivative
  		variable = N14
  		Coefficient = 1.0
  	[../]
- 
+
     [./N14_gadv]
         type = GConcentrationAdvection
         variable = N14
@@ -2061,7 +2061,7 @@
         main_variable = N14
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N14_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N14
@@ -2074,7 +2074,7 @@
         variable = N15
         Coefficient = 1.0
     [../]
- 
+
     [./N15_gadv]
         type = GConcentrationAdvection
         variable = N15
@@ -2094,20 +2094,20 @@
         main_variable = N15
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N15_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N15
  		main_variable = N15
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N16_dot]
  		type = CoefTimeDerivative
  		variable = N16
  		Coefficient = 1.0
  	[../]
- 
+
     [./N16_gadv]
         type = GConcentrationAdvection
         variable = N16
@@ -2127,20 +2127,20 @@
         main_variable = N16
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N16_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N16
  		main_variable = N16
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N17_dot]
  		type = CoefTimeDerivative
  		variable = N17
  		Coefficient = 1.0
  	[../]
- 
+
     [./N17_gadv]
         type = GConcentrationAdvection
         variable = N17
@@ -2160,20 +2160,20 @@
         main_variable = N17
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N17_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N17
  		main_variable = N17
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N18_dot]
  		type = CoefTimeDerivative
  		variable = N18
  		Coefficient = 1.0
  	[../]
- 
+
     [./N18_gadv]
         type = GConcentrationAdvection
         variable = N18
@@ -2193,20 +2193,20 @@
         main_variable = N18
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N18_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N18
  		main_variable = N18
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N19_dot]
  		type = CoefTimeDerivative
  		variable = N19
  		Coefficient = 1.0
  	[../]
- 
+
     [./N19_gadv]
         type = GConcentrationAdvection
         variable = N19
@@ -2226,7 +2226,7 @@
         main_variable = N19
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N19_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N19
@@ -2239,7 +2239,7 @@
         variable = N20
         Coefficient = 1.0
     [../]
- 
+
     [./N20_gadv]
         type = GConcentrationAdvection
         variable = N20
@@ -2259,20 +2259,20 @@
         main_variable = N20
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N20_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N20
  		main_variable = N20
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N21_dot]
  		type = CoefTimeDerivative
  		variable = N21
  		Coefficient = 1.0
  	[../]
- 
+
     [./N21_gadv]
         type = GConcentrationAdvection
         variable = N21
@@ -2292,20 +2292,20 @@
         main_variable = N21
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N21_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N21
  		main_variable = N21
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N22_dot]
  		type = CoefTimeDerivative
  		variable = N22
  		Coefficient = 1.0
  	[../]
- 
+
     [./N22_gadv]
         type = GConcentrationAdvection
         variable = N22
@@ -2325,20 +2325,20 @@
         main_variable = N22
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N22_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N22
  		main_variable = N22
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N23_dot]
  		type = CoefTimeDerivative
  		variable = N23
  		Coefficient = 1.0
  	[../]
- 
+
     [./N23_gadv]
         type = GConcentrationAdvection
         variable = N23
@@ -2358,20 +2358,20 @@
         main_variable = N23
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N23_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N23
  		main_variable = N23
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N24_dot]
  		type = CoefTimeDerivative
  		variable = N24
  		Coefficient = 1.0
  	[../]
- 
+
     [./N24_gadv]
         type = GConcentrationAdvection
         variable = N24
@@ -2391,7 +2391,7 @@
         main_variable = N24
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N24_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N24
@@ -2404,7 +2404,7 @@
         variable = N25
         Coefficient = 1.0
     [../]
- 
+
     [./N25_gadv]
         type = GConcentrationAdvection
         variable = N25
@@ -2424,20 +2424,20 @@
         main_variable = N25
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N25_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N25
  		main_variable = N25
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N26_dot]
  		type = CoefTimeDerivative
  		variable = N26
  		Coefficient = 1.0
  	[../]
- 
+
     [./N26_gadv]
         type = GConcentrationAdvection
         variable = N26
@@ -2457,20 +2457,20 @@
         main_variable = N26
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N26_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N26
  		main_variable = N26
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N27_dot]
  		type = CoefTimeDerivative
  		variable = N27
  		Coefficient = 1.0
  	[../]
- 
+
     [./N27_gadv]
         type = GConcentrationAdvection
         variable = N27
@@ -2490,20 +2490,20 @@
         main_variable = N27
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N27_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N27
  		main_variable = N27
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N28_dot]
  		type = CoefTimeDerivative
  		variable = N28
  		Coefficient = 1.0
  	[../]
- 
+
     [./N28_gadv]
         type = GConcentrationAdvection
         variable = N28
@@ -2523,20 +2523,20 @@
         main_variable = N28
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N28_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N28
  		main_variable = N28
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N29_dot]
  		type = CoefTimeDerivative
  		variable = N29
  		Coefficient = 1.0
  	[../]
- 
+
     [./N29_gadv]
         type = GConcentrationAdvection
         variable = N29
@@ -2556,20 +2556,20 @@
         main_variable = N29
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N29_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N29
  		main_variable = N29
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
     [./N30_dot]
         type = CoefTimeDerivative
         variable = N30
         Coefficient = 1.0
     [../]
- 
+
     [./N30_gadv]
         type = GConcentrationAdvection
         variable = N30
@@ -2589,20 +2589,20 @@
         main_variable = N30
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N30_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N30
  		main_variable = N30
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N31_dot]
  		type = CoefTimeDerivative
  		variable = N31
  		Coefficient = 1.0
  	[../]
- 
+
     [./N31_gadv]
         type = GConcentrationAdvection
         variable = N31
@@ -2622,20 +2622,20 @@
         main_variable = N31
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N31_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N31
  		main_variable = N31
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N32_dot]
  		type = CoefTimeDerivative
  		variable = N32
  		Coefficient = 1.0
  	[../]
- 
+
     [./N32_gadv]
         type = GConcentrationAdvection
         variable = N32
@@ -2655,20 +2655,20 @@
         main_variable = N32
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N32_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N32
  		main_variable = N32
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N33_dot]
  		type = CoefTimeDerivative
  		variable = N33
  		Coefficient = 1.0
  	[../]
- 
+
     [./N33_gadv]
         type = GConcentrationAdvection
         variable = N33
@@ -2688,20 +2688,20 @@
         main_variable = N33
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N33_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N33
  		main_variable = N33
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N34_dot]
  		type = CoefTimeDerivative
  		variable = N34
  		Coefficient = 1.0
  	[../]
- 
+
     [./N34_gadv]
         type = GConcentrationAdvection
         variable = N34
@@ -2721,7 +2721,7 @@
         main_variable = N34
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N34_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N34
@@ -2734,7 +2734,7 @@
         variable = N35
         Coefficient = 1.0
     [../]
- 
+
     [./N35_gadv]
         type = GConcentrationAdvection
         variable = N35
@@ -2754,20 +2754,20 @@
         main_variable = N35
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N35_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N35
  		main_variable = N35
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N36_dot]
  		type = CoefTimeDerivative
  		variable = N36
  		Coefficient = 1.0
  	[../]
- 
+
     [./N36_gadv]
         type = GConcentrationAdvection
         variable = N36
@@ -2787,20 +2787,20 @@
         main_variable = N36
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N36_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N36
  		main_variable = N36
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N37_dot]
  		type = CoefTimeDerivative
  		variable = N37
  		Coefficient = 1.0
  	[../]
- 
+
     [./N37_gadv]
         type = GConcentrationAdvection
         variable = N37
@@ -2820,20 +2820,20 @@
         main_variable = N37
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N37_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N37
  		main_variable = N37
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N38_dot]
  		type = CoefTimeDerivative
  		variable = N38
  		Coefficient = 1.0
  	[../]
- 
+
     [./N38_gadv]
         type = GConcentrationAdvection
         variable = N38
@@ -2853,20 +2853,20 @@
         main_variable = N38
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N38_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N38
  		main_variable = N38
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
  	[./N39_dot]
  		type = CoefTimeDerivative
  		variable = N39
  		Coefficient = 1.0
  	[../]
- 
+
     [./N39_gadv]
         type = GConcentrationAdvection
         variable = N39
@@ -2886,14 +2886,14 @@
         main_variable = N39
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
     [../]
- 
+
     [./N39_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N39
  		main_variable = N39
 		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
 	[../]
- 
+
 [] #END Kernels
 
 [DGKernels]
@@ -2910,7 +2910,7 @@
         type = DGAnisotropicDiffusion
         variable = N0
     [../]
- 
+
     [./N1_dgadv]
         type = DGConcentrationAdvection
         variable = N1
@@ -2936,7 +2936,7 @@
         type = DGAnisotropicDiffusion
         variable = N2
     [../]
- 
+
     [./N3_dgadv]
         type = DGConcentrationAdvection
         variable = N3
@@ -2975,7 +2975,7 @@
         type = DGAnisotropicDiffusion
         variable = N5
     [../]
- 
+
     [./N6_dgadv]
         type = DGConcentrationAdvection
         variable = N6
@@ -3001,7 +3001,7 @@
         type = DGAnisotropicDiffusion
         variable = N7
     [../]
- 
+
     [./N8_dgadv]
         type = DGConcentrationAdvection
         variable = N8
@@ -3040,7 +3040,7 @@
         type = DGAnisotropicDiffusion
         variable = N10
     [../]
- 
+
     [./N11_dgadv]
         type = DGConcentrationAdvection
         variable = N11
@@ -3066,7 +3066,7 @@
         type = DGAnisotropicDiffusion
         variable = N12
     [../]
- 
+
     [./N13_dgadv]
         type = DGConcentrationAdvection
         variable = N13
@@ -3105,7 +3105,7 @@
         type = DGAnisotropicDiffusion
         variable = N15
     [../]
- 
+
     [./N16_dgadv]
         type = DGConcentrationAdvection
         variable = N16
@@ -3131,7 +3131,7 @@
         type = DGAnisotropicDiffusion
         variable = N17
     [../]
- 
+
     [./N18_dgadv]
         type = DGConcentrationAdvection
         variable = N18
@@ -3170,7 +3170,7 @@
         type = DGAnisotropicDiffusion
         variable = N20
     [../]
- 
+
     [./N21_dgadv]
         type = DGConcentrationAdvection
         variable = N21
@@ -3196,7 +3196,7 @@
         type = DGAnisotropicDiffusion
         variable = N22
     [../]
- 
+
     [./N23_dgadv]
         type = DGConcentrationAdvection
         variable = N23
@@ -3235,7 +3235,7 @@
         type = DGAnisotropicDiffusion
         variable = N25
     [../]
- 
+
     [./N26_dgadv]
         type = DGConcentrationAdvection
         variable = N26
@@ -3261,7 +3261,7 @@
         type = DGAnisotropicDiffusion
         variable = N27
     [../]
- 
+
     [./N28_dgadv]
         type = DGConcentrationAdvection
         variable = N28
@@ -3287,7 +3287,7 @@
         type = DGAnisotropicDiffusion
         variable = N29
     [../]
- 
+
     [./N30_dgadv]
         type = DGConcentrationAdvection
         variable = N30
@@ -3300,7 +3300,7 @@
         type = DGAnisotropicDiffusion
         variable = N30
     [../]
- 
+
     [./N31_dgadv]
         type = DGConcentrationAdvection
         variable = N31
@@ -3326,7 +3326,7 @@
         type = DGAnisotropicDiffusion
         variable = N32
     [../]
- 
+
     [./N33_dgadv]
         type = DGConcentrationAdvection
         variable = N33
@@ -3365,7 +3365,7 @@
         type = DGAnisotropicDiffusion
         variable = N35
     [../]
- 
+
     [./N36_dgadv]
         type = DGConcentrationAdvection
         variable = N36
@@ -3391,7 +3391,7 @@
         type = DGAnisotropicDiffusion
         variable = N37
     [../]
- 
+
     [./N38_dgadv]
         type = DGConcentrationAdvection
         variable = N38
@@ -3417,7 +3417,7 @@
         type = DGAnisotropicDiffusion
         variable = N39
     [../]
- 
+
 [] #END DGKernels
 
 [AuxKernels]
@@ -3428,7 +3428,7 @@
 		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N38 N39'
         execute_on = 'initial timestep_end'
 	[../]
- 
+
     [./N0_accumulated]
  		type = AccumulatedMaterial
  		variable = N0_accum
@@ -3628,7 +3628,7 @@
  		vzs = 'vp19z'
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
     [./N20_accumulated]
  		type = AccumulatedMaterial
  		variable = N20_accum
@@ -3728,7 +3728,7 @@
  		vzs = 'vp29z'
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
     [./N30_accumulated]
  		type = AccumulatedMaterial
  		variable = N30_accum
@@ -3828,7 +3828,7 @@
  		vzs = 'vp39z'
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
     [./ionization]
  		type = TotalAirIonization
         variable = air_ions
@@ -3838,7 +3838,7 @@
         background_ionization = 0.0
         execute_on = 'initial timestep_end'
     [../]
- 
+
     [./part_vel_0x]
 		type = Trajectory1stOrder
 		variable = vp0x
@@ -3855,7 +3855,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_0y]
 		type = Trajectory1stOrder
 		variable = vp0y
@@ -3872,7 +3872,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_0z]
 		type = Trajectory1stOrder
 		variable = vp0z
@@ -3906,7 +3906,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_1y]
 		type = Trajectory1stOrder
 		variable = vp1y
@@ -3923,7 +3923,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_1z]
 		type = Trajectory1stOrder
 		variable = vp1z
@@ -3957,7 +3957,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_2y]
 		type = Trajectory1stOrder
 		variable = vp2y
@@ -3974,7 +3974,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_2z]
 		type = Trajectory1stOrder
 		variable = vp2z
@@ -3991,7 +3991,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_3x]
 		type = Trajectory1stOrder
 		variable = vp3x
@@ -4008,7 +4008,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_3y]
 		type = Trajectory1stOrder
 		variable = vp3y
@@ -4025,7 +4025,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_3z]
 		type = Trajectory1stOrder
 		variable = vp3z
@@ -4059,7 +4059,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_4y]
 		type = Trajectory1stOrder
 		variable = vp4y
@@ -4076,7 +4076,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_4z]
 		type = Trajectory1stOrder
 		variable = vp4z
@@ -4110,7 +4110,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_5y]
 		type = Trajectory1stOrder
 		variable = vp5y
@@ -4127,7 +4127,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_5z]
 		type = Trajectory1stOrder
 		variable = vp5z
@@ -4161,7 +4161,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_6y]
 		type = Trajectory1stOrder
 		variable = vp6y
@@ -4178,7 +4178,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_6z]
 		type = Trajectory1stOrder
 		variable = vp6z
@@ -4212,7 +4212,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_7y]
 		type = Trajectory1stOrder
 		variable = vp7y
@@ -4229,7 +4229,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_7z]
 		type = Trajectory1stOrder
 		variable = vp7z
@@ -4246,7 +4246,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_8x]
 		type = Trajectory1stOrder
 		variable = vp8x
@@ -4263,7 +4263,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_8y]
 		type = Trajectory1stOrder
 		variable = vp8y
@@ -4280,7 +4280,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_8z]
 		type = Trajectory1stOrder
 		variable = vp8z
@@ -4314,7 +4314,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_9y]
 		type = Trajectory1stOrder
 		variable = vp9y
@@ -4331,7 +4331,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_9z]
 		type = Trajectory1stOrder
 		variable = vp9z
@@ -4365,7 +4365,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_10y]
 		type = Trajectory1stOrder
 		variable = vp10y
@@ -4382,7 +4382,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_10z]
 		type = Trajectory1stOrder
 		variable = vp10z
@@ -4416,7 +4416,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_11y]
 		type = Trajectory1stOrder
 		variable = vp11y
@@ -4433,7 +4433,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_11z]
 		type = Trajectory1stOrder
 		variable = vp11z
@@ -4467,7 +4467,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_12y]
 		type = Trajectory1stOrder
 		variable = vp12y
@@ -4484,7 +4484,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_12z]
 		type = Trajectory1stOrder
 		variable = vp12z
@@ -4501,7 +4501,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_13x]
 		type = Trajectory1stOrder
 		variable = vp13x
@@ -4518,7 +4518,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_13y]
 		type = Trajectory1stOrder
 		variable = vp13y
@@ -4535,7 +4535,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_13z]
 		type = Trajectory1stOrder
 		variable = vp13z
@@ -4569,7 +4569,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_14y]
 		type = Trajectory1stOrder
 		variable = vp14y
@@ -4586,7 +4586,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_14z]
 		type = Trajectory1stOrder
 		variable = vp14z
@@ -4620,7 +4620,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_15y]
 		type = Trajectory1stOrder
 		variable = vp15y
@@ -4637,7 +4637,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_15z]
 		type = Trajectory1stOrder
 		variable = vp15z
@@ -4671,7 +4671,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_16y]
 		type = Trajectory1stOrder
 		variable = vp16y
@@ -4688,7 +4688,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_16z]
 		type = Trajectory1stOrder
 		variable = vp16z
@@ -4722,7 +4722,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_17y]
 		type = Trajectory1stOrder
 		variable = vp17y
@@ -4739,7 +4739,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_17z]
 		type = Trajectory1stOrder
 		variable = vp17z
@@ -4756,7 +4756,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_18x]
 		type = Trajectory1stOrder
 		variable = vp18x
@@ -4773,7 +4773,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_18y]
 		type = Trajectory1stOrder
 		variable = vp18y
@@ -4790,7 +4790,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_18z]
 		type = Trajectory1stOrder
 		variable = vp18z
@@ -4824,7 +4824,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_19y]
 		type = Trajectory1stOrder
 		variable = vp19y
@@ -4841,7 +4841,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_19z]
 		type = Trajectory1stOrder
 		variable = vp19z
@@ -4875,7 +4875,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_20y]
 		type = Trajectory1stOrder
 		variable = vp20y
@@ -4892,7 +4892,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_20z]
 		type = Trajectory1stOrder
 		variable = vp20z
@@ -4926,7 +4926,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_21y]
 		type = Trajectory1stOrder
 		variable = vp21y
@@ -4943,7 +4943,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_21z]
 		type = Trajectory1stOrder
 		variable = vp21z
@@ -4977,7 +4977,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_22y]
 		type = Trajectory1stOrder
 		variable = vp22y
@@ -4994,7 +4994,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_22z]
 		type = Trajectory1stOrder
 		variable = vp22z
@@ -5011,7 +5011,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_23x]
 		type = Trajectory1stOrder
 		variable = vp23x
@@ -5028,7 +5028,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_23y]
 		type = Trajectory1stOrder
 		variable = vp23y
@@ -5045,7 +5045,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_23z]
 		type = Trajectory1stOrder
 		variable = vp23z
@@ -5079,7 +5079,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_24y]
 		type = Trajectory1stOrder
 		variable = vp24y
@@ -5096,7 +5096,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_24z]
 		type = Trajectory1stOrder
 		variable = vp24z
@@ -5130,7 +5130,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_25y]
 		type = Trajectory1stOrder
 		variable = vp25y
@@ -5147,7 +5147,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_25z]
 		type = Trajectory1stOrder
 		variable = vp25z
@@ -5181,7 +5181,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_26y]
 		type = Trajectory1stOrder
 		variable = vp26y
@@ -5198,7 +5198,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_26z]
 		type = Trajectory1stOrder
 		variable = vp26z
@@ -5232,7 +5232,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_27y]
 		type = Trajectory1stOrder
 		variable = vp27y
@@ -5249,7 +5249,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_27z]
 		type = Trajectory1stOrder
 		variable = vp27z
@@ -5266,7 +5266,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_28x]
 		type = Trajectory1stOrder
 		variable = vp28x
@@ -5283,7 +5283,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_28y]
 		type = Trajectory1stOrder
 		variable = vp28y
@@ -5300,7 +5300,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_28z]
 		type = Trajectory1stOrder
 		variable = vp28z
@@ -5334,7 +5334,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_29y]
 		type = Trajectory1stOrder
 		variable = vp29y
@@ -5351,7 +5351,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_29z]
 		type = Trajectory1stOrder
 		variable = vp29z
@@ -5368,7 +5368,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
     [./part_vel_30x]
 		type = Trajectory1stOrder
 		variable = vp30x
@@ -5385,7 +5385,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_30y]
 		type = Trajectory1stOrder
 		variable = vp30y
@@ -5402,7 +5402,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_30z]
 		type = Trajectory1stOrder
 		variable = vp30z
@@ -5436,7 +5436,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_31y]
 		type = Trajectory1stOrder
 		variable = vp31y
@@ -5453,7 +5453,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_31z]
 		type = Trajectory1stOrder
 		variable = vp31z
@@ -5487,7 +5487,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_32y]
 		type = Trajectory1stOrder
 		variable = vp32y
@@ -5504,7 +5504,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_32z]
 		type = Trajectory1stOrder
 		variable = vp32z
@@ -5521,7 +5521,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_33x]
 		type = Trajectory1stOrder
 		variable = vp33x
@@ -5538,7 +5538,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_33y]
 		type = Trajectory1stOrder
 		variable = vp33y
@@ -5555,7 +5555,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_33z]
 		type = Trajectory1stOrder
 		variable = vp33z
@@ -5589,7 +5589,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_34y]
 		type = Trajectory1stOrder
 		variable = vp34y
@@ -5606,7 +5606,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_34z]
 		type = Trajectory1stOrder
 		variable = vp34z
@@ -5640,7 +5640,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_35y]
 		type = Trajectory1stOrder
 		variable = vp35y
@@ -5657,7 +5657,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_35z]
 		type = Trajectory1stOrder
 		variable = vp35z
@@ -5691,7 +5691,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_36y]
 		type = Trajectory1stOrder
 		variable = vp36y
@@ -5708,7 +5708,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_36z]
 		type = Trajectory1stOrder
 		variable = vp36z
@@ -5742,7 +5742,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_37y]
 		type = Trajectory1stOrder
 		variable = vp37y
@@ -5759,7 +5759,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_37z]
 		type = Trajectory1stOrder
 		variable = vp37z
@@ -5776,7 +5776,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_38x]
 		type = Trajectory1stOrder
 		variable = vp38x
@@ -5793,7 +5793,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_38y]
 		type = Trajectory1stOrder
 		variable = vp38y
@@ -5810,7 +5810,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_38z]
 		type = Trajectory1stOrder
 		variable = vp38z
@@ -5844,7 +5844,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_39y]
 		type = Trajectory1stOrder
 		variable = vp39y
@@ -5861,7 +5861,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_39z]
 		type = Trajectory1stOrder
 		variable = vp39z
@@ -5878,7 +5878,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 [] #END AuxKernels
 
 [BCs]
@@ -5892,7 +5892,7 @@
 		uy = vp0y
 		uz = vp0z
     [../]
- 
+
 	[./N1_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N1
@@ -5902,7 +5902,7 @@
 		uy = vp1y
 		uz = vp1z
 	[../]
- 
+
 	[./N2_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N2
@@ -5912,7 +5912,7 @@
 		uy = vp2y
 		uz = vp2z
 	[../]
- 
+
     [./N3_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N3
@@ -5922,7 +5922,7 @@
 		uy = vp3y
 		uz = vp3z
 	[../]
- 
+
 	[./N4_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N4
@@ -5942,7 +5942,7 @@
 		uy = vp5y
 		uz = vp5z
     [../]
- 
+
 	[./N6_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N6
@@ -5952,7 +5952,7 @@
 		uy = vp6y
 		uz = vp6z
 	[../]
- 
+
 	[./N7_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N7
@@ -5962,7 +5962,7 @@
 		uy = vp7y
 		uz = vp7z
 	[../]
- 
+
     [./N8_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N8
@@ -5972,7 +5972,7 @@
 		uy = vp8y
 		uz = vp8z
 	[../]
- 
+
 	[./N9_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N9
@@ -5992,7 +5992,7 @@
 		uy = vp10y
 		uz = vp10z
     [../]
- 
+
 	[./N11_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N11
@@ -6002,7 +6002,7 @@
 		uy = vp11y
 		uz = vp11z
 	[../]
- 
+
 	[./N12_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N12
@@ -6012,7 +6012,7 @@
 		uy = vp12y
 		uz = vp12z
 	[../]
- 
+
     [./N13_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N13
@@ -6022,7 +6022,7 @@
 		uy = vp13y
 		uz = vp13z
 	[../]
- 
+
 	[./N14_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N14
@@ -6042,7 +6042,7 @@
 		uy = vp15y
 		uz = vp15z
     [../]
- 
+
 	[./N16_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N16
@@ -6052,7 +6052,7 @@
 		uy = vp16y
 		uz = vp16z
 	[../]
- 
+
 	[./N17_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N17
@@ -6062,7 +6062,7 @@
 		uy = vp17y
 		uz = vp17z
 	[../]
- 
+
     [./N18_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N18
@@ -6072,7 +6072,7 @@
 		uy = vp18y
 		uz = vp18z
 	[../]
- 
+
 	[./N19_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N19
@@ -6092,7 +6092,7 @@
 		uy = vp20y
 		uz = vp20z
     [../]
- 
+
 	[./N21_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N21
@@ -6102,7 +6102,7 @@
 		uy = vp21y
 		uz = vp21z
 	[../]
- 
+
 	[./N22_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N22
@@ -6112,7 +6112,7 @@
 		uy = vp22y
 		uz = vp22z
 	[../]
- 
+
     [./N23_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N23
@@ -6122,7 +6122,7 @@
 		uy = vp23y
 		uz = vp23z
 	[../]
- 
+
 	[./N24_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N24
@@ -6142,7 +6142,7 @@
 		uy = vp25y
 		uz = vp25z
     [../]
- 
+
 	[./N26_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N26
@@ -6152,7 +6152,7 @@
 		uy = vp26y
 		uz = vp26z
 	[../]
- 
+
 	[./N27_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N27
@@ -6162,7 +6162,7 @@
 		uy = vp27y
 		uz = vp27z
 	[../]
- 
+
     [./N28_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N28
@@ -6172,7 +6172,7 @@
 		uy = vp28y
 		uz = vp28z
 	[../]
- 
+
 	[./N29_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N29
@@ -6182,7 +6182,7 @@
 		uy = vp29y
 		uz = vp29z
 	[../]
- 
+
     [./N30_Flux_in_L]
         type = DGConcentrationFluxBC
         variable = N30
@@ -6192,7 +6192,7 @@
 		uy = vp30y
 		uz = vp30z
     [../]
- 
+
 	[./N31_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N31
@@ -6202,7 +6202,7 @@
 		uy = vp31y
 		uz = vp31z
 	[../]
- 
+
 	[./N32_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N32
@@ -6212,7 +6212,7 @@
 		uy = vp32y
 		uz = vp32z
 	[../]
- 
+
     [./N33_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N33
@@ -6222,7 +6222,7 @@
 		uy = vp33y
 		uz = vp33z
 	[../]
- 
+
 	[./N34_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N34
@@ -6242,7 +6242,7 @@
 		uy = vp35y
 		uz = vp35z
     [../]
- 
+
 	[./N36_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N36
@@ -6252,7 +6252,7 @@
 		uy = vp36y
 		uz = vp36z
 	[../]
- 
+
 	[./N37_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N37
@@ -6262,7 +6262,7 @@
 		uy = vp37y
 		uz = vp37z
 	[../]
- 
+
     [./N38_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N38
@@ -6272,7 +6272,7 @@
 		uy = vp38y
 		uz = vp38z
 	[../]
- 
+
 	[./N39_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N39
@@ -6316,7 +6316,7 @@
  		data_path = 'database/'
         mono_variate_population = true
  	[../]
- 
+
 [] #END UserObjects
 
 [Postprocessors]
@@ -6326,13 +6326,13 @@
         variable = V_total
         execute_on = 'initial timestep_begin timestep_end'
     [../]
- 
+
     [./total_ionization]
  		type = ElementAverageValue
  		variable = air_ions
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
     [./N00_floor]
 		type = SideAverageValue
 		boundary = 'bottom'
@@ -6612,31 +6612,31 @@
 		variable = N39_accum
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./N00]
 		type = ElementAverageValue
 		variable = N0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./N01]
 		type = ElementAverageValue
 		variable = N1
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N02]
  		type = ElementAverageValue
  		variable = N2
 		 execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N03]
  		type = ElementAverageValue
  		variable = N3
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N04]
  		type = ElementAverageValue
  		variable = N4
@@ -6648,25 +6648,25 @@
 		variable = N5
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./N06]
 		type = ElementAverageValue
 		variable = N6
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N07]
  		type = ElementAverageValue
  		variable = N7
 		 execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N08]
  		type = ElementAverageValue
  		variable = N8
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N09]
  		type = ElementAverageValue
  		variable = N9
@@ -6678,25 +6678,25 @@
 		variable = N10
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./N11]
 		type = ElementAverageValue
 		variable = N11
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N12]
  		type = ElementAverageValue
  		variable = N12
 		 execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N13]
  		type = ElementAverageValue
  		variable = N13
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N14]
  		type = ElementAverageValue
  		variable = N14
@@ -6708,25 +6708,25 @@
 		variable = N15
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./N16]
 		type = ElementAverageValue
 		variable = N16
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N17]
  		type = ElementAverageValue
  		variable = N17
 		 execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N18]
  		type = ElementAverageValue
  		variable = N18
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N19]
  		type = ElementAverageValue
  		variable = N19
@@ -6738,25 +6738,25 @@
 		variable = N20
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./N21]
 		type = ElementAverageValue
 		variable = N21
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N22]
  		type = ElementAverageValue
  		variable = N22
 		 execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N23]
  		type = ElementAverageValue
  		variable = N23
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N24]
  		type = ElementAverageValue
  		variable = N24
@@ -6768,25 +6768,25 @@
 		variable = N25
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./N26]
 		type = ElementAverageValue
 		variable = N26
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N27]
  		type = ElementAverageValue
  		variable = N27
 		 execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N28]
  		type = ElementAverageValue
  		variable = N28
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N29]
  		type = ElementAverageValue
  		variable = N29
@@ -6798,25 +6798,25 @@
 		variable = N30
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./N31]
 		type = ElementAverageValue
 		variable = N31
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N32]
  		type = ElementAverageValue
  		variable = N32
 		 execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N33]
  		type = ElementAverageValue
  		variable = N33
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N34]
  		type = ElementAverageValue
  		variable = N34
@@ -6828,52 +6828,52 @@
 		variable = N35
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./N36]
 		type = ElementAverageValue
 		variable = N36
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N37]
  		type = ElementAverageValue
  		variable = N37
 		 execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N38]
  		type = ElementAverageValue
  		variable = N38
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
  	[./N39]
  		type = ElementAverageValue
  		variable = N39
  		execute_on = 'initial timestep_end'
 	[../]
- 
+
 [] #END Postprocessors
 
 [Preconditioning]
- 
+
 	[./smp]
  		type = SMP
  		full = true
  		solve_type = pjfnk
 	[../]
- 
+
 [] #END Preconditioning
- 
+
 [Executioner]
 
     type = Transient
 	scheme = implicit-euler    #use: 'implicit-euler' or 'bdf2'
     automatic_scaling = false
- 
+
  	petsc_options = '-snes_converged_reason'
  	petsc_options_iname = '-ksp_type -pc_type -sub_pc_type -snes_max_it -sub_pc_factor_shift_type -pc_asm_overlap -snes_atol -snes_rtol'
-    petsc_options_value = 'gmres asm ilu 100 NONZERO 2 1E-14 1E-12'
+    petsc_options_value = 'gmres lu ilu 100 NONZERO 2 1E-14 1E-12'
 
 	line_search = bt    # Options: default shell none basic l2 bt cp
     nl_rel_tol = 1e-10
@@ -6883,7 +6883,7 @@
     l_tol = 1e-4
     l_max_its = 100
     nl_max_its = 50
- 
+
     start_time = 0.0
 	end_time = 1296000.0
     dtmax = 24000.0
@@ -6894,7 +6894,7 @@
         dt = 100.0
     [../]
 [] #END Executioner
- 
+
 [Adaptivity]
 
 [] #END Adaptivity
@@ -6903,6 +6903,6 @@
 
     exodus = true
     csv = true
-    print_linear_residuals = false
+    print_linear_residuals = true
 
 [] #END Outputs

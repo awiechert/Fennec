@@ -1,8 +1,8 @@
 [GlobalParams]
 
-    Dxx = 0.01
-    Dyy = 0.01
-	Dzz = 0.01
+    Dxx = 0.1
+    Dyy = 0.1
+	Dzz = 0.1
 
 [] #END GlobalParams
 
@@ -32,12 +32,12 @@
         order = FIRST
         family = MONOMIAL
     [../]
- 
+
 	[./c2]
 		order = FIRST
 		family = MONOMIAL
 	[../]
- 
+
 	[./c3]
 		order = FIRST
 		family = MONOMIAL
@@ -47,95 +47,95 @@
 [] #END Variables
 
 [AuxVariables]
- 
+
 	[./c_total]
 		order = FIRST
 		family = MONOMIAL
 	[../]
- 
+
 	[./c_avg]
 		order = FIRST
 		family = MONOMIAL
 	[../]
- 
+
 	[./wx]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 5.0
 	[../]
- 
+
 	[./wy]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 5.0
 	[../]
- 
+
 	[./wz]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp1x]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp1y]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp1z]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp2x]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp2y]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp2z]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp3x]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp3y]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./vp3z]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 0.0
 	[../]
- 
+
 	[./air_dens]
 		order = FIRST
 		family = MONOMIAL
 		initial_condition = 1.225 #kg/m^3
 	[../]
- 
+
 	[./air_visc]
 		order = FIRST
 		family = MONOMIAL
@@ -145,7 +145,7 @@
 [] #END AuxVariables
 
 [ICs]
- 
+
 	[./c1_ellipse]
 		type = ConstantEllipsoidIC
 		variable = c1
@@ -158,7 +158,7 @@
 		y_center = 4
 		z_center = 5
 	[../]
- 
+
 	[./c2_ellipse]
 		type = ConstantEllipsoidIC
 		variable = c2
@@ -171,7 +171,7 @@
 		y_center = 4
 		z_center = 5
 	[../]
- 
+
 	[./c3_ellipse]
 		type = ConstantEllipsoidIC
 		variable = c3
@@ -207,13 +207,13 @@
         type = GAnisotropicDiffusion
         variable = c1
     [../]
- 
+
 	[./c2_dot]
 		type = CoefTimeDerivative
 		variable = c2
 		Coefficient = 1.0
 	[../]
- 
+
 	[./c2_gadv]
 		type = GConcentrationAdvection
 		variable = c2
@@ -221,18 +221,18 @@
 		uy = vp2y
 		uz = vp2z
 	[../]
- 
+
 	[./c2_gdiff]
 		type = GAnisotropicDiffusion
 		variable = c2
 	[../]
- 
+
 	[./c3_dot]
 		type = CoefTimeDerivative
 		variable = c3
 		Coefficient = 1.0
 	[../]
- 
+
 	[./c3_gadv]
 		type = GConcentrationAdvection
 		variable = c3
@@ -240,7 +240,7 @@
 		uy = vp3y
 		uz = vp3z
 	[../]
- 
+
 	[./c3_gdiff]
 		type = GAnisotropicDiffusion
 		variable = c3
@@ -262,7 +262,7 @@
         type = DGAnisotropicDiffusion
         variable = c1
     [../]
- 
+
 	[./c2_dgadv]
 		type = DGConcentrationAdvection
 		variable = c2
@@ -270,12 +270,12 @@
 		uy = vp2y
 		uz = vp2z
 	[../]
- 
+
 	[./c2_dgdiff]
 		type = DGAnisotropicDiffusion
 		variable = c2
 	[../]
- 
+
 	[./c3_dgadv]
 		type = DGConcentrationAdvection
 		variable = c3
@@ -283,7 +283,7 @@
 		uy = vp3y
 		uz = vp3z
 	[../]
- 
+
 	[./c3_dgdiff]
 		type = DGAnisotropicDiffusion
 		variable = c3
@@ -302,14 +302,14 @@
  		vzs = 'vp1z vp2z vp3z'
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./c_average]
 		type = AverageMaterial
 		variable = c_avg
 		coupled_vars = 'c1 c2 c3'
 		execute_on = 'initial timestep_begin timestep_end'
 	[../]
- 
+
 	[./part_vel_1x]
 		type = Trajectory1stOrder
 		variable = vp1x
@@ -326,7 +326,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_1y]
 		type = Trajectory1stOrder
 		variable = vp1y
@@ -343,7 +343,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_1z]
 		type = Trajectory1stOrder
 		variable = vp1z
@@ -360,7 +360,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_2x]
 		type = Trajectory1stOrder
 		variable = vp2x
@@ -377,7 +377,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_2y]
 		type = Trajectory1stOrder
 		variable = vp2y
@@ -394,7 +394,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_2z]
 		type = Trajectory1stOrder
 		variable = vp2z
@@ -411,7 +411,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_3x]
 		type = Trajectory1stOrder
 		variable = vp3x
@@ -428,7 +428,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_3y]
 		type = Trajectory1stOrder
 		variable = vp3y
@@ -445,7 +445,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_3z]
 		type = Trajectory1stOrder
 		variable = vp3z
@@ -476,7 +476,7 @@
 		uy = vp1y
 		uz = vp1z
     [../]
- 
+
 	[./c2_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = c2
@@ -486,7 +486,7 @@
 		uy = vp2y
 		uz = vp2z
 	[../]
- 
+
 	[./c3_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = c3
@@ -512,26 +512,26 @@
         variable = c_avg
         execute_on = 'initial timestep_begin timestep_end'
     [../]
- 
+
 	[./c_floor]
 		type = SideAverageValue
 		boundary = 'bottom'
 		variable = c_total
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./vp1z]
 		type = ElementAverageValue
 		variable = vp1z
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./vp2z]
 		type = ElementAverageValue
 		variable = vp2z
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./vp3z]
 		type = ElementAverageValue
 		variable = vp3z
@@ -571,7 +571,7 @@
 [] #END Executioner
 
 [Preconditioning]
- 
+
 	[./smp]
 		type = SMP
 		full = true
@@ -581,14 +581,15 @@
 	[../]
 
 [] #END Preconditioning
- 
+
 [Adaptivity]
 # Adaptivity seems to create errors for the average auxkernel (and maybe the total)
 	marker = errorfrac
+  steps = 2
 
 	[./Indicators]
 		[./error]
-			type = GradientJumpIndicator
+			type = ValueJumpIndicator
 			variable = c_avg
 		[../]
 	[../]
@@ -596,10 +597,8 @@
 	[./Markers]
 		[./errorfrac]
 			type = ErrorFractionMarker
-			refine = 0.0
-			coarsen = 0.0
-#			refine = 0.5
-#			coarsen = 0.5
+			refine = 0.5
+			coarsen = 0.5
 			indicator = error
 		[../]
 	[../]
