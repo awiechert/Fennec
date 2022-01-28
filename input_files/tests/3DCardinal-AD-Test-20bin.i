@@ -845,7 +845,7 @@
     [../]
 
     [./N0_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N0
         main_variable = N0
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -867,7 +867,7 @@
  	[../]
 
     [./N1_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N1
         main_variable = N1
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -889,7 +889,7 @@
  	[../]
 
     [./N2_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N2
         main_variable = N2
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -911,7 +911,7 @@
  	[../]
 
     [./N3_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N3
         main_variable = N3
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -933,7 +933,7 @@
  	[../]
 
     [./N4_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N4
         main_variable = N4
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -955,7 +955,7 @@
     [../]
 
     [./N5_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N5
         main_variable = N5
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -977,7 +977,7 @@
  	[../]
 
     [./N6_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N6
         main_variable = N6
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -999,7 +999,7 @@
  	[../]
 
     [./N7_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N7
         main_variable = N7
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1021,7 +1021,7 @@
  	[../]
 
     [./N8_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N8
         main_variable = N8
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1043,7 +1043,7 @@
  	[../]
 
     [./N9_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N9
         main_variable = N9
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1065,7 +1065,7 @@
     [../]
 
     [./N10_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N10
         main_variable = N10
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1087,7 +1087,7 @@
  	[../]
 
     [./N11_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N11
         main_variable = N11
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1109,7 +1109,7 @@
  	[../]
 
     [./N12_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N12
         main_variable = N12
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1131,7 +1131,7 @@
  	[../]
 
     [./N13_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N13
         main_variable = N13
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1153,7 +1153,7 @@
  	[../]
 
     [./N14_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N14
         main_variable = N14
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1175,7 +1175,7 @@
     [../]
 
     [./N15_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N15
         main_variable = N15
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1197,7 +1197,7 @@
  	[../]
 
     [./N16_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N16
         main_variable = N16
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1219,7 +1219,7 @@
  	[../]
 
     [./N17_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N17
         main_variable = N17
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1241,7 +1241,7 @@
  	[../]
 
     [./N18_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N18
         main_variable = N18
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1263,7 +1263,7 @@
  	[../]
 
     [./N19_MPB_Agg]
-        type = BrownianMonoPB
+        type = ADAggregationMPB
         variable = N19
         main_variable = N19
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -2338,7 +2338,7 @@
 [Materials]
 
 	[./CollisionParams_Atm]
- 		type = CollisionParameters
+ 		type = ADCollisionParameters
         block = 0
         cardinal_object = cardinal
         coupled_conc = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -2353,18 +2353,6 @@
         coupled_vy = 'vp0y vp1y vp2y vp3y vp4y vp5y vp6y vp7y vp8y vp9y vp10y vp11y vp12y vp13y vp14y vp15y vp16y vp17y vp18y vp19y'
         coupled_vz = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z vp10z vp11z vp12z vp13z vp14z vp15z vp16z vp17z vp18z vp19z'
     [../]
- 
-#	[./ADConversion_BrownianFequency]
-# 		type = MaterialADConverter
-#        reg_props_in = '_beta_Br'
-#        ad_props_out = 'AD_beta_Br'
-#    [../]
-
-#	[./ADConversion_BrownianEfficiency]
-# 		type = MaterialADConverter
-#        reg_props_in = '_alpha_Br'
-#        ad_props_out = 'AD_alpha_Br'
-#    [../]
 
 [] #END Materials
 

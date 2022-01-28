@@ -67,8 +67,8 @@ ADAggregationMPB::ADAggregationMPB(const InputParameters & parameters)
 _dia(getParam<std::vector<Real> >("diameters")),
 _u_var(coupled("main_variable")),
 _gama_correction(getParam<bool>("gama_correction")),
-_beta_Br(getMaterialProperty<std::vector<std::vector<Real> > >("beta_Br")),
-_alpha_Br(getMaterialProperty<std::vector<std::vector<Real> > >("alpha_Br"))
+_beta_Br(getADMaterialProperty<std::vector<std::vector<Real> > >("beta_Br")),
+_alpha_Br(getADMaterialProperty<std::vector<std::vector<Real> > >("alpha_Br"))
 {
     _M = coupledComponents("coupled_list");
     if (_M != _dia.size())
@@ -103,11 +103,7 @@ _alpha_Br(getMaterialProperty<std::vector<std::vector<Real> > >("alpha_Br"))
         	_frac[i][j].resize(_M);
     }
     
-    //Segmentaion fault error occurs when attempting to calculate alpha and beta values at this point.
-    //No issues with VolumeFill, FractionFill, or GamaFill for some unknown reason.
-    //Error is utterly incomprehensible to me.
-    //this->AlphaBetaFill();
-    
+    this->AlphaBetaFill();
     this->VolumeFill();
     this->FractionFill();
     this->GamaFill();
@@ -217,10 +213,6 @@ void ADAggregationMPB::GamaFill()
 
 ADReal ADAggregationMPB::computeQpResidual()
 {
-	//Kernel (kinda) works when the alphas and betas are calculated at this point. Much slower than a regular kernel.
-    //Jacobi calculation takes twice as long when using an ADKernel.
-    //this->AlphaBetaFill();
-    
 	ADReal rate = 0.0;
     ADReal source = 0.0;
     ADReal sink = 0.0;
