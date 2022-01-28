@@ -12,6 +12,9 @@
 
     energy_dissipation = 0.3
 
+    efficiency = 1
+    frequency = 2000
+
 [] #END GlobalParams
 
 [Problem]
@@ -1029,7 +1032,7 @@
     [../]
 
     [./N0_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N0
         main_variable = N0
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1067,7 +1070,7 @@
     [../]
 
     [./N1_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N1
         main_variable = N1
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1105,7 +1108,7 @@
     [../]
 
     [./N2_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N2
         main_variable = N2
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1143,7 +1146,7 @@
     [../]
 
     [./N3_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N3
         main_variable = N3
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1181,7 +1184,7 @@
     [../]
 
     [./N4_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N4
         main_variable = N4
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1219,7 +1222,7 @@
     [../]
 
     [./N5_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N5
         main_variable = N5
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1257,7 +1260,7 @@
     [../]
 
     [./N6_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N6
         main_variable = N6
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1295,7 +1298,7 @@
     [../]
 
     [./N7_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N7
         main_variable = N7
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1333,7 +1336,7 @@
     [../]
 
     [./N8_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N8
         main_variable = N8
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1371,7 +1374,7 @@
     [../]
 
     [./N9_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N9
         main_variable = N9
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1409,7 +1412,7 @@
     [../]
 
     [./N10_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N10
         main_variable = N10
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1447,7 +1450,7 @@
     [../]
 
     [./N11_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N11
         main_variable = N11
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1485,7 +1488,7 @@
     [../]
 
     [./N12_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N12
         main_variable = N12
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1523,7 +1526,7 @@
     [../]
 
     [./N13_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N13
         main_variable = N13
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1561,7 +1564,7 @@
     [../]
 
     [./N14_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N14
         main_variable = N14
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1599,7 +1602,7 @@
     [../]
 
     [./N15_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N15
         main_variable = N15
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1637,7 +1640,7 @@
     [../]
 
     [./N16_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N16
         main_variable = N16
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1675,7 +1678,7 @@
     [../]
 
     [./N17_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N17
         main_variable = N17
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1713,7 +1716,7 @@
     [../]
 
     [./N18_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N18
         main_variable = N18
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1751,7 +1754,7 @@
     [../]
 
     [./N19_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N19
         main_variable = N19
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -3804,40 +3807,6 @@
 [] #END BCs
 
 [Materials]
-
-	[./CollisionParams_Atm]
- 		type = CollisionParameters
-        block = 0
-        cardinal_object = cardinal
-        coupled_conc = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
-        air_density = air_dens
-        air_viscosity = air_visc
-        temperature = air_temp
-        ionization = air_ions
-        windx = wx
-        windy = wy
-        windz = wz
-        coupled_vx = 'vp0x vp1x vp2x vp3x vp4x vp5x vp6x vp7x vp8x vp9x vp10x vp11x vp12x vp13x vp14x vp15x vp16x vp17x vp18x vp19x'
-        coupled_vy = 'vp0y vp1y vp2y vp3y vp4y vp5y vp6y vp7y vp8y vp9y vp10y vp11y vp12y vp13y vp14y vp15y vp16y vp17y vp18y vp19y'
-        coupled_vz = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z vp10z vp11z vp12z vp13z vp14z vp15z vp16z vp17z vp18z vp19z'
-    [../]
-
-	[./CollisionParams_Surf]
- 		type = CollisionParameters
-        block = 1
-        cardinal_object = cardinal
-        coupled_conc = 'N0d N1d N2d N3d N4d N5d N6d N7d N8d N9d N10d N11d N12d N13d N14d N15d N16d N17d N18d N19d'
-        air_density = air_dens
-        air_viscosity = air_visc
-        temperature = air_temp
-        ionization = air_ions
-        windx = wx
-        windy = wy
-        windz = wz
-        coupled_vx = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
-        coupled_vy = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
-        coupled_vz = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
-    [../]
 
 [] #END Materials
 

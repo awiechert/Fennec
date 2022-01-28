@@ -12,6 +12,9 @@
 
     energy_dissipation = 0.3
 
+    efficiency = 1
+    frequency = 2000
+
 [] #END GlobalParams
 
 [Problem]
@@ -24,8 +27,8 @@
     [gen]
     	type = GeneratedMeshGenerator
     	dim = 3
-		nx = 25
-		ny = 25
+		nx = 12
+		ny = 12
 		nz = 26
     	xmin = 0.0
     	xmax = 10000.0
@@ -64,120 +67,140 @@
         order = CONSTANT
         family = MONOMIAL
         block = 0
+        initial_condition = 0.1e-15
     [../]
 
  	[./N1]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 0.1e-15
  	[../]
 
  	[./N2]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 0.1e-15
  	[../]
 
  	[./N3]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 0.1e-15
  	[../]
 
     [./N4]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 0.1e-15
  	[../]
 
  	[./N5]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 0.1e-15
  	[../]
 
  	[./N6]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 0.1e-15
  	[../]
 
  	[./N7]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 1.0e-15
  	[../]
 
     [./N8]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 2.0e-15
  	[../]
 
     [./N9]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 4.0e-15
  	[../]
 
 	[./N10]
         order = CONSTANT
         family = MONOMIAL
         block = 0
+        initial_condition = 8.0e-15
     [../]
 
  	[./N11]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 10.0e-15
  	[../]
 
  	[./N12]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 8.0e-15
  	[../]
 
  	[./N13]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 4.0e-15
  	[../]
 
     [./N14]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 2.0e-15
  	[../]
 
     [./N15]
         order = CONSTANT
         family = MONOMIAL
         block = 0
+        initial_condition = 1.0e-15
     [../]
 
  	[./N16]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 0.8e-15
  	[../]
 
  	[./N17]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 0.4e-15
  	[../]
 
  	[./N18]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 0.2e-15
  	[../]
 
     [./N19]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
+        initial_condition = 0.0
  	[../]
 
     [./N0d]
@@ -802,206 +825,6 @@
 
 [ICs]
 
-	[./N0_IC]
- 		type = CARDINAL_CloudIC
-        variable = N0
-        x_center = 5000
-        y_center = 5000
-        local_size_index = 0
-        cardinal_object = cardinal
-        block = 0
-    [../]
-
- 	[./N1_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N1
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 1
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N2_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N2
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 2
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N3_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N3
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 3
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N4_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N4
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 4
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
-	[./N5_IC]
- 		type = CARDINAL_CloudIC
-        variable = N5
-        x_center = 5000
-        y_center = 5000
-        local_size_index = 5
-        cardinal_object = cardinal
-        block = 0
-    [../]
-
- 	[./N6_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N6
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 6
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N7_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N7
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 7
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N8_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N8
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 8
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N9_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N9
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 9
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
-	[./N10_IC]
- 		type = CARDINAL_CloudIC
-        variable = N10
-        x_center = 5000
-        y_center = 5000
-        local_size_index = 10
-        cardinal_object = cardinal
-        block = 0
-    [../]
-
- 	[./N11_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N11
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 11
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N12_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N12
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 12
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N13_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N13
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 13
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N14_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N14
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 14
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
-	[./N15_IC]
- 		type = CARDINAL_CloudIC
-        variable = N15
-        x_center = 5000
-        y_center = 5000
-        local_size_index = 15
-        cardinal_object = cardinal
-        block = 0
-    [../]
-
- 	[./N16_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N16
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 16
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N17_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N17
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 17
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N18_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N18
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 18
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
- 	[./N19_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N19
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 19
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
 [] #END ICs
 
 [Kernels]
@@ -1029,7 +852,7 @@
     [../]
 
     [./N0_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N0
         main_variable = N0
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1067,7 +890,7 @@
     [../]
 
     [./N1_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N1
         main_variable = N1
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1105,7 +928,7 @@
     [../]
 
     [./N2_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N2
         main_variable = N2
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1143,7 +966,7 @@
     [../]
 
     [./N3_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N3
         main_variable = N3
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1181,7 +1004,7 @@
     [../]
 
     [./N4_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N4
         main_variable = N4
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1219,7 +1042,7 @@
     [../]
 
     [./N5_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N5
         main_variable = N5
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1257,7 +1080,7 @@
     [../]
 
     [./N6_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N6
         main_variable = N6
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1295,7 +1118,7 @@
     [../]
 
     [./N7_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N7
         main_variable = N7
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1333,7 +1156,7 @@
     [../]
 
     [./N8_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N8
         main_variable = N8
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1371,7 +1194,7 @@
     [../]
 
     [./N9_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N9
         main_variable = N9
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1409,7 +1232,7 @@
     [../]
 
     [./N10_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N10
         main_variable = N10
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1447,7 +1270,7 @@
     [../]
 
     [./N11_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N11
         main_variable = N11
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1485,7 +1308,7 @@
     [../]
 
     [./N12_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N12
         main_variable = N12
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1523,7 +1346,7 @@
     [../]
 
     [./N13_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N13
         main_variable = N13
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1561,7 +1384,7 @@
     [../]
 
     [./N14_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N14
         main_variable = N14
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1599,7 +1422,7 @@
     [../]
 
     [./N15_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N15
         main_variable = N15
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1637,7 +1460,7 @@
     [../]
 
     [./N16_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N16
         main_variable = N16
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1675,7 +1498,7 @@
     [../]
 
     [./N17_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N17
         main_variable = N17
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1713,7 +1536,7 @@
     [../]
 
     [./N18_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N18
         main_variable = N18
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -1751,7 +1574,7 @@
     [../]
 
     [./N19_MPB_Agg]
-        type = CoagulationMonoPB
+        type = ConstMonoPB
         variable = N19
         main_variable = N19
         coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
@@ -2565,17 +2388,6 @@
         execute_on = 'initial timestep_end'
         block = 0
 	[../]
-
-    [./ionization]
- 		type = TotalAirIonization
-        variable = air_ions
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
-        air_density = air_dens
-        cardinal_object = cardinal
-        background_ionization = 0.0
-        execute_on = 'initial timestep_end'
-        block = 0
-    [../]
 
     [./part_vel_0x]
 		type = Trajectory1stOrder
@@ -3795,9 +3607,9 @@
 		type = DGConcentrationFluxBC
 		variable = N19
 		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
+		u_input = 0.00000001
 		ux = vp19x
-		uy = vp19y
+		uy = .1
 		uz = vp19z
 	[../]
 
@@ -3805,52 +3617,9 @@
 
 [Materials]
 
-	[./CollisionParams_Atm]
- 		type = CollisionParameters
-        block = 0
-        cardinal_object = cardinal
-        coupled_conc = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19'
-        air_density = air_dens
-        air_viscosity = air_visc
-        temperature = air_temp
-        ionization = air_ions
-        windx = wx
-        windy = wy
-        windz = wz
-        coupled_vx = 'vp0x vp1x vp2x vp3x vp4x vp5x vp6x vp7x vp8x vp9x vp10x vp11x vp12x vp13x vp14x vp15x vp16x vp17x vp18x vp19x'
-        coupled_vy = 'vp0y vp1y vp2y vp3y vp4y vp5y vp6y vp7y vp8y vp9y vp10y vp11y vp12y vp13y vp14y vp15y vp16y vp17y vp18y vp19y'
-        coupled_vz = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z vp10z vp11z vp12z vp13z vp14z vp15z vp16z vp17z vp18z vp19z'
-    [../]
-
-	[./CollisionParams_Surf]
- 		type = CollisionParameters
-        block = 1
-        cardinal_object = cardinal
-        coupled_conc = 'N0d N1d N2d N3d N4d N5d N6d N7d N8d N9d N10d N11d N12d N13d N14d N15d N16d N17d N18d N19d'
-        air_density = air_dens
-        air_viscosity = air_visc
-        temperature = air_temp
-        ionization = air_ions
-        windx = wx
-        windy = wy
-        windz = wz
-        coupled_vx = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
-        coupled_vy = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
-        coupled_vz = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
-    [../]
-
 [] #END Materials
 
 [UserObjects]
-
-	[./cardinal]
- 		type = CARDINAL_Object
- 		execute_on = 'initial timestep_end'
- 		input_file = 'input_files/cardinal/20-Bin-TestingYield.txt'
- 		atm_file = 'input_files/cardinal/DefaultAtmosphere.txt'
- 		data_path = 'database/'
-        mono_variate_population = true
- 	[../]
 
 [] #END UserObjects
 
@@ -4261,22 +4030,22 @@
 [] #END Executioner
 
 [Adaptivity]
-#  marker = error_frac
-#  steps = 2
-#  [./Indicators]
-#    [./jump_indicator]
-#      type = ValueJumpIndicator
-#      variable = N19
-#    [../]
-#  [../]
-#  [./Markers]
-#    [./error_frac]
-#      type = ErrorFractionMarker
-#      indicator = jump_indicator
-#      refine = 0.7
-#      coarsen = 0.3
-#    [../]
-#  [../]
+  marker = error_frac
+  steps = 2
+  [./Indicators]
+    [./jump_indicator]
+      type = ValueJumpIndicator
+      variable = N19
+    [../]
+  [../]
+  [./Markers]
+    [./error_frac]
+      type = ErrorFractionMarker
+      indicator = jump_indicator
+      refine = 0.7
+      coarsen = 0.3
+    [../]
+  [../]
 [] #END Adaptivity
 
 [Outputs]
