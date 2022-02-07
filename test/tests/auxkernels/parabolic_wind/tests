@@ -3,5 +3,6 @@
     type = Exodiff
     input = 3DPuff-ParaWind-MultiParticle.i
     exodiff = '3DPuff-ParaWind-MultiParticle_out.e'
+    rel_err = 1e-4
   [../]
 []

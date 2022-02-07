@@ -3,5 +3,6 @@
     type = 'Exodiff'
     input = '3DPuff-Valley.i'
     exodiff = '3DPuff-Valley_out.e'
+    rel_err = 1e-4
   [../]
 []

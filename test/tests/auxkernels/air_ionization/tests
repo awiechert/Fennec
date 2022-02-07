@@ -3,5 +3,6 @@
     type = Exodiff
     input = Cardinal_Ions.i
     exodiff = 'Cardinal_Ions_out.e'
+    rel_err = 1e-3
   [../]
 []
