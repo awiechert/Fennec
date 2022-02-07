@@ -4,7 +4,7 @@
  *	\details This file creates a MOOSE kernel that will couple together multiple number
  *			concentrations of particles and calculate a population balance rate function
  *			assuming the collision efficiency and frequency are calculated from Brownian
- *			diffusion and the convective Brownian diffusion enhancement functions. This 
+ *			diffusion and the convective Brownian diffusion enhancement functions. This
  *			module is based on the following works:
  *
  *			Y.H. Kim, S. Yiacoumi, A. Nenes, C. Tsouris, J. Aero. Sci., 114, 283-300, 2017.
@@ -107,10 +107,12 @@ Real BrownianConvecMonoPB::computeQpResidual()
 
 Real BrownianConvecMonoPB::computeQpJacobian()
 {
+    this->AlphaBetaFill();
     return ConstMonoPB::computeQpJacobian();
 }
 
 Real BrownianConvecMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
-    return 0.0;
+    this->AlphaBetaFill();
+    return ConstMonoPB::computeQpOffDiagJacobian(jvar);
 }

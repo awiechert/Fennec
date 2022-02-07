@@ -107,10 +107,12 @@ Real VanderWaalsMonoPB::computeQpResidual()
 
 Real VanderWaalsMonoPB::computeQpJacobian()
 {
+    this->AlphaBetaFill();
     return ConstMonoPB::computeQpJacobian();
 }
 
 Real VanderWaalsMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
-    return 0.0;
+    this->AlphaBetaFill();
+    return ConstMonoPB::computeQpOffDiagJacobian(jvar);
 }

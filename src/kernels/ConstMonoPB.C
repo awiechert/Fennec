@@ -71,7 +71,7 @@ _gama_correction(getParam<bool>("gama_correction"))
     _M = coupledComponents("coupled_list");
     if (_M != _dia.size())
     	moose::internal::mooseErrorRaw("Number of coupled variables does not match number of particle size bins!");
-    
+
     _coupled_u_var.resize(_M);
     _coupled_u.resize(_M);
     _frac.resize(_M);
@@ -79,18 +79,19 @@ _gama_correction(getParam<bool>("gama_correction"))
     _beta.resize(_M);
     _vol.resize(_M);
     _gama.resize(_M);
-    
+
     for (unsigned int i = 0; i<_coupled_u.size(); ++i)
     {
         _coupled_u_var[i] = coupled("coupled_list",i);
         _coupled_u[i] = &coupledValue("coupled_list",i);
-        _those_var[_coupled_u_var[i]] = i;
-        
+
         if (_coupled_u_var[i] == _u_var)
             _this_var = i;
+        else
+            _those_var[_coupled_u_var[i]] = i;
         // How to refer to the value of the coupled variable list:   _u_coupled[_qp] == (*_coupled_u[i])[_qp]   for each i
     }
-    
+
     for (int i=0; i<_M; i++)
     {
         _frac[i].resize(_M);
@@ -100,7 +101,7 @@ _gama_correction(getParam<bool>("gama_correction"))
         for (int j=0; j<_M; j++)
         	_frac[i][j].resize(_M);
     }
-    
+
     this->AlphaBetaFill();
     this->VolumeFill();
     this->FractionFill();
@@ -210,18 +211,18 @@ void ConstMonoPB::GamaFill()
 
 Real ConstMonoPB::computeQpResidual()
 {
-	Real rate = 0.0;
+	  Real rate = 0.0;
     Real source = 0.0;
     Real sink = 0.0;
     int k = _this_var;
-    
+
     //Loop over all variables l
     for (int l=0; l<_M; l++)
     {
         sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
-        
+
         Real m_sum = 0.0;
-        
+
         //Loop over m variables
         for (int m=0; m<=l; m++)
         {
@@ -230,85 +231,103 @@ Real ConstMonoPB::computeQpResidual()
         source += m_sum*(*_coupled_u[l])[_qp];
     }
     rate = (_test[_i][_qp]*source - _test[_i][_qp]*_u[_qp]*sink);
-    
+
     return -rate;
 }
 
 Real ConstMonoPB::computeQpJacobian()
 {
-	//Preconditioning increases simulation time by about 20 percent. Might be a error in the calculation.
-	
-	// Partial Derivatives with respect to this variable
-    /*int k = _this_var;
-    Real m_sum = 0.0;
-    Real l_sum_source = 0.0;
-    Real l_sum_sink = 0.0;
-    
-    for (int m=0; m<=k; m++)
-    {
-        m_sum += (1.0+this->KroneckerDelta(k,m))*(1.0-0.5*this->KroneckerDelta(k,m))*_frac[k][k][m]*_alpha[k][m]*_beta[k][m]*(*_coupled_u[m])[_qp];
-    }
-    
+    Real drate_dNk = 0.0;
+    Real dsource_dNk = 0.0;
+    Real sink = 0.0;
+    Real dsink_dNk = 0.0;
+    int k = _this_var;
+
+    //Loop over all variables l
     for (int l=0; l<_M; l++)
     {
-    	if (l < k)
-        {
-            l_sum_sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
-        }
-        
-        if (l == k)
-        {
-            l_sum_source += m_sum;
-        }
-        
+        sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
+        if (l==k)
+          dsink_dNk += _gama[k][l]*_alpha[k][l]*_beta[k][l]*_phi[_j][_qp];
         else
+          dsink_dNk += 0.0;
+
+        Real m_sum = 0.0;
+        Real dm_sum_dNk = 0.0;
+
+        //Loop over m variables
+        for (int m=0; m<=l; m++)
         {
-            l_sum_sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
-            l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,k))*_frac[k][l][k]*_alpha[l][k]*_beta[l][k];
+            m_sum += (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*(*_coupled_u[m])[_qp];
+            if (m==k)
+              dm_sum_dNk += (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*_phi[_j][_qp];
+            else
+              dm_sum_dNk += 0.0;
         }
+        Real Nl = (*_coupled_u[l])[_qp];
+        Real dNl_dNk = 0.0;
+        if (l==k)
+          dNl_dNk = _phi[_j][_qp];
+        else
+          dNl_dNk = 0.0;
+
+        // Product rule for source term
+        dsource_dNk += dm_sum_dNk*Nl + m_sum*dNl_dNk;
     }
-    
-    return -(_test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*l_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[k][k]*_alpha[k][k]*_beta[k][k]*_u[_qp]);
-    
-    */
-    
-    //Preconditioning with this kernel seems to not work
-    return 0.0;
+    Real Nk = _u[_qp];
+    Real dNk_dNk = _phi[_j][_qp];
+
+    // Product rule on sink term -----------------------------vvvvvvvvvvvvvvvvvvvvvvvvvvv
+    drate_dNk = (_test[_i][_qp]*dsource_dNk - _test[_i][_qp]*(Nk*dsink_dNk + dNk_dNk*sink));
+
+    return -drate_dNk;
 }
 
 Real ConstMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
-	
-    // Partial Derivatives with respect to other variables
-    /*int h = _those_var[jvar];
+    Real drate_dNh = 0.0;
+    Real dsource_dNh = 0.0;
+    Real sink = 0.0;
+    Real dsink_dNh = 0.0;
     int k = _this_var;
-    Real m_sum = 0.0;
-    Real l_sum_source = 0.0;
-    
-    for (int m=0; m<=h; m++)
+    int h = _those_var[jvar];
+
+    //Loop over all variables l
+    for (int l=0; l<_M; l++)
     {
-        m_sum += (1.0+this->KroneckerDelta(h,m))*(1.0-0.5*this->KroneckerDelta(h,m))*_frac[k][h][m]*_alpha[h][m]*_beta[h][m]*(*_coupled_u[m])[_qp];
-    }
-    
-    for (int l=h; l<_M; l++)
-    {
-        if (l == h)
-        {
-        	l_sum_source += m_sum;
-        }
-        
+        sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
+        if (l==h)
+          dsink_dNh += _gama[k][l]*_alpha[k][l]*_beta[k][l]*_phi[_j][_qp];
         else
+          dsink_dNh += 0.0;
+
+        Real m_sum = 0.0;
+        Real dm_sum_dNh = 0.0;
+
+        //Loop over m variables
+        for (int m=0; m<=l; m++)
         {
-            l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,h))*_frac[k][l][h]*_alpha[l][h]*_beta[l][h];
+            m_sum += (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*(*_coupled_u[m])[_qp];
+            if (m==h)
+              dm_sum_dNh += (1.0-0.5*this->KroneckerDelta(l,m))*_frac[k][l][m]*_alpha[l][m]*_beta[l][m]*_phi[_j][_qp];
+            else
+              dm_sum_dNh += 0.0;
         }
+        Real Nl = (*_coupled_u[l])[_qp];
+        Real dNl_dNh = 0.0;
+        if (l==h)
+          dNl_dNh = _phi[_j][_qp];
+        else
+          dNl_dNh = 0.0;
+
+        // Product rule for source term
+        dsource_dNh += dm_sum_dNh*Nl + m_sum*dNl_dNh;
     }
-    
-    return -(_test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[k][h]*_alpha[k][h]*_beta[k][h]*(*_coupled_u[k])[_qp]);
-    
-    */
-    
-    //Preconditioning with this kernel seems to not work
-    return 0.0;
+    Real Nk = _u[_qp];
+    Real dNk_dNh = 0.0;
+
+    // Product rule on sink term -----------------------------vvvvvvvvvvvvvvvvvvvvvvvvvvv
+    drate_dNh = (_test[_i][_qp]*dsource_dNh - _test[_i][_qp]*(Nk*dsink_dNh + dNk_dNh*sink));
+
+    return -drate_dNh;
 }
-
-

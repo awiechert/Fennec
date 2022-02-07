@@ -3,7 +3,7 @@
  *	\brief Kernel for Multi-Fragment Breakage in a Mono-variate Population Balance Model
  *	\details This file creates a MOOSE kernel that will couple together multiple number
  *			concentrations of particles and calculate a population balance rate function
- *			for particle breakup based on the muli-fragment linear binary breakage function. 
+ *			for particle breakup based on the muli-fragment linear binary breakage function.
  *			This module	is based on the following works:
  *
  *			S. Kumar, D. Ramkrisha, Chem. Eng. Sci., 51, 1311-1332, 1996a.
@@ -59,7 +59,7 @@ InputParameters MultiFragLinearMonoPB::validParams()
     params.addRequiredCoupledVar("coupled_list","List of names of the number concentration variables being coupled (including this variable)");
     params.addRequiredCoupledVar("main_variable","Name of the number concentration variable this kernel acts on");
     return params;
-    
+
 }
 
 MultiFragLinearMonoPB::MultiFragLinearMonoPB(const InputParameters & parameters)
@@ -72,31 +72,32 @@ _u_var(coupled("main_variable"))
     _M = coupledComponents("coupled_list");
     if (_M != _dia.size())
         moose::internal::mooseErrorRaw("Number of coupled variables does not match number of particle size bins!");
-    
+
     _coupled_u_var.resize(_M);
     _coupled_u.resize(_M);
     _frag.resize(_M);
     _vol.resize(_M);
-    
+
     for (unsigned int i = 0; i<_coupled_u.size(); ++i)
     {
         _coupled_u_var[i] = coupled("coupled_list",i);
         _coupled_u[i] = &coupledValue("coupled_list",i);
-        _those_var[_coupled_u_var[i]] = i;
-        
+
         if (_coupled_u_var[i] == _u_var)
             _this_var = i;
+        else
+            _those_var[_coupled_u_var[i]] = i;
         // How to refer to the value of the coupled variable list:   _u_coupled[_qp] == (*_coupled_u[i])[_qp]   for each i
     }
-    
+
     for (int i=0; i<_M; i++)
     {
         _frag[i].resize(_M);
     }
-    
+
     this->VolumeFill();
     this->FragmentFill();
-    
+
 }
 
 Real MultiFragLinearMonoPB::KroneckerDelta(int i, int j)
@@ -119,7 +120,7 @@ void MultiFragLinearMonoPB::VolumeFill()
 
 void MultiFragLinearMonoPB::FragmentFill()
 {
-	Real B = -6.0*(_f_num-2.0);
+	  Real B = -6.0*(_f_num-2.0);
     Real A = 2.0 - 2.0*B/3.0;
     for (int k=_M-1; k>=0; k--)
     {
@@ -156,7 +157,7 @@ void MultiFragLinearMonoPB::FragmentFill()
                 {
                     _frag[k][l] = 0.0;
                 }
-                
+
             }
             else if (k==0)
             {
@@ -195,12 +196,12 @@ Real MultiFragLinearMonoPB::computeQpResidual()
     Real source = 0.0;
     Real rate = 0.0;
     int k = _this_var;
-    
+
     for (int l=0; l<_M; l++)
     {
         source = source + _frag[k][l]*_b_coeff*(*_coupled_u[l])[_qp];
     }
-    
+
     rate = source*_test[_i][_qp] - (1.0-this->KroneckerDelta(k,0))*_b_coeff*_u[_qp]*_test[_i][_qp];
     return -rate;
 }
@@ -213,5 +214,7 @@ Real MultiFragLinearMonoPB::computeQpJacobian()
 
 Real MultiFragLinearMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
-    return 0.0;
+    int k = _this_var;
+    int h = _those_var[jvar];
+    return -_phi[_j][_qp]*_test[_i][_qp]*(_frag[k][h]*_b_coeff);
 }

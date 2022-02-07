@@ -1,0 +1,95 @@
+Without changing the preconditioners
+------------------------------------
+Time Step 1, time = 1, dt = 1
+ 0 Nonlinear |R| = 6.086785e+00
+      0 Linear |R| = 6.086785e+00
+      1 Linear |R| = 7.263866e-01
+      2 Linear |R| = 4.467014e-02
+      3 Linear |R| = 5.193943e-04
+      4 Linear |R| = 8.867262e-07
+ 1 Nonlinear |R| = 1.167855e+00
+      0 Linear |R| = 1.167855e+00
+      1 Linear |R| = 8.140374e-02
+      2 Linear |R| = 1.254877e-03
+      3 Linear |R| = 7.259531e-07
+ 2 Nonlinear |R| = 1.031011e-01
+      0 Linear |R| = 1.031011e-01
+      1 Linear |R| = 1.998789e-03
+      2 Linear |R| = 1.972973e-06
+      3 Linear |R| = 8.550280e-08
+ 3 Nonlinear |R| = 9.979938e-04
+      0 Linear |R| = 9.979938e-04
+      1 Linear |R| = 2.018447e-06
+      2 Linear |R| = 3.740377e-08
+      3 Linear |R| = 7.562258e-09
+      4 Linear |R| = 1.529410e-10
+ 4 Nonlinear |R| = 8.801285e-08
+      0 Linear |R| = 8.801285e-08
+      1 Linear |R| = 1.152883e-10
+      2 Linear |R| = 4.164166e-11
+      3 Linear |R| = 1.856954e-11
+      4 Linear |R| = 1.633599e-12
+      5 Linear |R| = 2.959349e-15
+ 5 Nonlinear |R| = 2.953062e-15
+
+
+Convergence with new preconditioner (Jac Only)  
+	[Shows marginal improvement]
+----------------------------------------------
+Time Step 1, time = 1, dt = 1
+ 0 Nonlinear |R| = 6.086785e+00
+      0 Linear |R| = 6.086785e+00
+      1 Linear |R| = 2.344166e-01
+      2 Linear |R| = 4.036593e-03
+      3 Linear |R| = 2.931529e-05
+      4 Linear |R| = 6.779492e-08
+ 1 Nonlinear |R| = 1.167855e+00
+      0 Linear |R| = 1.167855e+00
+      1 Linear |R| = 2.712920e-02
+      2 Linear |R| = 2.618896e-04
+      3 Linear |R| = 2.234006e-06
+      4 Linear |R| = 4.447255e-09
+ 2 Nonlinear |R| = 1.031011e-01
+      0 Linear |R| = 1.031011e-01
+      1 Linear |R| = 1.167750e-03
+      2 Linear |R| = 1.479528e-05
+      3 Linear |R| = 1.280667e-07
+      4 Linear |R| = 3.195909e-10
+ 3 Nonlinear |R| = 9.979835e-04
+      0 Linear |R| = 9.979835e-04
+      1 Linear |R| = 1.007971e-05
+      2 Linear |R| = 1.251348e-07
+      3 Linear |R| = 1.194193e-09
+      4 Linear |R| = 3.300670e-12
+ 4 Nonlinear |R| = 8.798003e-08
+      0 Linear |R| = 8.798003e-08
+      1 Linear |R| = 8.921397e-10
+      2 Linear |R| = 1.127652e-11
+      3 Linear |R| = 1.324858e-13
+      4 Linear |R| = 4.530540e-16
+ 5 Nonlinear |R| = 1.682953e-15
+ 
+ 
+ Convergence with new preconditioner (Full)  
+	[Infinite Improvement, literally 
+	cannot get better than this!]
+----------------------------------------------
+ Time Step 1, time = 1, dt = 1
+ 0 Nonlinear |R| = 6.086785e+00
+      0 Linear |R| = 6.086785e+00
+      1 Linear |R| = 9.967147e-08
+ 1 Nonlinear |R| = 1.167855e+00
+      0 Linear |R| = 1.167855e+00
+      1 Linear |R| = 1.174066e-08
+ 2 Nonlinear |R| = 1.031011e-01
+      0 Linear |R| = 1.031011e-01
+      1 Linear |R| = 8.270124e-10
+ 3 Nonlinear |R| = 9.979854e-04
+      0 Linear |R| = 9.979854e-04
+      1 Linear |R| = 1.261559e-11
+ 4 Nonlinear |R| = 8.800450e-08
+      0 Linear |R| = 8.800450e-08
+      1 Linear |R| = 8.412060e-16
+ 5 Nonlinear |R| = 1.173727e-15
+
+

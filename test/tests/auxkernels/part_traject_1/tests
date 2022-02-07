@@ -3,5 +3,6 @@
     type = Exodiff
     input = 3DPuff-ParticleSettling.i
     exodiff = '3DPuff-ParticleSettling_out.e'
+    rel_err = 1e-4
   [../]
 []
