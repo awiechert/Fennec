@@ -3,8 +3,8 @@
  *	\brief Kernel for Shear Driven Multi-Fragment Breakage in a Mono-variate Population Balance Model
  *	\details This file creates a MOOSE kernel that will couple together multiple number
  *			concentrations of particles and calculate a population balance rate function
- *			for particle breakup based on the muli-fragment linear binary breakage function 
- *			with a breakup rate coefficient calculated using a semi-emperical formula for 
+ *			for particle breakup based on the muli-fragment linear binary breakage function
+ *			with a breakup rate coefficient calculated using a semi-emperical formula for
  *			shear driven breakup.
  *
  *			This module's breakup function is based on the following works:
@@ -67,7 +67,7 @@ InputParameters ShearMultiFragLinearMonoPB::validParams()
     params.addRequiredCoupledVar("coupled_list","List of names of the number concentration variables being coupled (including this variable)");
     params.addRequiredCoupledVar("main_variable","Name of the number concentration variable this kernel acts on");
     return params;
-    
+
 }
 
 ShearMultiFragLinearMonoPB::ShearMultiFragLinearMonoPB(const InputParameters & parameters)
@@ -85,35 +85,36 @@ _u_var(coupled("main_variable"))
     _M = coupledComponents("coupled_list");
     if (_M != _dia.size())
         moose::internal::mooseErrorRaw("Number of coupled variables does not match number of particle size bins!");
-    
+
     _coupled_u_var.resize(_M);
     _coupled_u.resize(_M);
     _frag.resize(_M);
     _num.resize(_M);
     _rat.resize(_M);
     _vol.resize(_M);
-    
+
     for (unsigned int i = 0; i<_coupled_u.size(); ++i)
     {
         _coupled_u_var[i] = coupled("coupled_list",i);
         _coupled_u[i] = &coupledValue("coupled_list",i);
-        _those_var[_coupled_u_var[i]] = i;
-        
+
         if (_coupled_u_var[i] == _u_var)
             _this_var = i;
+        else
+            _those_var[_coupled_u_var[i]] = i;
         // How to refer to the value of the coupled variable list:   _u_coupled[_qp] == (*_coupled_u[i])[_qp]   for each i
     }
-    
+
     for (int i=0; i<_M; i++)
     {
         _frag[i].resize(_M);
     }
-    
+
     this->VolumeFill();
     this->FragmentFill();
     this->NumberFill();
     this->BreakupRateFill();
-    
+
 }
 
 Real ShearMultiFragLinearMonoPB::KroneckerDelta(int i, int j)
@@ -139,7 +140,7 @@ void ShearMultiFragLinearMonoPB::NumberFill()
     Real pi = 3.14159;
     Real c = pi/6.0;
     Real v_prime = 8.0*c*_p_rad*_p_rad*_p_rad;
-    
+
     for (int k=0; k<_M; k++)
     {
         _num[k] = _vol[k]/v_prime;
@@ -150,7 +151,7 @@ void ShearMultiFragLinearMonoPB::BreakupRateFill()
 {
     Real pi = 3.14159;
     Real m = pow(4.0/(15.0*pi),0.5);
-    
+
     for (int k=0; k<_M; k++)
     {
         _rat[k] = m*pow(_e_dis/_k_vis,0.5)*exp(-_b_con/(_e_dis*_p_rad*pow(_num[k]/_p_den[k],1.0/_f_dim[k])));
@@ -159,7 +160,7 @@ void ShearMultiFragLinearMonoPB::BreakupRateFill()
 
 void ShearMultiFragLinearMonoPB::FragmentFill()
 {
-	Real B = -6.0*(_f_num-2.0);
+	  Real B = -6.0*(_f_num-2.0);
     Real A = 2.0 - 2.0*B/3.0;
     for (int k=_M-1; k>=0; k--)
     {
@@ -196,7 +197,7 @@ void ShearMultiFragLinearMonoPB::FragmentFill()
                 {
                     _frag[k][l] = 0.0;
                 }
-                
+
             }
             else if (k==0)
             {
@@ -235,12 +236,12 @@ Real ShearMultiFragLinearMonoPB::computeQpResidual()
     Real source = 0.0;
     Real rate = 0.0;
     int k = _this_var;
-    
+
     for (int l=0; l<_M; l++)
     {
         source = source + _frag[k][l]*_rat[l]*(*_coupled_u[l])[_qp];
     }
-    
+
     rate = source*_test[_i][_qp] - (1.0-this->KroneckerDelta(k,0))*_rat[k]*_u[_qp]*_test[_i][_qp];
     return -rate;
 }
@@ -253,5 +254,7 @@ Real ShearMultiFragLinearMonoPB::computeQpJacobian()
 
 Real ShearMultiFragLinearMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
-    return 0.0;
+    int k = _this_var;
+    int h = _those_var[jvar];
+    return -_phi[_j][_qp]*_test[_i][_qp]*(_frag[k][h]*_rat[h]);
 }

@@ -70,4 +70,65 @@ Time Step 1, time = 1, dt = 1
      14 Linear |R| = 1.198477e-07
      15 Linear |R| = 3.294403e-08
  5 Nonlinear |R| = 4.904749e-07
+ 
+ 
+ Convergence with new preconditioner (Jac Only)  
+	[Massive immediate improvement]
+----------------------------------------------
+Time Step 1, time = 1, dt = 1
+ 0 Nonlinear |R| = 5.167464e+07
+      0 Linear |R| = 5.167464e+07
+      1 Linear |R| = 1.748931e+05
+      2 Linear |R| = 1.010808e+05
+      3 Linear |R| = 4.378472e+02
+      4 Linear |R| = 3.065993e+02
+      5 Linear |R| = 3.773478e+00
+ 1 Nonlinear |R| = 1.044218e+07
+      0 Linear |R| = 1.044218e+07
+      1 Linear |R| = 2.039394e+04
+      2 Linear |R| = 2.488706e+03
+      3 Linear |R| = 3.128205e+01
+      4 Linear |R| = 4.353048e+00
+ 2 Nonlinear |R| = 8.134060e+05
+      0 Linear |R| = 8.134060e+05
+      1 Linear |R| = 2.276144e+02
+      2 Linear |R| = 2.012201e+01
+      3 Linear |R| = 5.127293e-01
+ 3 Nonlinear |R| = 4.266393e+03
+      0 Linear |R| = 4.266393e+03
+      1 Linear |R| = 2.710686e-01
+      2 Linear |R| = 1.916124e-02
+      3 Linear |R| = 1.098979e-03
+ 4 Nonlinear |R| = 8.776412e-02
+      0 Linear |R| = 8.776412e-02
+      1 Linear |R| = 2.330706e-04
+      2 Linear |R| = 2.905710e-05
+      3 Linear |R| = 1.515865e-07
+      4 Linear |R| = 1.751809e-08
+ 5 Nonlinear |R| = 1.733319e-08
+
+
+
+ Convergence with new preconditioner (Full)  
+	[Infinite Improvement, literally 
+	cannot get better than this!]
+----------------------------------------------
+Time Step 1, time = 1, dt = 1
+ 0 Nonlinear |R| = 5.167464e+07
+      0 Linear |R| = 5.167464e+07
+      1 Linear |R| = 6.612264e-02
+ 1 Nonlinear |R| = 1.044219e+07
+      0 Linear |R| = 1.044219e+07
+      1 Linear |R| = 1.503235e-02
+ 2 Nonlinear |R| = 8.134094e+05
+      0 Linear |R| = 8.134094e+05
+      1 Linear |R| = 1.208272e-03
+ 3 Nonlinear |R| = 4.265203e+03
+      0 Linear |R| = 4.265203e+03
+      1 Linear |R| = 6.970117e-06
+ 4 Nonlinear |R| = 8.878988e-02
+      0 Linear |R| = 8.878988e-02
+      1 Linear |R| = 2.819571e-10
+ 5 Nonlinear |R| = 1.950972e-09
+
 

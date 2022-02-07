@@ -106,10 +106,12 @@ Real BrownianMonoPB::computeQpResidual()
 
 Real BrownianMonoPB::computeQpJacobian()
 {
+    this->AlphaBetaFill();
     return ConstMonoPB::computeQpJacobian();
 }
 
 Real BrownianMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
+    this->AlphaBetaFill();
     return ConstMonoPB::computeQpOffDiagJacobian(jvar);
 }

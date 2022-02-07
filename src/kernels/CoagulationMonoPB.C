@@ -4,7 +4,7 @@
  *	\details This file creates a MOOSE kernel that will couple together multiple number
  *			concentrations of particles and calculate a population balance rate function
  *			assuming the collision efficiency and frequency are calculated from Brownian
- *			diffusion, Brownian convection enhancement, gravitational collection, turbulent 
+ *			diffusion, Brownian convection enhancement, gravitational collection, turbulent
  *			inertial motion, and turbulent shear functions.
  *
  *			Y.H. Kim, S. Yiacoumi, A. Nenes, C. Tsouris, J. Aero. Sci., 114, 283-300, 2017.
@@ -93,7 +93,7 @@ void CoagulationMonoPB::AlphaBetaFill()
             Real TI = 0.0; //_alpha_TI*_beta_TI[_qp][l][m];
             Real TS = 0.0; //_alpha_TS*_beta_TS[_qp][l][m];
             Real VW = _alpha_Br[_qp][l][m]*_beta_VW[_qp][l][m];
-            
+
             _beta[l][m] = BM+BC+GC+TI+TS+VW;
             _alpha[l][m] = 1.0;
         }
@@ -123,59 +123,12 @@ Real CoagulationMonoPB::computeQpResidual()
 
 Real CoagulationMonoPB::computeQpJacobian()
 {
-	/*
     this->AlphaBetaFill();
-    
-    int k = _this_var;
-    Real m_sum = 0.0;
-    Real l_sum_source = 0.0;
-    Real l_sum_sink = 0.0;
-    
-    for (int m=0; m<=k; m++)
-    {
-        m_sum += (1.0+this->KroneckerDelta(k,m))*(1.0-0.5*this->KroneckerDelta(k,m))*_frac[k][k][m]*_alpha[k][m]*_beta[k][m]*(*_coupled_u[m])[_qp];
-    }
-    
-    for (int l=0; l<_M; l++)
-    {
-        if (l!=k)
-        {
-        	l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,k))*_frac[k][l][k]*_alpha[l][k]*_beta[l][k];
-            l_sum_sink += _gama[k][l]*_alpha[k][l]*_beta[k][l]*(*_coupled_u[l])[_qp];
-        }
-    }
-    
-    return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*l_sum_sink - _test[_i][_qp]*2.0*_phi[_j][_qp]*_gama[k][k]*_alpha[k][k]*_beta[k][k]*_u[_qp]);
-    
-    */
-    return 0.0;
+    return ConstMonoPB::computeQpJacobian();
 }
 
 Real CoagulationMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
-	/*
     this->AlphaBetaFill();
-    
-    int h = _those_var[jvar];
-    int k = _this_var;
-    Real m_sum = 0.0;
-    Real l_sum_source = 0.0;
-    
-    for (int m=0; m<=h; m++)
-    {
-        m_sum += (1.0+this->KroneckerDelta(h,m))*(1.0-0.5*this->KroneckerDelta(h,m))*_frac[k][h][m]*_alpha[h][m]*_beta[h][m]*(*_coupled_u[m])[_qp];
-    }
-    
-    for (int l=0; l<_M; l++)
-    {
-        if (l!=h)
-        {
-            l_sum_source += (*_coupled_u[l])[_qp]*(1.0-0.5*this->KroneckerDelta(l,h))*_frac[k][l][h]*_alpha[l][h]*_beta[l][h];
-        }
-    }
-    
-    return -(_test[_i][_qp]*_phi[_j][_qp]*m_sum + _test[_i][_qp]*_phi[_j][_qp]*l_sum_source - _test[_i][_qp]*_phi[_j][_qp]*_gama[k][h]*_alpha[k][h]*_beta[k][h]*_u[_qp]);
-    
-    */
-    return 0.0;
+    return ConstMonoPB::computeQpOffDiagJacobian(jvar);
 }

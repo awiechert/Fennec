@@ -1,0 +1,34 @@
+Uniform breakup without fixed preconditioning 
+---------------------------------------------
+Time Step 1, time = 1, dt = 1
+ 0 Nonlinear |R| = 1.000000e+00
+      0 Linear |R| = 1.000000e+00
+      1 Linear |R| = 9.752369e-02
+      2 Linear |R| = 9.749984e-03
+      3 Linear |R| = 9.749961e-04
+      4 Linear |R| = 9.749960e-05
+      5 Linear |R| = 9.749960e-06
+      6 Linear |R| = 9.749961e-07
+ 1 Nonlinear |R| = 9.749973e-07
+      0 Linear |R| = 9.749973e-07
+      1 Linear |R| = 9.750001e-08
+      2 Linear |R| = 9.750826e-09
+      3 Linear |R| = 9.761183e-10
+      4 Linear |R| = 9.780066e-11
+      5 Linear |R| = 9.314287e-12
+      6 Linear |R| = 6.927956e-13
+ 2 Nonlinear |R| = 6.928011e-13
+
+
+Uniform breakup WITH fixed preconditioning 
+	[Solves in single step now]
+---------------------------------------------
+Time Step 1, time = 1, dt = 1
+ 0 Nonlinear |R| = 1.000000e+00
+      0 Linear |R| = 1.000000e+00
+      1 Linear |R| = 4.038258e-09
+ 1 Nonlinear |R| = 2.134048e-09
+      0 Linear |R| = 2.134048e-09
+      1 Linear |R| = 1.924418e-17
+ 2 Nonlinear |R| = 7.027493e-16
+
