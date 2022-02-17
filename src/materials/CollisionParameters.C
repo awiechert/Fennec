@@ -485,10 +485,10 @@ void CollisionParameters::calculate_beta_Br()
             
             if (_t_step > 1 && before != _beta_Br[_qp][lm][qr])
             {
-                std::cout << "qp: " << _qp << std::endl;
-                std::cout << "Before: " << before << std::endl;
-                std::cout << "After: " << _beta_Br[_qp][lm][qr] << std::endl << std::endl;
-                moose::internal::mooseErrorRaw("Change in beta variable");
+                //std::cout << "qp: " << _qp << std::endl;
+                //std::cout << "Before: " << before << std::endl;
+                //std::cout << "After: " << _beta_Br[_qp][lm][qr] << std::endl << std::endl;
+                //moose::internal::mooseErrorRaw("Change in beta variable");
             }
         }
     }

@@ -1,10 +1,10 @@
 [GlobalParams]
 
-    diameters = '1.00e-7 1.66e-7 2.76e-7 4.57e-7 7.59e-7 1.26e-6 2.09e-6 3.47e-6 5.77e-6 9.57e-6'
+    diameters = '5.00e-5 1.00e-6 2.00e-6 4.00e-6 8.00e-6'
  
- 	packing_density = '0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75 0.75'
+ 	packing_density = '0.75 0.75 0.75 0.75 0.75'
  
- 	fractal_dimensions = '3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0'
+ 	fractal_dimensions = '3.0 3.0 3.0 3.0 3.0'
  
  	breakup_constant = 1.0e-5
  
@@ -23,22 +23,22 @@
     [gen]
     	type = GeneratedMeshGenerator
     	dim = 3
-		nx = 2500
-		ny = 1
-		nz = 11
+		nx = 150
+		ny = 150
+		nz = 6
     	xmin = 0.0
-    	xmax = 2500000.0
+    	xmax = 300000.0
     	ymin = 0.0
-    	ymax = 10000.0
+    	ymax = 300000.0
 		zmin = 0.0
-		zmax = 11000.0
+		zmax = 12000.0
 	[]
 
 	[./subdomain1]
 		input = gen
         type = SubdomainBoundingBoxGenerator
         bottom_left = '0 0 0'
-        top_right = '10000 10000 1000'
+        top_right = '300000 300000 2000'
         block_id = 1
     [../]
 
@@ -89,36 +89,6 @@
         block = 0
  	[../]
  
- 	[./N5]
- 		order = CONSTANT
- 		family = MONOMIAL
-        block = 0
- 	[../]
- 
- 	[./N6]
- 		order = CONSTANT
- 		family = MONOMIAL
-        block = 0
- 	[../]
- 
- 	[./N7]
- 		order = CONSTANT
- 		family = MONOMIAL
-        block = 0
- 	[../]
- 
-    [./N8]
- 		order = CONSTANT
- 		family = MONOMIAL
-        block = 0
- 	[../]
-
-    [./N9]
- 		order = CONSTANT
- 		family = MONOMIAL
-        block = 0
- 	[../]
-
     [./N0d]
         order = CONSTANT
         family = MONOMIAL
@@ -154,41 +124,6 @@
         block = 1
  	[../]
  
- 	[./N5d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N6d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N7d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
-    [./N8d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
-
-    [./N9d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
-
 [] #END Variables
 
 [AuxVariables]
@@ -202,14 +137,14 @@
     [./wx]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 1.0
+		initial_condition = 0.355
         block = '0 1'
 	[../]
  
 	[./wy]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 0.0
+		initial_condition = 0.355
         block = '0 1'
 	[../]
  
@@ -325,111 +260,6 @@
         block = 0
 	[../]
 
-	[./vp5x]
-		order = CONSTANT
-		family = MONOMIAL
-		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp5y]
-		order = CONSTANT
-		family = MONOMIAL
-		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp5z]
-		order = CONSTANT
-		family = MONOMIAL
-		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp6x]
-		order = CONSTANT
-		family = MONOMIAL
-		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp6y]
-		order = CONSTANT
-		family = MONOMIAL
-		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp6z]
-		order = CONSTANT
-		family = MONOMIAL
-		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp7x]
-		order = CONSTANT
-		family = MONOMIAL
-		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp7y]
-		order = CONSTANT
-		family = MONOMIAL
-		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp7z]
-		order = CONSTANT
-		family = MONOMIAL
-		initial_condition = 0.0
-        block = 0
-	[../]
- 
- 	[./vp8x]
- 		order = CONSTANT
- 		family = MONOMIAL
- 		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp8y]
- 		order = CONSTANT
- 		family = MONOMIAL
- 		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp8z]
- 		order = CONSTANT
- 		family = MONOMIAL
- 		initial_condition = 0.0
-        block = 0
-	[../]
- 
- 	[./vp9x]
- 		order = CONSTANT
- 		family = MONOMIAL
- 		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp9y]
- 		order = CONSTANT
- 		family = MONOMIAL
- 		initial_condition = 0.0
-        block = 0
-	[../]
- 
-	[./vp9z]
- 		order = CONSTANT
- 		family = MONOMIAL
- 		initial_condition = 0.0
-        block = 0
-	[../]
-
 	[./air_dens]
 		order = CONSTANT
 		family = MONOMIAL
@@ -511,56 +341,6 @@
         block = 0
  	[../]
 
-	[./N5_IC]
- 		type = CARDINAL_CloudIC
-        variable = N5
-        x_center = 5000
-        y_center = 5000
-        local_size_index = 5
-        cardinal_object = cardinal
-        block = 0
-    [../]
- 
- 	[./N6_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N6
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 6
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
- 
- 	[./N7_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N7
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 7
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
- 
- 	[./N8_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N8
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 8
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
- 
- 	[./N9_IC]
- 		type = CARDINAL_CloudIC
- 		variable = N9
-        x_center = 5000
-        y_center = 5000
- 		local_size_index = 9
- 		cardinal_object = cardinal
-        block = 0
- 	[../]
-
 [] #END ICs
 
 [Kernels]
@@ -591,7 +371,7 @@
         type = CoagulationMonoPB
         variable = N0
         main_variable = N0
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+        coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
     [../]
  
@@ -599,7 +379,7 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N0
  		main_variable = N0
-		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
  
@@ -629,7 +409,7 @@
         type = CoagulationMonoPB
         variable = N1
         main_variable = N1
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+        coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
     [../]
  
@@ -637,7 +417,7 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N1
  		main_variable = N1
-		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
  
@@ -667,7 +447,7 @@
         type = CoagulationMonoPB
         variable = N2
         main_variable = N2
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+        coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
     [../]
  
@@ -675,7 +455,7 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N2
  		main_variable = N2
-		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
  
@@ -705,7 +485,7 @@
         type = CoagulationMonoPB
         variable = N3
         main_variable = N3
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+        coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
     [../]
  
@@ -713,7 +493,7 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N3
  		main_variable = N3
-		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
  
@@ -743,7 +523,7 @@
         type = CoagulationMonoPB
         variable = N4
         main_variable = N4
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+        coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
     [../]
  
@@ -751,200 +531,10 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N4
  		main_variable = N4
-		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
 
-    [./N5_dot]
-        type = CoefTimeDerivative
-        variable = N5
-        Coefficient = 1.0
-        block = 0
-    [../]
- 
-    [./N5_gadv]
-        type = GConcentrationAdvection
-        variable = N5
-		ux = vp5x
-		uy = vp5y
-		uz = vp5z
-        block = 0
-    [../]
-
-    [./N5_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N5
-        block = 0
-    [../]
-
-    [./N5_MPB_Agg]
-        type = CoagulationMonoPB
-        variable = N5
-        main_variable = N5
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        block = 0
-    [../]
- 
-    [./N5_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
- 		variable = N5
- 		main_variable = N5
-		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        block = 0
-	[../]
- 
- 	[./N6_dot]
- 		type = CoefTimeDerivative
- 		variable = N6
- 		Coefficient = 1.0
-        block = 0
- 	[../]
- 
-    [./N6_gadv]
-        type = GConcentrationAdvection
-        variable = N6
-		ux = vp6x
-		uy = vp6y
-		uz = vp6z
-        block = 0
-    [../]
-
-    [./N6_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N6
-        block = 0
-    [../]
-
-    [./N6_MPB_Agg]
-        type = CoagulationMonoPB
-        variable = N6
-        main_variable = N6
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        block = 0
-    [../]
- 
-    [./N6_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
- 		variable = N6
- 		main_variable = N6
-		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        block = 0
-	[../]
- 
- 	[./N7_dot]
- 		type = CoefTimeDerivative
- 		variable = N7
- 		Coefficient = 1.0
-        block = 0
- 	[../]
- 
-    [./N7_gadv]
-        type = GConcentrationAdvection
-        variable = N7
-		ux = vp7x
-		uy = vp7y
-		uz = vp7z
-        block = 0
-    [../]
-
-    [./N7_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N7
-        block = 0
-    [../]
-
-    [./N7_MPB_Agg]
-        type = CoagulationMonoPB
-        variable = N7
-        main_variable = N7
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        block = 0
-    [../]
- 
-    [./N7_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
- 		variable = N7
- 		main_variable = N7
-		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        block = 0
-	[../]
- 
- 	[./N8_dot]
- 		type = CoefTimeDerivative
- 		variable = N8
- 		Coefficient = 1.0
-        block = 0
- 	[../]
- 
-    [./N8_gadv]
-        type = GConcentrationAdvection
-        variable = N8
-		ux = vp8x
-		uy = vp8y
-		uz = vp8z
-        block = 0
-    [../]
-
-    [./N8_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N8
-        block = 0
-    [../]
-
-    [./N8_MPB_Agg]
-        type = CoagulationMonoPB
-        variable = N8
-        main_variable = N8
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        block = 0
-    [../]
- 
-    [./N8_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
- 		variable = N8
- 		main_variable = N8
-		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        block = 0
-	[../]
- 
- 	[./N9_dot]
- 		type = CoefTimeDerivative
- 		variable = N9
- 		Coefficient = 1.0
-        block = 0
- 	[../]
- 
-    [./N9_gadv]
-        type = GConcentrationAdvection
-        variable = N9
-		ux = vp9x
-		uy = vp9y
-		uz = vp9z
-        block = 0
-    [../]
-
-    [./N9_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N9
-        block = 0
-    [../]
-
-    [./N9_MPB_Agg]
-        type = CoagulationMonoPB
-        variable = N9
-        main_variable = N9
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        block = 0
-    [../]
- 
-    [./N9_MPB_Break]
- 		type = ShearMultiFragLinearMonoPB
- 		variable = N9
- 		main_variable = N9
-		coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
-        block = 0
-	[../]
- 
     [./N0d_dot]
         type = CoefTimeDerivative
         variable = N0d
@@ -980,41 +570,6 @@
         block = 1
  	[../]
 
-    [./N5d_dot]
-        type = CoefTimeDerivative
-        variable = N5d
-        Coefficient = 1.0
-        block = 1
-    [../]
- 
- 	[./N6d_dot]
- 		type = CoefTimeDerivative
- 		variable = N6d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N7d_dot]
- 		type = CoefTimeDerivative
- 		variable = N7d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N8d_dot]
- 		type = CoefTimeDerivative
- 		variable = N8d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N9d_dot]
- 		type = CoefTimeDerivative
- 		variable = N9d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
 [] #END Kernels
 
 [DGKernels]
@@ -1091,81 +646,6 @@
     [./N4_dgdiff]
         type = DGAnisotropicDiffusion
         variable = N4
-        block = 0
-    [../]
-
-    [./N5_dgadv]
-        type = DGConcentrationAdvection
-        variable = N5
-		ux = vp5x
-		uy = vp5y
-		uz = vp5z
-        block = 0
-    [../]
-
-    [./N5_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N5
-        block = 0
-    [../]
- 
-    [./N6_dgadv]
-        type = DGConcentrationAdvection
-        variable = N6
-		ux = vp6x
-		uy = vp6y
-		uz = vp6z
-        block = 0
-    [../]
-
-    [./N6_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N6
-        block = 0
-    [../]
-
-    [./N7_dgadv]
-        type = DGConcentrationAdvection
-        variable = N7
-		ux = vp7x
-		uy = vp7y
-		uz = vp7z
-        block = 0
-    [../]
-
-    [./N7_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N7
-        block = 0
-    [../]
- 
-    [./N8_dgadv]
-        type = DGConcentrationAdvection
-        variable = N8
-		ux = vp8x
-		uy = vp8y
-		uz = vp8z
-        block = 0
-    [../]
-
-    [./N8_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N8
-        block = 0
-    [../]
-
-    [./N9_dgadv]
-        type = DGConcentrationAdvection
-        variable = N9
-		ux = vp9x
-		uy = vp9y
-		uz = vp9z
-        block = 0
-    [../]
-
-    [./N9_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N9
         block = 0
     [../]
 
@@ -1258,91 +738,6 @@
 		uz = vp4z
 	[../]
 
-	[./N5_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N5
-        neighbor_var = N5d
-		boundary = master_interface
-	[../]
-
-	[./N5_interface_advection]
-		type = InterfaceAdvection
-		variable = N5
-        neighbor_var = N5d
-		boundary = master_interface
-		ux = vp5x
-		uy = vp5y
-		uz = vp5z
-	[../]
-
-	[./N6_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N6
-        neighbor_var = N6d
-		boundary = master_interface
-	[../]
-
-	[./N6_interface_advection]
-		type = InterfaceAdvection
-		variable = N6
-        neighbor_var = N6d
-		boundary = master_interface
-		ux = vp6x
-		uy = vp6y
-		uz = vp6z
-	[../]
-
-	[./N7_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N7
-        neighbor_var = N7d
-		boundary = master_interface
-	[../]
-
-	[./N7_interface_advection]
-		type = InterfaceAdvection
-		variable = N7
-        neighbor_var = N7d
-		boundary = master_interface
-		ux = vp7x
-		uy = vp7y
-		uz = vp7z
-	[../]
-
-	[./N8_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N8
-        neighbor_var = N8d
-		boundary = master_interface
-	[../]
-
-	[./N8_interface_advection]
-		type = InterfaceAdvection
-		variable = N8
-        neighbor_var = N8d
-		boundary = master_interface
-		ux = vp8x
-		uy = vp8y
-		uz = vp8z
-	[../]
-
-	[./N9_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N9
-        neighbor_var = N9d
-		boundary = master_interface
-	[../]
-
-	[./N9_interface_advection]
-		type = InterfaceAdvection
-		variable = N9
-        neighbor_var = N9d
-		boundary = master_interface
-		ux = vp9x
-		uy = vp9y
-		uz = vp9z
-	[../]
-
 [] #END InterfaceKernels
 
 [AuxKernels]
@@ -1350,7 +745,7 @@
 	[./Total_Volume]
 		type = VolumeBalanceCheck
 		variable = V_total
-		coupled_vars = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+		coupled_vars = 'N0 N1 N2 N3 N4'
         execute_on = 'initial timestep_end'
         block = 0
 	[../]
@@ -1358,7 +753,7 @@
     [./ionization]
  		type = TotalAirIonization
         variable = air_ions
-        coupled_list = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+        coupled_list = 'N0 N1 N2 N3 N4'
         air_density = air_dens
         cardinal_object = cardinal
         background_ionization = 0.0
@@ -1378,7 +773,7 @@
 		varz = vp0z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.00e-7
+		particle_diameter = 5.00e-7
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1395,7 +790,7 @@
 		varz = vp0z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.00e-7
+		particle_diameter = 5.00e-7
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1412,7 +807,7 @@
 		varz = vp0z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.00e-7
+		particle_diameter = 5.00e-7
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1429,7 +824,7 @@
 		varz = vp1z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.66e-7
+		particle_diameter = 1.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1446,7 +841,7 @@
 		varz = vp1z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.66e-7
+		particle_diameter = 1.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1463,7 +858,7 @@
 		varz = vp1z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 1.66e-7
+		particle_diameter = 1.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1480,7 +875,7 @@
 		varz = vp2z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 2.76e-7
+		particle_diameter = 2.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1497,7 +892,7 @@
 		varz = vp2z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 2.76e-7
+		particle_diameter = 2.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1514,7 +909,7 @@
 		varz = vp2z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 2.76e-7
+		particle_diameter = 2.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1531,7 +926,7 @@
 		varz = vp3z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 4.57e-7
+		particle_diameter = 4.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1548,7 +943,7 @@
 		varz = vp3z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 4.57e-7
+		particle_diameter = 4.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1565,7 +960,7 @@
 		varz = vp3z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 4.57e-7
+		particle_diameter = 4.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1582,7 +977,7 @@
 		varz = vp4z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 7.59e-7
+		particle_diameter = 8.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1599,7 +994,7 @@
 		varz = vp4z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 7.59e-7
+		particle_diameter = 8.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1616,262 +1011,7 @@
 		varz = vp4z
 		air_density = air_dens
 		air_viscosity = air_visc
-		particle_diameter = 7.59e-7
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
-
-    [./part_vel_5x]
-		type = Trajectory1stOrder
-		variable = vp5x
-		direction = 0
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp5x
-		vary = vp5y
-		varz = vp5z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 1.26e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./part_vel_5y]
-		type = Trajectory1stOrder
-		variable = vp5y
-		direction = 1
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp5x
-		vary = vp5y
-		varz = vp5z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 1.26e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./part_vel_5z]
-		type = Trajectory1stOrder
-		variable = vp5z
-		direction = 2
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp5x
-		vary = vp5y
-		varz = vp5z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 1.26e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
-
-	[./part_vel_6x]
-		type = Trajectory1stOrder
-		variable = vp6x
-		direction = 0
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp6x
-		vary = vp6y
-		varz = vp6z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 2.09e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./part_vel_6y]
-		type = Trajectory1stOrder
-		variable = vp6y
-		direction = 1
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp6x
-		vary = vp6y
-		varz = vp6z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 2.09e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./part_vel_6z]
-		type = Trajectory1stOrder
-		variable = vp6z
-		direction = 2
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp6x
-		vary = vp6y
-		varz = vp6z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 2.09e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
-
-	[./part_vel_7x]
-		type = Trajectory1stOrder
-		variable = vp7x
-		direction = 0
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp7x
-		vary = vp7y
-		varz = vp7z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 3.47e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./part_vel_7y]
-		type = Trajectory1stOrder
-		variable = vp7y
-		direction = 1
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp7x
-		vary = vp7y
-		varz = vp7z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 3.47e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./part_vel_7z]
-		type = Trajectory1stOrder
-		variable = vp7z
-		direction = 2
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp7x
-		vary = vp7y
-		varz = vp7z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 3.47e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./part_vel_8x]
-		type = Trajectory1stOrder
-		variable = vp8x
-		direction = 0
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp8x
-		vary = vp8y
-		varz = vp8z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 5.77e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./part_vel_8y]
-		type = Trajectory1stOrder
-		variable = vp8y
-		direction = 1
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp8x
-		vary = vp8y
-		varz = vp8z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 5.77e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./part_vel_8z]
-		type = Trajectory1stOrder
-		variable = vp8z
-		direction = 2
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp8x
-		vary = vp8y
-		varz = vp8z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 5.77e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
-
-	[./part_vel_9x]
-		type = Trajectory1stOrder
-		variable = vp9x
-		direction = 0
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp9x
-		vary = vp9y
-		varz = vp9z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 9.57e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./part_vel_9y]
-		type = Trajectory1stOrder
-		variable = vp9y
-		direction = 1
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp9x
-		vary = vp9y
-		varz = vp9z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 9.57e-6
-		particle_density = 2600.0
-		execute_on = 'initial timestep_end'
-	[../]
- 
-	[./part_vel_9z]
-		type = Trajectory1stOrder
-		variable = vp9z
-		direction = 2
-		windx = wx
-		windy = wy
-		windz = wz
-		varx = vp9x
-		vary = vp9y
-		varz = vp9z
-		air_density = air_dens
-		air_viscosity = air_visc
-		particle_diameter = 9.57e-6
+		particle_diameter = 8.00e-6
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
@@ -1930,56 +1070,6 @@
 		uz = vp4z
 	[../]
 
-    [./N5_Flux_in_L]
-        type = DGConcentrationFluxBC
-        variable = N5
-        boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp5x
-		uy = vp5y
-		uz = vp5z
-    [../]
- 
-	[./N6_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N6
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp6x
-		uy = vp6y
-		uz = vp6z
-	[../]
- 
-	[./N7_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N7
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp7x
-		uy = vp7y
-		uz = vp7z
-	[../]
- 
-    [./N8_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N8
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp8x
-		uy = vp8y
-		uz = vp8z
-	[../]
- 
-	[./N9_Flux_in_L]
-		type = DGConcentrationFluxBC
-		variable = N9
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
-		u_input = 0.0
-		ux = vp9x
-		uy = vp9y
-		uz = vp9z
-	[../]
-
 [] #END BCs
 
 [Materials]
@@ -1988,7 +1078,7 @@
  		type = CollisionParameters
         block = 0
         cardinal_object = cardinal
-        coupled_conc = 'N0 N1 N2 N3 N4 N5 N6 N7 N8 N9'
+        coupled_conc = 'N0 N1 N2 N3 N4'
         air_density = air_dens
         air_viscosity = air_visc
         temperature = air_temp
@@ -1996,16 +1086,16 @@
         windx = wx
         windy = wy
         windz = wz
-        coupled_vx = 'vp0x vp1x vp2x vp3x vp4x vp5x vp6x vp7x vp8x vp9x'
-        coupled_vy = 'vp0y vp1y vp2y vp3y vp4y vp5y vp6y vp7y vp8y vp9y'
-        coupled_vz = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z'
+        coupled_vx = 'vp0x vp1x vp2x vp3x vp4x'
+        coupled_vy = 'vp0y vp1y vp2y vp3y vp4y'
+        coupled_vz = 'vp0z vp1z vp2z vp3z vp4z'
     [../]
 
 	[./CollisionParams_Surf]
  		type = CollisionParameters
         block = 1
         cardinal_object = cardinal
-        coupled_conc = 'N0d N1d N2d N3d N4d N5d N6d N7d N8d N9d'
+        coupled_conc = 'N0d N1d N2d N3d N4d'
         air_density = air_dens
         air_viscosity = air_visc
         temperature = air_temp
@@ -2013,9 +1103,9 @@
         windx = wx
         windy = wy
         windz = wz
-        coupled_vx = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
-        coupled_vy = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
-        coupled_vz = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
+        coupled_vx = '0.0 0.0 0.0 0.0 0.0'
+        coupled_vy = '0.0 0.0 0.0 0.0 0.0'
+        coupled_vz = '0.0 0.0 0.0 0.0 0.0'
     [../]
 
 [] #END Materials
@@ -2025,7 +1115,7 @@
 	[./cardinal]
  		type = CARDINAL_Object
  		execute_on = 'initial timestep_end'
- 		input_file = 'input_files/cardinal/10-Bin-Test.txt'
+ 		input_file = 'input_files/cardinal/5-Bin-Test.txt'
  		atm_file = 'input_files/cardinal/DefaultAtmosphere.txt'
  		data_path = 'database/'
         mono_variate_population = true
@@ -2077,41 +1167,6 @@
         block = 1
 	[../]
 
-    [./N05_floor]
-		type = ElementAverageValue
-		variable = N5d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N06_floor]
-		type = ElementAverageValue
-		variable = N6d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N07_floor]
-		type = ElementAverageValue
-		variable = N7d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N08_floor]
-		type = ElementAverageValue
-		variable = N8d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N09_floor]
-		type = ElementAverageValue
-		variable = N9d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
 	[./N00]
 		type = ElementAverageValue
 		variable = N0
@@ -2143,41 +1198,6 @@
  	[./N04]
  		type = ElementAverageValue
  		variable = N4
- 		execute_on = 'initial timestep_end'
-        block = 0
-	[../]
-
-	[./N05]
-		type = ElementAverageValue
-		variable = N5
-		execute_on = 'initial timestep_end'
-        block = 0
-	[../]
- 
-	[./N06]
-		type = ElementAverageValue
-		variable = N6
-		execute_on = 'initial timestep_end'
-        block = 0
-	[../]
- 
- 	[./N07]
- 		type = ElementAverageValue
- 		variable = N7
-		 execute_on = 'initial timestep_end'
-         block = 0
-	[../]
- 
- 	[./N08]
- 		type = ElementAverageValue
- 		variable = N8
- 		execute_on = 'initial timestep_end'
-        block = 0
-	[../]
- 
- 	[./N09]
- 		type = ElementAverageValue
- 		variable = N9
  		execute_on = 'initial timestep_end'
         block = 0
 	[../]
@@ -2267,7 +1287,7 @@
   	l_max_its = 20
  
     start_time = 0.0
-	end_time = 864000.0
+	end_time = 604800.0
     dtmax = 3600.0
 
     [./TimeStepper]
