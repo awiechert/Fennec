@@ -23,13 +23,13 @@
     [gen]
     	type = GeneratedMeshGenerator
     	dim = 3
-		nx = 150
-		ny = 150
+		nx = 200
+		ny = 6
 		nz = 6
     	xmin = 0.0
-    	xmax = 300000.0
+    	xmax = 400000.0
     	ymin = 0.0
-    	ymax = 300000.0
+    	ymax = 12000.0
 		zmin = 0.0
 		zmax = 12000.0
 	[]
@@ -38,7 +38,7 @@
 		input = gen
         type = SubdomainBoundingBoxGenerator
         bottom_left = '0 0 0'
-        top_right = '300000 300000 2000'
+        top_right = '400000 12000 2000'
         block_id = 1
     [../]
 
@@ -137,14 +137,14 @@
     [./wx]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 0.355
+		initial_condition = 0.5
         block = '0 1'
 	[../]
  
 	[./wy]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 0.355
+		initial_condition = 0.0
         block = '0 1'
 	[../]
  
@@ -294,8 +294,8 @@
 	[./N0_IC]
  		type = CARDINAL_CloudIC
         variable = N0
-        x_center = 5000
-        y_center = 5000
+        x_center = 6000
+        y_center = 6000
         local_size_index = 0
         cardinal_object = cardinal
         block = 0
@@ -304,8 +304,8 @@
  	[./N1_IC]
  		type = CARDINAL_CloudIC
  		variable = N1
-        x_center = 5000
-        y_center = 5000
+        x_center = 6000
+        y_center = 6000
  		local_size_index = 1
  		cardinal_object = cardinal
         block = 0
@@ -314,8 +314,8 @@
  	[./N2_IC]
  		type = CARDINAL_CloudIC
  		variable = N2
-        x_center = 5000
-        y_center = 5000
+        x_center = 6000
+        y_center = 6000
  		local_size_index = 2
  		cardinal_object = cardinal
         block = 0
@@ -324,8 +324,8 @@
  	[./N3_IC]
  		type = CARDINAL_CloudIC
  		variable = N3
-        x_center = 5000
-        y_center = 5000
+        x_center = 6000
+        y_center = 6000
  		local_size_index = 3
  		cardinal_object = cardinal
         block = 0
@@ -334,8 +334,8 @@
  	[./N4_IC]
  		type = CARDINAL_CloudIC
  		variable = N4
-        x_center = 5000
-        y_center = 5000
+        x_center = 6000
+        y_center = 6000
  		local_size_index = 4
  		cardinal_object = cardinal
         block = 0

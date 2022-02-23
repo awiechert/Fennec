@@ -137,14 +137,12 @@
     [./wx]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 0.355
         block = '0 1'
 	[../]
  
 	[./wy]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 0.355
         block = '0 1'
 	[../]
  
@@ -761,6 +759,20 @@
         block = 0
     [../]
  
+ 	[./wx_aux]
+ 		type = FunctionAux
+ 		function = wx_vel
+ 		variable = wx
+        block = '0 1'
+	[../]
+ 
+	[./wy_aux]
+ 		type = FunctionAux
+ 		function = wy_vel
+ 		variable = wy
+        block = '0 1'
+	[../]
+ 
     [./part_vel_0x]
 		type = Trajectory1stOrder
 		variable = vp0x
@@ -1017,6 +1029,20 @@
 	[../]
 
 [] #END AuxKernels
+
+[Functions]
+
+    [./wx_vel]
+    	type = PiecewiseMultilinear
+        data_file = MiniWindProfile_X.txt
+    [../]
+
+    [./wy_vel]
+    	type = PiecewiseMultilinear
+        data_file = MiniWindProfile_Y.txt
+    [../]
+
+[] #END Functions
 
 [BCs]
 
