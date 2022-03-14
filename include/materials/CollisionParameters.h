@@ -173,6 +173,7 @@ protected:
 private:
 	const CARDINAL_Object & _user_object;			///< User object for CARDINAL simulation data/results
 	std::vector<const VariableValue *> _N;			///< Pointer list for the non-linear variables for number concentrations
+    const VariableValue & _ed;						///< Rate of dissipation of turbulent kinetic energy (m^2/s^3)
     const VariableValue & _air_dens;				///< Variable for the density of air (kg/m^3)  == Typical Value: 1.225 kg/m^3
     const VariableValue & _air_visc;				///< Variable for the viscosity of air (kg/m/s)== Typical Value: 1.802e-5 kg/m/s
     const VariableValue & _temp;					///< Variable for the temperature of air (K)
@@ -190,7 +191,6 @@ private:
 	Real _kB;								///< Boltzmann Constant (J/K) or (m^2*kg/s^2/K)
     Real _ma;								///< Average mass of an air molecule (kg)
     Real _va;								///< Thermal air speed of a molecule (m/s)
-    Real _ed;								///< Rate of dissipation of turbulent kinetic energy (m^2/s^3)
     Real _AH;								///< Hamaker constant (J) or (m^2*kg/s^2)
     Real _ec;								///< Magnitude of electronic charge (C)
     Real _e0;								///< Permittivity of free space (C/V/m)

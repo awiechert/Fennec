@@ -1,10 +1,10 @@
 [GlobalParams]
 
-    diameters = '5.00e-5 1.00e-6 2.00e-6 4.00e-6 8.00e-6'
+    diameters = '5.00e-7 1.00e-6 2.00e-6 4.00e-6 8.00e-6'
  
  	packing_density = '0.75 0.75 0.75 0.75 0.75'
  
- 	fractal_dimensions = '3.0 3.0 3.0 3.0 3.0'
+ 	fractal_dimensions = '2.5 2.5 2.5 2.5 2.5'
  
  	breakup_constant = 1.0e-5
  

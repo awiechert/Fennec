@@ -4,13 +4,9 @@
  
  	packing_density = '0.75 0.75 0.75 0.75 0.75'
  
- 	fractal_dimensions = '3.0 3.0 3.0 3.0 3.0'
+ 	fractal_dimensions = '2.5 2.5 2.5 2.5 2.5'
  
  	breakup_constant = 1.0e-5
- 
-    dissipation = 0.1
- 
-    energy_dissipation = 0.1
 
 [] #END GlobalParams
 
@@ -23,13 +19,13 @@
     [gen]
     	type = GeneratedMeshGenerator
     	dim = 3
-		nx = 150
-		ny = 150
+		nx = 640
+		ny = 6
 		nz = 6
     	xmin = 0.0
-    	xmax = 300000.0
+    	xmax = 1280000.0
     	ymin = 0.0
-    	ymax = 300000.0
+    	ymax = 12000.0
 		zmin = 0.0
 		zmax = 12000.0
 	[]
@@ -38,7 +34,7 @@
 		input = gen
         type = SubdomainBoundingBoxGenerator
         bottom_left = '0 0 0'
-        top_right = '300000 300000 2000'
+        top_right = '1280000 12000 2000'
         block_id = 1
     [../]
 
@@ -143,6 +139,7 @@
 	[./wy]
 		order = CONSTANT
 		family = MONOMIAL
+		initial_condition = 0.0
         block = '0 1'
 	[../]
  
@@ -272,6 +269,13 @@
         block = '0 1'
 	[../]
  
+	[./air_kin_visc]
+ 		order = CONSTANT
+ 		family = MONOMIAL
+ 		initial_condition = 1.562e-5 #m^2/s
+ 		block = '0 1'
+	[../]
+ 
  	[./air_ions]
  		order = CONSTANT
  		family = MONOMIAL
@@ -284,6 +288,13 @@
  		initial_condition = 298 #K
         block = '0 1'
 	[../]
+ 
+    [./turb_en_diss]
+ 		order = CONSTANT
+ 		family = MONOMIAL
+ 		initial_condition = 0.2 #m^2/s^3
+        block = '0 1'
+	[../]
 
 [] #END AuxVariables
 
@@ -292,8 +303,8 @@
 	[./N0_IC]
  		type = CARDINAL_CloudIC
         variable = N0
-        x_center = 5000
-        y_center = 5000
+        x_center = 6000
+        y_center = 6000
         local_size_index = 0
         cardinal_object = cardinal
         block = 0
@@ -302,8 +313,8 @@
  	[./N1_IC]
  		type = CARDINAL_CloudIC
  		variable = N1
-        x_center = 5000
-        y_center = 5000
+        x_center = 6000
+        y_center = 6000
  		local_size_index = 1
  		cardinal_object = cardinal
         block = 0
@@ -312,8 +323,8 @@
  	[./N2_IC]
  		type = CARDINAL_CloudIC
  		variable = N2
-        x_center = 5000
-        y_center = 5000
+        x_center = 6000
+        y_center = 6000
  		local_size_index = 2
  		cardinal_object = cardinal
         block = 0
@@ -322,8 +333,8 @@
  	[./N3_IC]
  		type = CARDINAL_CloudIC
  		variable = N3
-        x_center = 5000
-        y_center = 5000
+        x_center = 6000
+        y_center = 6000
  		local_size_index = 3
  		cardinal_object = cardinal
         block = 0
@@ -332,8 +343,8 @@
  	[./N4_IC]
  		type = CARDINAL_CloudIC
  		variable = N4
-        x_center = 5000
-        y_center = 5000
+        x_center = 6000
+        y_center = 6000
  		local_size_index = 4
  		cardinal_object = cardinal
         block = 0
@@ -377,6 +388,8 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N0
  		main_variable = N0
+        kinematic_viscosity = air_kin_visc
+        #energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -415,6 +428,8 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N1
  		main_variable = N1
+ 		kinematic_viscosity = air_kin_visc
+ 		#energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -453,6 +468,8 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N2
  		main_variable = N2
+ 		kinematic_viscosity = air_kin_visc
+ 		#energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -491,6 +508,8 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N3
  		main_variable = N3
+ 		kinematic_viscosity = air_kin_visc
+ 		#energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -529,6 +548,8 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N4
  		main_variable = N4
+ 		kinematic_viscosity = air_kin_visc
+ 		#energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -759,17 +780,10 @@
         block = 0
     [../]
  
- 	[./wx_aux]
+    [./wx_aux]
  		type = FunctionAux
  		function = wx_vel
  		variable = wx
-        block = '0 1'
-	[../]
- 
-	[./wy_aux]
- 		type = FunctionAux
- 		function = wy_vel
- 		variable = wy
         block = '0 1'
 	[../]
  
@@ -1034,12 +1048,7 @@
 
     [./wx_vel]
     	type = PiecewiseMultilinear
-        data_file = MiniWindProfile_X.txt
-    [../]
-
-    [./wy_vel]
-    	type = PiecewiseMultilinear
-        data_file = MiniWindProfile_Y.txt
+        data_file = ChangingWindTime.txt
     [../]
 
 [] #END Functions
@@ -1112,6 +1121,7 @@
         windx = wx
         windy = wy
         windz = wz
+        energy_dissipation = turb_en_diss
         coupled_vx = 'vp0x vp1x vp2x vp3x vp4x'
         coupled_vy = 'vp0y vp1y vp2y vp3y vp4y'
         coupled_vz = 'vp0z vp1z vp2z vp3z vp4z'
@@ -1129,6 +1139,7 @@
         windx = wx
         windy = wy
         windz = wz
+        energy_dissipation = turb_en_diss
         coupled_vx = '0.0 0.0 0.0 0.0 0.0'
         coupled_vy = '0.0 0.0 0.0 0.0 0.0'
         coupled_vz = '0.0 0.0 0.0 0.0 0.0'
@@ -1313,7 +1324,7 @@
   	l_max_its = 20
  
     start_time = 0.0
-	end_time = 604800.0
+	end_time = 1209600.0
     dtmax = 3600.0
 
     [./TimeStepper]

@@ -62,6 +62,7 @@ InputParameters CollisionParameters::validParams()
     InputParameters params = Material::validParams();
     params.addRequiredParam<UserObjectName>("cardinal_object","Name of the CARDINAL_Object object");
     params.addRequiredCoupledVar("coupled_conc","List of names of the number concentration variables being coupled (Must order the same in each kernel following Row Major Order)");
+    params.addRequiredCoupledVar("energy_dissipation","Rate of dissipation of turbulent kinetic energy (m^2/s^3) - Typical values vary between 0.0003 on a clear day and 0.2 on a cloudy day.");
     params.addRequiredCoupledVar("air_density","Variable for air density (kg/m^3)");
     params.addRequiredCoupledVar("air_viscosity","Variable for air viscosity (kg/m/s)");
     params.addRequiredCoupledVar("temperature","Variable for air temperature (K)");
@@ -73,7 +74,6 @@ InputParameters CollisionParameters::validParams()
     params.addRequiredCoupledVar("coupled_vy","List of names of the particle velocities in the y-direction being coupled (Must be in same order as coupled_conc list)");
     params.addRequiredCoupledVar("coupled_vz","List of names of the particle velocities in the z-direction being coupled (Must be in same order as coupled_conc list)");
     
-    params.addParam<Real>("dissipation",0.0005,"Rate of dissipation of turbulent kinetic energy (m^2/s^3) - Typical values vary between 0.0003 on a clear day and 0.2 on a cloudy day.");
     params.addParam<Real>("neg_mobility",1.598E-4,"Mobility of negative ions (m^2/V/s) - Typical value: 1.598E-4.");
     params.addParam<Real>("pos_mobility",1.285E-4,"Mobility of positive ions (m^2/V/s) - Typical value: 1.285E-4.");
     params.addParam<Real>("ion_recomb",1.6E-12,"Ion-ion recombination coefficient (m^3/s) - Typical value: 1.6E-12.");
@@ -84,6 +84,7 @@ InputParameters CollisionParameters::validParams()
 CollisionParameters::CollisionParameters(const InputParameters & parameters):Material(parameters),
 
 _user_object(getUserObject<CARDINAL_Object>("cardinal_object")),
+_ed(coupledValueOld("energy_dissipation")),
 _air_dens(coupledValueOld("air_density")),
 _air_visc(coupledValueOld("air_viscosity")),
 _temp(coupledValueOld("temperature")),
@@ -91,7 +92,7 @@ _ions(coupledValueOld("ionization")),
 _wx(coupledValueOld("windx")),
 _wy(coupledValueOld("windy")),
 _wz(coupledValueOld("windz")),
-_ed(getParam<Real>("dissipation")),
+//_ed(getParam<Real>("dissipation")),
 _m_neg(getParam<Real>("neg_mobility")),
 _m_pos(getParam<Real>("pos_mobility")),
 _arc(getParam<Real>("ion_recomb")),
@@ -605,7 +606,7 @@ void CollisionParameters::calculate_beta_TI()
         {
             int q = (int)qr/_nuc_bins;
             Real vel = RelVel(lm,qr);
-            _beta_TI[_qp][lm][qr] = (pow(_air_dens[_qp],0.25)*pow(_ed,0.75)/9.8/pow(_air_visc[_qp],0.25))*3.14159*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*vel*1.0E18;
+            _beta_TI[_qp][lm][qr] = (pow(_air_dens[_qp],0.25)*pow(_ed[_qp],0.75)/9.8/pow(_air_visc[_qp],0.25))*3.14159*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*vel*1.0E18;
         }
     }
 }
@@ -619,7 +620,7 @@ void CollisionParameters::calculate_beta_TS()
         for (unsigned int qr = 0; qr<_N.size(); ++qr)
         {
             int q = (int)qr/_nuc_bins;
-            _beta_TS[_qp][lm][qr] = sqrt(8.0*3.14159*_air_dens[_qp]*_ed/15.0/_air_visc[_qp])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*1.0E18;000;
+            _beta_TS[_qp][lm][qr] = sqrt(8.0*3.14159*_air_dens[_qp]*_ed[_qp]/15.0/_air_visc[_qp])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*(_rad[l]+_rad[q])*1.0E18;000;
         }
     }
 }
