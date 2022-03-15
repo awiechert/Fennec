@@ -103,10 +103,11 @@ protected:
     
     unsigned int _M;									///< Number of particle size bins
     Real _b_con;										///< Breakup constant (-)
-    Real _k_vis;										///< Kinematic viscosity of air (m^2/s)
     Real _p_rad;										///< Radius of the prime particle in aggregate (m)
-    Real _e_dis;										///< Turbulent energy dissipation rate (m^2/s^3)
     Real _f_num;										///< Number of fragments formed during breakup (-)
+    
+    const VariableValue & _k_vis;						///< Kinematic viscosity of air (m^2/s)
+    const VariableValue & _e_dis;						///< Turbulent energy dissipation rate (m^2/s^3)
     
     std::vector< Real > _dia;							///< Set of size class diameters (m)
     std::vector< Real > _p_den;							///< Packing densities for each size class (-)

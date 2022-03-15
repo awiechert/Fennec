@@ -389,7 +389,7 @@
  		variable = N0
  		main_variable = N0
         kinematic_viscosity = air_kin_visc
-        #energy_dissipation = turb_en_diss
+        energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -429,7 +429,7 @@
  		variable = N1
  		main_variable = N1
  		kinematic_viscosity = air_kin_visc
- 		#energy_dissipation = turb_en_diss
+ 		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -469,7 +469,7 @@
  		variable = N2
  		main_variable = N2
  		kinematic_viscosity = air_kin_visc
- 		#energy_dissipation = turb_en_diss
+ 		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -509,7 +509,7 @@
  		variable = N3
  		main_variable = N3
  		kinematic_viscosity = air_kin_visc
- 		#energy_dissipation = turb_en_diss
+ 		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -549,7 +549,7 @@
  		variable = N4
  		main_variable = N4
  		kinematic_viscosity = air_kin_visc
- 		#energy_dissipation = turb_en_diss
+ 		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
