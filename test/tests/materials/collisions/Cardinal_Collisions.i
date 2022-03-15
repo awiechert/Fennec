@@ -132,6 +132,12 @@
  		initial_condition = 298 #K
 	[../]
  
+ 	[./turb_en_diss]
+ 		order = CONSTANT
+ 		family = MONOMIAL
+ 		initial_condition = 0.0005 #m^2/s^3
+	[../]
+ 
  	[./wx]
  		order = FIRST
  		family = MONOMIAL
@@ -698,6 +704,7 @@
         windx = wx
         windy = wy
         windz = wz
+        energy_dissipation = turb_en_diss
         coupled_vx = 'vp0x vp1x vp2x vp3x vp4x vp5x vp6x vp7x vp8x vp9x'
         coupled_vy = 'vp0y vp1y vp2y vp3y vp4y vp5y vp6y vp7y vp8y vp9y'
         coupled_vz = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z'
