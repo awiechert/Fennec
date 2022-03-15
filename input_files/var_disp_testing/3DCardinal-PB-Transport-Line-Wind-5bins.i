@@ -8,6 +8,12 @@
 
  	breakup_constant = 1.0e-5
 
+  # If you want to increase the order to 'CONSTANT', it helps
+  # to add in dispersion to stabilize the method
+  Dxx = 1
+  Dyy = 1
+  Dzz = 1
+
 [] #END GlobalParams
 
 [Problem]
@@ -388,8 +394,8 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N0
  		main_variable = N0
-        #kinematic_viscosity = air_kin_visc
-        #energy_dissipation = turb_en_diss
+        kinematic_viscosity = air_kin_visc
+        energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -428,8 +434,8 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N1
  		main_variable = N1
- 		#kinematic_viscosity = air_kin_visc
- 		#energy_dissipation = turb_en_diss
+ 		kinematic_viscosity = air_kin_visc
+ 		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -468,8 +474,8 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N2
  		main_variable = N2
- 		#kinematic_viscosity = air_kin_visc
- 		#energy_dissipation = turb_en_diss
+ 		kinematic_viscosity = air_kin_visc
+ 		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -508,8 +514,8 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N3
  		main_variable = N3
- 		#kinematic_viscosity = air_kin_visc
- 		#energy_dissipation = turb_en_diss
+ 		kinematic_viscosity = air_kin_visc
+ 		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -548,8 +554,8 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N4
  		main_variable = N4
- 		#kinematic_viscosity = air_kin_visc
- 		#energy_dissipation = turb_en_diss
+ 		kinematic_viscosity = air_kin_visc
+ 		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]

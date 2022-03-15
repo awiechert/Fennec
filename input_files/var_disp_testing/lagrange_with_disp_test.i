@@ -1,3 +1,6 @@
+# Wanted to test how it runs with LAGRANGE shape functions
+#     Less efficient that DG methods in this test. 
+
 [GlobalParams]
 
     diameters = '5.00e-7 1.00e-6 2.00e-6 4.00e-6 8.00e-6'
@@ -7,6 +10,11 @@
  	fractal_dimensions = '2.5 2.5 2.5 2.5 2.5'
 
  	breakup_constant = 1.0e-5
+
+  # Constant dispersion coefficients
+  Dxx = 1
+  Dyy = 1
+  Dzz = 1
 
 [] #END GlobalParams
 
@@ -56,66 +64,66 @@
 [Variables]
 
     [./N0]
-        order = CONSTANT
-        family = MONOMIAL
+        order = FIRST
+        family = LAGRANGE
         block = 0
     [../]
 
  	[./N1]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
         block = 0
  	[../]
 
  	[./N2]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
         block = 0
  	[../]
 
  	[./N3]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
         block = 0
  	[../]
 
     [./N4]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
         block = 0
  	[../]
 
     [./N0d]
-        order = CONSTANT
-        family = MONOMIAL
+        order = FIRST
+        family = LAGRANGE
         initial_condition = 0.0
         block = 1
     [../]
 
  	[./N1d]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
         initial_condition = 0.0
         block = 1
  	[../]
 
  	[./N2d]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
         initial_condition = 0.0
         block = 1
  	[../]
 
  	[./N3d]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
         initial_condition = 0.0
         block = 1
  	[../]
 
     [./N4d]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
         initial_condition = 0.0
         block = 1
  	[../]
@@ -125,173 +133,173 @@
 [AuxVariables]
 
 	[./V_total]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
         block = 0
 	[../]
 
     [./wx]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
         block = '0 1'
 	[../]
 
 	[./wy]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 0.0
         block = '0 1'
 	[../]
 
 	[./wz]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 0.0
         block = '0 1'
 	[../]
 
 	[./vp0x]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp0y]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp0z]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp1x]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp1y]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp1z]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp2x]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp2y]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp2z]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 0.0
         block = 0
 	[../]
 
  	[./vp3x]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
  		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp3y]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
  		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp3z]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
  		initial_condition = 0.0
         block = 0
 	[../]
 
  	[./vp4x]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
  		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp4y]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
  		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./vp4z]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
  		initial_condition = 0.0
         block = 0
 	[../]
 
 	[./air_dens]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 1.225 #kg/m^3
         block = '0 1'
 	[../]
 
 	[./air_visc]
-		order = CONSTANT
-		family = MONOMIAL
+		order = FIRST
+		family = LAGRANGE
 		initial_condition = 1.802e-5 #kg/m/s
         block = '0 1'
 	[../]
 
 	[./air_kin_visc]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
  		initial_condition = 1.562e-5 #m^2/s
  		block = '0 1'
 	[../]
 
  	[./air_ions]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
         block = '0 1'
 	[../]
 
     [./air_temp]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
  		initial_condition = 298 #K
         block = '0 1'
 	[../]
 
     [./turb_en_diss]
- 		order = CONSTANT
- 		family = MONOMIAL
+ 		order = FIRST
+ 		family = LAGRANGE
  		initial_condition = 0.2 #m^2/s^3
         block = '0 1'
 	[../]
@@ -592,81 +600,6 @@
 [] #END Kernels
 
 [DGKernels]
-
-    [./N0_dgadv]
-        type = DGConcentrationAdvection
-        variable = N0
-		ux = vp0x
-		uy = vp0y
-		uz = vp0z
-        block = 0
-    [../]
-
-    [./N0_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N0
-        block = 0
-    [../]
-
-    [./N1_dgadv]
-        type = DGConcentrationAdvection
-        variable = N1
-		ux = vp1x
-		uy = vp1y
-		uz = vp1z
-        block = 0
-    [../]
-
-    [./N1_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N1
-        block = 0
-    [../]
-
-    [./N2_dgadv]
-        type = DGConcentrationAdvection
-        variable = N2
-		ux = vp2x
-		uy = vp2y
-		uz = vp2z
-        block = 0
-    [../]
-
-    [./N2_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N2
-        block = 0
-    [../]
-
-    [./N3_dgadv]
-        type = DGConcentrationAdvection
-        variable = N3
-		ux = vp3x
-		uy = vp3y
-		uz = vp3z
-        block = 0
-    [../]
-
-    [./N3_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N3
-        block = 0
-    [../]
-
-    [./N4_dgadv]
-        type = DGConcentrationAdvection
-        variable = N4
-		ux = vp4x
-		uy = vp4y
-		uz = vp4z
-        block = 0
-    [../]
-
-    [./N4_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N4
-        block = 0
-    [../]
 
 [] #END DGKernels
 
@@ -1344,6 +1277,6 @@
     exodus = true
     csv = true
     print_linear_residuals = true
-    interval = 20
+    interval = 1
 
 [] #END Outputs
