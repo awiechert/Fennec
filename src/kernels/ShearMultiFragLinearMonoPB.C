@@ -53,13 +53,25 @@
  */
 registerMooseObject("fennecApp", ShearMultiFragLinearMonoPB);
 
+/**
+  NOTE TO ALEX: Right now, the coupled vars for "kinematic_viscosity" and "energy_dissipation" are
+  FORCED to couple with Old timestep values. This is because if we couple wit current timestep values
+  then we need to reformulate the computeQpOffDiagJacobian function to account for this other set of
+  variables. Usually, if I compute these types of parameters in the AuxKernels, then I always do the
+  'execute_on = initial timestep_end' to force this behavior. This current iteration hard-codes that
+  behavior into the model, which may or may not be desirable behavior. This can be revisted later if
+  need be. 
+*/
+
 InputParameters ShearMultiFragLinearMonoPB::validParams()
 {
     InputParameters params = Kernel::validParams();
     params.addParam<Real>("breakup_constant",1.0,"Breakup Constant (-)");
-    params.addParam<Real>("kinematic_viscosity",1.562e-5,"Kinematic Viscosity of Air (m^2/s)");
+    //params.addParam<Real>("kinematic_viscosity",1.562e-5,"Kinematic Viscosity of Air (m^2/s)");
+    params.addCoupledVar("kinematic_viscosity",1.562e-5,"[Variable] Kinematic Viscosity of Air (m^2/s)");
     params.addParam<Real>("prime_radius",1.0e-9,"Radius of the Prime Particle in Aggregate (m)");
-    params.addParam<Real>("energy_dissipation",0.3,"Turbulent Energy Dissipation Rate in Atmosphere (m^2/s^3)");
+    //params.addParam<Real>("energy_dissipation",0.3,"Turbulent Energy Dissipation Rate in Atmosphere (m^2/s^3)");
+    params.addCoupledVar("energy_dissipation",0.3,"[Variable] Turbulent Energy Dissipation Rate in Atmosphere (m^2/s^3)");
     params.addParam<Real>("fragment_number",3.0,"Number of Fragments formed during breakup (-), Cannot be less than two and should always be set to two when simulating binary breakage");
     params.addRequiredParam< std::vector<Real> >("diameters","Set of particle diameters corresponding to each size bin (m) (Must have same order as the 'coupled_list')");
     params.addRequiredParam< std::vector<Real> >("packing_density","Set of particle packing densities corresponding to each size bin (-) (Must have same order as the 'coupled_list')");
@@ -73,9 +85,11 @@ InputParameters ShearMultiFragLinearMonoPB::validParams()
 ShearMultiFragLinearMonoPB::ShearMultiFragLinearMonoPB(const InputParameters & parameters)
 : Kernel(parameters),
 _b_con(getParam<Real>("breakup_constant")),
-_k_vis(getParam<Real>("kinematic_viscosity")),
+//_k_vis(getParam<Real>("kinematic_viscosity")),
+_k_vis(coupledValueOld("kinematic_viscosity")),
 _p_rad(getParam<Real>("prime_radius")),
-_e_dis(getParam<Real>("energy_dissipation")),
+//_e_dis(getParam<Real>("energy_dissipation")),
+_e_dis(coupledValueOld("energy_dissipation")),
 _f_num(getParam<Real>("fragment_number")),
 _dia(getParam<std::vector<Real> >("diameters")),
 _p_den(getParam<std::vector<Real> >("packing_density")),
@@ -113,7 +127,10 @@ _u_var(coupled("main_variable"))
     this->VolumeFill();
     this->FragmentFill();
     this->NumberFill();
-    this->BreakupRateFill();
+
+    // This line is causing the issue, this now has to be called from the
+    //    Residual, Jacobian, and computeQpOffDiagJacobian functions
+    //this->BreakupRateFill();
 
 }
 
@@ -154,7 +171,7 @@ void ShearMultiFragLinearMonoPB::BreakupRateFill()
 
     for (int k=0; k<_M; k++)
     {
-        _rat[k] = m*pow(_e_dis/_k_vis,0.5)*exp(-_b_con/(_e_dis*_p_rad*pow(_num[k]/_p_den[k],1.0/_f_dim[k])));
+        _rat[k] = m*pow(_e_dis[_qp]/_k_vis[_qp],0.5)*exp(-_b_con/(_e_dis[_qp]*_p_rad*pow(_num[k]/_p_den[k],1.0/_f_dim[k])));
     }
 }
 
@@ -236,6 +253,7 @@ Real ShearMultiFragLinearMonoPB::computeQpResidual()
     Real source = 0.0;
     Real rate = 0.0;
     int k = _this_var;
+    this->BreakupRateFill();
 
     for (int l=0; l<_M; l++)
     {
@@ -249,6 +267,7 @@ Real ShearMultiFragLinearMonoPB::computeQpResidual()
 Real ShearMultiFragLinearMonoPB::computeQpJacobian()
 {
     int k = _this_var;
+    this->BreakupRateFill();
     return -_phi[_j][_qp]*_test[_i][_qp]*(_frag[k][k]*_rat[k]-(1-this->KroneckerDelta(k,0))*_rat[k]);
 }
 
@@ -256,5 +275,6 @@ Real ShearMultiFragLinearMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
     int k = _this_var;
     int h = _those_var[jvar];
+    this->BreakupRateFill();
     return -_phi[_j][_qp]*_test[_i][_qp]*(_frag[k][h]*_rat[h]);
 }
