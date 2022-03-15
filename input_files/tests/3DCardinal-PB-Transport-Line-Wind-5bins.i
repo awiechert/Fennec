@@ -1,11 +1,11 @@
 [GlobalParams]
 
     diameters = '5.00e-7 1.00e-6 2.00e-6 4.00e-6 8.00e-6'
- 
+
  	packing_density = '0.75 0.75 0.75 0.75 0.75'
- 
+
  	fractal_dimensions = '2.5 2.5 2.5 2.5 2.5'
- 
+
  	breakup_constant = 1.0e-5
 
 [] #END GlobalParams
@@ -60,194 +60,194 @@
         family = MONOMIAL
         block = 0
     [../]
- 
+
  	[./N1]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
  	[../]
- 
+
  	[./N2]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
  	[../]
- 
+
  	[./N3]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
  	[../]
- 
+
     [./N4]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
  	[../]
- 
+
     [./N0d]
         order = CONSTANT
         family = MONOMIAL
         initial_condition = 0.0
         block = 1
     [../]
- 
+
  	[./N1d]
  		order = CONSTANT
  		family = MONOMIAL
         initial_condition = 0.0
         block = 1
  	[../]
- 
+
  	[./N2d]
  		order = CONSTANT
  		family = MONOMIAL
         initial_condition = 0.0
         block = 1
  	[../]
- 
+
  	[./N3d]
  		order = CONSTANT
  		family = MONOMIAL
         initial_condition = 0.0
         block = 1
  	[../]
- 
+
     [./N4d]
  		order = CONSTANT
  		family = MONOMIAL
         initial_condition = 0.0
         block = 1
  	[../]
- 
+
 [] #END Variables
 
 [AuxVariables]
- 
+
 	[./V_total]
  		order = CONSTANT
  		family = MONOMIAL
         block = 0
 	[../]
- 
+
     [./wx]
 		order = CONSTANT
 		family = MONOMIAL
         block = '0 1'
 	[../]
- 
+
 	[./wy]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
         block = '0 1'
 	[../]
- 
+
 	[./wz]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
         block = '0 1'
 	[../]
- 
+
 	[./vp0x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp0y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp0z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp1x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp1y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp1z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp2x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp2y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp2z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
         block = 0
 	[../]
- 
+
  	[./vp3x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp3y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp3z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
         block = 0
 	[../]
- 
+
  	[./vp4x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp4y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
         block = 0
 	[../]
- 
+
 	[./vp4z]
  		order = CONSTANT
  		family = MONOMIAL
@@ -261,34 +261,34 @@
 		initial_condition = 1.225 #kg/m^3
         block = '0 1'
 	[../]
- 
+
 	[./air_visc]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 1.802e-5 #kg/m/s
         block = '0 1'
 	[../]
- 
+
 	[./air_kin_visc]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 1.562e-5 #m^2/s
  		block = '0 1'
 	[../]
- 
+
  	[./air_ions]
  		order = CONSTANT
  		family = MONOMIAL
         block = '0 1'
 	[../]
- 
+
     [./air_temp]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 298 #K
         block = '0 1'
 	[../]
- 
+
     [./turb_en_diss]
  		order = CONSTANT
  		family = MONOMIAL
@@ -309,7 +309,7 @@
         cardinal_object = cardinal
         block = 0
     [../]
- 
+
  	[./N1_IC]
  		type = CARDINAL_CloudIC
  		variable = N1
@@ -319,7 +319,7 @@
  		cardinal_object = cardinal
         block = 0
  	[../]
- 
+
  	[./N2_IC]
  		type = CARDINAL_CloudIC
  		variable = N2
@@ -329,7 +329,7 @@
  		cardinal_object = cardinal
         block = 0
  	[../]
- 
+
  	[./N3_IC]
  		type = CARDINAL_CloudIC
  		variable = N3
@@ -339,7 +339,7 @@
  		cardinal_object = cardinal
         block = 0
  	[../]
- 
+
  	[./N4_IC]
  		type = CARDINAL_CloudIC
  		variable = N4
@@ -360,7 +360,7 @@
         Coefficient = 1.0
         block = 0
     [../]
- 
+
     [./N0_gadv]
         type = GConcentrationAdvection
         variable = N0
@@ -383,24 +383,24 @@
         coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
     [../]
- 
+
     [./N0_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N0
  		main_variable = N0
-        kinematic_viscosity = air_kin_visc
+        #kinematic_viscosity = air_kin_visc
         #energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
- 
+
  	[./N1_dot]
  		type = CoefTimeDerivative
  		variable = N1
  		Coefficient = 1.0
         block = 0
  	[../]
- 
+
     [./N1_gadv]
         type = GConcentrationAdvection
         variable = N1
@@ -423,24 +423,24 @@
         coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
     [../]
- 
+
     [./N1_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N1
  		main_variable = N1
- 		kinematic_viscosity = air_kin_visc
+ 		#kinematic_viscosity = air_kin_visc
  		#energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
- 
+
  	[./N2_dot]
  		type = CoefTimeDerivative
  		variable = N2
  		Coefficient = 1.0
         block = 0
  	[../]
- 
+
     [./N2_gadv]
         type = GConcentrationAdvection
         variable = N2
@@ -463,24 +463,24 @@
         coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
     [../]
- 
+
     [./N2_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N2
  		main_variable = N2
- 		kinematic_viscosity = air_kin_visc
+ 		#kinematic_viscosity = air_kin_visc
  		#energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
- 
+
  	[./N3_dot]
  		type = CoefTimeDerivative
  		variable = N3
  		Coefficient = 1.0
         block = 0
  	[../]
- 
+
     [./N3_gadv]
         type = GConcentrationAdvection
         variable = N3
@@ -503,24 +503,24 @@
         coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
     [../]
- 
+
     [./N3_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N3
  		main_variable = N3
- 		kinematic_viscosity = air_kin_visc
+ 		#kinematic_viscosity = air_kin_visc
  		#energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
- 
+
  	[./N4_dot]
  		type = CoefTimeDerivative
  		variable = N4
  		Coefficient = 1.0
         block = 0
  	[../]
- 
+
     [./N4_gadv]
         type = GConcentrationAdvection
         variable = N4
@@ -543,12 +543,12 @@
         coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
     [../]
- 
+
     [./N4_MPB_Break]
  		type = ShearMultiFragLinearMonoPB
  		variable = N4
  		main_variable = N4
- 		kinematic_viscosity = air_kin_visc
+ 		#kinematic_viscosity = air_kin_visc
  		#energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
@@ -560,28 +560,28 @@
         Coefficient = 1.0
         block = 1
     [../]
- 
+
  	[./N1d_dot]
  		type = CoefTimeDerivative
  		variable = N1d
  		Coefficient = 1.0
         block = 1
  	[../]
- 
+
  	[./N2d_dot]
  		type = CoefTimeDerivative
  		variable = N2d
  		Coefficient = 1.0
         block = 1
  	[../]
- 
+
  	[./N3d_dot]
  		type = CoefTimeDerivative
  		variable = N3d
  		Coefficient = 1.0
         block = 1
  	[../]
- 
+
  	[./N4d_dot]
  		type = CoefTimeDerivative
  		variable = N4d
@@ -607,7 +607,7 @@
         variable = N0
         block = 0
     [../]
- 
+
     [./N1_dgadv]
         type = DGConcentrationAdvection
         variable = N1
@@ -637,7 +637,7 @@
         variable = N2
         block = 0
     [../]
- 
+
     [./N3_dgadv]
         type = DGConcentrationAdvection
         variable = N3
@@ -768,7 +768,7 @@
         execute_on = 'initial timestep_end'
         block = 0
 	[../]
- 
+
     [./ionization]
  		type = TotalAirIonization
         variable = air_ions
@@ -779,14 +779,14 @@
         execute_on = 'initial timestep_end'
         block = 0
     [../]
- 
+
     [./wx_aux]
  		type = FunctionAux
  		function = wx_vel
  		variable = wx
         block = '0 1'
 	[../]
- 
+
     [./part_vel_0x]
 		type = Trajectory1stOrder
 		variable = vp0x
@@ -803,7 +803,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_0y]
 		type = Trajectory1stOrder
 		variable = vp0y
@@ -820,7 +820,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_0z]
 		type = Trajectory1stOrder
 		variable = vp0z
@@ -854,7 +854,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_1y]
 		type = Trajectory1stOrder
 		variable = vp1y
@@ -871,7 +871,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_1z]
 		type = Trajectory1stOrder
 		variable = vp1z
@@ -905,7 +905,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_2y]
 		type = Trajectory1stOrder
 		variable = vp2y
@@ -922,7 +922,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_2z]
 		type = Trajectory1stOrder
 		variable = vp2z
@@ -939,7 +939,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_3x]
 		type = Trajectory1stOrder
 		variable = vp3x
@@ -956,7 +956,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_3y]
 		type = Trajectory1stOrder
 		variable = vp3y
@@ -973,7 +973,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_3z]
 		type = Trajectory1stOrder
 		variable = vp3z
@@ -1007,7 +1007,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_4y]
 		type = Trajectory1stOrder
 		variable = vp4y
@@ -1024,7 +1024,7 @@
 		particle_density = 2600.0
 		execute_on = 'initial timestep_end'
 	[../]
- 
+
 	[./part_vel_4z]
 		type = Trajectory1stOrder
 		variable = vp4z
@@ -1064,7 +1064,7 @@
 		uy = vp0y
 		uz = vp0z
     [../]
- 
+
 	[./N1_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N1
@@ -1074,7 +1074,7 @@
 		uy = vp1y
 		uz = vp1z
 	[../]
- 
+
 	[./N2_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N2
@@ -1084,7 +1084,7 @@
 		uy = vp2y
 		uz = vp2z
 	[../]
- 
+
     [./N3_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N3
@@ -1094,7 +1094,7 @@
 		uy = vp3y
 		uz = vp3z
 	[../]
- 
+
 	[./N4_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N4
@@ -1157,7 +1157,7 @@
  		data_path = 'database/'
         mono_variate_population = true
  	[../]
- 
+
 [] #END UserObjects
 
 [Postprocessors]
@@ -1168,7 +1168,7 @@
         execute_on = 'initial timestep_begin timestep_end'
         block = 0
     [../]
- 
+
     [./N00_floor]
 		type = ElementAverageValue
 		variable = N0d
@@ -1210,28 +1210,28 @@
 		execute_on = 'initial timestep_end'
         block = 0
 	[../]
- 
+
 	[./N01]
 		type = ElementAverageValue
 		variable = N1
 		execute_on = 'initial timestep_end'
         block = 0
 	[../]
- 
+
  	[./N02]
  		type = ElementAverageValue
  		variable = N2
 		 execute_on = 'initial timestep_end'
          block = 0
 	[../]
- 
+
  	[./N03]
  		type = ElementAverageValue
  		variable = N3
  		execute_on = 'initial timestep_end'
         block = 0
 	[../]
- 
+
  	[./N04]
  		type = ElementAverageValue
  		variable = N4
@@ -1242,15 +1242,15 @@
 [] #END Postprocessors
 
 [Preconditioning]
- 
+
     [./SMP_PJFNK]
       type = SMP
       full = true
       solve_type = pjfnk
     [../]
- 
+
 [] #END Preconditioning
- 
+
 [Executioner]
 
   	type = Transient
@@ -1322,7 +1322,7 @@
   	nl_max_its = 20
   	l_tol = 1e-6
   	l_max_its = 20
- 
+
     start_time = 0.0
 	end_time = 1209600.0
     dtmax = 3600.0
@@ -1332,9 +1332,9 @@
 		type = ConstantDT
         dt = 360.0
     [../]
- 
+
 [] #END Executioner
- 
+
 [Adaptivity]
 
 [] #END Adaptivity
