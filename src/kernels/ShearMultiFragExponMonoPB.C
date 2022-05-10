@@ -1,9 +1,9 @@
 /*!
- *  \file ShearMultiFragLinearMonoPB.C
+ *  \file ShearMultiFragExponMonoPB.C
  *	\brief Kernel for Shear Driven Multi-Fragment Breakage in a Mono-variate Population Balance Model
  *	\details This file creates a MOOSE kernel that will couple together multiple number
  *			concentrations of particles and calculate a population balance rate function
- *			for particle breakup based on the muli-fragment linear binary breakage function
+ *			for particle breakup based on the muli-fragment exponential breakage function
  *			with a breakup rate coefficient calculated using a semi-emperical formula for
  *			shear driven breakup.
  *
@@ -16,7 +16,7 @@
  *			Y.K. Ho, P. Doshi, H.K. Yeoh, G.C. Ngoh, Chem. Eng. Sci., 116, 601-610, 2014.
  *
  *  \author Alexander Wiechert
- *	\date 05/14/2021
+ *	\date 04/20/2022
  *	\copyright This kernel was designed and built at the Georgia Institute
  *             of Technology by Alexander Wiechert for research in the area
  *             of radioactive particle transport and settling following a
@@ -44,21 +44,21 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#include "ShearMultiFragLinearMonoPB.h"
+#include "ShearMultiFragExponMonoPB.h"
 
 /**
  * All MOOSE based object classes you create must be registered using this macro.  The first
  * argument is the name of the App with an "App" suffix (i.e., "fennecApp"). The second
  * argument is the name of the C++ class you created.
  */
-registerMooseObject("fennecApp", ShearMultiFragLinearMonoPB);
+registerMooseObject("fennecApp", ShearMultiFragExponMonoPB);
 
-InputParameters ShearMultiFragLinearMonoPB::validParams()
+InputParameters ShearMultiFragExponMonoPB::validParams()
 {
     InputParameters params = Kernel::validParams();
     params.addParam<Real>("breakup_constant",1.0,"Breakup Constant (-)");
     params.addParam<Real>("prime_radius",1.0e-9,"Radius of the Prime Particle in Aggregate (m)");
-    params.addParam<Real>("fragment_number",3.0,"Number of Fragments formed during breakup (-), Cannot be less than two and should always be set to two when simulating binary breakage");
+    params.addParam<Real>("fragment_number",3.0,"Number of Fragments formed during breakup (-), Must be greater than two");
     params.addCoupledVar("kinematic_viscosity",1.562e-5,"[Variable] Kinematic Viscosity of Air (m^2/s)");
     params.addCoupledVar("energy_dissipation",0.2,"[Variable] Turbulent Energy Dissipation Rate in Atmosphere (m^2/s^3)");
     params.addRequiredParam< std::vector<Real> >("diameters","Set of particle diameters corresponding to each size bin (m) (Must have same order as the 'coupled_list')");
@@ -70,7 +70,7 @@ InputParameters ShearMultiFragLinearMonoPB::validParams()
 
 }
 
-ShearMultiFragLinearMonoPB::ShearMultiFragLinearMonoPB(const InputParameters & parameters)
+ShearMultiFragExponMonoPB::ShearMultiFragExponMonoPB(const InputParameters & parameters)
 : Kernel(parameters),
 _b_con(getParam<Real>("breakup_constant")),
 _p_rad(getParam<Real>("prime_radius")),
@@ -115,7 +115,7 @@ _u_var(coupled("main_variable"))
     this->NumberFill();
 }
 
-Real ShearMultiFragLinearMonoPB::KroneckerDelta(int i, int j)
+Real ShearMultiFragExponMonoPB::KroneckerDelta(int i, int j)
 {
     if (i==j)
         return 1.0;
@@ -123,7 +123,7 @@ Real ShearMultiFragLinearMonoPB::KroneckerDelta(int i, int j)
         return 0.0;
 }
 
-void ShearMultiFragLinearMonoPB::VolumeFill()
+void ShearMultiFragExponMonoPB::VolumeFill()
 {
     Real pi = 3.14159;
     Real c = pi/6.0;
@@ -133,7 +133,7 @@ void ShearMultiFragLinearMonoPB::VolumeFill()
     }
 }
 
-void ShearMultiFragLinearMonoPB::NumberFill()
+void ShearMultiFragExponMonoPB::NumberFill()
 {
     Real pi = 3.14159;
     Real c = pi/6.0;
@@ -145,7 +145,7 @@ void ShearMultiFragLinearMonoPB::NumberFill()
     }
 }
 
-void ShearMultiFragLinearMonoPB::BreakupRateFill()
+void ShearMultiFragExponMonoPB::BreakupRateFill()
 {
     Real pi = 3.14159;
     Real m = pow(4.0/(15.0*pi),0.5);
@@ -156,10 +156,14 @@ void ShearMultiFragLinearMonoPB::BreakupRateFill()
     }
 }
 
-void ShearMultiFragLinearMonoPB::FragmentFill()
+void ShearMultiFragExponMonoPB::FragmentFill()
 {
-    Real B = -6.0*(_f_num-2.0);
-    Real A = 2.0 - 2.0*B/3.0;
+    Real B1 = 0.5*(exp(-(_f_num-2.0))-1.0);
+    Real B2 = ((_f_num-1.0)*exp(-(_f_num-2.0))-1.0)/(_f_num-2.0);
+    Real B = (_f_num-2.0)*(1.0-_f_num/2.0)/(B1-B2);
+    
+    Real A = _f_num + B*(exp(-(_f_num-2.0))-1.0)/(_f_num-2.0);
+    
     for (int k=_M-1; k>=0; k--)
     {
         for (int l=_M-1; l>=0; l--)
@@ -170,8 +174,8 @@ void ShearMultiFragLinearMonoPB::FragmentFill()
             }
             else if (k==l && k>1)
             {
-            	Real c = (1/(_vol[k]-_vol[k-1]))*((A*(_vol[k]*_vol[k]-_vol[k-1]*_vol[k-1])/(2*_vol[l]))+(B*(_vol[k]*_vol[k]*_vol[k]-_vol[k-1]*_vol[k-1]*_vol[k-1])/(3*_vol[l]*_vol[l])));
-                Real d = (_vol[k-1]/(_vol[k]-_vol[k-1]))*(A*(_vol[k]-_vol[k-1])/_vol[l]+B*(_vol[k]*_vol[k]-_vol[k-1]*_vol[k-1])/(2*_vol[l]*_vol[l]));
+            	Real c = (A*(_vol[k]*_vol[k]-_vol[k-1]*_vol[k-1])/(2.0*_vol[l])-B*_vol[l]*((1.0+(_f_num-2.0)*_vol[k]/_vol[l])*exp(-(_f_num-2.0)*_vol[k]/_vol[l])-(1.0+(_f_num-2.0)*_vol[k-1]/_vol[l])*exp(-(_f_num-2.0)*_vol[k-1]/_vol[l]))/((_f_num-2.0)*(_f_num-2.0)))/(_vol[k]-_vol[k-1]);
+                Real d = _vol[k-1]*(A*(_vol[k]-_vol[k-1])/_vol[l]-B*(exp(-(_f_num-2.0)*_vol[k]/_vol[l])-exp(-(_f_num-2.0)*_vol[k-1]/_vol[l]))/(_f_num-2.0))/(_vol[k]-_vol[k-1]);
                 _frag[k][l] = c-d;
             }
             else if (k==1)
@@ -219,17 +223,17 @@ void ShearMultiFragLinearMonoPB::FragmentFill()
             }
             else
             {
-                Real a = (_vol[k+1]/(_vol[k+1]-_vol[k]))*(A*(_vol[k+1]-_vol[k])/_vol[l]+B*(_vol[k+1]*_vol[k+1]-_vol[k]*_vol[k])/(2*_vol[l]*_vol[l]));
-                Real b = (1/(_vol[k+1]-_vol[k]))*((A*(_vol[k+1]*_vol[k+1]-_vol[k]*_vol[k])/(2*_vol[l]))+(B*(_vol[k+1]*_vol[k+1]*_vol[k+1]-_vol[k]*_vol[k]*_vol[k])/(3*_vol[l]*_vol[l])));
-                Real c = (1/(_vol[k]-_vol[k-1]))*((A*(_vol[k]*_vol[k]-_vol[k-1]*_vol[k-1])/(2*_vol[l]))+(B*(_vol[k]*_vol[k]*_vol[k]-_vol[k-1]*_vol[k-1]*_vol[k-1])/(3*_vol[l]*_vol[l])));
-                Real d = (_vol[k-1]/(_vol[k]-_vol[k-1]))*(A*(_vol[k]-_vol[k-1])/_vol[l]+B*(_vol[k]*_vol[k]-_vol[k-1]*_vol[k-1])/(2*_vol[l]*_vol[l]));
+                Real a = _vol[k+1]*(A*(_vol[k+1]-_vol[k])/_vol[l]-B*(exp(-(_f_num-2.0)*_vol[k+1]/_vol[l])-exp(-(_f_num-2.0)*_vol[k]/_vol[l]))/(_f_num-2.0))/(_vol[k+1]-_vol[k]);
+                Real b = (A*(_vol[k+1]*_vol[k+1]-_vol[k]*_vol[k])/(2.0*_vol[l])-B*_vol[l]*((1.0+(_f_num-2.0)*_vol[k+1]/_vol[l])*exp(-(_f_num-2.0)*_vol[k+1]/_vol[l])-(1.0+(_f_num-2.0)*_vol[k]/_vol[l])*exp(-(_f_num-2.0)*_vol[k]/_vol[l]))/((_f_num-2.0)*(_f_num-2.0)))/(_vol[k+1]-_vol[k]);
+                Real c = (A*(_vol[k]*_vol[k]-_vol[k-1]*_vol[k-1])/(2.0*_vol[l])-B*_vol[l]*((1.0+(_f_num-2.0)*_vol[k]/_vol[l])*exp(-(_f_num-2.0)*_vol[k]/_vol[l])-(1.0+(_f_num-2.0)*_vol[k-1]/_vol[l])*exp(-(_f_num-2.0)*_vol[k-1]/_vol[l]))/((_f_num-2.0)*(_f_num-2.0)))/(_vol[k]-_vol[k-1]);
+                Real d = _vol[k-1]*(A*(_vol[k]-_vol[k-1])/_vol[l]-B*(exp(-(_f_num-2.0)*_vol[k]/_vol[l])-exp(-(_f_num-2.0)*_vol[k-1]/_vol[l]))/(_f_num-2.0))/(_vol[k]-_vol[k-1]);
                 _frag[k][l] = (a-b)+(c-d);
             }
         }
     }
 }
 
-Real ShearMultiFragLinearMonoPB::computeQpResidual()
+Real ShearMultiFragExponMonoPB::computeQpResidual()
 {
     Real source = 0.0;
     Real rate = 0.0;
@@ -245,14 +249,14 @@ Real ShearMultiFragLinearMonoPB::computeQpResidual()
     return -rate;
 }
 
-Real ShearMultiFragLinearMonoPB::computeQpJacobian()
+Real ShearMultiFragExponMonoPB::computeQpJacobian()
 {
     int k = _this_var;
     this->BreakupRateFill();
     return -_phi[_j][_qp]*_test[_i][_qp]*(_frag[k][k]*_rat[k]-(1-this->KroneckerDelta(k,0))*_rat[k]);
 }
 
-Real ShearMultiFragLinearMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
+Real ShearMultiFragExponMonoPB::computeQpOffDiagJacobian(unsigned int jvar)
 {
     int k = _this_var;
     int h = _those_var[jvar];

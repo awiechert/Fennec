@@ -13,11 +13,11 @@
     [gen]
     	type = GeneratedMeshGenerator
     	dim = 3
-		nx = 200
+		nx = 600
 		ny = 6
 		nz = 6
     	xmin = 0.0
-    	xmax = 400000.0
+    	xmax = 1200000.0
     	ymin = 0.0
     	ymax = 12000.0
 		zmin = 0.0
@@ -28,7 +28,7 @@
 		input = gen
         type = SubdomainBoundingBoxGenerator
         bottom_left = '0 0 0'
-        top_right = '400000 12000 2000'
+        top_right = '1200000 12000 2000'
         block_id = 1
     [../]
 
@@ -1163,7 +1163,7 @@
   	l_max_its = 20
  
     start_time = 0.0
-	end_time = 604800.0
+	end_time = 1814400.0
     dtmax = 3600.0
 
     [./TimeStepper]

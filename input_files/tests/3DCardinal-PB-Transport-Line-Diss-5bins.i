@@ -4,11 +4,9 @@
  
  	packing_density = '0.75 0.75 0.75 0.75 0.75'
  
- 	fractal_dimensions = '2.5 2.5 2.5 2.5 2.5'
+ 	fractal_dimensions = '2.75 2.75 2.75 2.75 2.75'
  
  	breakup_constant = 1.0e-5
- 
-    prime_radius = 1.0e-8
 
 [] #END GlobalParams
 
@@ -295,7 +293,6 @@
     [./turb_en_diss]
  		order = CONSTANT
  		family = MONOMIAL
- 		initial_condition = 0.1 #m^2/s^3
         block = '0 1'
 	[../]
 
@@ -1038,7 +1035,23 @@
 		execute_on = 'initial timestep_end'
 	[../]
 
+ 	[./edis_aux]
+ 		type = FunctionAux
+ 		function = eng_dis_val
+ 		variable = turb_en_diss
+        block = '0 1'
+	[../]
+
 [] #END AuxKernels
+
+[Functions]
+ 
+ 	[./eng_dis_val]
+ 		type = PiecewiseMultilinear
+ 		data_file = EnergyDissProfile.txt
+ 	[../]
+ 
+[] #END Functions
 
 [BCs]
 
@@ -1331,6 +1344,6 @@
     exodus = true
     csv = true
     print_linear_residuals = true
-    interval = 10
+    interval = 5
 
 [] #END Outputs

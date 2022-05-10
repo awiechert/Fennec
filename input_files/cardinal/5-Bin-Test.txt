@@ -12,7 +12,7 @@ console_output: true   #print output to console
 - part_dist:
   useCustom: true     # True if you want to use values below, otherwise system uses defaults
   min_dia: 0.5        # in um
-  max_dia: 8.0       # in um
+  max_dia: 8.0        # in um
   mean_dia: 1.0       # in um
   std_dia: 2.0        # in um
 

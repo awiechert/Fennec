@@ -4,11 +4,9 @@
  
  	packing_density = '0.75 0.75 0.75 0.75 0.75'
  
- 	fractal_dimensions = '2.5 2.5 2.5 2.5 2.5'
+ 	fractal_dimensions = '3.0 3.0 3.0 3.0 3.0'
  
- 	breakup_constant = 1.0e-5
- 
-    prime_radius = 1.0e-8
+ 	breakup_constant = 1.0e-6
 
 [] #END GlobalParams
 
@@ -22,21 +20,21 @@
     	type = GeneratedMeshGenerator
     	dim = 3
 		nx = 200
-		ny = 6
-		nz = 6
+		ny = 200
+		nz = 11
     	xmin = 0.0
-    	xmax = 400000.0
+    	xmax = 200000.0
     	ymin = 0.0
-    	ymax = 12000.0
+    	ymax = 200000.0
 		zmin = 0.0
-		zmax = 12000.0
+		zmax = 11000.0
 	[]
 
 	[./subdomain1]
 		input = gen
         type = SubdomainBoundingBoxGenerator
         bottom_left = '0 0 0'
-        top_right = '400000 12000 2000'
+        top_right = '200000 200000 1000'
         block_id = 1
     [../]
 
@@ -135,14 +133,12 @@
     [./wx]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 0.5
         block = '0 1'
 	[../]
  
 	[./wy]
 		order = CONSTANT
 		family = MONOMIAL
-		initial_condition = 0.0
         block = '0 1'
 	[../]
  
@@ -306,8 +302,8 @@
 	[./N0_IC]
  		type = CARDINAL_CloudIC
         variable = N0
-        x_center = 6000
-        y_center = 6000
+        x_center = 20000
+        y_center = 20000
         local_size_index = 0
         cardinal_object = cardinal
         block = 0
@@ -316,8 +312,8 @@
  	[./N1_IC]
  		type = CARDINAL_CloudIC
  		variable = N1
-        x_center = 6000
-        y_center = 6000
+        x_center = 20000
+        y_center = 20000
  		local_size_index = 1
  		cardinal_object = cardinal
         block = 0
@@ -326,8 +322,8 @@
  	[./N2_IC]
  		type = CARDINAL_CloudIC
  		variable = N2
-        x_center = 6000
-        y_center = 6000
+        x_center = 20000
+        y_center = 20000
  		local_size_index = 2
  		cardinal_object = cardinal
         block = 0
@@ -336,8 +332,8 @@
  	[./N3_IC]
  		type = CARDINAL_CloudIC
  		variable = N3
-        x_center = 6000
-        y_center = 6000
+        x_center = 20000
+        y_center = 20000
  		local_size_index = 3
  		cardinal_object = cardinal
         block = 0
@@ -346,8 +342,8 @@
  	[./N4_IC]
  		type = CARDINAL_CloudIC
  		variable = N4
-        x_center = 6000
-        y_center = 6000
+        x_center = 20000
+        y_center = 20000
  		local_size_index = 4
  		cardinal_object = cardinal
         block = 0
@@ -391,8 +387,8 @@
  		type = ShearMultiFragLinearMonoPB
  		variable = N0
  		main_variable = N0
-        kinematic_viscosity = air_kin_visc
-        energy_dissipation = turb_en_diss
+ 		kinematic_viscosity = air_kin_visc
+ 		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
         block = 0
 	[../]
@@ -783,6 +779,20 @@
         block = 0
     [../]
  
+ 	[./wx_aux]
+ 		type = FunctionAux
+ 		function = wx_vel
+ 		variable = wx
+        block = '0 1'
+	[../]
+
+	[./wy_aux]
+ 		type = FunctionAux
+ 		function = wy_vel
+ 		variable = wy
+        block = '0 1'
+	[../]
+ 
     [./part_vel_0x]
 		type = Trajectory1stOrder
 		variable = vp0x
@@ -1039,6 +1049,20 @@
 	[../]
 
 [] #END AuxKernels
+
+[Functions]
+
+    [./wx_vel]
+    	type = PiecewiseMultilinear
+        data_file = RandomWindProfile_X_Coarse.txt
+    [../]
+
+    [./wy_vel]
+    	type = PiecewiseMultilinear
+        data_file = RandomWindProfile_Y_Coarse.txt
+    [../]
+
+[] #END Functions
 
 [BCs]
 
@@ -1311,13 +1335,13 @@
   	l_max_its = 20
  
     start_time = 0.0
-	end_time = 604800.0
+	end_time = 86400.0
     dtmax = 3600.0
 
     [./TimeStepper]
 #		type = SolutionTimeAdaptiveDT
 		type = ConstantDT
-        dt = 360.0
+        dt = 180.0
     [../]
  
 [] #END Executioner
@@ -1331,6 +1355,6 @@
     exodus = true
     csv = true
     print_linear_residuals = true
-    interval = 10
+    interval = 20
 
 [] #END Outputs

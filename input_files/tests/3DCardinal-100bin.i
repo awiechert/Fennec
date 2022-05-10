@@ -8,10 +8,6 @@
  
  	breakup_constant = 1.0e-5
  
-    dissipation = 0.01
- 
-    energy_dissipation = 0.01
- 
 [] #END GlobalParams
 
 [Problem]
@@ -576,6 +572,12 @@
 		initial_condition = 1.802e-5 #kg/m/s
 	[../]
  
+     [./air_kin_visc]
+ 		order = CONSTANT
+ 		family = MONOMIAL
+ 		initial_condition = 1.562e-5 #m^2/s
+	[../]
+ 
  	[./air_ions]
  		order = CONSTANT
  		family = MONOMIAL
@@ -585,6 +587,12 @@
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 298 #K
+	[../]
+
+    [./turb_en_diss]
+ 		order = CONSTANT
+ 		family = MONOMIAL
+        initial_condition = 0.1
 	[../]
 
 	[./vp0x]
@@ -10440,6 +10448,7 @@
         windx = wx
         windy = wy
         windz = wz
+        energy_dissipation = turb_en_diss
         coupled_vx = 'vp0x vp1x vp2x vp3x vp4x vp5x vp6x vp7x vp8x vp9x vp10x vp11x vp12x vp13x vp14x vp15x vp16x vp17x vp18x vp19x vp20x vp21x vp22x vp23x vp24x vp25x vp26x vp27x vp28x vp29x vp30x vp31x vp32x vp33x vp34x vp35x vp36x vp37x vp38x vp39x vp40x vp41x vp42x vp43x vp44x vp45x vp46x vp47x vp48x vp49x vp50x vp51x vp52x vp53x vp54x vp55x vp56x vp57x vp58x vp59x vp60x vp61x vp62x vp63x vp64x vp65x vp66x vp67x vp68x vp69x vp70x vp71x vp72x vp73x vp74x vp75x vp76x vp77x vp78x vp79x vp80x vp81x vp82x vp83x vp84x vp85x vp86x vp87x vp88x vp89x vp90x vp91x vp92x vp93x vp94x vp95x vp96x vp97x vp98x vp99x'
         coupled_vy = 'vp0y vp1y vp2y vp3y vp4y vp5y vp6y vp7y vp8y vp9y vp10y vp11y vp12y vp13y vp14y vp15y vp16y vp17y vp18y vp19y vp20y vp21y vp22y vp23y vp24y vp25y vp26y vp27y vp28y vp29y vp30y vp31y vp32y vp33y vp34y vp35y vp36y vp37y vp38y vp39y vp40y vp41y vp42y vp43y vp44y vp45y vp46y vp47y vp48y vp49y vp50y vp51y vp52y vp53y vp54y vp55y vp56y vp57y vp58y vp59y vp60y vp61y vp62y vp63y vp64y vp65y vp66y vp67y vp68y vp69y vp70y vp71y vp72y vp73y vp74y vp75y vp76y vp77y vp78y vp79y vp80y vp81y vp82y vp83y vp84y vp85y vp86y vp87y vp88y vp89y vp90y vp91y vp92y vp93y vp94y vp95y vp96y vp97y vp98y vp99y'
         coupled_vz = 'vp0z vp1z vp2z vp3z vp4z vp5z vp6z vp7z vp8z vp9z vp10z vp11z vp12z vp13z vp14z vp15z vp16z vp17z vp18z vp19z vp20z vp21z vp22z vp23z vp24z vp25z vp26z vp27z vp28z vp29z vp30z vp31z vp32z vp33z vp34z vp35z vp36z vp37z vp38z vp39z vp40z vp41z vp42z vp43z vp44z vp45z vp46z vp47z vp48z vp49z vp50z vp51z vp52z vp53z vp54z vp55z vp56z vp57z vp58z vp59z vp60z vp61z vp62z vp63z vp64z vp65z vp66z vp67z vp68z vp69z vp70z vp71z vp72z vp73z vp74z vp75z vp76z vp77z vp78z vp79z vp80z vp81z vp82z vp83z vp84z vp85z vp86z vp87z vp88z vp89z vp90z vp91z vp92z vp93z vp94z vp95z vp96z vp97z vp98z vp99z'

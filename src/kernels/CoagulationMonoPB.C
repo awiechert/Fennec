@@ -90,8 +90,8 @@ void CoagulationMonoPB::AlphaBetaFill()
         	Real BM = _alpha_Br[_qp][l][m]*_beta_Br[_qp][l][m];
             Real BC = _alpha_Br[_qp][l][m]*_beta_Ce[_qp][l][m];
             Real GC = _alpha_GC[_qp][l][m]*_beta_GC[_qp][l][m];
-            Real TI = 0.0; //_alpha_TI*_beta_TI[_qp][l][m];
-            Real TS = 0.0; //_alpha_TS*_beta_TS[_qp][l][m];
+            Real TI = _alpha_TI*_beta_TI[_qp][l][m];
+            Real TS = _alpha_TS*_beta_TS[_qp][l][m];
             Real VW = _alpha_Br[_qp][l][m]*_beta_VW[_qp][l][m];
 
             _beta[l][m] = BM+BC+GC+TI+TS+VW;

@@ -4,11 +4,9 @@
  
  	packing_density = '0.75 0.75 0.75 0.75 0.75'
  
- 	fractal_dimensions = '2.5 2.5 2.5 2.5 2.5'
+ 	fractal_dimensions = '2.75 2.75 2.75 2.75 2.75'
  
  	breakup_constant = 1.0e-5
- 
-    prime_radius = 1.0e-8
 
 [] #END GlobalParams
 
@@ -18,40 +16,17 @@
 
 [Mesh]
 
-    [gen]
-    	type = GeneratedMeshGenerator
+    	type = GeneratedMesh
     	dim = 3
-		nx = 200
-		ny = 6
-		nz = 6
+		nx = 12
+		ny = 12
+		nz = 12
     	xmin = 0.0
-    	xmax = 400000.0
+    	xmax = 120000.0
     	ymin = 0.0
     	ymax = 12000.0
 		zmin = 0.0
 		zmax = 12000.0
-	[]
-
-	[./subdomain1]
-		input = gen
-        type = SubdomainBoundingBoxGenerator
-        bottom_left = '0 0 0'
-        top_right = '400000 12000 2000'
-        block_id = 1
-    [../]
-
-	[./break_boundary]
-		type = BreakBoundaryOnSubdomainGenerator
-		input = subdomain1
-	[../]
-
-	[./interface]
-		input = break_boundary
-		type = SideSetsBetweenSubdomainsGenerator
-		primary_block = '0'
-		paired_block = '1'
-		new_boundary = 'master_interface'
-	[../]
 
 [] # END Mesh
 
@@ -60,66 +35,26 @@
     [./N0]
         order = CONSTANT
         family = MONOMIAL
-        block = 0
     [../]
  
  	[./N1]
  		order = CONSTANT
  		family = MONOMIAL
-        block = 0
  	[../]
  
  	[./N2]
  		order = CONSTANT
  		family = MONOMIAL
-        block = 0
  	[../]
  
  	[./N3]
  		order = CONSTANT
  		family = MONOMIAL
-        block = 0
  	[../]
  
     [./N4]
  		order = CONSTANT
  		family = MONOMIAL
-        block = 0
- 	[../]
- 
-    [./N0d]
-        order = CONSTANT
-        family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
-    [../]
- 
- 	[./N1d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N2d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
- 	[./N3d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
- 	[../]
- 
-    [./N4d]
- 		order = CONSTANT
- 		family = MONOMIAL
-        initial_condition = 0.0
-        block = 1
  	[../]
  
 [] #END Variables
@@ -129,174 +64,148 @@
 	[./V_total]
  		order = CONSTANT
  		family = MONOMIAL
-        block = 0
 	[../]
  
     [./wx]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.5
-        block = '0 1'
 	[../]
  
 	[./wy]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = '0 1'
 	[../]
  
 	[./wz]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = '0 1'
 	[../]
  
 	[./vp0x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp0y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp0z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp1x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp1y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp1z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp2x]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp2y]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp2z]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 0.0
-        block = 0
 	[../]
  
  	[./vp3x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp3y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp3z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
-        block = 0
 	[../]
  
  	[./vp4x]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp4y]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
-        block = 0
 	[../]
  
 	[./vp4z]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 0.0
-        block = 0
 	[../]
 
 	[./air_dens]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 1.225 #kg/m^3
-        block = '0 1'
 	[../]
  
 	[./air_visc]
 		order = CONSTANT
 		family = MONOMIAL
 		initial_condition = 1.802e-5 #kg/m/s
-        block = '0 1'
 	[../]
  
     [./air_kin_visc]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 1.562e-5 #m^2/s
- 		block = '0 1'
 	[../]
  
  	[./air_ions]
  		order = CONSTANT
  		family = MONOMIAL
-        block = '0 1'
 	[../]
  
     [./air_temp]
  		order = CONSTANT
  		family = MONOMIAL
  		initial_condition = 298 #K
-        block = '0 1'
 	[../]
 
     [./turb_en_diss]
  		order = CONSTANT
  		family = MONOMIAL
- 		initial_condition = 0.1 #m^2/s^3
-        block = '0 1'
 	[../]
 
 [] #END AuxVariables
@@ -310,7 +219,6 @@
         y_center = 6000
         local_size_index = 0
         cardinal_object = cardinal
-        block = 0
     [../]
  
  	[./N1_IC]
@@ -320,7 +228,6 @@
         y_center = 6000
  		local_size_index = 1
  		cardinal_object = cardinal
-        block = 0
  	[../]
  
  	[./N2_IC]
@@ -330,7 +237,6 @@
         y_center = 6000
  		local_size_index = 2
  		cardinal_object = cardinal
-        block = 0
  	[../]
  
  	[./N3_IC]
@@ -340,7 +246,6 @@
         y_center = 6000
  		local_size_index = 3
  		cardinal_object = cardinal
-        block = 0
  	[../]
  
  	[./N4_IC]
@@ -350,7 +255,6 @@
         y_center = 6000
  		local_size_index = 4
  		cardinal_object = cardinal
-        block = 0
  	[../]
 
 [] #END ICs
@@ -361,22 +265,6 @@
         type = CoefTimeDerivative
         variable = N0
         Coefficient = 1.0
-        block = 0
-    [../]
- 
-    [./N0_gadv]
-        type = GConcentrationAdvection
-        variable = N0
-		ux = vp0x
-		uy = vp0y
-		uz = vp0z
-        block = 0
-    [../]
-
-    [./N0_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N0
-        block = 0
     [../]
 
     [./N0_MPB_Agg]
@@ -384,7 +272,6 @@
         variable = N0
         main_variable = N0
         coupled_list = 'N0 N1 N2 N3 N4'
-        block = 0
     [../]
  
     [./N0_MPB_Break]
@@ -394,37 +281,19 @@
         kinematic_viscosity = air_kin_visc
         energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
-        block = 0
 	[../]
  
  	[./N1_dot]
  		type = CoefTimeDerivative
  		variable = N1
  		Coefficient = 1.0
-        block = 0
  	[../]
- 
-    [./N1_gadv]
-        type = GConcentrationAdvection
-        variable = N1
-		ux = vp1x
-		uy = vp1y
-		uz = vp1z
-        block = 0
-    [../]
-
-    [./N1_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N1
-        block = 0
-    [../]
 
     [./N1_MPB_Agg]
         type = CoagulationMonoPB
         variable = N1
         main_variable = N1
         coupled_list = 'N0 N1 N2 N3 N4'
-        block = 0
     [../]
  
     [./N1_MPB_Break]
@@ -434,37 +303,19 @@
  		kinematic_viscosity = air_kin_visc
  		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
-        block = 0
 	[../]
  
  	[./N2_dot]
  		type = CoefTimeDerivative
  		variable = N2
  		Coefficient = 1.0
-        block = 0
  	[../]
- 
-    [./N2_gadv]
-        type = GConcentrationAdvection
-        variable = N2
-		ux = vp2x
-		uy = vp2y
-		uz = vp2z
-        block = 0
-    [../]
-
-    [./N2_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N2
-        block = 0
-    [../]
 
     [./N2_MPB_Agg]
         type = CoagulationMonoPB
         variable = N2
         main_variable = N2
         coupled_list = 'N0 N1 N2 N3 N4'
-        block = 0
     [../]
  
     [./N2_MPB_Break]
@@ -474,37 +325,19 @@
  		kinematic_viscosity = air_kin_visc
  		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
-        block = 0
 	[../]
  
  	[./N3_dot]
  		type = CoefTimeDerivative
  		variable = N3
  		Coefficient = 1.0
-        block = 0
  	[../]
- 
-    [./N3_gadv]
-        type = GConcentrationAdvection
-        variable = N3
-		ux = vp3x
-		uy = vp3y
-		uz = vp3z
-        block = 0
-    [../]
-
-    [./N3_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N3
-        block = 0
-    [../]
 
     [./N3_MPB_Agg]
         type = CoagulationMonoPB
         variable = N3
         main_variable = N3
         coupled_list = 'N0 N1 N2 N3 N4'
-        block = 0
     [../]
  
     [./N3_MPB_Break]
@@ -514,37 +347,19 @@
  		kinematic_viscosity = air_kin_visc
  		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
-        block = 0
 	[../]
  
  	[./N4_dot]
  		type = CoefTimeDerivative
  		variable = N4
  		Coefficient = 1.0
-        block = 0
  	[../]
- 
-    [./N4_gadv]
-        type = GConcentrationAdvection
-        variable = N4
-		ux = vp4x
-		uy = vp4y
-		uz = vp4z
-        block = 0
-    [../]
-
-    [./N4_gdiff]
-        type = GAnisotropicDiffusion
-        variable = N4
-        block = 0
-    [../]
 
     [./N4_MPB_Agg]
         type = CoagulationMonoPB
         variable = N4
         main_variable = N4
         coupled_list = 'N0 N1 N2 N3 N4'
-        block = 0
     [../]
  
     [./N4_MPB_Break]
@@ -554,211 +369,15 @@
  		kinematic_viscosity = air_kin_visc
  		energy_dissipation = turb_en_diss
 		coupled_list = 'N0 N1 N2 N3 N4'
-        block = 0
 	[../]
-
-    [./N0d_dot]
-        type = CoefTimeDerivative
-        variable = N0d
-        Coefficient = 1.0
-        block = 1
-    [../]
- 
- 	[./N1d_dot]
- 		type = CoefTimeDerivative
- 		variable = N1d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N2d_dot]
- 		type = CoefTimeDerivative
- 		variable = N2d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N3d_dot]
- 		type = CoefTimeDerivative
- 		variable = N3d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
- 
- 	[./N4d_dot]
- 		type = CoefTimeDerivative
- 		variable = N4d
- 		Coefficient = 1.0
-        block = 1
- 	[../]
 
 [] #END Kernels
 
 [DGKernels]
 
-    [./N0_dgadv]
-        type = DGConcentrationAdvection
-        variable = N0
-		ux = vp0x
-		uy = vp0y
-		uz = vp0z
-        block = 0
-    [../]
-
-    [./N0_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N0
-        block = 0
-    [../]
- 
-    [./N1_dgadv]
-        type = DGConcentrationAdvection
-        variable = N1
-		ux = vp1x
-		uy = vp1y
-		uz = vp1z
-        block = 0
-    [../]
-
-    [./N1_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N1
-        block = 0
-    [../]
-
-    [./N2_dgadv]
-        type = DGConcentrationAdvection
-        variable = N2
-		ux = vp2x
-		uy = vp2y
-		uz = vp2z
-        block = 0
-    [../]
-
-    [./N2_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N2
-        block = 0
-    [../]
- 
-    [./N3_dgadv]
-        type = DGConcentrationAdvection
-        variable = N3
-		ux = vp3x
-		uy = vp3y
-		uz = vp3z
-        block = 0
-    [../]
-
-    [./N3_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N3
-        block = 0
-    [../]
-
-    [./N4_dgadv]
-        type = DGConcentrationAdvection
-        variable = N4
-		ux = vp4x
-		uy = vp4y
-		uz = vp4z
-        block = 0
-    [../]
-
-    [./N4_dgdiff]
-        type = DGAnisotropicDiffusion
-        variable = N4
-        block = 0
-    [../]
-
 [] #END DGKernels
 
 [InterfaceKernels]
-
-	[./N0_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N0
-        neighbor_var = N0d
-		boundary = master_interface
-	[../]
-
-	[./N0_interface_advection]
-		type = InterfaceAdvection
-		variable = N0
-        neighbor_var = N0d
-		boundary = master_interface
-		ux = vp0x
-		uy = vp0y
-		uz = vp0z
-	[../]
-
-	[./N1_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N1
-        neighbor_var = N1d
-		boundary = master_interface
-	[../]
-
-	[./N1_interface_advection]
-		type = InterfaceAdvection
-		variable = N1
-        neighbor_var = N1d
-		boundary = master_interface
-		ux = vp1x
-		uy = vp1y
-		uz = vp1z
-	[../]
-
-	[./N2_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N2
-        neighbor_var = N2d
-		boundary = master_interface
-	[../]
-
-	[./N2_interface_advection]
-		type = InterfaceAdvection
-		variable = N2
-        neighbor_var = N2d
-		boundary = master_interface
-		ux = vp2x
-		uy = vp2y
-		uz = vp2z
-	[../]
-
-	[./N3_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N3
-        neighbor_var = N3d
-		boundary = master_interface
-	[../]
-
-	[./N3_interface_advection]
-		type = InterfaceAdvection
-		variable = N3
-        neighbor_var = N3d
-		boundary = master_interface
-		ux = vp3x
-		uy = vp3y
-		uz = vp3z
-	[../]
-
-	[./N4_interface_diffusion]
-		type = InterfacialAnisotropicDiffusion
-		variable = N4
-        neighbor_var = N4d
-		boundary = master_interface
-	[../]
-
-	[./N4_interface_advection]
-		type = InterfaceAdvection
-		variable = N4
-        neighbor_var = N4d
-		boundary = master_interface
-		ux = vp4x
-		uy = vp4y
-		uz = vp4z
-	[../]
 
 [] #END InterfaceKernels
 
@@ -769,7 +388,6 @@
 		variable = V_total
 		coupled_vars = 'N0 N1 N2 N3 N4'
         execute_on = 'initial timestep_end'
-        block = 0
 	[../]
  
     [./ionization]
@@ -780,7 +398,6 @@
         cardinal_object = cardinal
         background_ionization = 0.0
         execute_on = 'initial timestep_end'
-        block = 0
     [../]
  
     [./part_vel_0x]
@@ -1038,14 +655,29 @@
 		execute_on = 'initial timestep_end'
 	[../]
 
+ 	[./edis_aux]
+ 		type = FunctionAux
+ 		function = eng_dis_val
+ 		variable = turb_en_diss
+	[../]
+
 [] #END AuxKernels
+
+[Functions]
+ 
+ 	[./eng_dis_val]
+ 		type = PiecewiseMultilinear
+ 		data_file = EnergyDissProfile.txt
+ 	[../]
+ 
+[] #END Functions
 
 [BCs]
 
     [./N0_Flux_in_L]
         type = DGConcentrationFluxBC
         variable = N0
-        boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
+        boundary = 'left right top bottom front back'
 		u_input = 0.0
 		ux = vp0x
 		uy = vp0y
@@ -1055,7 +687,7 @@
 	[./N1_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N1
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
+		boundary = 'left right top bottom front back'
 		u_input = 0.0
 		ux = vp1x
 		uy = vp1y
@@ -1065,7 +697,7 @@
 	[./N2_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N2
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
+		boundary = 'left right top bottom front back'
 		u_input = 0.0
 		ux = vp2x
 		uy = vp2y
@@ -1075,7 +707,7 @@
     [./N3_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N3
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
+		boundary = 'left right top bottom front back'
 		u_input = 0.0
 		ux = vp3x
 		uy = vp3y
@@ -1085,7 +717,7 @@
 	[./N4_Flux_in_L]
 		type = DGConcentrationFluxBC
 		variable = N4
-		boundary = 'left_to_0 right_to_0 top_to_0 bottom_to_0 front_to_0'
+		boundary = 'left right top bottom front back'
 		u_input = 0.0
 		ux = vp4x
 		uy = vp4y
@@ -1114,24 +746,6 @@
         coupled_vz = 'vp0z vp1z vp2z vp3z vp4z'
     [../]
 
-	[./CollisionParams_Surf]
- 		type = CollisionParameters
-        block = 1
-        cardinal_object = cardinal
-        coupled_conc = 'N0d N1d N2d N3d N4d'
-        air_density = air_dens
-        air_viscosity = air_visc
-        temperature = air_temp
-        ionization = air_ions
-        windx = wx
-        windy = wy
-        windz = wz
-        energy_dissipation = turb_en_diss
-        coupled_vx = '0.0 0.0 0.0 0.0 0.0'
-        coupled_vy = '0.0 0.0 0.0 0.0 0.0'
-        coupled_vz = '0.0 0.0 0.0 0.0 0.0'
-    [../]
-
 [] #END Materials
 
 [UserObjects]
@@ -1153,77 +767,36 @@
         type = ElementAverageValue
         variable = V_total
         execute_on = 'initial timestep_begin timestep_end'
-        block = 0
     [../]
- 
-    [./N00_floor]
-		type = ElementAverageValue
-		variable = N0d
-		execute_on = 'initial timestep_end'
-     	block = 1
-	[../]
-
-    [./N01_floor]
-		type = ElementAverageValue
-		variable = N1d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N02_floor]
-		type = ElementAverageValue
-		variable = N2d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N03_floor]
-		type = ElementAverageValue
-		variable = N3d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
-
-    [./N04_floor]
-		type = ElementAverageValue
-		variable = N4d
-		execute_on = 'initial timestep_end'
-        block = 1
-	[../]
 
 	[./N00]
 		type = ElementAverageValue
 		variable = N0
 		execute_on = 'initial timestep_end'
-        block = 0
 	[../]
  
 	[./N01]
 		type = ElementAverageValue
 		variable = N1
 		execute_on = 'initial timestep_end'
-        block = 0
 	[../]
  
  	[./N02]
  		type = ElementAverageValue
  		variable = N2
 		 execute_on = 'initial timestep_end'
-         block = 0
 	[../]
  
  	[./N03]
  		type = ElementAverageValue
  		variable = N3
  		execute_on = 'initial timestep_end'
-        block = 0
 	[../]
  
  	[./N04]
  		type = ElementAverageValue
  		variable = N4
  		execute_on = 'initial timestep_end'
-        block = 0
 	[../]
 
 [] #END Postprocessors
@@ -1331,6 +904,6 @@
     exodus = true
     csv = true
     print_linear_residuals = true
-    interval = 10
+    interval = 5
 
 [] #END Outputs
