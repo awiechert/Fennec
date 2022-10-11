@@ -10,7 +10,7 @@ Project is authored by Dr. Alexander Wiechert (awiechert3@gatech.edu) and Dr. Au
 
 To cite this application, you may use the following citation format:
 
-Wiechert A.I., Ladshaw, A.P., "FENNEC - Fallout Estimated Numerically from Nuclear Events in Cities," <Version #>, https://github.com/aladshaw3/fennec, Accessed on (Month) (Day), (Year).
+Wiechert A.I., Ladshaw, A.P., "FENNEC - Fallout Estimated Numerically from Nuclear Events in Cities," <Version #>, https://github.com/awiechert/FENNEC, Accessed on (Month) (Day), (Year).
 
 "Fork fennec" to create a new MOOSE-based application.
 
